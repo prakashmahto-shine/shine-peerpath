@@ -4,10 +4,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 4242 --host",
+    "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview --port 4242",
-    "start": "vite --port 4242 --host"
+    "preview": "vite preview",
+    "start": "vite preview"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.3",
