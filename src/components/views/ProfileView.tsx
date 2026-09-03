@@ -3,7 +3,7 @@ import {
   Download, Sparkles, FileText, ArrowRight, 
   Trash2, Star, Upload, ChevronDown, Check, Edit2, Briefcase, 
   Plus, X, Phone, Mail, Calendar, DollarSign, Clock, CheckCircle2,
-  GraduationCap
+  GraduationCap, TrendingUp, Zap
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -17,7 +17,10 @@ export const ProfileView: React.FC = () => {
     updateJobSearchStatus 
   } = useApp();
 
-  const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState<boolean>(false);
+  const [showJobStatusModal, setShowJobStatusModal] = useState<boolean>(false);
+  const [selectedStatus, setSelectedStatus] = useState<string>(
+    userProfile.jobSearchStatus || 'Actively Looking For Jobs'
+  );
   const [showSummaryModal, setShowSummaryModal] = useState<boolean>(false);
   const [summaryInput, setSummaryInput] = useState<string>(userProfile.summary);
   const [newSkillInput, setNewSkillInput] = useState<string>('');
@@ -39,6 +42,43 @@ export const ProfileView: React.FC = () => {
       setNewSkillInput('');
       setShowAddSkillInput(false);
     }
+  };
+
+  const getStatusIcon = (status: string) => {
+    if (status === 'Actively Looking For Jobs' || status === 'Actively looking for jobs') {
+      return (
+        <img 
+          src="https://www.shine.com/next/static/images/nova/activejobs.svg" 
+          alt="Actively Looking" 
+          className="js-btn-icon" 
+        />
+      );
+    }
+    if (status === 'Casually Exploring Jobs' || status === 'Casually exploring opportunities') {
+      return (
+        <img 
+          src="https://www.shine.com/next/static/images/nova/casualjobs.svg" 
+          alt="Casually Exploring" 
+          className="js-btn-icon" 
+        />
+      );
+    }
+    if (status === 'Not Looking For Jobs') {
+      return (
+        <img 
+          src="https://www.shine.com/next/static/images/nova/notactivejobs.svg" 
+          alt="Not Looking" 
+          className="js-btn-icon" 
+        />
+      );
+    }
+    return (
+      <img 
+        src="https://www.shine.com/next/static/images/nova/activejobs.svg" 
+        alt="Status" 
+        className="js-btn-icon" 
+      />
+    );
   };
 
   return (
@@ -84,41 +124,59 @@ export const ProfileView: React.FC = () => {
             <h2 className="prod-user-fullname">{userProfile.name || 'Prakash Kumar'}</h2>
             <p className="prod-user-designation-sub">Senior frontend developer</p>
 
+            {/* Hook 1: Visual & Easy-to-Understand Salary Jump Card */}
+            <div className="profile-salary-unlock-cta" onClick={() => navigate('guidance-view')}>
+              <div className="psu-header-row">
+                <span className="psu-tag-chip">
+                  <TrendingUp size={12} /> SALARY GROWTH PATH
+                </span>
+                <span className="psu-growth-badge">+3x Jump</span>
+              </div>
+
+              <div className="psu-salary-compare-row">
+                <div className="psu-col">
+                  <span className="psu-col-label">Current</span>
+                  <strong className="psu-col-val">₹5.5L</strong>
+                </div>
+
+                <div className="psu-arrow-track">
+                  <span className="psu-arrow-symbol">➔</span>
+                </div>
+
+                <div className="psu-col psu-col-target">
+                  <span className="psu-col-label">Target</span>
+                  <strong className="psu-col-val text-emerald-600">₹24L+</strong>
+                </div>
+              </div>
+
+              <p className="psu-simple-desc">
+                Your foundation is strong! Add 2 booster skills to unlock ₹24L+ roles.
+              </p>
+
+              <div className="psu-link-button">
+                <span>See How to Get ₹24L</span>
+                <ArrowRight size={13} />
+              </div>
+            </div>
+
             <div className="profile-card-dashed-divider"></div>
 
-            {/* Job Search Status Dropdown */}
+            {/* Job Search Status Button -> Opens Production Popup Modal */}
             <div className="job-status-dropdown-wrap">
               <button 
                 type="button"
                 className="btn-prod-job-status"
-                onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
+                onClick={() => {
+                  setSelectedStatus(userProfile.jobSearchStatus || 'Actively Looking For Jobs');
+                  setShowJobStatusModal(true);
+                }}
               >
-                <span>{userProfile.jobSearchStatus || 'Set Your Current Job Search Status'}</span>
-                <ChevronDown size={15} />
-              </button>
-
-              {isStatusDropdownOpen && (
-                <div className="job-status-menu">
-                  <div 
-                    className={`status-option ${userProfile.jobSearchStatus === 'Actively looking for jobs' ? 'selected' : ''}`}
-                    onClick={() => { updateJobSearchStatus('Actively looking for jobs'); setIsStatusDropdownOpen(false); }}
-                  >
-                    🟢 Actively looking for jobs (Immediate)
-                  </div>
-                  <div 
-                    className={`status-option ${userProfile.jobSearchStatus === 'Serving Notice Period (30 Days)' ? 'selected' : ''}`}
-                    onClick={() => { updateJobSearchStatus('Serving Notice Period (30 Days)'); setIsStatusDropdownOpen(false); }}
-                  >
-                    🟡 Serving Notice Period (30 Days)
-                  </div>
-                  <div 
-                    className={`status-option ${userProfile.jobSearchStatus === 'Casually exploring opportunities' ? 'selected' : ''}`}
-                    onClick={() => { updateJobSearchStatus('Casually exploring opportunities'); setIsStatusDropdownOpen(false); }}
-                  >
-                    ⚪ Casually exploring opportunities
-                  </div>
+                <div className="btn-prod-js-left">
+                  {getStatusIcon(userProfile.jobSearchStatus || 'Actively Looking For Jobs')}
+                  <span>{userProfile.jobSearchStatus || 'Set Your Current Job Search Status'}</span>
                 </div>
-              )}
+                <ChevronDown size={15} className="btn-prod-js-arrow" />
+              </button>
             </div>
           </div>
         </div>
@@ -158,20 +216,24 @@ export const ProfileView: React.FC = () => {
             </div>
           </div>
 
-          {/* Card 2: "Is Your Resume Good Enough?" (ATS Score Banner) */}
-          <div className="prod-ats-score-banner">
+          {/* Card 2: Hook 2 - Motivating Headline B + Subtext A Banner */}
+          <div className="prod-ats-score-banner" onClick={() => navigate('guidance-view')}>
             <div className="ats-banner-left">
               <div className="ats-illustration-box">
-                📊
+                🚀
               </div>
               <div className="ats-text-group">
-                <h3 className="ats-title">Is Your Resume Good Enough?</h3>
-                <p className="ats-subtitle">Check & see your resume ATS scores & optimize it</p>
+                <div className="ats-tag-row">
+                  <span className="ats-hot-tag">70% READY</span>
+                  <span className="ats-salary-tag">₹24 LPA Target</span>
+                </div>
+                <h3 className="ats-title">You’re Ready for Your Next Big Salary Jump: ₹24 Lakhs</h3>
+                <p className="ats-subtitle">Your profile is already 70% ready with strong core skills. Add just 1–2 booster skills to get shortlisted by top companies (Swiggy, Razorpay).</p>
               </div>
             </div>
 
             <button className="btn-check-resume-score" onClick={() => navigate('guidance-view')}>
-              Check Resume Score
+              See How to Get ₹24L ➔
             </button>
           </div>
 
@@ -216,6 +278,21 @@ export const ProfileView: React.FC = () => {
                 <span>prakashkr806@gmail.com</span>
                 <CheckCircle2 size={14} className="verified-green-check" />
               </div>
+            </div>
+
+            {/* Hook 3: Peer Transition Proof Callout inside Work Profile */}
+            <div className="work-profile-peerpath-callout" onClick={() => navigate('guidance-view')}>
+              <div className="wpc-avatars">
+                <img src="/avatars/saheli.jpg" alt="Saheli" />
+                <img src="/avatars/akash.jpg" alt="Akash" />
+              </div>
+              <div className="wpc-text">
+                <strong>Candidates with your profile jumped from ₹5.5L to ₹26L</strong>
+                <span>See what skills they learned and how they got hired.</span>
+              </div>
+              <button className="btn-wpc-arrow" onClick={() => navigate('guidance-view')}>
+                See How ➔
+              </button>
             </div>
           </div>
 
@@ -293,7 +370,6 @@ export const ProfileView: React.FC = () => {
                   alt="Skill Assessment" 
                   className="standout-avatar-img"
                   onError={(e) => {
-                    // Fallback to avatar if SVG path isn't local
                     (e.target as HTMLElement).style.display = 'none';
                   }}
                 />
@@ -333,7 +409,108 @@ export const ProfileView: React.FC = () => {
 
       </div>
 
-      {/* Summary Edit Modal */}
+      {/* 1. Official Set Your Job Status Modal Dialog */}
+      {showJobStatusModal && (
+        <div className="modal-backdrop-blur">
+          <div className="job-status-modal-surface">
+            <div className="job-status-modal-header">
+              <h3 className="js-modal-title">Set Your Job Status</h3>
+              <button 
+                type="button"
+                className="btn-icon-close" 
+                onClick={() => setShowJobStatusModal(false)}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="job-status-modal-body">
+              
+              {/* Option 1: Actively Looking For Jobs */}
+              <div 
+                className={`job-status-option-card ${selectedStatus === 'Actively Looking For Jobs' ? 'selected' : ''}`}
+                onClick={() => setSelectedStatus('Actively Looking For Jobs')}
+              >
+                <div className="js-opt-left">
+                  <div className="js-opt-icon-wrap">
+                    <img 
+                      src="https://www.shine.com/next/static/images/nova/activejobs.svg" 
+                      alt="Actively Looking" 
+                    />
+                  </div>
+                  <div className="js-opt-text">
+                    <strong className="js-opt-title">Actively Looking For Jobs</strong>
+                    <p className="js-opt-sub">I'm open to being reached out by recruiters</p>
+                  </div>
+                </div>
+                <div className="js-radio-circle">
+                  {selectedStatus === 'Actively Looking For Jobs' && <div className="js-radio-inner" />}
+                </div>
+              </div>
+
+              {/* Option 2: Casually Exploring Jobs */}
+              <div 
+                className={`job-status-option-card ${selectedStatus === 'Casually Exploring Jobs' ? 'selected' : ''}`}
+                onClick={() => setSelectedStatus('Casually Exploring Jobs')}
+              >
+                <div className="js-opt-left">
+                  <div className="js-opt-icon-wrap">
+                    <img 
+                      src="https://www.shine.com/next/static/images/nova/casualjobs.svg" 
+                      alt="Casually Exploring" 
+                    />
+                  </div>
+                  <div className="js-opt-text">
+                    <strong className="js-opt-title">Casually Exploring Jobs</strong>
+                    <p className="js-opt-sub">Apply at your own pace with being approached by recruiters</p>
+                  </div>
+                </div>
+                <div className="js-radio-circle">
+                  {selectedStatus === 'Casually Exploring Jobs' && <div className="js-radio-inner" />}
+                </div>
+              </div>
+
+              {/* Option 3: Not Looking For Jobs */}
+              <div 
+                className={`job-status-option-card ${selectedStatus === 'Not Looking For Jobs' ? 'selected' : ''}`}
+                onClick={() => setSelectedStatus('Not Looking For Jobs')}
+              >
+                <div className="js-opt-left">
+                  <div className="js-opt-icon-wrap">
+                    <img 
+                      src="https://www.shine.com/next/static/images/nova/notactivejobs.svg" 
+                      alt="Not Looking" 
+                    />
+                  </div>
+                  <div className="js-opt-text">
+                    <strong className="js-opt-title">Not Looking For Jobs</strong>
+                    <p className="js-opt-sub">You are not active in the job market at the moment</p>
+                  </div>
+                </div>
+                <div className="js-radio-circle">
+                  {selectedStatus === 'Not Looking For Jobs' && <div className="js-radio-inner" />}
+                </div>
+              </div>
+
+            </div>
+
+            <div className="job-status-modal-footer">
+              <button 
+                type="button" 
+                className="btn-set-job-status-now"
+                onClick={() => {
+                  updateJobSearchStatus(selectedStatus);
+                  setShowJobStatusModal(false);
+                }}
+              >
+                Set Now
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 2. Summary Edit Modal */}
       {showSummaryModal && (
         <div className="modal-backdrop-blur">
           <div className="modal-surface-card" style={{ maxWidth: '600px' }}>
