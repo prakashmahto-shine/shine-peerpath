@@ -38,3 +38,42 @@ export interface BookingDetails {
   timeSlot: string;
   price: number;
 }
+
+export interface MentorshipSession {
+  id: string;
+  expert: Expert;
+  candidateName: string;
+  date: string;
+  timeSlot: string;
+  status: 'upcoming' | 'completed' | 'cancelled';
+  badgeAwarded?: string;
+  feedbackNotes?: string;
+  rating?: number;
+  meetingLink?: string;
+}
+
+export interface PeerVerifiedBadge {
+  id: string;
+  title: string;
+  subtitle: string;
+  verifierName: string;
+  verifierRole: string;
+  verifierAvatar: string;
+  date: string;
+  skills: string[];
+  status: 'verified' | 'in-progress';
+}
+
+export interface UserProfileData {
+  name: string;
+  headline: string;
+  experienceYears: string;
+  location: string;
+  profileScore: number;
+  jobSearchStatus: string;
+  summary: string;
+  skills: string[];
+  badges: PeerVerifiedBadge[];
+  email: string;
+  phone: string;
+}

@@ -1,30 +1,49 @@
 import React, { useState } from 'react';
 import { X, Play, Banknote, CheckCircle2, ArrowRight, Video, Upload, CheckCircle, PlayCircle, Sparkles } from 'lucide-react';
+import { useApp } from '../../context/AppContext';
 
-interface CreatorWizardModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onPublishSuccess: () => void;
-}
+export const CreatorWizardModal: React.FC = () => {
+  const { isCreatorWizardOpen, setIsCreatorWizardOpen, addExpert, navigate, userProfile } = useApp();
 
-export const CreatorWizardModal: React.FC<CreatorWizardModalProps> = ({
-  isOpen,
-  onClose,
-  onPublishSuccess,
-}) => {
   const [step, setStep] = useState<number>(1);
-  const [fullName, setFullName] = useState<string>('Prakash Kumar');
-  const [headline, setHeadline] = useState<string>('Senior Frontend & React Architect');
-  const [company, setCompany] = useState<string>('Google');
-  const [price, setPrice] = useState<number>(1499);
+  const [fullName, setFullName] = useState<string>(userProfile.name || 'Prakash Mahto');
+  const [headline, setHeadline] = useState<string>('Senior Frontend & UI/UX Architect');
+  const [company, setCompany] = useState<string>('Shine (HT Media)');
+  const [domain, setDomain] = useState<string>('Frontend & Web UI');
+  const [price, setPrice] = useState<number>(899);
+  const [bio, setBio] = useState<string>('Senior Frontend Engineer with 4+ years of hands-on experience building high-scale, responsive web architectures. I help candidates crack senior frontend interviews, master modern React/Next.js and optimize UI performance.');
   const [isVideoUploaded, setIsVideoUploaded] = useState<boolean>(true);
 
-  if (!isOpen) return null;
+  if (!isCreatorWizardOpen) return null;
+
+  const handlePublish = () => {
+    addExpert({
+      name: fullName,
+      role: headline,
+      company,
+      domain,
+      experience: '5+ Years Exp.',
+      rating: 5.0,
+      reviewsCount: 1,
+      sessionsCount: 0,
+      price,
+      location: 'Bengaluru, India',
+      duration: '01:15',
+      avatar: '/avatars/prakash.jpg',
+      videoPoster: '/avatars/prakash.jpg',
+      teaserTitle: 'Teaser: Mastering React 19, Micro-Frontends & System Design',
+      skills: ['React.js', 'TypeScript', 'Next.js', 'System Design', 'Performance'],
+      bio,
+      verifiedEmail: '@shine.com'
+    });
+    setIsCreatorWizardOpen(false);
+    navigate('experts-view');
+  };
 
   return (
     <div className="app-modal-backdrop open">
       <div className="app-modal-card creator-wizard-card">
-        <button className="modal-close-btn" onClick={onClose}><X size={18} /></button>
+        <button className="modal-close-btn" onClick={() => setIsCreatorWizardOpen(false)}><X size={18} /></button>
 
         <div className="wizard-stepper-header">
           {[
@@ -51,7 +70,7 @@ export const CreatorWizardModal: React.FC<CreatorWizardModalProps> = ({
                 <div className="creator-illo-art">
                   <span className="floating-play-pill"><Play size={12} fill="#fff" /> Teaser</span>
                   <span className="floating-cash-pill"><Banknote size={12} /> ₹20k+/mo</span>
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" alt="Creator" className="creator-art-img" />
+                  <img src="/avatars/prakash.jpg" alt="Creator" className="creator-art-img" />
                 </div>
 
                 <div className="intro-text-col">
@@ -91,11 +110,13 @@ export const CreatorWizardModal: React.FC<CreatorWizardModalProps> = ({
                   <input type="text" value={headline} onChange={(e) => setHeadline(e.target.value)} className="form-input" />
                 </div>
                 <div className="form-group">
-                  <label>Total Experience *</label>
-                  <select className="form-select" defaultValue="8+ Years">
-                    <option>8+ Years</option>
-                    <option>5-7 Years</option>
-                    <option>3-5 Years</option>
+                  <label>Domain Track *</label>
+                  <select className="form-select" value={domain} onChange={(e) => setDomain(e.target.value)}>
+                    <option value="Frontend & Web UI">Frontend & Web UI</option>
+                    <option value="Product Management">Product Management</option>
+                    <option value="Search & Data Infra">Search & Data Infra</option>
+                    <option value="SaaS Sales">SaaS Sales</option>
+                    <option value="AI/ML">AI/ML</option>
                   </select>
                 </div>
                 <div className="form-group">
@@ -103,18 +124,8 @@ export const CreatorWizardModal: React.FC<CreatorWizardModalProps> = ({
                   <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} className="form-input" />
                 </div>
                 <div className="form-group full-width">
-                  <label>Expertise / Topics</label>
-                  <div className="tag-selector-box">
-                    <span className="tag-chip active">Frontend Development ✕</span>
-                    <span className="tag-chip active">React.js ✕</span>
-                    <span className="tag-chip active">JavaScript ✕</span>
-                    <span className="tag-chip active">System Design ✕</span>
-                    <span className="tag-chip active">Web Performance ✕</span>
-                  </div>
-                </div>
-                <div className="form-group full-width">
-                  <label>Short Bio</label>
-                  <textarea rows={3} className="form-textarea" defaultValue="I have 8+ years of experience in building scalable web applications using modern frontend technologies. I love mentoring and helping engineers make the jump to Tier-1 tech firms." />
+                  <label>Short Bio *</label>
+                  <textarea rows={3} className="form-textarea" value={bio} onChange={(e) => setBio(e.target.value)} />
                 </div>
               </div>
 
@@ -190,14 +201,6 @@ export const CreatorWizardModal: React.FC<CreatorWizardModalProps> = ({
                     <span className="day-pill active">Sun</span>
                   </div>
                 </div>
-                <div className="form-group full-width">
-                  <label>Time Slots</label>
-                  <div className="time-chips-row">
-                    <span className="time-slot-chip">10:00 AM - 01:00 PM ✕</span>
-                    <span className="time-slot-chip">06:00 PM - 09:00 PM ✕</span>
-                    <button className="btn-add-slot">+ Add Time Slot</button>
-                  </div>
-                </div>
               </div>
 
               <div className="wz-footer-actions">
@@ -216,12 +219,12 @@ export const CreatorWizardModal: React.FC<CreatorWizardModalProps> = ({
 
               <div className="wizard-preview-card">
                 <div className="preview-top">
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Prakash" className="prev-avatar" />
+                  <img src="/avatars/prakash.jpg" alt={fullName} className="prev-avatar" />
                   <div>
                     <h3>{fullName} 🛡️</h3>
                     <p>{headline} at {company}</p>
                     <div className="prev-chips">
-                      <span>Frontend Development</span><span>React.js</span><span>Web Performance</span>
+                      <span>Frontend Development</span><span>React.js</span><span>System Design</span>
                     </div>
                   </div>
                   <div className="prev-pricing">
@@ -240,7 +243,7 @@ export const CreatorWizardModal: React.FC<CreatorWizardModalProps> = ({
 
               <div className="wz-footer-actions">
                 <button className="btn-outline-dark" onClick={() => setStep(4)}>Back</button>
-                <button className="btn-shine-gold-lg" onClick={onPublishSuccess}>
+                <button className="btn-shine-gold-lg" onClick={handlePublish}>
                   <Sparkles size={18} /> Publish Profile & Go Live!
                 </button>
               </div>

@@ -1,22 +1,11 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Calendar, ShieldCheck, Check, Building, Wallet, Lock, Loader2, Shield } from 'lucide-react';
-import { Expert, ViewType } from '../../types';
+import { useApp } from '../../context/AppContext';
 
-interface PaymentViewProps {
-  expert: Expert;
-  bookingDate: string;
-  bookingTime: string;
-  onNavigate: (view: ViewType) => void;
-  onPaymentSuccess: () => void;
-}
+export const PaymentView: React.FC = () => {
+  const { bookingDraft, navigate, bookSession } = useApp();
+  const { expert, date, timeSlot } = bookingDraft;
 
-export const PaymentView: React.FC<PaymentViewProps> = ({
-  expert,
-  bookingDate,
-  bookingTime,
-  onNavigate,
-  onPaymentSuccess,
-}) => {
   const [payMethod, setPayMethod] = useState<'upi' | 'card' | 'netbanking' | 'wallet'>('upi');
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
@@ -24,15 +13,16 @@ export const PaymentView: React.FC<PaymentViewProps> = ({
     setIsProcessing(true);
     setTimeout(() => {
       setIsProcessing(false);
-      onPaymentSuccess();
-    }, 900);
+      bookSession(expert, date, timeSlot);
+      navigate('confirmed-view');
+    }, 800);
   };
 
   return (
     <div className="content-wrapper payment-layout-grid">
       <div className="payment-left-card">
-        <button className="btn-back-link" onClick={() => onNavigate('experts-view')}>
-          <ArrowLeft size={16} /> Back
+        <button className="btn-back-link" onClick={() => navigate('experts-view')}>
+          <ArrowLeft size={16} /> Back to Experts
         </button>
         
         <h2 className="pay-sec-heading">Session Summary</h2>
@@ -42,7 +32,7 @@ export const PaymentView: React.FC<PaymentViewProps> = ({
           <div>
             <h4>{expert.name}</h4>
             <p>{expert.role} at {expert.company}</p>
-            <div className="pay-chip"><Calendar size={13} /> {bookingDate} • {bookingTime}</div>
+            <div className="pay-chip"><Calendar size={13} /> {date} • {timeSlot}</div>
           </div>
         </div>
 
@@ -93,7 +83,7 @@ export const PaymentView: React.FC<PaymentViewProps> = ({
 
           {payMethod === 'upi' && (
             <div className="upi-input-box">
-              <input type="text" defaultValue="prakash.kumar@okaxis" placeholder="Enter UPI ID" />
+              <input type="text" defaultValue="prakash.mahto@okaxis" placeholder="Enter UPI ID" />
               <span className="verified-upi-badge"><Check size={12} /> Verified</span>
             </div>
           )}

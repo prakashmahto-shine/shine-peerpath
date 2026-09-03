@@ -1,94 +1,119 @@
 import React, { useState } from 'react';
 import { 
-  User, Download, Sparkles, Award, ShieldCheck, FileText, ArrowRight, 
-  Trash2, Star, Upload, ChevronDown, Check, Compass, Edit3, Briefcase, Plus
+  Download, Sparkles, FileText, ArrowRight, 
+  Trash2, Star, Upload, ChevronDown, Check, Edit2, Briefcase, 
+  Plus, X, Phone, Mail, Calendar, DollarSign, Clock, CheckCircle2,
+  GraduationCap
 } from 'lucide-react';
-import { ViewType } from '../../types';
+import { useApp } from '../../context/AppContext';
 
-interface ProfileViewProps {
-  onNavigate: (view: ViewType) => void;
-  onOpenCreatorWizard: () => void;
-}
+export const ProfileView: React.FC = () => {
+  const { 
+    userProfile, 
+    navigate, 
+    updateProfileSummary, 
+    addSkill, 
+    removeSkill, 
+    updateJobSearchStatus 
+  } = useApp();
 
-export const ProfileView: React.FC<ProfileViewProps> = ({
-  onNavigate,
-  onOpenCreatorWizard,
-}) => {
-  const [jobStatus, setJobStatus] = useState<string>('Actively looking for jobs');
   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState<boolean>(false);
   const [showSummaryModal, setShowSummaryModal] = useState<boolean>(false);
-  const [summaryText, setSummaryText] = useState<string>(
-    'Senior Frontend Engineer with 4+ years of hands-on experience building scalable, high-performance web applications using React.js, TypeScript, and Next.js. Passionate about UI/UX performance optimization and micro-frontends.'
-  );
-  const [isSummarySaved, setIsSummarySaved] = useState<boolean>(true);
+  const [summaryInput, setSummaryInput] = useState<string>(userProfile.summary);
+  const [newSkillInput, setNewSkillInput] = useState<string>('');
+  const [showAddSkillInput, setShowAddSkillInput] = useState<boolean>(false);
+
+  // Blue circular arc calculation
+  const strokeDashoffset = 314.15 - (314.15 * (userProfile.profileScore / 100));
+
+  const handleSaveSummary = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateProfileSummary(summaryInput);
+    setShowSummaryModal(false);
+  };
+
+  const handleAddSkillSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newSkillInput.trim()) {
+      addSkill(newSkillInput.trim());
+      setNewSkillInput('');
+      setShowAddSkillInput(false);
+    }
+  };
 
   return (
     <div className="content-wrapper shine-official-myprofile-page">
       
       <div className="myprofile-layout-2col">
         
+        {/* Left Column: Floating Profile Card */}
         <div className="myprofile-left-col">
-          <div className="myprofile-card user-overview-card">
-            <span className="updated-today-tag">Updated today</span>
+          <div className="myprofile-card prod-profile-overview-card">
+            <span className="updated-today-pill">Updated today</span>
 
-            <div className="profile-gauge-avatar-wrap">
-              <svg className="profile-gauge-svg" viewBox="0 0 120 120">
+            {/* Blue Circular Arc Meter */}
+            <div className="prod-profile-gauge-box">
+              <svg className="prod-gauge-circle-svg" viewBox="0 0 120 120">
                 <circle 
-                  className="gauge-bg-circle" 
+                  className="gauge-track-bg" 
                   cx="60" 
                   cy="60" 
-                  r="52" 
+                  r="50" 
                 />
                 <circle 
-                  className="gauge-fill-circle" 
+                  className="gauge-blue-fill" 
                   cx="60" 
                   cy="60" 
-                  r="52" 
-                  strokeDasharray="326.7" 
-                  strokeDashoffset="98.0" 
+                  r="50" 
+                  strokeDasharray="314.15" 
+                  strokeDashoffset={strokeDashoffset} 
                 />
               </svg>
               
-              <div className="profile-avatar-inner-circle">
+              <div className="prod-avatar-inner-wrap">
                 <img 
                   src="/avatars/prakash.jpg" 
-                  alt="Prakash Kumar" 
-                  className="profile-real-avatar-img"
+                  alt={userProfile.name} 
+                  className="prod-user-avatar-img"
                 />
               </div>
 
-              <div className="gauge-score-badge">70%</div>
+              <div className="prod-gauge-score-badge">{userProfile.profileScore}%</div>
             </div>
 
-            <h2 className="user-profile-name">Prakash Mahto</h2>
-            <p className="user-profile-designation">Senior frontend developer</p>
+            <h2 className="prod-user-fullname">{userProfile.name || 'Prakash Kumar'}</h2>
+            <p className="prod-user-designation-sub">Senior frontend developer</p>
 
+            <div className="profile-card-dashed-divider"></div>
+
+            {/* Job Search Status Dropdown */}
             <div className="job-status-dropdown-wrap">
               <button 
-                className="btn-job-status-select"
+                type="button"
+                className="btn-prod-job-status"
                 onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
               >
-                <span>{jobStatus || 'Set Your Current Job Search Status'}</span>
+                <span>{userProfile.jobSearchStatus || 'Set Your Current Job Search Status'}</span>
                 <ChevronDown size={15} />
               </button>
 
               {isStatusDropdownOpen && (
                 <div className="job-status-menu">
                   <div 
-                    className={`status-option ${jobStatus === 'Actively looking for jobs' ? 'selected' : ''}`}
-                    onClick={() => { setJobStatus('Actively looking for jobs'); setIsStatusDropdownOpen(false); }}
+                    className={`status-option ${userProfile.jobSearchStatus === 'Actively looking for jobs' ? 'selected' : ''}`}
+                    onClick={() => { updateJobSearchStatus('Actively looking for jobs'); setIsStatusDropdownOpen(false); }}
                   >
                     🟢 Actively looking for jobs (Immediate)
                   </div>
                   <div 
-                    className={`status-option ${jobStatus === 'Serving notice period' ? 'selected' : ''}`}
-                    onClick={() => { setJobStatus('Serving notice period'); setIsStatusDropdownOpen(false); }}
+                    className={`status-option ${userProfile.jobSearchStatus === 'Serving Notice Period (30 Days)' ? 'selected' : ''}`}
+                    onClick={() => { updateJobSearchStatus('Serving Notice Period (30 Days)'); setIsStatusDropdownOpen(false); }}
                   >
-                    🟡 Serving notice period (15 days)
+                    🟡 Serving Notice Period (30 Days)
                   </div>
                   <div 
-                    className={`status-option ${jobStatus === 'Casually exploring opportunities' ? 'selected' : ''}`}
-                    onClick={() => { setJobStatus('Casually exploring opportunities'); setIsStatusDropdownOpen(false); }}
+                    className={`status-option ${userProfile.jobSearchStatus === 'Casually exploring opportunities' ? 'selected' : ''}`}
+                    onClick={() => { updateJobSearchStatus('Casually exploring opportunities'); setIsStatusDropdownOpen(false); }}
                   >
                     ⚪ Casually exploring opportunities
                   </div>
@@ -96,284 +121,211 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
               )}
             </div>
           </div>
-
-          <div className="myprofile-card quick-nav-card">
-            <h4 className="quick-nav-title">Quick Profile Sections</h4>
-            <div className="quick-links-list">
-              <a href="#summary-section" className="q-link">Profile Summary <Check size={13} className="text-success" /></a>
-              <a href="#resume-section" className="q-link">Resume Attached <Check size={13} className="text-success" /></a>
-              <a href="#peerpath-section" className="q-link highlight-purple">✨ Peerpath Verified Badges <span className="pill-new-badge">NEW</span></a>
-              <a href="#skills-section" className="q-link">Key Skills</a>
-              <a href="#experience-section" className="q-link">Employment History</a>
-              <a href="#education-section" className="q-link">Education</a>
-            </div>
-          </div>
-
-          <div className="myprofile-card creator-promote-card" onClick={onOpenCreatorWizard}>
-            <div className="creator-promote-header">
-              <Award size={20} className="text-brand-gold" />
-              <h4>Join Shine Creator Mode</h4>
-            </div>
-            <p>Monetize your frontend experience by offering paid 1:1 mentorship calls on Peerpath.</p>
-            <button className="btn-shine-gold-sm w-100">
-              Claim Your Creator Profile <ArrowRight size={13} />
-            </button>
-          </div>
         </div>
 
+        {/* Right Column: Exact Production Cards */}
         <div className="myprofile-right-col">
           
-          <div className="shine-alert-banner alert-orange">
-            <div className="alert-left-content">
-              <div className="alert-circle-icon orange-icon">
-                <User size={18} />
-              </div>
-              <div className="alert-texts">
-                <h4 className="alert-heading">Profile is not updated!</h4>
-                <p className="alert-subheading">Your Profile was last updated almost a year ago</p>
-              </div>
-            </div>
-            <button className="btn-shine-outline-yellow" onClick={() => alert('Profile updated successfully!')}>
-              Update
-            </button>
-          </div>
-
-          <div className="shine-alert-banner alert-peach">
-            <div className="alert-left-content">
-              <div className="alert-circle-icon peach-icon">
-                <User size={18} />
-              </div>
-              <div className="alert-texts">
-                <p className="alert-single-text">Your profile is incomplete! Add details and increase your profile score</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="myprofile-section-card summary-box" id="summary-section">
-            <div className="summary-boost-tag">
-              <span className="text-success font-bold">↑ 5%</span>
-            </div>
-
-            <div className="summary-card-inner">
-              <div className="summary-folder-icon">
-                📁
-              </div>
-              <h3 className="section-main-heading">Profile Summary</h3>
-              
-              {isSummarySaved && summaryText ? (
-                <div className="saved-summary-display">
-                  <p className="summary-paragraph">{summaryText}</p>
-                  <button className="btn-shine-outline-yellow" onClick={() => setShowSummaryModal(true)}>
-                    <Edit3 size={13} /> Edit Summary
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <p className="summary-caption-text">
-                    A well-crafted professional summary lets recruiters understand you in under 30 seconds.
-                  </p>
-                  <button className="btn-shine-outline-yellow" onClick={() => setShowSummaryModal(true)}>
-                    Add
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-
-          <div className="myprofile-section-card resume-box" id="resume-section">
-            <div className="section-card-top-bar">
-              <h3 className="section-main-heading">Resume</h3>
-              <button className="btn-shine-outline-yellow" onClick={() => alert('Select resume to upload')}>
+          {/* Card 1: Resume */}
+          <div className="myprofile-card prod-resume-card">
+            <div className="prod-card-top-row">
+              <h3 className="prod-card-title">Resume</h3>
+              <button className="btn-prod-upload-resume" onClick={() => alert('Select resume to upload')}>
                 <Upload size={14} /> Upload
               </button>
             </div>
 
-            <div className="resume-item-row">
-              <div className="res-file-details">
-                <span className="res-filename">Prakash-Mahto1.pdf</span>
-                <div className="res-meta-line">
-                  <span>Uploaded: 26/06/2024</span>
-                  <span className="res-default-badge">Default</span>
+            <div className="prod-resume-item-row">
+              <div className="res-details-left">
+                <strong className="res-file-name">Prakash-Mahto1.pdf</strong>
+                <div className="res-sub-meta">
+                  <span>Uploaded: 26/06/2026</span>
+                  <span className="res-default-blue-chip">Default</span>
                 </div>
               </div>
 
-              <div className="res-actions-right">
-                <button className="icon-action-btn" title="Download Resume" onClick={() => alert('Downloading Prakash-Mahto1.pdf...')}>
-                  <Download size={16} />
+              <div className="res-actions-right-icons">
+                <button className="res-action-circle-btn" title="Download" onClick={() => alert('Downloading resume...')}>
+                  <Download size={15} />
                 </button>
-                <button className="icon-action-btn text-warning" title="Starred / Primary">
-                  <Star size={16} fill="#F59E0B" />
+                <button className="res-action-circle-btn star-gold-btn" title="Set as default">
+                  <Star size={15} fill="#EAB308" color="#EAB308" />
                 </button>
-                <button className="icon-action-btn text-danger" title="Delete" onClick={() => alert('Resume cannot be deleted as it is default.')}>
-                  <Trash2 size={16} />
+                <button className="res-action-circle-btn" title="Delete" onClick={() => alert('Cannot delete default resume')}>
+                  <Trash2 size={15} />
                 </button>
               </div>
             </div>
           </div>
 
-          <div className="myprofile-section-card resume-eval-box">
-            <div className="resume-eval-flex">
-              <div className="eval-left-illo">
-                <div className="eval-gauge-icon">
-                  📊
-                </div>
-                <div>
-                  <h4 className="eval-title">Is Your Resume Good Enough?</h4>
-                  <p className="eval-desc">
-                    Check your ATS score and get 1:1 CV gap analysis with verified leaders on Shine Peerpath.
-                  </p>
-                </div>
+          {/* Card 2: "Is Your Resume Good Enough?" (ATS Score Banner) */}
+          <div className="prod-ats-score-banner">
+            <div className="ats-banner-left">
+              <div className="ats-illustration-box">
+                📊
               </div>
-
-              <button className="btn-shine-yellow-solid" onClick={() => onNavigate('guidance-view')}>
-                <Compass size={15} /> Analyze With Peerpath
-              </button>
+              <div className="ats-text-group">
+                <h3 className="ats-title">Is Your Resume Good Enough?</h3>
+                <p className="ats-subtitle">Check & see your resume ATS scores & optimize it</p>
+              </div>
             </div>
+
+            <button className="btn-check-resume-score" onClick={() => navigate('guidance-view')}>
+              Check Resume Score
+            </button>
           </div>
 
-          <div className="myprofile-section-card peerpath-badges-box" id="peerpath-section">
-            <div className="section-card-top-bar">
-              <div className="peer-title-row">
-                <Sparkles size={18} className="text-brand-purple" />
-                <h3 className="section-main-heading">Peerpath Verified Credentials & Badges</h3>
-              </div>
-              <button className="btn-secondary-purple-sm" onClick={() => onNavigate('guidance-view')}>
-                View Trajectory
+          {/* Card 3: Work Profile */}
+          <div className="myprofile-card prod-work-profile-card">
+            <div className="prod-card-top-row">
+              <h3 className="prod-card-title">Work Profile</h3>
+              <button className="btn-edit-gold-square" onClick={() => { setSummaryInput(userProfile.summary); setShowSummaryModal(true); }}>
+                <Edit2 size={15} />
               </button>
             </div>
 
-            <p className="peer-subcaption">
-              Badges awarded through verified 1:1 sessions with industry leaders. Displayed prominently in Recruiter Talent Search.
-            </p>
-
-            <div className="badges-2col-grid">
-              <div className="peer-badge-tile">
-                <div className="badge-tile-header">
-                  <div className="tile-icon-shield">
-                    <Award size={20} />
-                  </div>
-                  <div>
-                    <span className="badge-pill-gold">TIER-1 VERIFIED</span>
-                    <h4 className="badge-role-title">Frontend Architecture & System Design</h4>
-                  </div>
-                </div>
-                <p className="badge-quote-text">
-                  "Demonstrated robust understanding of scalable micro-frontends, high-performance UI optimization, and cross-functional product delivery."
-                </p>
-                <div className="badge-verifier-strip">
-                  <img src="/avatars/akash.jpg" alt="Akash Jain" className="v-thumb" />
-                  <div>
-                    <strong>Akash Jain</strong>
-                    <span>Lead Product Manager @ Shine</span>
-                  </div>
-                </div>
+            <div className="prod-work-profile-grid">
+              <div className="wp-item-row">
+                <Briefcase size={16} className="wp-icon" />
+                <span>Senior frontend developer</span>
               </div>
 
-              <div className="peer-badge-tile">
-                <div className="badge-tile-header">
-                  <div className="tile-icon-shield bg-blue-subtle">
-                    <ShieldCheck size={20} color="#2563EB" />
-                  </div>
-                  <div>
-                    <span className="badge-pill-blue">VERIFIED BY PEER</span>
-                    <h4 className="badge-role-title">FastAPI & Python Microservices Integration</h4>
-                  </div>
-                </div>
-                <p className="badge-quote-text">
-                  "Clean API contracts, excellent error-handling, and robust state coordination with backend services."
-                </p>
-                <div className="badge-verifier-strip">
-                  <img src="/avatars/nisha.jpg" alt="Nisha Kumari" className="v-thumb" />
-                  <div>
-                    <strong>Nisha Kumari</strong>
-                    <span>Senior Python Backend & AI Engineer @ Shine</span>
-                  </div>
-                </div>
+              <div className="wp-item-row">
+                <Clock size={16} className="wp-icon" />
+                <span>2+ Months</span>
+              </div>
+
+              <div className="wp-item-row">
+                <DollarSign size={16} className="wp-icon" />
+                <span>5.5 LPA</span>
+              </div>
+
+              <div className="wp-item-row">
+                <Phone size={16} className="wp-icon" />
+                <span>+91 7042653680</span>
+                <CheckCircle2 size={14} className="verified-green-check" />
+              </div>
+
+              <div className="wp-item-row">
+                <Calendar size={16} className="wp-icon" />
+                <span>3 yrs 6 Months</span>
+              </div>
+
+              <div className="wp-item-row">
+                <Mail size={16} className="wp-icon" />
+                <span>prakashkr806@gmail.com</span>
+                <CheckCircle2 size={14} className="verified-green-check" />
               </div>
             </div>
           </div>
 
-          <div className="myprofile-section-card skills-box" id="skills-section">
-            <div className="section-card-top-bar">
-              <h3 className="section-main-heading">Key Skills</h3>
-              <button className="btn-shine-outline-yellow" onClick={() => alert('Add skill modal')}>
-                <Plus size={14} /> Add Skills
-              </button>
+          {/* Card 4: Employment History */}
+          <div className="myprofile-card prod-employment-card">
+            <div className="prod-card-top-row">
+              <div></div>
+              <span className="boost-green-chip">↑ 15%</span>
             </div>
 
-            <div className="skills-tags-cluster">
-              <span className="skill-bubble primary">React.js <span className="exp-num">4 Yrs</span></span>
-              <span className="skill-bubble primary">TypeScript <span className="exp-num">3 Yrs</span></span>
-              <span className="skill-bubble primary">Next.js <span className="exp-num">2 Yrs</span></span>
-              <span className="skill-bubble">JavaScript (ES6+)</span>
-              <span className="skill-bubble">System Design</span>
-              <span className="skill-bubble">Redux Toolkit</span>
-              <span className="skill-bubble">HTML5 / CSS3 / SCSS</span>
-              <span className="skill-bubble">Micro-Frontends</span>
-              <span className="skill-bubble">Vite / Webpack</span>
-              <span className="skill-bubble">REST APIs</span>
-              <span className="skill-bubble">Jest / RTL</span>
+            <div className="employment-center-content">
+              <div className="emp-briefcase-3d-icon">
+                💼
+              </div>
+              <h3 className="emp-main-title">Employment History</h3>
+              <p className="emp-caption">Your past roles and organizations details help recruiters understand your expertise.</p>
+              <button className="btn-prod-add-gold" onClick={() => alert('Add past organization details')}>
+                + Add
+              </button>
             </div>
           </div>
 
-          <div className="myprofile-section-card experience-box" id="experience-section">
-            <div className="section-card-top-bar">
-              <h3 className="section-main-heading">Work Experience</h3>
-              <button className="btn-shine-outline-yellow" onClick={() => alert('Add experience modal')}>
-                <Plus size={14} /> Add Experience
-              </button>
+          {/* Card 5: Key Skills (Exact List Row Style) */}
+          <div className="myprofile-card prod-key-skills-card" id="skills-section">
+            <div className="prod-card-top-row">
+              <h3 className="prod-card-title">Key Skills</h3>
+              <div className="skills-header-actions-row">
+                <button className="btn-prod-upload-resume" onClick={() => setShowAddSkillInput(true)}>
+                  Add
+                </button>
+                <button className="btn-edit-gold-square" onClick={() => setShowAddSkillInput(!showAddSkillInput)}>
+                  <Edit2 size={14} />
+                </button>
+              </div>
             </div>
 
-            <div className="experience-timeline">
-              <div className="exp-entry">
-                <div className="exp-icon-dot">
-                  <Briefcase size={16} />
-                </div>
-                <div className="exp-entry-content">
-                  <div className="exp-role-row">
-                    <h4 className="exp-job-title">Senior Frontend Engineer</h4>
-                    <span className="exp-dates">Mar 2022 — Present (2 yrs 6 mos)</span>
-                  </div>
-                  <p className="exp-company-text">Tech Innovators Private Limited • Full-time • Bengaluru</p>
-                  <p className="exp-desc-text">
-                    Leading web UI architecture for customer-facing SaaS products. Responsible for component library design, state management, and performance optimization.
-                  </p>
-                </div>
-              </div>
+            {showAddSkillInput && (
+              <form className="add-skill-inline-form" onSubmit={handleAddSkillSubmit} style={{ marginBottom: '14px' }}>
+                <input 
+                  type="text" 
+                  placeholder="Enter skill name (e.g. Node.js, React.js, GraphQL)..." 
+                  value={newSkillInput} 
+                  onChange={(e) => setNewSkillInput(e.target.value)} 
+                  autoFocus 
+                  className="add-skill-input"
+                />
+                <button type="submit" className="btn-shine-gold-sm">Add</button>
+                <button type="button" className="btn-ghost-sm" onClick={() => setShowAddSkillInput(false)}>Cancel</button>
+              </form>
+            )}
 
-              <div className="exp-entry">
-                <div className="exp-icon-dot">
-                  <Briefcase size={16} />
+            <div className="prod-skills-rows-list">
+              {userProfile.skills.map((sk, idx) => (
+                <div key={idx} className="prod-skill-item-row">
+                  <span className="skill-name-text">{sk}</span>
+                  <button 
+                    type="button" 
+                    className="btn-remove-skill-trash" 
+                    onClick={() => removeSkill(sk)}
+                    title={`Remove ${sk}`}
+                  >
+                    <Trash2 size={15} />
+                  </button>
                 </div>
-                <div className="exp-entry-content">
-                  <div className="exp-role-row">
-                    <h4 className="exp-job-title">Frontend Software Engineer</h4>
-                    <span className="exp-dates">Jun 2020 — Feb 2022 (1 yr 9 mos)</span>
-                  </div>
-                  <p className="exp-company-text">Web Solutions India • Full-time • Bengaluru</p>
-                  <p className="exp-desc-text">
-                    Developed cross-browser responsive frontend web pages and SPAs in React, Redux, and modern JavaScript.
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
-          <div className="myprofile-section-card education-box" id="education-section">
-            <div className="section-card-top-bar">
-              <h3 className="section-main-heading">Education</h3>
-              <button className="btn-shine-outline-yellow" onClick={() => alert('Add education modal')}>
-                <Plus size={14} /> Add Education
+          {/* Card 6: Stand Out with Assessment Banner */}
+          <div className="prod-standout-assessment-banner">
+            <div className="standout-left-group">
+              <div className="standout-photo-wrap">
+                <img 
+                  src="https://www.shine.com/next/static/images/nova/skill-assesment-illustration.svg" 
+                  alt="Skill Assessment" 
+                  className="standout-avatar-img"
+                  onError={(e) => {
+                    // Fallback to avatar if SVG path isn't local
+                    (e.target as HTMLElement).style.display = 'none';
+                  }}
+                />
+              </div>
+              <div className="standout-text-group">
+                <h3 className="standout-title">Stand Out with Assessment</h3>
+                <p className="standout-subtitle">Show employers what sets you apart.</p>
+              </div>
+            </div>
+
+            <button className="btn-take-assessment" onClick={() => navigate('guidance-view')}>
+              Take Assessment
+            </button>
+          </div>
+
+          {/* Card 7: Education */}
+          <div className="myprofile-card prod-education-card">
+            <div className="prod-card-top-row">
+              <h3 className="prod-card-title">Education</h3>
+              <button className="btn-prod-upload-resume" onClick={() => alert('Add education details')}>
+                Add
               </button>
             </div>
 
-            <div className="edu-entry-item">
-              <div className="edu-icon-badge">🎓</div>
-              <div>
-                <h4 className="edu-degree-title">Bachelor of Technology (B.Tech) - Computer Science & Engineering</h4>
-                <p className="edu-univ-name">Visvesvaraya Technological University (VTU)</p>
-                <span className="edu-time">2016 — 2020 • Full-time</span>
+            <div className="prod-education-item-row">
+              <div className="edu-left-details">
+                <strong className="edu-degree-title">B.Tech / B.E - Computers</strong>
+                <p className="edu-college-name">Jaipur Engineering College And Research Centre Rajasthan Technical University</p>
               </div>
+              <button className="btn-edit-gold-square" onClick={() => alert('Edit education details')}>
+                <Edit2 size={14} />
+              </button>
             </div>
           </div>
 
@@ -381,30 +333,34 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
 
       </div>
 
+      {/* Summary Edit Modal */}
       {showSummaryModal && (
-        <div className="modal-backdrop-overlay" onClick={() => setShowSummaryModal(false)}>
-          <div className="modal-surface-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '550px' }}>
-            <h3 style={{ fontSize: '18px', fontWeight: 800, marginBottom: '12px' }}>Edit Profile Summary</h3>
-            <textarea 
-              value={summaryText}
-              onChange={(e) => setSummaryText(e.target.value)}
-              rows={5}
-              style={{
-                width: '100%',
-                padding: '12px',
-                border: '1px solid #CBD5E1',
-                borderRadius: '8px',
-                fontSize: '13.5px',
-                lineHeight: '1.5',
-                outline: 'none',
-                fontFamily: 'inherit'
-              }}
-              placeholder="Write a brief professional summary..."
-            />
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '16px' }}>
-              <button className="btn-outline-dark-sm" onClick={() => setShowSummaryModal(false)}>Cancel</button>
-              <button className="btn-shine-yellow-solid" onClick={() => { setIsSummarySaved(true); setShowSummaryModal(false); }}>Save Summary</button>
+        <div className="modal-backdrop-blur">
+          <div className="modal-surface-card" style={{ maxWidth: '600px' }}>
+            <div className="modal-top-header">
+              <h3>Edit Profile Summary</h3>
+              <button className="btn-icon-close" onClick={() => setShowSummaryModal(false)}>
+                <X size={18} />
+              </button>
             </div>
+            <form onSubmit={handleSaveSummary}>
+              <div className="modal-body-pad">
+                <label style={{ display: 'block', marginBottom: '8px', fontSize: '13px', fontWeight: 600, color: '#334155' }}>
+                  Highlight your key technical achievements and career aspirations:
+                </label>
+                <textarea 
+                  value={summaryInput} 
+                  onChange={(e) => setSummaryInput(e.target.value)} 
+                  rows={5}
+                  className="custom-textarea"
+                  style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #CBD5E1', fontSize: '13.5px', outline: 'none' }}
+                />
+              </div>
+              <div className="modal-footer-flex">
+                <button type="button" className="btn-ghost-sm" onClick={() => setShowSummaryModal(false)}>Cancel</button>
+                <button type="submit" className="btn-shine-gold-sm">Save & Boost Score (+5%)</button>
+              </div>
+            </form>
           </div>
         </div>
       )}

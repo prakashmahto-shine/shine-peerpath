@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import { Star, CheckCircle2, ShieldCheck, UserCheck, Eye, Compass, ChevronRight } from 'lucide-react';
-import { Expert, ViewType } from '../../types';
+import { useApp } from '../../context/AppContext';
 
-interface PostSessionViewProps {
-  expert: Expert;
-  onNavigate: (view: ViewType) => void;
-}
+export const PostSessionView: React.FC = () => {
+  const { activeSession, selectedExpert, navigate, completeSession } = useApp();
+  const expert = activeSession?.expert || selectedExpert;
 
-export const PostSessionView: React.FC<PostSessionViewProps> = ({
-  expert,
-  onNavigate,
-}) => {
   const [rating, setRating] = useState<number>(5);
+  const [reviewText, setReviewText] = useState<string>(
+    `${expert.name} completely transformed my approach to career transitions. The framework shared for handling interview objections and system design was invaluable!`
+  );
+
+  const badgeTitle = `${expert.domain} Production Ready`;
 
   const handleSubmit = () => {
-    alert('Thank you! Your review has been submitted and your Shine Peer-Verified Badge is now active on your profile.');
-    onNavigate('profile-view');
+    if (activeSession) {
+      completeSession(activeSession.id, rating, reviewText, badgeTitle);
+    }
+    navigate('profile-view');
   };
 
   return (
@@ -24,7 +26,7 @@ export const PostSessionView: React.FC<PostSessionViewProps> = ({
         <div className="feedback-form-card">
           <div className="feedback-header">
             <h2 className="f-title">How was your session with {expert.name}?</h2>
-            <p className="f-subtitle">Your rating helps maintain community trust and high mentorship quality.</p>
+            <p className="f-subtitle">Your rating helps maintain community trust and high mentorship quality on Shine.</p>
           </div>
 
           <div className="star-rating-selector">
@@ -42,13 +44,15 @@ export const PostSessionView: React.FC<PostSessionViewProps> = ({
             <label>Write a review (optional)</label>
             <textarea
               rows={4}
-              defaultValue={`${expert.name} completely transformed my approach to career transitions. The framework shared for handling interview objections was invaluable!`}
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
               placeholder="Share your key learnings..."
+              className="custom-textarea"
             />
           </div>
 
           <button className="btn-shine-gold-lg w-100" onClick={handleSubmit}>
-            <CheckCircle2 size={18} /> Submit Review
+            <CheckCircle2 size={18} /> Submit Review & Activate Badge
           </button>
         </div>
 
@@ -60,7 +64,7 @@ export const PostSessionView: React.FC<PostSessionViewProps> = ({
             </div>
             <div className="badge-text-col">
               <span className="badge-supertitle">RECRUITER VISIBILITY BOOST</span>
-              <h3>"{expert.domain} Production Ready" Badge Earned!</h3>
+              <h3>"{badgeTitle}" Badge Earned!</h3>
               <p>Verified by <strong>{expert.name} ({expert.company})</strong> based on your live session evaluation rubric.</p>
             </div>
           </div>
@@ -69,16 +73,16 @@ export const PostSessionView: React.FC<PostSessionViewProps> = ({
 
           <div className="next-action-cards-stack">
             
-            <div className="na-card" onClick={() => onNavigate('profile-view')}>
+            <div className="na-card" onClick={() => navigate('profile-view')}>
               <div className="na-icon"><UserCheck size={18} /></div>
               <div>
-                <strong>Apply learnings to your Shine profile</strong>
+                <strong>View on your Shine Profile</strong>
                 <span>Auto-sync new keywords and verified badge to your CV</span>
               </div>
               <ChevronRight size={16} className="na-arrow" />
             </div>
 
-            <div className="na-card" onClick={() => onNavigate('recruiter-view')}>
+            <div className="na-card" onClick={() => navigate('recruiter-view')}>
               <div className="na-icon text-brand-gold"><Eye size={18} /></div>
               <div>
                 <strong>See how recruiters now view your profile</strong>
@@ -87,7 +91,7 @@ export const PostSessionView: React.FC<PostSessionViewProps> = ({
               <ChevronRight size={16} className="na-arrow" />
             </div>
 
-            <div className="na-card" onClick={() => onNavigate('experts-view')}>
+            <div className="na-card" onClick={() => navigate('experts-view')}>
               <div className="na-icon"><Compass size={18} /></div>
               <div>
                 <strong>Explore more experts & mock interviews</strong>

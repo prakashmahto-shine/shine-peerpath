@@ -1,26 +1,17 @@
 import React, { useEffect } from 'react';
-import { Check, Calendar, Sparkles, CalendarPlus, Video } from 'lucide-react';
+import { Check, Calendar, Sparkles, CalendarPlus, Video, ArrowRight } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { Expert, ViewType } from '../../types';
+import { useApp } from '../../context/AppContext';
 
-interface ConfirmedViewProps {
-  expert: Expert;
-  bookingDate: string;
-  bookingTime: string;
-  onNavigate: (view: ViewType) => void;
-}
+export const ConfirmedView: React.FC = () => {
+  const { bookingDraft, navigate, userProfile } = useApp();
+  const { expert, date, timeSlot } = bookingDraft;
 
-export const ConfirmedView: React.FC<ConfirmedViewProps> = ({
-  expert,
-  bookingDate,
-  bookingTime,
-  onNavigate,
-}) => {
   useEffect(() => {
     try {
       confetti({
-        particleCount: 80,
-        spread: 70,
+        particleCount: 90,
+        spread: 80,
         origin: { y: 0.6 }
       });
     } catch (e) {}
@@ -35,7 +26,7 @@ export const ConfirmedView: React.FC<ConfirmedViewProps> = ({
         </div>
 
         <h1 className="conf-title">Session Booked Successfully!</h1>
-        <p className="conf-subtitle">We've sent a calendar invite and session link to <strong>prakash.kumar@gmail.com</strong>.</p>
+        <p className="conf-subtitle">We've sent a calendar invite and video room link to <strong>{userProfile.email}</strong>.</p>
 
         <div className="conf-session-info-card">
           <img src={expert.avatar} alt={expert.name} className="conf-avatar" />
@@ -43,7 +34,7 @@ export const ConfirmedView: React.FC<ConfirmedViewProps> = ({
             <h3>{expert.name}</h3>
             <p>{expert.role} at {expert.company}</p>
             <div className="conf-timing-badge">
-              <Calendar size={13} /> {bookingDate} • {bookingTime}
+              <Calendar size={13} /> {date} • {timeSlot}
             </div>
           </div>
           <div className="conf-price-badge">₹{expert.price} Paid</div>
@@ -52,9 +43,9 @@ export const ConfirmedView: React.FC<ConfirmedViewProps> = ({
         <div className="conf-checklist-box">
           <h4><Sparkles size={16} /> What happens next?</h4>
           <ol>
-            <li>Your Shine CV and Gap Report have been automatically pre-loaded for the mentor.</li>
+            <li>Your Shine CV and Trajectory Gap Report have been automatically pre-loaded for {expert.name}.</li>
             <li>You will receive a WhatsApp reminder 15 minutes before the call starts.</li>
-            <li>Post-session, your mentor will approve your <strong>Shine Verified Peer Badge</strong>.</li>
+            <li>Post-session, your mentor will review and approve your <strong>Shine Verified Peer Badge</strong>.</li>
           </ol>
         </div>
 
@@ -62,8 +53,8 @@ export const ConfirmedView: React.FC<ConfirmedViewProps> = ({
           <button className="btn-outline-dark" onClick={() => alert('Calendar (.ics) invite downloaded!')}>
             <CalendarPlus size={16} /> Add to Calendar
           </button>
-          <button className="btn-shine-gold" onClick={() => onNavigate('sessions-view')}>
-            <Video size={16} /> Go to My Sessions
+          <button className="btn-shine-gold" onClick={() => navigate('sessions-view')}>
+            <Video size={16} /> Go to My Sessions <ArrowRight size={14} />
           </button>
         </div>
 

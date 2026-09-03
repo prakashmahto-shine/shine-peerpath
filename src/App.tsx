@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
+import { ToastContainer } from './components/common/ToastContainer';
 
 import { DashboardView } from './components/views/DashboardView';
 import { ProfileView } from './components/views/ProfileView';
@@ -18,22 +19,8 @@ import { RecruiterView } from './components/views/RecruiterView';
 import { BookingModal } from './components/modals/BookingModal';
 import { CreatorWizardModal } from './components/modals/CreatorWizardModal';
 
-import { EXPERTS_DB } from './data/expertsData';
-import { ViewType, Expert } from './types';
-
-const viewToPathMap: Record<ViewType, string> = {
-  'dashboard-view': '/',
-  'profile-view': '/profile',
-  'guidance-view': '/peerpath',
-  'experts-view': '/experts',
-  'expert-profile-view': '/expert',
-  'payment-view': '/payment',
-  'confirmed-view': '/confirmed',
-  'sessions-view': '/sessions',
-  'live-call-view': '/live-call',
-  'post-session-view': '/post-session',
-  'recruiter-view': '/recruiter',
-};
+import { AppProvider, useApp } from './context/AppContext';
+import { ViewType } from './types';
 
 const pathToView = (pathname: string): { view: ViewType; expertId?: string } => {
   const clean = pathname.replace(/\/$/, '') || '/';
@@ -77,30 +64,38 @@ const pathToView = (pathname: string): { view: ViewType; expertId?: string } => 
   return { view: 'dashboard-view' };
 };
 
-export const App: React.FC = () => {
-  const initialRoute = pathToView(window.location.pathname);
-  const [currentView, setCurrentView] = useState<ViewType>(initialRoute.view);
-  const [selectedExpert, setSelectedExpert] = useState<Expert>(() => {
-    if (initialRoute.expertId) {
-      const found = EXPERTS_DB.find((e) => e.id === initialRoute.expertId);
-      if (found) return found;
-    }
-    return EXPERTS_DB[0];
-  });
-  const [bookingDate, setBookingDate] = useState<string>('Fri, 2 Sep');
-  const [bookingTime, setBookingTime] = useState<string>('10:00 AM - 11:00 AM');
+const AppMain: React.FC = () => {
+  const { 
+    currentView, 
+    navigate, 
+    experts,
+    selectedExpert, 
+    selectExpertById,
+    isBookingModalOpen, 
+    setIsBookingModalOpen,
+    isCreatorWizardOpen,
+    setIsCreatorWizardOpen,
+    bookingDraft,
+    setBookingDraft,
+    setSearchQuery
+  } = useApp();
+
   const [showTopNotice, setShowTopNotice] = useState<boolean>(true);
-  
-  const [isBookingModalOpen, setIsBookingModalOpen] = useState<boolean>(false);
-  const [isCreatorWizardOpen, setIsCreatorWizardOpen] = useState<boolean>(false);
 
   useEffect(() => {
+    const route = pathToView(window.location.pathname);
+    if (route.view !== currentView) {
+      navigate(route.view);
+    }
+    if (route.expertId) {
+      selectExpertById(route.expertId);
+    }
+
     const onPopState = () => {
-      const route = pathToView(window.location.pathname);
-      setCurrentView(route.view);
-      if (route.expertId) {
-        const exp = EXPERTS_DB.find((e) => e.id === route.expertId);
-        if (exp) setSelectedExpert(exp);
+      const r = pathToView(window.location.pathname);
+      navigate(r.view);
+      if (r.expertId) {
+        selectExpertById(r.expertId);
       }
     };
 
@@ -108,56 +103,25 @@ export const App: React.FC = () => {
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
-  const handleNavigate = (view: ViewType, customPath?: string) => {
-    setCurrentView(view);
-    const path = customPath || viewToPathMap[view] || '/';
-    if (window.location.pathname !== path) {
-      window.history.pushState({}, '', path);
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   const handleSelectExpert = (expertId: string) => {
-    const exp = EXPERTS_DB.find((e) => e.id === expertId) || EXPERTS_DB[0];
-    setSelectedExpert(exp);
-    handleNavigate('expert-profile-view', `/expert/${exp.id}`);
+    selectExpertById(expertId);
+    navigate('expert-profile-view', `/expert/${expertId}`);
   };
 
   const handleOpenBooking = (expertId: string) => {
-    handleSelectExpert(expertId);
+    selectExpertById(expertId);
     setIsBookingModalOpen(true);
   };
 
-  const handleProceedToPay = () => {
-    setIsBookingModalOpen(false);
-    handleNavigate('payment-view');
-  };
-
-  const handlePaymentSuccess = () => {
-    handleNavigate('confirmed-view');
-  };
-
-  const handleJoinLiveCall = () => {
-    handleNavigate('live-call-view');
-  };
-
-  const handleEndLiveCall = () => {
-    handleNavigate('post-session-view');
-  };
-
-  const handleCreatorPublishSuccess = () => {
-    setIsCreatorWizardOpen(false);
-    alert('🎉 Congratulations Prakash! Your Creator Profile is now LIVE on Shine Peerpath. Trajectory matched mentees will be routed to your calendar!');
-    handleNavigate('profile-view');
-  };
-
-  const handleGlobalSearch = (_query: string) => {
-    handleNavigate('experts-view');
+  const handleGlobalSearch = (query: string) => {
+    setSearchQuery(query);
+    navigate('experts-view');
   };
 
   return (
     <div className="app-root-container">
-      
+      <ToastContainer />
+
       {showTopNotice && currentView !== 'live-call-view' && (
         <div className="myshine-top-notice-bar">
           <div className="notice-inner-flex">
@@ -166,7 +130,7 @@ export const App: React.FC = () => {
               <p>Your Profile was last updated <strong>almost a year ago</strong></p>
             </div>
             <div className="notice-right-actions">
-              <button className="btn-purple-notice" onClick={() => handleNavigate('profile-view')}>
+              <button className="btn-purple-notice" onClick={() => navigate('profile-view')}>
                 Update Profile
               </button>
               <button className="btn-close-notice" onClick={() => setShowTopNotice(false)} title="Dismiss">
@@ -179,117 +143,95 @@ export const App: React.FC = () => {
 
       <Header
         currentView={currentView}
-        onNavigate={handleNavigate}
+        onNavigate={navigate}
         onOpenCreatorWizard={() => setIsCreatorWizardOpen(true)}
         onSearch={handleGlobalSearch}
       />
 
       <main className="app-main-viewport" style={{ minHeight: '80vh' }}>
         {currentView === 'dashboard-view' && (
-          <DashboardView
-            onNavigate={handleNavigate}
-            onOpenCreatorWizard={() => setIsCreatorWizardOpen(true)}
-          />
+          <DashboardView />
         )}
 
         {currentView === 'profile-view' && (
-          <ProfileView
-            onNavigate={handleNavigate}
-            onOpenCreatorWizard={() => setIsCreatorWizardOpen(true)}
-          />
+          <ProfileView />
         )}
 
         {currentView === 'guidance-view' && (
           <CareerGuidanceView
-            onNavigate={handleNavigate}
+            onNavigate={navigate}
             onSelectExpert={handleSelectExpert}
-            experts={EXPERTS_DB}
+            experts={experts}
           />
         )}
 
         {currentView === 'experts-view' && (
           <ExpertsGalleryView
-            experts={EXPERTS_DB}
+            experts={experts}
             onSelectExpert={handleSelectExpert}
             onOpenBooking={handleOpenBooking}
-            onNavigate={handleNavigate}
+            onNavigate={navigate}
           />
         )}
 
         {currentView === 'expert-profile-view' && (
           <ExpertProfileView
             expert={selectedExpert}
-            onNavigate={handleNavigate}
+            onNavigate={navigate}
             onOpenBooking={handleOpenBooking}
           />
         )}
 
         {currentView === 'payment-view' && (
-          <PaymentView
-            expert={selectedExpert}
-            bookingDate={bookingDate}
-            bookingTime={bookingTime}
-            onNavigate={handleNavigate}
-            onPaymentSuccess={handlePaymentSuccess}
-          />
+          <PaymentView />
         )}
 
         {currentView === 'confirmed-view' && (
-          <ConfirmedView
-            expert={selectedExpert}
-            bookingDate={bookingDate}
-            bookingTime={bookingTime}
-            onNavigate={handleNavigate}
-          />
+          <ConfirmedView />
         )}
 
         {currentView === 'sessions-view' && (
-          <MySessionsView
-            expert={selectedExpert}
-            bookingDate={bookingDate}
-            bookingTime={bookingTime}
-            onNavigate={handleNavigate}
-            onJoinCall={handleJoinLiveCall}
-          />
+          <MySessionsView />
         )}
 
         {currentView === 'live-call-view' && (
-          <LiveVideoCallView
-            expert={selectedExpert}
-            onEndCall={handleEndLiveCall}
-          />
+          <LiveVideoCallView />
         )}
 
         {currentView === 'post-session-view' && (
-          <PostSessionView
-            expert={selectedExpert}
-            onNavigate={handleNavigate}
-          />
+          <PostSessionView />
         )}
 
         {currentView === 'recruiter-view' && (
-          <RecruiterView onNavigate={handleNavigate} />
+          <RecruiterView onNavigate={navigate} />
         )}
       </main>
 
       {currentView !== 'live-call-view' && <Footer />}
 
       <BookingModal
-        expert={selectedExpert}
+        expert={bookingDraft.expert || selectedExpert}
         isOpen={isBookingModalOpen}
-        selectedDate={bookingDate}
-        selectedTime={bookingTime}
+        selectedDate={bookingDraft.date}
+        selectedTime={bookingDraft.timeSlot}
         onClose={() => setIsBookingModalOpen(false)}
-        onSelectDate={setBookingDate}
-        onSelectTime={setBookingTime}
-        onProceedToPay={handleProceedToPay}
+        onSelectDate={(d) => setBookingDraft({ ...bookingDraft, date: d })}
+        onSelectTime={(t) => setBookingDraft({ ...bookingDraft, timeSlot: t })}
+        onProceedToPay={() => {
+          setIsBookingModalOpen(false);
+          navigate('payment-view');
+        }}
       />
 
-      <CreatorWizardModal
-        isOpen={isCreatorWizardOpen}
-        onClose={() => setIsCreatorWizardOpen(false)}
-        onPublishSuccess={handleCreatorPublishSuccess}
-      />
+      <CreatorWizardModal />
     </div>
+  );
+};
+
+export const App: React.FC = () => {
+  return (
+    <AppProvider>
+      <AppMain />
+    </AppProvider>
   );
 };
