@@ -23,10 +23,10 @@ export const MySessionsView: React.FC<MySessionsViewProps> = ({
     <div className="content-wrapper sessions-dashboard-grid">
       <aside className="sessions-sidebar">
         <div className="sb-user-card">
-          <img src="/avatars/prakash.jpg" alt="Prakash" />
+          <img src="/avatars/prakash.jpg" alt="Prakash Mahto" />
           <div>
-            <h4>Prakash Kumar</h4>
-            <span>Candidate</span>
+            <h4>Prakash Mahto</h4>
+            <span>Senior Frontend Engineer</span>
           </div>
         </div>
 
@@ -100,19 +100,19 @@ export const MySessionsView: React.FC<MySessionsViewProps> = ({
           <div className="session-completed-card">
             <div className="s-card-top">
               <div className="s-mentor-meta">
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80" alt="Ishita" className="s-mentor-avatar" />
+                <img src="/avatars/nisha.jpg" alt="Nisha Kumari" className="s-mentor-avatar" />
                 <div>
-                  <h3 className="s-mentor-name">Ishita Sharma</h3>
-                  <p className="s-mentor-headline">Senior Data Scientist at Swiggy</p>
+                  <h3 className="s-mentor-name">Nisha Kumari</h3>
+                  <p className="s-mentor-headline">Senior Python Backend & AI Engineer @ Shine</p>
                 </div>
               </div>
-              <span className="badge-completed"><CheckCircle2 size={14} /> Completed on 18 Aug</span>
+              <span className="badge-completed"><CheckCircle2 size={14} /> Completed on 28 Aug</span>
             </div>
             <div className="s-outcome-box">
               <Award size={24} className="outcome-icon" />
               <div>
-                <strong>Outcome: "ML Production Ready" Badge Awarded</strong>
-                <p>Mentor verified your proficiency in PyTorch & Distributed Systems. Badge is active on your Shine profile.</p>
+                <strong>Outcome: "FastAPI & Python Microservices" Badge Awarded</strong>
+                <p>Nisha verified your proficiency in API contracts, async worker queues & Python backend architecture. Badge is active on your Shine profile.</p>
               </div>
             </div>
             <button className="btn-outline-dark-sm" onClick={() => onNavigate('post-session-view')}>

@@ -141,7 +141,7 @@ export const Header: React.FC<HeaderProps> = ({
             {isUserMenuOpen && (
               <div className="myshine-user-flyout-card">
                 <div className="flyout-user-header">
-                  <strong>Prakash Kumar</strong>
+                  <strong>Prakash Mahto</strong>
                   <span>Senior Frontend Developer</span>
                 </div>
 

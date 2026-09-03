@@ -60,7 +60,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
               <div className="gauge-score-badge">70%</div>
             </div>
 
-            <h2 className="user-profile-name">Prakash Kumar</h2>
+            <h2 className="user-profile-name">Prakash Mahto</h2>
             <p className="user-profile-designation">Senior frontend developer</p>
 
             <div className="job-status-dropdown-wrap">
@@ -258,13 +258,13 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                   </div>
                 </div>
                 <p className="badge-quote-text">
-                  "Demonstrated robust understanding of scalable micro-frontends, high-performance UI optimization, and state management."
+                  "Demonstrated robust understanding of scalable micro-frontends, high-performance UI optimization, and cross-functional product delivery."
                 </p>
                 <div className="badge-verifier-strip">
-                  <img src="/avatars/amit.jpg" alt="Amit Verma" className="v-thumb" />
+                  <img src="/avatars/akash.jpg" alt="Akash Jain" className="v-thumb" />
                   <div>
-                    <strong>Amit Verma</strong>
-                    <span>Senior Lead @ Salesforce</span>
+                    <strong>Akash Jain</strong>
+                    <span>Lead Product Manager @ Shine</span>
                   </div>
                 </div>
               </div>
@@ -276,17 +276,17 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                   </div>
                   <div>
                     <span className="badge-pill-blue">VERIFIED BY PEER</span>
-                    <h4 className="badge-role-title">MEDDIC & Technical Client Pitch</h4>
+                    <h4 className="badge-role-title">FastAPI & Python Microservices Integration</h4>
                   </div>
                 </div>
                 <p className="badge-quote-text">
-                  "Strong technical articulation with clear value-positioning for enterprise SaaS clients."
+                  "Clean API contracts, excellent error-handling, and robust state coordination with backend services."
                 </p>
                 <div className="badge-verifier-strip">
-                  <img src="/avatars/neha.jpg" alt="Neha Gupta" className="v-thumb" />
+                  <img src="/avatars/nisha.jpg" alt="Nisha Kumari" className="v-thumb" />
                   <div>
-                    <strong>Neha Gupta</strong>
-                    <span>Account Executive @ Zoho</span>
+                    <strong>Nisha Kumari</strong>
+                    <span>Senior Python Backend & AI Engineer @ Shine</span>
                   </div>
                 </div>
               </div>

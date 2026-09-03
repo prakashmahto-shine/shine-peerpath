@@ -23,7 +23,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
         <div className="hero-banner-content">
           <span className="trajectory-tag"><Compass size={14} /> TRAJECTORY MATCHING ENGINE</span>
           <h1 className="guidance-hero-title">Discover your next career opportunity</h1>
-          <p className="guidance-hero-desc">Based on your current skills, experience and real-time market hiring trends.</p>
+          <p className="guidance-hero-desc">Powered by Shine Peerpath — connect with verified internal peers across Product, Backend, Search/DB, Marketing & QA.</p>
           <div className="hero-actions">
             <button className="btn-shine-gold-lg" onClick={scrollToOpportunities}>
               <Sparkles size={18} /> Explore My Career Paths
@@ -36,12 +36,13 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
         <div className="hero-banner-illustration">
           <div className="guidance-illo-card">
             <div className="illo-pulse-dot"></div>
-            <div className="illo-stat"><span>Match Score</span><strong>92%</strong></div>
-            <div className="illo-bar-wrap"><div className="illo-bar-fill" style={{ width: '92%' }}></div></div>
+            <div className="illo-stat"><span>Trajectory Match</span><strong>94%</strong></div>
+            <div className="illo-bar-wrap"><div className="illo-bar-fill" style={{ width: '94%' }}></div></div>
             <div className="illo-mentor-avatar-row">
-              <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=60&auto=format&fit=crop&q=80" alt="Mentor" />
-              <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=60&auto=format&fit=crop&q=80" alt="Mentor" />
-              <span className="more-mentors">+12 Peers</span>
+              <img src="/avatars/akash.jpg" alt="Akash" />
+              <img src="/avatars/nisha.jpg" alt="Nisha" />
+              <img src="/avatars/saheli.jpg" alt="Saheli" />
+              <span className="more-mentors">+6 Team Peers</span>
             </div>
           </div>
         </div>
@@ -49,23 +50,23 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
 
       <div className="candidate-summary-bar">
         <div className="c-sum-item">
-          <span className="c-sum-label"><User size={12} /> Current Role</span>
-          <span className="c-sum-val">Frontend Developer / Sales Exec</span>
+          <span className="c-sum-label"><User size={12} /> Candidate</span>
+          <span className="c-sum-val">Prakash Mahto</span>
         </div>
         <div className="c-sum-divider"></div>
         <div className="c-sum-item">
-          <span className="c-sum-label"><Clock size={12} /> Experience</span>
-          <span className="c-sum-val">3–5 Years</span>
+          <span className="c-sum-label"><Clock size={12} /> Current Track</span>
+          <span className="c-sum-val">Frontend Developer (4+ Yrs)</span>
         </div>
         <div className="c-sum-divider"></div>
         <div className="c-sum-item">
-          <span className="c-sum-label"><MapPin size={12} /> Location</span>
-          <span className="c-sum-val">Bengaluru, India</span>
+          <span className="c-sum-label"><MapPin size={12} /> Target Tech</span>
+          <span className="c-sum-val">Product Mgmt / Backend AI / Solr Infra</span>
         </div>
         <div className="c-sum-divider"></div>
         <div className="c-sum-item">
-          <span className="c-sum-label"><GraduationCap size={12} /> Target Transition</span>
-          <span className="c-sum-val text-brand-gold">SaaS Sales / Full-Stack AI</span>
+          <span className="c-sum-label"><GraduationCap size={12} /> Verified Peers</span>
+          <span className="c-sum-val text-brand-gold">6 Verified Shine Mentors</span>
         </div>
         <button className="btn-sm-ghost" onClick={() => onNavigate('profile-view')}>Edit</button>
       </div>
@@ -73,23 +74,25 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
       <div className="section-header-flex" id="opportunitiesSection">
         <div>
           <h2 className="section-main-title">Recommended Career Opportunities</h2>
-          <p className="section-subtitle">These roles are a great match for your trajectory and can fast-track your compensation.</p>
+          <p className="section-subtitle">Real-time trajectories matched to your team peers on Shine Peerpath.</p>
         </div>
         <div className="section-actions">
-          <span className="badge-pill-light"><Zap size={14} /> 4 High-Growth Verticals</span>
+          <span className="badge-pill-light"><Zap size={14} /> 4 High-Growth Tracks</span>
         </div>
       </div>
 
       <div className="opportunities-stack">
+        
+        {/* Track 1: Software Engineer -> Product Manager */}
         <div className="opp-card">
           <div className="opp-card-header">
             <div className="opp-title-wrap">
-              <h3 className="opp-title">SaaS Sales Manager</h3>
+              <h3 className="opp-title">Frontend / Software Engineer ➔ Lead Product Manager</h3>
               <span className="badge-high-demand">High Demand</span>
-              <span className="badge-salary">₹18L - ₹32L CTC</span>
+              <span className="badge-salary">₹24L - ₹38L CTC</span>
             </div>
             <div className="opp-match-badge match-high">
-              <CheckCircle2 size={16} /> 92% Match
+              <CheckCircle2 size={16} /> 94% Match
             </div>
           </div>
 
@@ -97,32 +100,32 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
             <div className="opp-block">
               <h4 className="opp-block-title"><ThumbsUp size={16} /> Why it's a good fit?</h4>
               <ul className="opp-list">
-                <li>Your 3 yrs in sales is highly relevant</li>
-                <li>Strong customer discovery experience</li>
-                <li>Great career growth & earning potential</li>
+                <li>Strong understanding of UI/UX and user workflows</li>
+                <li>Fast technical scoping and developer collaboration</li>
+                <li>High industry demand for Tech-savvy Product Leaders</li>
               </ul>
             </div>
 
             <div className="opp-block">
               <h4 className="opp-block-title text-success"><Check size={16} /> Skills you have</h4>
               <div className="chips-wrap">
-                <span className="skill-chip chip-success">Sales & Negotiation</span>
-                <span className="skill-chip chip-success">Client Relationship</span>
-                <span className="skill-chip chip-success">Communication</span>
-                <span className="skill-chip chip-success">Lead Prospecting</span>
+                <span className="skill-chip chip-success">UI/UX Architecture</span>
+                <span className="skill-chip chip-success">Agile / Sprints</span>
+                <span className="skill-chip chip-success">User Experience</span>
+                <span className="skill-chip chip-success">Cross-Functional Comm</span>
               </div>
             </div>
 
             <div className="opp-block">
               <h4 className="opp-block-title text-warning"><AlertTriangle size={16} /> Skills to build</h4>
               <div className="chips-wrap">
-                <span className="skill-chip chip-warning">SaaS Metrics & ARR</span>
-                <span className="skill-chip chip-warning">Enterprise Demo Pitch</span>
-                <span className="skill-chip chip-warning">MEDDIC Framework</span>
+                <span className="skill-chip chip-warning">PRD & Discovery</span>
+                <span className="skill-chip chip-warning">Growth Metrics & Funnels</span>
+                <span className="skill-chip chip-warning">GTM Strategy</span>
               </div>
               <div className="gap-meter-line">
                 <span>Skill Gap: <strong>Low-Medium</strong></span>
-                <div className="gap-meter-bar"><div className="gap-fill" style={{ width: '35%' }}></div></div>
+                <div className="gap-meter-bar"><div className="gap-fill" style={{ width: '30%' }}></div></div>
               </div>
             </div>
           </div>
@@ -130,52 +133,119 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
           <div className="opp-footer-bar">
             <div className="matched-experts-preview">
               <div className="avatar-stack">
-                <img src="/avatars/amit.jpg" alt="Amit" />
-                <img src="/avatars/neha.jpg" alt="Neha" />
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&auto=format&fit=crop&q=80" alt="Rohan" />
+                <img src="/avatars/akash.jpg" alt="Akash Jain" />
+                <img src="/avatars/saheli.jpg" alt="Saheli Kanjilal" />
               </div>
-              <span className="matched-text"><strong>3 Peers</strong> transitioned from your exact role to Salesforce, Zoho & Freshworks</span>
+              <span className="matched-text"><strong>Akash Jain & Saheli Kanjilal</strong> lead Product & Growth Marketing @ Shine</span>
             </div>
             <div className="opp-btn-group">
               <button className="btn-secondary-card" onClick={() => onNavigate('experts-view')}><Briefcase size={14} /> View Jobs</button>
-              <button className="btn-shine-gold" onClick={() => { onSelectExpert('amit'); onNavigate('expert-profile-view'); }}><UserCheck size={16} /> Explore Experts & Teasers</button>
+              <button className="btn-shine-gold" onClick={() => { onSelectExpert('akash'); onNavigate('expert-profile-view'); }}><UserCheck size={16} /> Explore Experts & Teasers</button>
             </div>
           </div>
         </div>
 
-      </div>
+        {/* Track 2: Frontend -> Full-Stack Python Backend & AI */}
+        <div className="opp-card">
+          <div className="opp-card-header">
+            <div className="opp-title-wrap">
+              <h3 className="opp-title">Frontend Engineer ➔ Python Backend & AI Engineer</h3>
+              <span className="badge-high-demand" style={{ background: '#FEF3C7', color: '#92400E', border: '1px solid #FDE68A' }}>HOT DOMAIN (THIN POOL)</span>
+              <span className="badge-salary">₹28L - ₹42L CTC</span>
+            </div>
+            <div className="opp-match-badge match-medium">
+              <Sparkles size={16} /> 88% Match
+            </div>
+          </div>
 
-      <div className="opportunities-grid-2col" style={{ marginTop: '24px' }}>
-        <div className="opportunity-wide-card">
-          <div className="opp-main-body">
-            <div className="opp-role-head">
-              <div>
-                <span className="opp-badge-popular">HOT DOMAIN (THIN POOL)</span>
-                <h3 className="opp-title">Full-Stack Engineer ➔ Production AI/ML Engineer</h3>
-                <p className="opp-comp-range">Target Salary: <strong>₹28 - ₹42 LPA</strong> • 1,200+ Active Openings on Shine</p>
-              </div>
-              <span className="opp-match-pill match-green"><Sparkles size={14} /> 85% Trajectory Match</span>
+          <div className="opp-body-grid">
+            <div className="opp-block">
+              <h4 className="opp-block-title"><ThumbsUp size={16} /> Why it's a good fit?</h4>
+              <ul className="opp-list">
+                <li>Seamless transition into End-to-End GenAI web applications</li>
+                <li>Strong JavaScript/TypeScript and REST API integration mastery</li>
+                <li>High recruiter demand in thin Python/FastAPI talent pools</li>
+              </ul>
             </div>
 
-            <div className="opp-skills-gap-box">
-              <div className="gap-skill-item">
-                <span className="gap-label">Skills You Have:</span>
-                <div className="gap-chips">
-                  <span className="chip-have">Python</span>
-                  <span className="chip-have">REST APIs</span>
-                  <span className="chip-have">Data Structures</span>
-                </div>
+            <div className="opp-block">
+              <h4 className="opp-block-title text-success"><Check size={16} /> Skills you have</h4>
+              <div className="chips-wrap">
+                <span className="skill-chip chip-success">REST APIs</span>
+                <span className="skill-chip chip-success">Data Structures</span>
+                <span className="skill-chip chip-success">Async Programming</span>
+                <span className="skill-chip chip-success">Frontend Integration</span>
               </div>
+            </div>
 
-              <div className="gap-skill-item">
-                <span className="gap-label">Critical Gap to Close:</span>
-                <div className="gap-chips">
-                  <span className="chip-need">LLM Orchestration (LangChain)</span>
-                  <span className="chip-need">Vector DBs (Pinecone/Milvus)</span>
-                  <span className="chip-need">Distributed PyTorch</span>
-                </div>
+            <div className="opp-block">
+              <h4 className="opp-block-title text-warning"><AlertTriangle size={16} /> Skills to build</h4>
+              <div className="chips-wrap">
+                <span className="skill-chip chip-warning">Python / FastAPI</span>
+                <span className="skill-chip chip-warning">PostgreSQL & ORM</span>
+                <span className="skill-chip chip-warning">LLM Integration (LangChain)</span>
               </div>
+              <div className="gap-meter-line">
+                <span>Skill Gap: <strong>Medium</strong></span>
+                <div className="gap-meter-bar"><div className="gap-fill" style={{ width: '40%' }}></div></div>
+              </div>
+            </div>
+          </div>
 
+          <div className="opp-footer-bar">
+            <div className="matched-experts-preview">
+              <div className="avatar-stack">
+                <img src="/avatars/nisha.jpg" alt="Nisha Kumari" />
+                <img src="/avatars/prakash.jpg" alt="Prakash Mahto" />
+              </div>
+              <span className="matched-text"><strong>Nisha Kumari</strong> architects Python Microservices & GenAI APIs @ Shine</span>
+            </div>    
+            <div className="opp-btn-group">
+              <button className="btn-secondary-card" onClick={() => onNavigate('experts-view')}><Briefcase size={14} /> View Jobs</button>
+              <button className="btn-shine-gold" onClick={() => { onSelectExpert('nisha'); onNavigate('expert-profile-view'); }}><UserCheck size={16} /> Explore Experts & Teasers</button>
+            </div>
+          </div>
+        </div>
+
+        {/* Track 3: Backend / Data -> Principal Search & Solr Database Architect */}
+        <div className="opp-card">
+          <div className="opp-card-header">
+            <div className="opp-title-wrap">
+              <h3 className="opp-title">Backend Developer ➔ Principal Search & Database Architect</h3>
+              <span className="badge-high-demand" style={{ background: '#EDE9FE', color: '#6B21A8', border: '1px solid #DDD6FE' }}>CORE INFRASTRUCTURE</span>
+              <span className="badge-salary">₹32L - ₹48L CTC</span>
+            </div>
+            <div className="opp-match-badge match-high">
+              <CheckCircle2 size={16} /> 85% Match
+            </div>
+          </div>
+
+          <div className="opp-body-grid">
+            <div className="opp-block">
+              <h4 className="opp-block-title"><ThumbsUp size={16} /> Why it's a good fit?</h4>
+              <ul className="opp-list">
+                <li>Handle 50M+ candidate queries with sub-10ms search latency</li>
+                <li>Massive salary multiplier for distributed search engineers</li>
+                <li>Direct mentorship on cluster sharding and query optimization</li>
+              </ul>
+            </div>
+
+            <div className="opp-block">
+              <h4 className="opp-block-title text-success"><Check size={16} /> Skills you have</h4>
+              <div className="chips-wrap">
+                <span className="skill-chip chip-success">SQL / Databases</span>
+                <span className="skill-chip chip-success">Caching (Redis)</span>
+                <span className="skill-chip chip-success">Data Modeling</span>
+              </div>
+            </div>
+
+            <div className="opp-block">
+              <h4 className="opp-block-title text-warning"><AlertTriangle size={16} /> Skills to build</h4>
+              <div className="chips-wrap">
+                <span className="skill-chip chip-warning">Apache Solr / Lucene</span>
+                <span className="skill-chip chip-warning">Inverted Indexing</span>
+                <span className="skill-chip chip-warning">Distributed Sharding</span>
+              </div>
               <div className="gap-meter-line">
                 <span>Skill Gap: <strong>Medium</strong></span>
                 <div className="gap-meter-bar"><div className="gap-fill" style={{ width: '45%' }}></div></div>
@@ -186,14 +256,74 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
           <div className="opp-footer-bar">
             <div className="matched-experts-preview">
               <div className="avatar-stack">
-                <img src="/avatars/ishita.jpg" alt="Ishita" />
-                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=60&auto=format&fit=crop&q=80" alt="Vikram" />
+                <img src="/avatars/anirudh.jpg" alt="Anirudh Sharma" />
               </div>
-              <span className="matched-text"><strong>Ishita & Vikram</strong> transitioned from Full-Stack to AI Lead @ Swiggy & Google</span>
+              <span className="matched-text"><strong>Anirudh Sharma</strong> leads Apache Solr & Search Data Platform @ Shine</span>
             </div>    
             <div className="opp-btn-group">
               <button className="btn-secondary-card" onClick={() => onNavigate('experts-view')}><Briefcase size={14} /> View Jobs</button>
-              <button className="btn-shine-gold" onClick={() => { onSelectExpert('ishita'); onNavigate('expert-profile-view'); }}><UserCheck size={16} /> Explore Experts</button>
+              <button className="btn-shine-gold" onClick={() => { onSelectExpert('anirudh'); onNavigate('expert-profile-view'); }}><UserCheck size={16} /> Explore Experts & Teasers</button>
+            </div>
+          </div>
+        </div>
+
+        {/* Track 4: Manual Tester -> Lead SDET & QA Automation */}
+        <div className="opp-card">
+          <div className="opp-card-header">
+            <div className="opp-title-wrap">
+              <h3 className="opp-title">Manual QA Tester ➔ Lead SDET & Automation Architect</h3>
+              <span className="badge-high-demand">High Growth</span>
+              <span className="badge-salary">₹16L - ₹28L CTC</span>
+            </div>
+            <div className="opp-match-badge match-high">
+              <CheckCircle2 size={16} /> 96% Match
+            </div>
+          </div>
+
+          <div className="opp-body-grid">
+            <div className="opp-block">
+              <h4 className="opp-block-title"><ThumbsUp size={16} /> Why it's a good fit?</h4>
+              <ul className="opp-list">
+                <li>Deep domain testing knowledge and edge-case discovery</li>
+                <li>2x salary growth by switching to Playwright/Selenium automation</li>
+                <li>Hands-on CI/CD pipeline integration mentorship</li>
+              </ul>
+            </div>
+
+            <div className="opp-block">
+              <h4 className="opp-block-title text-success"><Check size={16} /> Skills you have</h4>
+              <div className="chips-wrap">
+                <span className="skill-chip chip-success">Manual Test Suites</span>
+                <span className="skill-chip chip-success">Bug Triage & Jira</span>
+                <span className="skill-chip chip-success">API Testing (Postman)</span>
+                <span className="skill-chip chip-success">Regression Testing</span>
+              </div>
+            </div>
+
+            <div className="opp-block">
+              <h4 className="opp-block-title text-warning"><AlertTriangle size={16} /> Skills to build</h4>
+              <div className="chips-wrap">
+                <span className="skill-chip chip-warning">Playwright / Selenium</span>
+                <span className="skill-chip chip-warning">Python / Java Automation</span>
+                <span className="skill-chip chip-warning">GitHub Actions CI/CD</span>
+              </div>
+              <div className="gap-meter-line">
+                <span>Skill Gap: <strong>Low</strong></span>
+                <div className="gap-meter-bar"><div className="gap-fill" style={{ width: '25%' }}></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div className="opp-footer-bar">
+            <div className="matched-experts-preview">
+              <div className="avatar-stack">
+                <img src="/avatars/sunil.jpg" alt="Sunil Kumar" />
+              </div>
+              <span className="matched-text"><strong>Sunil Kumar</strong> leads QA Automation & Test Pipelines @ Shine</span>
+            </div>    
+            <div className="opp-btn-group">
+              <button className="btn-secondary-card" onClick={() => onNavigate('experts-view')}><Briefcase size={14} /> View Jobs</button>
+              <button className="btn-shine-gold" onClick={() => { onSelectExpert('sunil'); onNavigate('expert-profile-view'); }}><UserCheck size={16} /> Explore Experts & Teasers</button>
             </div>
           </div>
         </div>
@@ -204,12 +334,12 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
         <div className="b-cta-left">
           <div className="b-cta-icon"><Star size={22} /></div>
           <div>
-            <h3>Want to understand these careers better?</h3>
-            <p>Connect with experts who made this exact jump and hold the role you want.</p>
+            <h3>Want to accelerate your trajectory with our team?</h3>
+            <p>Connect with our verified Shine team leads for 1:1 guidance, mock interviews, and trajectory coaching.</p>
           </div>
         </div>
         <button className="btn-shine-gold-lg" onClick={() => onNavigate('experts-view')}>
-          Explore All 500+ Experts <ArrowRight size={18} />
+          Explore All 6 Team Mentors <ArrowRight size={18} />
         </button>
       </div>
 

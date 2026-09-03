@@ -158,16 +158,38 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </div>
               </div>
 
-              <div className="expert-snippets-grid">
+              <div className="snippets-horizontal-scroll">
+                
                 <div className="snippet-card" onClick={() => onNavigate('experts-view')}>
                   <div className="snippet-thumb-frame">
                     <img 
-                      src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&auto=format&fit=crop&q=80" 
-                      alt="Expert Edge" 
+                      src="/avatars/akash.jpg" 
+                      alt="Akash Jain" 
                       className="snippet-img" 
                     />
                     <div className="snippet-overlay-badge">
-                      <span className="edge-logo-text">Expert Edge</span>
+                      <span className="edge-logo-text">Peerpath Teaser</span>
+                    </div>
+                    <div className="snippet-play-btn">
+                      <Play size={18} fill="#ffffff" />
+                    </div>
+                    <span className="snippet-dur">01:15</span>
+                  </div>
+                  <div className="snippet-info">
+                    <h4>From Software Engineer to High-Impact Product Manager</h4>
+                    <p>Akash Jain • Lead Product Manager @ Shine</p>
+                  </div>
+                </div>
+
+                <div className="snippet-card" onClick={() => onNavigate('experts-view')}>
+                  <div className="snippet-thumb-frame">
+                    <img 
+                      src="/avatars/nisha.jpg" 
+                      alt="Nisha Kumari" 
+                      className="snippet-img" 
+                    />
+                    <div className="snippet-overlay-badge">
+                      <span className="edge-logo-text">Peerpath Teaser</span>
                     </div>
                     <div className="snippet-play-btn">
                       <Play size={18} fill="#ffffff" />
@@ -175,50 +197,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                     <span className="snippet-dur">01:12</span>
                   </div>
                   <div className="snippet-info">
-                    <h4>How I cracked Enterprise SaaS Sales at Salesforce</h4>
-                    <p>Amit Verma • Senior Lead</p>
-                  </div>
-                </div>
-
-                <div className="snippet-card" onClick={() => onNavigate('experts-view')}>
-                  <div className="snippet-thumb-frame">
-                    <img 
-                      src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&auto=format&fit=crop&q=80" 
-                      alt="Expert Edge" 
-                      className="snippet-img" 
-                    />
-                    <div className="snippet-overlay-badge">
-                      <span className="edge-logo-text">Expert Edge</span>
-                    </div>
-                    <div className="snippet-play-btn">
-                      <Play size={18} fill="#ffffff" />
-                    </div>
-                    <span className="snippet-dur">01:05</span>
-                  </div>
-                  <div className="snippet-info">
-                    <h4>Production LLM Latency & Distributed PyTorch</h4>
-                    <p>Ishita Sharma • Senior Data Scientist @ Swiggy</p>
-                  </div>
-                </div>
-
-                <div className="snippet-card" onClick={() => onNavigate('experts-view')}>
-                  <div className="snippet-thumb-frame">
-                    <img 
-                      src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&auto=format&fit=crop&q=80" 
-                      alt="Expert Edge" 
-                      className="snippet-img" 
-                    />
-                    <div className="snippet-overlay-badge">
-                      <span className="edge-logo-text">Expert Edge</span>
-                    </div>
-                    <div className="snippet-play-btn">
-                      <Play size={18} fill="#ffffff" />
-                    </div>
-                    <span className="snippet-dur">01:08</span>
-                  </div>
-                  <div className="snippet-info">
-                    <h4>Transitioning from Inside Sales to Mid-Market AE</h4>
-                    <p>Neha Gupta • Account Executive @ Zoho</p>
+                    <h4>Building High-Throughput Python & GenAI Microservices</h4>
+                    <p>Nisha Kumari • Senior Backend & AI Engineer @ Shine</p>
                   </div>
                 </div>
 
@@ -273,9 +253,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </div>
 
                 <div className="gauge-user-info">
-                  <h3 className="g-user-name">Prakash Kumar</h3>
-                  <p className="g-user-role">Senior Frontend Developer with 3+ year ...</p>
-                  <span className="g-user-date">(Updated on September 02, 2026)</span>
+                  <h3 className="g-user-name">Prakash Mahto</h3>
+                  <p className="g-user-role">Senior Frontend Developer (React, TypeScript) ...</p>
+                  <span className="g-user-date">(Updated on September 03, 2026)</span>
                 </div>
 
               </div>

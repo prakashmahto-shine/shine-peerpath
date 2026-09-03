@@ -34,23 +34,23 @@ export const RecruiterView: React.FC<RecruiterViewProps> = ({ onNavigate }) => {
         <div className="recruiter-candidate-card verified-highlight">
           <div className="r-card-header">
             <div className="r-candidate-meta">
-              <img src="/avatars/prakash.jpg" alt="Prakash" className="r-avatar" />
+              <img src="/avatars/prakash.jpg" alt="Prakash Mahto" className="r-avatar" />
               <div>
                 <div className="r-name-row">
-                  <h3>Prakash Kumar</h3>
+                  <h3>Prakash Mahto</h3>
                   <span className="r-gold-shield"><ShieldCheck size={14} /> PEER-VERIFIED: TIER-1 READY</span>
                 </div>
-                <p className="r-title">Senior Frontend Engineer • 4 Yrs Exp • Bengaluru</p>
+                <p className="r-title">Senior Frontend Engineer • 4.2 Yrs Exp • Bengaluru</p>
               </div>
             </div>
-            <div className="r-match-score">95% Relevance</div>
+            <div className="r-match-score">96% Relevance</div>
           </div>
 
           <div className="r-verified-box">
             <Award size={22} className="r-v-icon" />
             <div className="r-v-text">
-              <strong>Peer Assessment by Amit Verma (Senior Lead @ Salesforce):</strong>
-              <p>"Exceptional grasp of scalable system architecture, high-performance UI optimization, and cross-functional leadership."</p>
+              <strong>Peer Assessment by Akash Jain (Lead Product Manager @ Shine):</strong>
+              <p>"Demonstrated robust understanding of scalable micro-frontends, high-performance UI optimization, and cross-functional product delivery."</p>
             </div>
           </div>
 
@@ -58,11 +58,11 @@ export const RecruiterView: React.FC<RecruiterViewProps> = ({ onNavigate }) => {
             <span className="r-skill">React.js</span>
             <span className="r-skill">TypeScript</span>
             <span className="r-skill">Next.js Architecture</span>
-            <span className="r-skill">MEDDIC / Client Discovery</span>
+            <span className="r-skill">System Design</span>
           </div>
 
           <div className="r-card-actions">
-            <button className="btn-shine-gold-sm" onClick={() => alert('Interview invite sent to Prakash Kumar!')}>
+            <button className="btn-shine-gold-sm" onClick={() => alert('Interview invite sent to Prakash Mahto!')}>
               <Mail size={14} /> Schedule Interview
             </button>
             <button className="btn-outline-dark-sm" onClick={() => onNavigate('profile-view')}>
@@ -71,41 +71,41 @@ export const RecruiterView: React.FC<RecruiterViewProps> = ({ onNavigate }) => {
           </div>
         </div>
 
-        <div className="recruiter-candidate-card">
+        <div className="recruiter-candidate-card verified-highlight">
           <div className="r-card-header">
             <div className="r-candidate-meta">
-              <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Sneha" className="r-avatar" />
+              <img src="/avatars/sunil.jpg" alt="Sunil Kumar" className="r-avatar" />
               <div>
                 <div className="r-name-row">
-                  <h3>Sneha Menon</h3>
-                  <span className="r-gold-shield"><ShieldCheck size={14} /> PEER-VERIFIED: ML PRODUCTION</span>
+                  <h3>Sunil Kumar</h3>
+                  <span className="r-gold-shield"><ShieldCheck size={14} /> PEER-VERIFIED: TEST AUTOMATION</span>
                 </div>
-                <p className="r-title">Machine Learning Engineer • 3.5 Yrs Exp • Hyderabad</p>
+                <p className="r-title">Lead QA & Test Automation Architect • 6 Yrs Exp • Noida</p>
               </div>
             </div>
-            <div className="r-match-score">91% Relevance</div>
+            <div className="r-match-score">94% Relevance</div>
           </div>
 
           <div className="r-verified-box">
             <Award size={22} className="r-v-icon" />
             <div className="r-v-text">
-              <strong>Peer Assessment by Ishita Sharma (Senior Data Scientist @ Swiggy):</strong>
-              <p>"Successfully validated LLM quantization and latency benchmarks in production-grade mock environments."</p>
+              <strong>Peer Assessment by Anirudh Sharma (Principal Search Architect @ Shine):</strong>
+              <p>"Demonstrated exceptional test automation framework design, load testing on Solr endpoints, and robust CI/CD integration."</p>
             </div>
           </div>
 
           <div className="r-skills-row">
-            <span className="r-skill">PyTorch</span>
-            <span className="r-skill">Transformers</span>
-            <span className="r-skill">Vector Embeddings</span>
-            <span className="r-skill">FastAPI</span>
+            <span className="r-skill">Playwright / Selenium</span>
+            <span className="r-skill">Postman API Testing</span>
+            <span className="r-skill">CI/CD Pipelines</span>
+            <span className="r-skill">Performance Testing</span>
           </div>
 
           <div className="r-card-actions">
-            <button className="btn-shine-gold-sm" onClick={() => alert('Interview invite sent to Sneha Menon!')}>
+            <button className="btn-shine-gold-sm" onClick={() => alert('Interview invite sent to Sunil Kumar!')}>
               <Mail size={14} /> Schedule Interview
             </button>
-            <button className="btn-outline-dark-sm"><FileText size={14} /> View CV</button>
+            <button className="btn-outline-dark-sm"><FileText size={14} /> View Verified Profile</button>
           </div>
         </div>
 

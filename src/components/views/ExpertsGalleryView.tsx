@@ -72,13 +72,13 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
 
       <div className="quick-filter-bar">
         <div className="filter-pill-group">
-          {['all', 'SaaS Sales', 'AI/ML', 'Cybersecurity', 'Semiconductor', 'Full-Stack'].map((dom) => (
+          {['all', 'Product Management', 'Growth Marketing', 'Backend & AI/ML', 'Search & Data Infra', 'QA & Testing', 'Frontend & Web UI'].map((dom) => (
             <button
               key={dom}
               className={`f-pill ${activeDomain === dom ? 'active' : ''}`}
               onClick={() => setActiveDomain(dom)}
             >
-              {dom === 'all' ? 'All Domains' : dom}
+              {dom === 'all' ? 'All 6 Team Tracks' : dom}
             </button>
           ))}
         </div>
@@ -107,7 +107,7 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
           <div className="filter-section">
             <label className="filter-section-title">Career / Domain</label>
             <div className="checkbox-list">
-              {['SaaS Sales', 'AI/ML', 'Full-Stack', 'Cybersecurity', 'Product Management'].map((dom) => (
+              {['Product Management', 'Growth Marketing', 'Backend & AI/ML', 'Search & Data Infra', 'QA & Testing', 'Frontend & Web UI'].map((dom) => (
                 <label key={dom} className="custom-checkbox">
                   <input 
                     type="checkbox" 
