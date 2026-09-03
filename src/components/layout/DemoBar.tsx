@@ -30,7 +30,7 @@ export const DemoBar: React.FC<DemoBarProps> = ({
           className={`demo-pill ${currentView === 'guidance-view' ? 'active' : ''}`} 
           onClick={() => onNavigate('guidance-view')}
         >
-          2. Career Guidance (Gaps)
+          2. Peerpath (Trajectory Gaps)
         </button>
         <button 
           className={`demo-pill ${currentView === 'experts-view' ? 'active' : ''}`} 

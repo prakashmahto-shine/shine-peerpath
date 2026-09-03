@@ -137,7 +137,7 @@ export const Footer: React.FC = () => {
                 <li><a href="#!">Create Free Job Alert</a></li>
                 <li><a href="#!">Job Assistance Services</a></li>
                 <li><a href="#!">Courses</a></li>
-                <li><a href="#!" style={{ color: '#FFD200', fontWeight: 700 }}>Career Guidance (Peerpath) <span className="footer-new-tag">NEW</span></a></li>
+                <li><a href="#!" style={{ color: '#FFD200', fontWeight: 700 }}>Peerpath (1:1 Mentorship) <span className="footer-new-tag">NEW</span></a></li>
               </ul>
             </div>
 

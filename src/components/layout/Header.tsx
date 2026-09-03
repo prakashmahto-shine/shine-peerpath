@@ -82,7 +82,7 @@ export const Header: React.FC<HeaderProps> = ({
               className={`myshine-guidance-pill ${currentView === 'guidance-view' || currentView === 'experts-view' ? 'active-pill' : ''}`}
             >
               <Sparkles size={14} className="sparkle-icon" />
-              <span>Career Guidance</span>
+              <span>Peerpath</span>
               <span className="pill-new-badge">NEW</span>
             </button>
           </nav>
