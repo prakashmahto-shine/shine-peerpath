@@ -12,6 +12,7 @@ export interface ToastMessage {
 interface AppContextType {
   // Navigation
   currentView: ViewType;
+  previousView: ViewType;
   navigate: (view: ViewType, customPath?: string) => void;
 
   // Experts Database (Dynamic)
@@ -122,12 +123,19 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Navigation
   const [currentView, setCurrentView] = useState<ViewType>('dashboard-view');
+  const [previousView, setPreviousView] = useState<ViewType>('guidance-view');
   
   // Dynamic Experts
   const [experts, setExperts] = useState<Expert[]>(() => {
     try {
       const saved = localStorage.getItem('shine_peerpath_experts');
-      return saved ? JSON.parse(saved) : EXPERTS_DB;
+      if (saved) {
+        const parsed: Expert[] = JSON.parse(saved);
+        const existingIds = new Set(parsed.map(e => e.id));
+        const missing = EXPERTS_DB.filter(e => !existingIds.has(e.id));
+        return [...missing, ...parsed];
+      }
+      return EXPERTS_DB;
     } catch {
       return EXPERTS_DB;
     }
@@ -208,6 +216,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const navigate = (view: ViewType, customPath?: string) => {
+    if (view !== currentView) {
+      setPreviousView(currentView);
+    }
     setCurrentView(view);
     const pathToPush = customPath || (view === 'dashboard-view' ? '/' : `/${view.replace('-view', '')}`);
     if (window.location.pathname !== pathToPush) {
@@ -217,7 +228,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const selectExpertById = (expertId: string) => {
-    const found = experts.find(e => e.id === expertId);
+    const found = experts.find(e => e.id === expertId) || EXPERTS_DB.find(e => e.id === expertId);
     if (found) {
       setSelectedExpert(found);
       setBookingDraft(prev => ({ ...prev, expert: found }));
@@ -334,6 +345,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     <AppContext.Provider
       value={{
         currentView,
+        previousView,
         navigate,
         experts,
         selectedExpert,

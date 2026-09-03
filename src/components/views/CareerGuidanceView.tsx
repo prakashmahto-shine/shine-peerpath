@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   Compass, Sparkles, Video, User, Clock, MapPin, GraduationCap, 
   Zap, CheckCircle2, ThumbsUp, Check, ArrowRight, TrendingUp,
-  Briefcase, Star, Building2, UserCheck, ChevronRight, Award, Plus, LockOpen
+  Briefcase, Star, Building2, UserCheck, ChevronRight, Award, Plus, LockOpen, Users
 } from 'lucide-react';
 import { ViewType, Expert } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -32,6 +32,34 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
 
   return (
     <div className="content-wrapper peerpath-guidance-page">
+
+      {/* Peerpath Top Sub-Nav View Switcher */}
+      <div className="peerpath-top-nav-switcher">
+        <button 
+          type="button"
+          className="ptn-tab-btn active"
+          onClick={() => {}}
+        >
+          <TrendingUp size={15} className="ptn-icon" />
+          <span>Recommended Pathways</span>
+          <span className="ptn-badge-pill">Best Fit</span>
+        </button>
+        
+        <button 
+          type="button"
+          className="ptn-tab-btn ptn-mentors-highlight"
+          onClick={() => onNavigate('experts-view')}
+        >
+          <div className="ptn-avatars-stack">
+            <img src="/avatars/saheli.jpg" alt="Mentor" className="ptn-av" />
+            <img src="/avatars/akash.jpg" alt="Mentor" className="ptn-av" />
+            <img src="/avatars/ishita.jpg" alt="Mentor" className="ptn-av" />
+            <span className="ptn-live-dot"></span>
+          </div>
+          <span className="ptn-label-main">Explore 500+ Mentors</span>
+          <span className="ptn-count-pill">Live 1:1 Prep</span>
+        </button>
+      </div>
       
       {/* 1. Hero Trajectory Engine Header */}
       <div className="peerpath-hero-banner">
@@ -199,10 +227,20 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                   <UserCheck size={16} /> Real Proof: Someone Who Did It
                 </h4>
                 <div className="peer-proof-profile">
-                  <img src="/avatars/saheli.jpg" alt="Saheli Kanjilal" className="peer-avatar" />
+                  <div className="peer-avatar-wrap">
+                    <img src="/avatars/saheli.jpg" alt="Saheli Kanjilal" className="peer-avatar" />
+                    <span className="peer-verified-check" title="Employment & Trajectory Verified">
+                      <CheckCircle2 size={12} />
+                    </span>
+                  </div>
                   <div className="peer-meta">
-                    <strong>Saheli Kanjilal</strong>
-                    <span>Staff Frontend Engineer @ FinTech (Jumped from ₹6L to ₹26L)</span>
+                    <div className="peer-name-row">
+                      <strong>Saheli Kanjilal</strong>
+                      <span className="peer-verified-pill">
+                        <CheckCircle2 size={10} /> Verified Mentor
+                      </span>
+                    </div>
+                    <span>Staff Frontend Engineer @ Razorpay (Jumped from ₹6L to ₹26L)</span>
                     <p className="peer-quote">
                       "I was previously in a standard frontend role at ₹6 LPA. By mastering Module Federation and Web Vitals, I secured a Staff Engineer role at ₹26 LPA."
                     </p>
@@ -279,9 +317,19 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                   <UserCheck size={16} /> Real Proof: Someone Who Did It
                 </h4>
                 <div className="peer-proof-profile">
-                  <img src="/avatars/akash.jpg" alt="Akash Jain" className="peer-avatar" />
+                  <div className="peer-avatar-wrap">
+                    <img src="/avatars/akash.jpg" alt="Akash Jain" className="peer-avatar" />
+                    <span className="peer-verified-check" title="Employment & Trajectory Verified">
+                      <CheckCircle2 size={12} />
+                    </span>
+                  </div>
                   <div className="peer-meta">
-                    <strong>Akash Jain</strong>
+                    <div className="peer-name-row">
+                      <strong>Akash Jain</strong>
+                      <span className="peer-verified-pill">
+                        <CheckCircle2 size={10} /> Verified Mentor
+                      </span>
+                    </div>
                     <span>Lead Product Manager @ Shine (Jumped from SWE ₹5.5L to ₹28L)</span>
                     <p className="peer-quote">
                       "Engineers transitioning to Product have a massive technical edge. Bridging product discovery and discovery metrics helped me transition from SWE to Lead PM at ₹28 LPA."
@@ -384,9 +432,19 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                   <UserCheck size={16} /> Real Proof: Someone Who Did It
                 </h4>
                 <div className="peer-proof-profile">
-                  <img src="/avatars/anirudh.jpg" alt="Anirudh Sharma" className="peer-avatar" />
+                  <div className="peer-avatar-wrap">
+                    <img src="/avatars/anirudh.jpg" alt="Anirudh Sharma" className="peer-avatar" />
+                    <span className="peer-verified-check" title="Employment & Trajectory Verified">
+                      <CheckCircle2 size={12} />
+                    </span>
+                  </div>
                   <div className="peer-meta">
-                    <strong>Anirudh Sharma</strong>
+                    <div className="peer-name-row">
+                      <strong>Anirudh Sharma</strong>
+                      <span className="peer-verified-pill">
+                        <CheckCircle2 size={10} /> Verified Mentor
+                      </span>
+                    </div>
                     <span>Principal Search Architect @ Shine (Jumped from ₹7L to ₹38L)</span>
                     <p className="peer-quote">
                       "Distributed search talent is extremely rare in India. Mastering Solr & Lucene clustering propelled my trajectory to Principal Search Architect at ₹38 LPA."
@@ -464,9 +522,19 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                   <UserCheck size={16} /> Real Proof: Someone Who Did It
                 </h4>
                 <div className="peer-proof-profile">
-                  <img src="/avatars/ishita.jpg" alt="Ishita Sharma" className="peer-avatar" />
+                  <div className="peer-avatar-wrap">
+                    <img src="/avatars/ishita.jpg" alt="Ishita Sharma" className="peer-avatar" />
+                    <span className="peer-verified-check" title="Employment & Trajectory Verified">
+                      <CheckCircle2 size={12} />
+                    </span>
+                  </div>
                   <div className="peer-meta">
-                    <strong>Ishita Sharma</strong>
+                    <div className="peer-name-row">
+                      <strong>Ishita Sharma</strong>
+                      <span className="peer-verified-pill">
+                        <CheckCircle2 size={10} /> Verified Mentor
+                      </span>
+                    </div>
                     <span>GenAI & Data Science Lead @ Swiggy (Jumped to ₹35L)</span>
                     <p className="peer-quote">
                       "Fullstack engineers who adopt LLM orchestration and Vector embeddings are commanding the highest salary multipliers in tech today."

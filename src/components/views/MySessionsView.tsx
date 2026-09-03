@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { User, FileText, Bookmark, Video, Settings, Plus, Calendar, FileCheck, CheckCircle2, Award, Clock, AlertCircle } from 'lucide-react';
+import { 
+  Video, Plus, Calendar, FileCheck, CheckCircle2, 
+  Award, Clock, AlertCircle, ArrowLeft, RotateCcw, 
+  XCircle, ShieldCheck, Sparkles, Star
+} from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const MySessionsView: React.FC = () => {
   const { 
     sessions, 
-    userProfile, 
+    userProfile: _userProfile, 
     navigate, 
     cancelSession, 
     rescheduleSession, 
@@ -31,153 +35,307 @@ export const MySessionsView: React.FC = () => {
   };
 
   return (
-    <div className="content-wrapper sessions-dashboard-grid">
-      <aside className="sessions-sidebar">
-        <div className="sb-user-card">
-          <img src="/avatars/prakash.jpg" alt={userProfile.name} />
-          <div>
-            <h4>{userProfile.name}</h4>
-            <span>{userProfile.headline.split('|')[0] || 'Candidate'}</span>
+    <div className="content-wrapper sessions-fullwidth-wrapper">
+      
+      {/* Top Header Navigation Row */}
+      <div className="sessions-top-nav-bar">
+        <button 
+          type="button" 
+          className="btn-sessions-back"
+          onClick={() => navigate('profile-view')}
+        >
+          <ArrowLeft size={16} />
+          <span>Back to Profile</span>
+        </button>
+
+        <button 
+          type="button" 
+          className="btn-sessions-book-new"
+          onClick={() => navigate('experts-view')}
+        >
+          <Plus size={16} />
+          <span>Book Another Mentor</span>
+        </button>
+      </div>
+
+      {/* Hero Header & Quick Stats Row */}
+      <div className="sessions-hero-card">
+        <div className="sessions-hero-content">
+          <div className="sessions-hero-badge">
+            <Sparkles size={13} className="text-amber-500" />
+            <span>Peerpath Mentorship Dashboard</span>
+          </div>
+          <h1 className="sessions-hero-title">My Mentorship Sessions</h1>
+          <p className="sessions-hero-subtitle">
+            Manage your live 1:1 guidance calls, enter video meeting rooms, and access verified skill badges.
+          </p>
+        </div>
+
+        {/* Quick Stats Grid */}
+        <div className="sessions-hero-stats-grid">
+          <div className="sh-stat-card">
+            <div className="sh-stat-icon-wrap icon-purple"><Video size={18} /></div>
+            <div>
+              <strong className="sh-stat-num">{upcomingSessions.length}</strong>
+              <span className="sh-stat-label">Upcoming Sessions</span>
+            </div>
+          </div>
+
+          <div className="sh-stat-card">
+            <div className="sh-stat-icon-wrap icon-emerald"><CheckCircle2 size={18} /></div>
+            <div>
+              <strong className="sh-stat-num">{completedSessions.length}</strong>
+              <span className="sh-stat-label">Completed Sessions</span>
+            </div>
+          </div>
+
+          <div className="sh-stat-card">
+            <div className="sh-stat-icon-wrap icon-amber"><ShieldCheck size={18} /></div>
+            <div>
+              <strong className="sh-stat-num">1</strong>
+              <span className="sh-stat-label">Skill Badge Earned</span>
+            </div>
           </div>
         </div>
+      </div>
 
-        <nav className="sb-nav-list">
-          <button onClick={() => navigate('profile-view')} className="sb-link"><User size={16} /> My Profile</button>
-          <button className="sb-link"><FileText size={16} /> My Applications</button>
-          <button className="sb-link"><Bookmark size={16} /> My Bookmarks</button>
-          <button className="sb-link active"><Video size={16} /> My Sessions <span className="badge-count">{upcomingSessions.length}</span></button>
-          <button className="sb-link"><Settings size={16} /> Account Settings</button>
-        </nav>
-      </aside>
+      {/* Main Tab Navigation */}
+      <div className="sessions-tabs-container">
+        <div className="sessions-tab-btn-group">
+          <button 
+            type="button"
+            className={`s-tab-btn ${activeTab === 'upcoming' ? 'active' : ''}`}
+            onClick={() => setActiveTab('upcoming')}
+          >
+            <Calendar size={15} />
+            <span>Upcoming Sessions</span>
+            <span className="s-tab-pill">{upcomingSessions.length}</span>
+          </button>
 
-      <div className="sessions-content-main">
-        <div className="sessions-header-flex">
-          <div>
-            <h1 className="sessions-main-title">My Mentorship Sessions</h1>
-            <p className="sessions-subtitle">Manage upcoming 1:1 guidance calls and view post-session skill badges.</p>
-          </div>
-          <button className="btn-shine-gold" onClick={() => navigate('experts-view')}>
-            <Plus size={16} /> Book Another Expert
+          <button 
+            type="button"
+            className={`s-tab-btn ${activeTab === 'completed' ? 'active' : ''}`}
+            onClick={() => setActiveTab('completed')}
+          >
+            <Award size={15} />
+            <span>Completed & Badges</span>
+            <span className="s-tab-pill">{completedSessions.length}</span>
           </button>
         </div>
+      </div>
 
-        <div className="sessions-tab-row">
-          <button className={`s-tab ${activeTab === 'upcoming' ? 'active' : ''}`} onClick={() => setActiveTab('upcoming')}>
-            Upcoming ({upcomingSessions.length})
-          </button>
-          <button className={`s-tab ${activeTab === 'completed' ? 'active' : ''}`} onClick={() => setActiveTab('completed')}>
-            Completed ({completedSessions.length})
-          </button>
-        </div>
+      {/* Tab 1: Upcoming Sessions */}
+      {activeTab === 'upcoming' && (
+        <div className="sessions-cards-stream">
+          {upcomingSessions.length === 0 ? (
+            <div className="empty-sessions-box-full">
+              <div className="empty-icon-circle"><AlertCircle size={36} color="#94A3B8" /></div>
+              <h3>No upcoming sessions scheduled</h3>
+              <p>Explore verified industry leaders and book your 1:1 trajectory guidance call today.</p>
+              <button className="btn-shine-gold" onClick={() => navigate('experts-view')}>
+                <Plus size={16} /> Explore 500+ Mentors
+              </button>
+            </div>
+          ) : (
+            upcomingSessions.map((sess) => (
+              <div key={sess.id} className="session-card-modern">
+                
+                {/* Card Top: Mentor Header + Session Type Badge */}
+                <div className="sc-header-row">
+                  <div className="sc-mentor-profile">
+                    <div className="sc-avatar-wrap">
+                      <img src={sess.expert.avatar} alt={sess.expert.name} className="sc-mentor-avatar" />
+                      <span className="sc-verified-check"><CheckCircle2 size={13} /></span>
+                    </div>
 
-        {activeTab === 'upcoming' && (
-          <div className="sessions-list-stack">
-            {upcomingSessions.length === 0 ? (
-              <div className="empty-sessions-box">
-                <AlertCircle size={32} color="#94A3B8" />
-                <h3>No upcoming sessions scheduled</h3>
-                <p>Explore verified industry leaders and book your 1:1 trajectory guidance call.</p>
-                <button className="btn-shine-gold" onClick={() => navigate('experts-view')}>
-                  <Plus size={16} /> Explore Experts
-                </button>
-              </div>
-            ) : (
-              upcomingSessions.map((sess) => (
-                <div key={sess.id} className="session-live-card">
-                  <div className="s-card-top">
-                    <div className="s-mentor-meta">
-                      <img src={sess.expert.avatar} alt={sess.expert.name} className="s-mentor-avatar" />
-                      <div>
-                        <div className="name-status-row">
-                          <h3 className="s-mentor-name">{sess.expert.name}</h3>
-                          <span className="status-live-chip"><span className="pulse-dot"></span> Confirmed & Ready</span>
-                        </div>
-                        <p className="s-mentor-headline">{sess.expert.role} at {sess.expert.company}</p>
+                    <div className="sc-mentor-info">
+                      <div className="sc-name-row">
+                        <h3 className="sc-mentor-name">{sess.expert.name}</h3>
+                        <span className="sc-confirmed-chip">
+                          <span className="sc-pulse-dot"></span> Confirmed & Ready
+                        </span>
+                      </div>
+                      <p className="sc-mentor-role">{sess.expert.role} • <strong>{sess.expert.company}</strong></p>
+                      <div className="sc-rating-row">
+                        <Star size={12} className="star-gold" />
+                        <span><strong>{sess.expert.rating}</strong> ({sess.expert.reviewsCount} reviews)</span>
                       </div>
                     </div>
-                    <span className="session-type-badge"><Video size={14} /> 1:1 Guidance Session</span>
                   </div>
 
-                  <div className="s-card-middle">
-                    <div className="s-info-item">
-                      <Calendar size={15} />
-                      <span>{sess.date}</span>
-                    </div>
-                    <div className="s-info-item">
-                      <Clock size={15} />
-                      <span>{sess.timeSlot}</span>
-                    </div>
-                    <div className="s-info-item">
-                      <FileCheck size={15} />
-                      <span>CV Gap Report Pre-Loaded for Mentor</span>
-                    </div>
+                  <span className="sc-type-badge">
+                    <Video size={14} /> 1:1 Video Mentorship
+                  </span>
+                </div>
+
+                {/* Card Middle: Time & Meta Strip */}
+                <div className="sc-meta-strip">
+                  <div className="sc-meta-item">
+                    <Calendar size={15} className="sc-meta-icon text-blue-600" />
+                    <span><strong>Date:</strong> {sess.date}</span>
                   </div>
 
-                  {reschedulingId === sess.id && (
-                    <div className="reschedule-drawer-panel">
-                      <h4>Select New Date & Time for {sess.expert.name}</h4>
-                      <div className="reschedule-inputs-row">
-                        <select value={rescheduleDate} onChange={(e) => setRescheduleDate(e.target.value)} className="select-pill">
+                  <div className="sc-meta-item">
+                    <Clock size={15} className="sc-meta-icon text-amber-600" />
+                    <span><strong>Time:</strong> {sess.timeSlot}</span>
+                  </div>
+
+                  <div className="sc-meta-item">
+                    <FileCheck size={15} className="sc-meta-icon text-emerald-600" />
+                    <span>Profile & Goals Summary Pre-Loaded for Mentor</span>
+                  </div>
+                </div>
+
+                {/* Inline Reschedule Drawer */}
+                {reschedulingId === sess.id && (
+                  <div className="reschedule-drawer-card">
+                    <div className="rd-header">
+                      <h4><RotateCcw size={15} /> Select New Date & Time for {sess.expert.name}</h4>
+                      <button className="btn-close-rd" onClick={() => setReschedulingId(null)}>
+                        <XCircle size={16} />
+                      </button>
+                    </div>
+
+                    <div className="reschedule-inputs-row">
+                      <div className="rd-select-group">
+                        <label>Date</label>
+                        <select 
+                          value={rescheduleDate} 
+                          onChange={(e) => setRescheduleDate(e.target.value)} 
+                          className="rd-select"
+                        >
                           <option value="Tomorrow, 5 Sep">Tomorrow, 5 Sep</option>
                           <option value="Sat, 6 Sep">Sat, 6 Sep</option>
+                          <option value="Sun, 7 Sep">Sun, 7 Sep</option>
                           <option value="Mon, 8 Sep">Mon, 8 Sep</option>
                           <option value="Tue, 9 Sep">Tue, 9 Sep</option>
                         </select>
-                        <select value={rescheduleTime} onChange={(e) => setRescheduleTime(e.target.value)} className="select-pill">
-                          <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
-                          <option value="02:00 PM - 03:00 PM">02:00 PM - 03:00 PM</option>
-                          <option value="04:30 PM - 05:30 PM">04:30 PM - 05:30 PM</option>
-                          <option value="07:00 PM - 08:00 PM">07:00 PM - 08:00 PM</option>
+                      </div>
+
+                      <div className="rd-select-group">
+                        <label>Time Slot</label>
+                        <select 
+                          value={rescheduleTime} 
+                          onChange={(e) => setRescheduleTime(e.target.value)} 
+                          className="rd-select"
+                        >
+                          <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM (Morning)</option>
+                          <option value="02:00 PM - 03:00 PM">02:00 PM - 03:00 PM (Afternoon)</option>
+                          <option value="04:30 PM - 05:30 PM">04:30 PM - 05:30 PM (Evening)</option>
+                          <option value="07:00 PM - 08:00 PM">07:00 PM - 08:00 PM (Evening)</option>
+                          <option value="08:30 PM - 09:30 PM">08:30 PM - 09:30 PM (Late Evening)</option>
                         </select>
-                        <button className="btn-shine-gold-sm" onClick={() => handleConfirmReschedule(sess.id)}>Save Reschedule</button>
-                        <button className="btn-ghost-sm" onClick={() => setReschedulingId(null)}>Cancel</button>
+                      </div>
+
+                      <div className="rd-btn-group">
+                        <button 
+                          type="button"
+                          className="btn-confirm-reschedule" 
+                          onClick={() => handleConfirmReschedule(sess.id)}
+                        >
+                          Confirm Reschedule
+                        </button>
+                        <button 
+                          type="button"
+                          className="btn-cancel-rd" 
+                          onClick={() => setReschedulingId(null)}
+                        >
+                          Cancel
+                        </button>
                       </div>
                     </div>
-                  )}
+                  </div>
+                )}
 
-                  <div className="s-card-bottom-actions">
-                    <button className="btn-ghost-sm" onClick={() => setReschedulingId(sess.id)}>Reschedule</button>
-                    <button className="btn-ghost-sm text-danger" onClick={() => cancelSession(sess.id)}>Cancel Booking</button>
-                    <button className="btn-join-call" onClick={() => handleJoinCall(sess)}>
-                      <Video size={16} /> Join Session (Room Open)
+                {/* Card Actions Row */}
+                <div className="sc-footer-actions">
+                  <div className="sc-left-actions">
+                    <button 
+                      type="button"
+                      className="btn-sc-reschedule" 
+                      onClick={() => setReschedulingId(sess.id)}
+                    >
+                      <RotateCcw size={14} /> Reschedule
+                    </button>
+                    
+                    <button 
+                      type="button"
+                      className="btn-sc-cancel" 
+                      onClick={() => {
+                        if (window.confirm(`Are you sure you want to cancel your session with ${sess.expert.name}? 100% refund will be credited.`)) {
+                          cancelSession(sess.id);
+                        }
+                      }}
+                    >
+                      <XCircle size={14} /> Cancel Booking
                     </button>
                   </div>
-                </div>
-              ))
-            )}
-          </div>
-        )}
 
-        {activeTab === 'completed' && (
-          <div className="sessions-list-stack">
-            {completedSessions.map((sess) => (
-              <div key={sess.id} className="session-completed-card">
-                <div className="s-card-top">
-                  <div className="s-mentor-meta">
-                    <img src={sess.expert.avatar} alt={sess.expert.name} className="s-mentor-avatar" />
-                    <div>
-                      <h3 className="s-mentor-name">{sess.expert.name}</h3>
-                      <p className="s-mentor-headline">{sess.expert.role} at {sess.expert.company}</p>
-                    </div>
-                  </div>
-                  <span className="badge-completed"><CheckCircle2 size={14} /> Completed on {sess.date}</span>
+                  <button 
+                    type="button"
+                    className="btn-sc-join-room" 
+                    onClick={() => handleJoinCall(sess)}
+                  >
+                    <span className="live-cam-pulse-dot"></span>
+                    <Video size={16} />
+                    <span>Join Video Room (Room Open)</span>
+                  </button>
                 </div>
-                <div className="s-outcome-box">
-                  <Award size={24} className="outcome-icon" />
-                  <div>
-                    <strong>Outcome: "{sess.badgeAwarded || 'Skill Verified'}" Badge Awarded</strong>
-                    <p>{sess.feedbackNotes || `${sess.expert.name} verified your technical proficiency. Badge is active on your Shine profile.`}</p>
+
+              </div>
+            ))
+          )}
+        </div>
+      )}
+
+      {/* Tab 2: Completed Sessions */}
+      {activeTab === 'completed' && (
+        <div className="sessions-cards-stream">
+          {completedSessions.map((sess) => (
+            <div key={sess.id} className="session-card-modern sc-completed-style">
+              <div className="sc-header-row">
+                <div className="sc-mentor-profile">
+                  <div className="sc-avatar-wrap">
+                    <img src={sess.expert.avatar} alt={sess.expert.name} className="sc-mentor-avatar" />
+                    <span className="sc-verified-check"><CheckCircle2 size={13} /></span>
+                  </div>
+                  <div className="sc-mentor-info">
+                    <h3 className="sc-mentor-name">{sess.expert.name}</h3>
+                    <p className="sc-mentor-role">{sess.expert.role} at <strong>{sess.expert.company}</strong></p>
                   </div>
                 </div>
-                <button className="btn-outline-dark-sm" onClick={() => navigate('post-session-view')}>
-                  View Assessment & Summary
+
+                <span className="sc-badge-completed">
+                  <CheckCircle2 size={14} /> Completed on {sess.date}
+                </span>
+              </div>
+
+              <div className="sc-outcome-highlight-box">
+                <div className="sc-outcome-icon-wrap">
+                  <Award size={24} className="text-amber-500" />
+                </div>
+                <div>
+                  <h4 className="sc-outcome-title">Outcome: "{sess.badgeAwarded || 'System Architecture'}" Skill Badge Verified</h4>
+                  <p className="sc-outcome-notes">
+                    {sess.feedbackNotes || `${sess.expert.name} verified your technical proficiency in architecture design & performance tuning. This verified badge is now attached to your recruiter-facing Shine profile.`}
+                  </p>
+                </div>
+              </div>
+
+              <div className="sc-footer-actions sc-completed-footer">
+                <button 
+                  type="button"
+                  className="btn-sc-view-assessment" 
+                  onClick={() => navigate('post-session-view')}
+                >
+                  <Award size={15} /> View Full Assessment & Download Verified Badge
                 </button>
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          ))}
+        </div>
+      )}
 
-      </div>
     </div>
   );
 };

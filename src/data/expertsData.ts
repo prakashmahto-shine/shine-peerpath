@@ -2,6 +2,26 @@ import { Expert } from '../types';
 
 export const EXPERTS_DB: Expert[] = [
   {
+    id: "saheli",
+    name: "Saheli Kanjilal",
+    role: "Staff Frontend Architect",
+    company: "Razorpay (FinTech)",
+    domain: "Full-Stack",
+    experience: "7+ Years Exp.",
+    rating: 4.9,
+    reviewsCount: 178,
+    sessionsCount: 360,
+    price: 999,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "/avatars/saheli.jpg",
+    videoPoster: "/avatars/saheli.jpg",
+    teaserTitle: "Teaser: How I Jumped from ₹6L to ₹26L Staff Frontend Architect",
+    skills: ["React.js", "TypeScript", "Micro-Frontends", "Module Federation", "Web Vitals"],
+    bio: "Staff Frontend Architect at Razorpay. I guide frontend developers on mastering Module Federation, Core Web Vitals, and cracking high-paying Staff & Senior Frontend interview loops.",
+    verifiedEmail: "@razorpay.com"
+  },
+  {
     id: "akash",
     name: "Akash Jain",
     role: "Lead Product Manager",

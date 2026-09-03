@@ -3,19 +3,23 @@ import {
   Download, Sparkles, FileText, ArrowRight, 
   Trash2, Star, Upload, ChevronDown, Check, Edit2, Briefcase, 
   Plus, X, Phone, Mail, Calendar, DollarSign, Clock, CheckCircle2,
-  GraduationCap, TrendingUp, Zap
+  GraduationCap, TrendingUp, Zap, User, Video, RotateCcw
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const ProfileView: React.FC = () => {
   const { 
     userProfile, 
+    sessions,
+    setActiveSession,
     navigate, 
     updateProfileSummary, 
     addSkill, 
     removeSkill, 
     updateJobSearchStatus 
   } = useApp();
+
+  const upcomingSessions = sessions.filter(s => s.status === 'upcoming');
 
   const [showJobStatusModal, setShowJobStatusModal] = useState<boolean>(false);
   const [selectedStatus, setSelectedStatus] = useState<string>(
@@ -179,11 +183,100 @@ export const ProfileView: React.FC = () => {
               </button>
             </div>
           </div>
+
+          {/* Left Column Navigation List */}
+          <div className="myprofile-card prod-side-nav-card">
+            <button className="prod-side-nav-btn active">
+              <User size={15} /> <span>My Profile</span>
+            </button>
+            
+            <button className="prod-side-nav-btn" onClick={() => navigate('sessions-view')}>
+              <Video size={15} className="text-purple-600" /> 
+              <span>My Mentorship Sessions</span>
+              {upcomingSessions.length > 0 && (
+                <span className="prod-side-badge-count">{upcomingSessions.length}</span>
+              )}
+            </button>
+            
+            <button className="prod-side-nav-btn" onClick={() => navigate('guidance-view')}>
+              <Sparkles size={15} className="text-amber-500" /> 
+              <span>Career Roadmap (Peerpath)</span>
+            </button>
+            
+            <button className="prod-side-nav-btn" onClick={() => navigate('experts-view')}>
+              <TrendingUp size={15} className="text-blue-500" /> 
+              <span>Explore Verified Mentors</span>
+            </button>
+          </div>
+
         </div>
 
         {/* Right Column: Exact Production Cards */}
         <div className="myprofile-right-col">
           
+          {/* Card: Active Mentorship Sessions Widget (High Visibility) */}
+          {upcomingSessions.length > 0 && (
+            <div className="myprofile-card prod-sessions-widget-card">
+              <div className="prod-card-top-row">
+                <div className="ps-widget-title-row">
+                  <div className="ps-icon-circle"><Video size={16} /></div>
+                  <div>
+                    <h3 className="prod-card-title">Active 1:1 Mentorship Sessions ({upcomingSessions.length})</h3>
+                    <span className="ps-sub-hint">Scheduled live guidance calls with verified tech leaders</span>
+                  </div>
+                </div>
+                <button className="btn-text-arrow" onClick={() => navigate('sessions-view')}>
+                  View All Sessions <ArrowRight size={14} />
+                </button>
+              </div>
+
+              <div className="ps-widget-list">
+                {upcomingSessions.slice(0, 2).map((sess) => (
+                  <div key={sess.id} className="ps-widget-item">
+                    <div className="ps-widget-left">
+                      <img src={sess.expert.avatar} alt={sess.expert.name} className="ps-widget-avatar" />
+                      <div>
+                        <div className="ps-name-tag-row">
+                          <strong className="ps-mentor-name">{sess.expert.name}</strong>
+                          <span className="ps-live-ready-badge"><span className="pulse-dot"></span> Confirmed & Ready</span>
+                        </div>
+                        <p className="ps-role-text">{sess.expert.role} • {sess.expert.company}</p>
+                        <div className="ps-time-chip">
+                          <Clock size={12} /> {sess.date} at {sess.timeSlot}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="ps-widget-actions">
+                      <button 
+                        type="button"
+                        className="btn-reschedule-action"
+                        onClick={() => navigate('sessions-view')}
+                        title="Reschedule or Cancel this session"
+                      >
+                        <RotateCcw size={13} />
+                        <span>Reschedule / Cancel</span>
+                      </button>
+                      
+                      <button 
+                        type="button"
+                        className="btn-join-call-prominent"
+                        onClick={() => {
+                          setActiveSession(sess);
+                          navigate('live-call-view');
+                        }}
+                      >
+                        <span className="live-cam-pulse-dot"></span>
+                        <Video size={14} />
+                        <span>Join Video Room</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Card 1: Resume */}
           <div className="myprofile-card prod-resume-card">
             <div className="prod-card-top-row">

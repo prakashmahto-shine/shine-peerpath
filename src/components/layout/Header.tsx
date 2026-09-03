@@ -4,6 +4,7 @@ import {
   User, ShoppingBag, Settings, LogOut, Video, Search, ArrowUpRight 
 } from 'lucide-react';
 import { ViewType } from '../../types';
+import { useApp } from '../../context/AppContext';
 
 interface HeaderProps {
   currentView: ViewType;
@@ -18,6 +19,8 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenCreatorWizard: _onOpenCreatorWizard,
   onSearch,
 }) => {
+  const { sessions } = useApp();
+  const upcomingCount = sessions.filter(s => s.status === 'upcoming').length;
   const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -148,19 +151,20 @@ export const Header: React.FC<HeaderProps> = ({
                 <div className="flyout-divider"></div>
 
                 <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('profile-view'); }}>
-                  <User size={14} /> My profile
+                  <User size={15} /> My Profile
                 </a>
-                
-                <div className="flyout-item-parent">
-                  <span className="flyout-parent-title"><ShoppingBag size={14} /> My orders</span>
-                  <div className="flyout-sub-list">
-                    <a href="#!" onClick={(e) => e.preventDefault()}>- Courses</a>
-                    <a href="#!" onClick={(e) => e.preventDefault()}>- Job Assistance Services</a>
-                    <a href="#!" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }} style={{ color: '#7C3AED', fontWeight: 700 }}>
-                      <Video size={12} /> - My Sessions (Peerpath)
-                    </a>
-                  </div>
-                </div>
+
+                <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }}>
+                  <Video size={15} className="text-purple-600" /> 
+                  <span style={{ fontWeight: 700, color: '#0F172A' }}>My Mentorship Sessions</span>
+                  {upcomingCount > 0 && (
+                    <span className="flyout-count-pill">{upcomingCount}</span>
+                  )}
+                </a>
+
+                <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('guidance-view'); }}>
+                  <Sparkles size={15} className="text-amber-500" /> Career Roadmap (Peerpath)
+                </a>
 
                 <div className="flyout-divider"></div>
 

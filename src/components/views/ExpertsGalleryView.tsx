@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Play, ShieldCheck, Star, ChevronLeft, ChevronRight, SearchX } from 'lucide-react';
+import { Search, Play, ShieldCheck, Star, ChevronLeft, ChevronRight, SearchX, Compass, Users, TrendingUp } from 'lucide-react';
 import { Expert, ViewType } from '../../types';
 
 interface ExpertsGalleryViewProps {
@@ -55,18 +55,40 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
 
   return (
     <div className="content-wrapper">
+      {/* Peerpath Top Sub-Nav View Switcher */}
+      <div className="peerpath-top-nav-switcher">
+        <button 
+          type="button"
+          className="ptn-tab-btn"
+          onClick={() => onNavigate('guidance-view')}
+        >
+          <TrendingUp size={15} className="ptn-icon" />
+          <span>Recommended Pathways</span>
+          <span className="ptn-badge-pill">Best Fit</span>
+        </button>
+        
+        <button 
+          type="button"
+          className="ptn-tab-btn active ptn-mentors-highlight"
+          onClick={() => {}}
+        >
+          <div className="ptn-avatars-stack">
+            <img src="/avatars/saheli.jpg" alt="Mentor" className="ptn-av" />
+            <img src="/avatars/akash.jpg" alt="Mentor" className="ptn-av" />
+            <img src="/avatars/ishita.jpg" alt="Mentor" className="ptn-av" />
+            <span className="ptn-live-dot"></span>
+          </div>
+          <span className="ptn-label-main">Explore 500+ Mentors</span>
+          <span className="ptn-count-pill">Live 1:1 Prep</span>
+        </button>
+      </div>
+
       {/* Breadcrumb Navigation Bar */}
       <div className="view-breadcrumb-bar">
         <button 
           type="button"
           className="btn-back-breadcrumb" 
-          onClick={() => {
-            if (window.history.length > 1) {
-              window.history.back();
-            } else {
-              onNavigate('guidance-view');
-            }
-          }}
+          onClick={() => onNavigate('guidance-view')}
         >
           <ChevronLeft size={16} />
           <span>Back</span>

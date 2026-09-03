@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, CheckCircle2, MapPin, Star, Clock, Users, Calendar, PlayCircle, Film, Play, Pause, Zap, Award, Globe, Briefcase, CircleDot, Shield, Video } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, MapPin, Star, Clock, Users, Calendar, PlayCircle, Film, Play, Pause, Zap, Award, Globe, Briefcase, CircleDot, Shield, Video, ChevronLeft } from 'lucide-react';
 import { Expert, ViewType } from '../../types';
+import { useApp } from '../../context/AppContext';
 
 interface ExpertProfileViewProps {
   expert: Expert;
@@ -13,6 +14,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
   onNavigate,
   onOpenBooking,
 }) => {
+  const { previousView } = useApp();
   const [activeTab, setActiveTab] = useState<'about' | 'trajectory' | 'sessions' | 'reviews'>('about');
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [videoProgress, setVideoProgress] = useState<number>(35);
@@ -31,11 +33,35 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
     setIsPlaying(!isPlaying);
   };
 
+  const handleBack = () => {
+    const target = previousView && previousView !== 'expert-profile-view' ? previousView : 'guidance-view';
+    onNavigate(target);
+  };
+
   return (
     <div className="content-wrapper expert-profile-layout">
-      <button className="btn-back-link" onClick={() => onNavigate('experts-view')}>
-        <ArrowLeft size={16} /> Back to Experts
-      </button>
+      {/* Context-Aware Back & Breadcrumb Bar */}
+      <div className="view-breadcrumb-bar">
+        <button 
+          type="button"
+          className="btn-back-breadcrumb" 
+          onClick={handleBack}
+        >
+          <ChevronLeft size={16} />
+          <span>Back</span>
+        </button>
+        <span className="breadcrumb-separator">/</span>
+        <span className="breadcrumb-link" onClick={() => onNavigate('dashboard-view')}>Home</span>
+        <span className="breadcrumb-separator">/</span>
+        <span 
+          className="breadcrumb-link" 
+          onClick={() => onNavigate(previousView === 'guidance-view' ? 'guidance-view' : 'experts-view')}
+        >
+          {previousView === 'guidance-view' ? 'Recommended Pathways' : 'Verified Mentors'}
+        </span>
+        <span className="breadcrumb-separator">/</span>
+        <span className="breadcrumb-current">{expert.name}</span>
+      </div>
 
       <div className="expert-full-profile-card">
         <div className="profile-header-main">
