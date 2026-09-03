@@ -137,7 +137,7 @@ export const Footer: React.FC = () => {
                 <li><a href="#!">Create Free Job Alert</a></li>
                 <li><a href="#!">Job Assistance Services</a></li>
                 <li><a href="#!">Courses</a></li>
-                <li><a href="#!" style={{ color: '#FFD200', fontWeight: 700 }}>Peerpath (1:1 Mentorship) <span className="footer-new-tag">NEW</span></a></li>
+                <li><a href="/guidance" style={{ color: '#FFD200', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '6px' }}>Peerpath <span className="footer-new-tag">NEW</span></a></li>
               </ul>
             </div>
 
@@ -175,22 +175,35 @@ export const Footer: React.FC = () => {
             </div>
 
             <div className="partner-sites-wrap">
-              <span className="partner-title">Our Partner Sites</span>
-              <div className="partner-logos-grid">
-                <div className="partner-logo-box">
-                  <span style={{ color: '#A855F7', fontWeight: 800 }}>OTT</span>play
-                </div>
-                <div className="partner-logo-box">
-                  <span style={{ color: '#EF4444', fontWeight: 800 }}>FAB</span>PLAY
-                </div>
-                <div className="partner-logo-box" style={{ fontSize: '11px', fontWeight: 700 }}>
-                  Hindustan Times
-                </div>
-                <div className="partner-logo-box" style={{ color: '#F59E0B', fontWeight: 800 }}>
-                  live<span style={{ color: '#F97316' }}>mint</span>
-                </div>
-                <div className="partner-logo-box" style={{ color: '#DC2626', fontWeight: 800 }}>
-                  हिन्दुस्तान
+              <div className="partner-title-divider">
+                <span className="partner-line"></span>
+                <span className="partner-title">Our Partner Sites</span>
+                <span className="partner-line"></span>
+              </div>
+              <div className="partner-marquee-container">
+                <div className="partner-marquee-track">
+                  {[
+                    { name: 'Live Hindustan', src: 'https://www.shine.com/nova/assets/partner-sites/live-hindustan.svg' },
+                    { name: 'Fab Play', src: 'https://www.shine.com/nova/assets/partner-sites/fab-play.svg' },
+                    { name: 'OTT Play', src: 'https://www.shine.com/nova/assets/partner-sites/ott-play.svg' },
+                    { name: 'Live Mint', src: 'https://www.shine.com/nova/assets/partner-sites/live-mint.svg' },
+                    { name: 'Hindustan Times', src: 'https://www.shine.com/nova/assets/partner-sites/hindustan-times.svg' },
+                    // Repeated sets for seamless infinite loop
+                    { name: 'Live Hindustan 2', src: 'https://www.shine.com/nova/assets/partner-sites/live-hindustan.svg' },
+                    { name: 'Fab Play 2', src: 'https://www.shine.com/nova/assets/partner-sites/fab-play.svg' },
+                    { name: 'OTT Play 2', src: 'https://www.shine.com/nova/assets/partner-sites/ott-play.svg' },
+                    { name: 'Live Mint 2', src: 'https://www.shine.com/nova/assets/partner-sites/live-mint.svg' },
+                    { name: 'Hindustan Times 2', src: 'https://www.shine.com/nova/assets/partner-sites/hindustan-times.svg' },
+                    { name: 'Live Hindustan 3', src: 'https://www.shine.com/nova/assets/partner-sites/live-hindustan.svg' },
+                    { name: 'Fab Play 3', src: 'https://www.shine.com/nova/assets/partner-sites/fab-play.svg' },
+                    { name: 'OTT Play 3', src: 'https://www.shine.com/nova/assets/partner-sites/ott-play.svg' },
+                    { name: 'Live Mint 3', src: 'https://www.shine.com/nova/assets/partner-sites/live-mint.svg' },
+                    { name: 'Hindustan Times 3', src: 'https://www.shine.com/nova/assets/partner-sites/hindustan-times.svg' },
+                  ].map((partner, idx) => (
+                    <div key={idx} className="partner-logo-box">
+                      <img src={partner.src} alt={partner.name} className="partner-brand-svg" />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

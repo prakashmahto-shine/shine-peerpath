@@ -38,38 +38,38 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
         <div className="peerpath-hero-content">
           <div className="peerpath-tag-pill">
             <Sparkles size={14} className="sparkle-gold" />
-            <span>SHINE PEERPATH • SKILL BRIDGE & SALARY MULTIPLIER</span>
+            <span>SHINE PEERPATH • YOUR FAST-TRACK SALARY MULTIPLIER</span>
           </div>
           
           <h1 className="peerpath-hero-title">
-            Unlock Higher Salary Roles by Bridging Just 1–2 Skills
+            Unlock ₹22L – ₹38L Senior Roles from Your Current Foundation
           </h1>
           
           <p className="peerpath-hero-desc">
-            You already have a strong technical foundation! Discover how bridging just 1–2 target skills unlocks senior roles, higher market compensation, and fast-track recruiter shortlists.
+            Your current experience is a solid base. Learn the exact 1–2 booster skills top companies (Swiggy, Razorpay, PhonePe) look for to offer 3x higher packages.
           </p>
 
           <div className="hero-stats-chips-row">
-            <div className="h-stat-chip">
-              <TrendingUp size={16} className="text-emerald-500" />
+            <div className="h-stat-chip chip-growth">
+              <TrendingUp size={15} className="chip-icon-emerald" />
               <span><strong>Up to +320%</strong> Salary Growth</span>
             </div>
-            <div className="h-stat-chip">
-              <Briefcase size={16} className="text-blue-500" />
-              <span><strong>2,850+</strong> Active Verified Jobs</span>
+            <div className="h-stat-chip chip-jobs">
+              <Briefcase size={15} className="chip-icon-blue" />
+              <span><strong>2,850+</strong> Verified Jobs on Shine</span>
             </div>
-            <div className="h-stat-chip">
-              <UserCheck size={16} className="text-amber-500" />
-              <span><strong>500+</strong> Alumni who made this jump</span>
+            <div className="h-stat-chip chip-mentors">
+              <UserCheck size={15} className="chip-icon-gold" />
+              <span><strong>500+</strong> Mentors from Tier-1 Tech</span>
             </div>
           </div>
 
           <div className="hero-cta-buttons">
-            <button className="btn-shine-gold-lg" onClick={scrollToTrajectories}>
-              <LockOpen size={18} /> Explore Unlocked Career Paths
+            <button className="btn-hero-primary-gold" onClick={scrollToTrajectories}>
+              <TrendingUp size={16} /> Explore Recommended Paths
             </button>
-            <button className="btn-white-outline-lg" onClick={() => onNavigate('experts-view')}>
-              <Video size={18} /> Watch Alumni Video Snippets
+            <button className="btn-hero-glass" onClick={() => onNavigate('experts-view')}>
+              <Video size={16} /> Talk to a Mentor
             </button>
           </div>
         </div>
@@ -78,13 +78,13 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
         <div className="peerpath-hero-graphic">
           <div className="salary-unlock-preview-card">
             <div className="sup-header">
-              <span className="sup-badge">LIVE MARKET BENCHMARK</span>
+              <span className="sup-badge">LIVE SALARY BENCHMARK</span>
               <span className="sup-role">Senior Frontend Track</span>
             </div>
 
             <div className="sup-comparison-row">
               <div className="sup-tier current-tier">
-                <span className="tier-label">Current Baseline</span>
+                <span className="tier-label">Your Current Base</span>
                 <span className="tier-salary">₹5.5 - 8.5 LPA</span>
                 <span className="tier-desc">React.js, JavaScript, HTML/CSS</span>
               </div>
@@ -93,7 +93,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
 
               <div className="sup-tier unlocked-tier">
                 <span className="tier-label">Unlocked with Peerpath</span>
-                <span className="tier-salary text-emerald-600">₹22 - 38 Lakhs / Yr</span>
+                <span className="tier-salary text-emerald-400">₹22 - 38 Lakhs / Yr</span>
                 <span className="tier-desc">+ Micro-Frontends & System Arch</span>
               </div>
             </div>
@@ -112,44 +112,36 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
         </div>
       </div>
 
-      {/* 2. Candidate Baseline Summary Strip */}
-      <div className="candidate-baseline-strip">
-        <div className="cb-col">
-          <span className="cb-label"><User size={13} /> Candidate</span>
-          <strong className="cb-val">{userProfile.name}</strong>
-        </div>
-        <div className="cb-divider"></div>
-        <div className="cb-col">
-          <span className="cb-label"><Briefcase size={13} /> Current Profile</span>
-          <strong className="cb-val">Senior Frontend Developer (3.5+ Yrs)</strong>
-        </div>
-        <div className="cb-divider"></div>
-        <div className="cb-col">
-          <span className="cb-label"><CheckCircle2 size={13} /> Foundation Skills (Strong)</span>
-          <strong className="cb-val text-emerald-600">{userProfile.skills.slice(0, 4).join(', ')}</strong>
-        </div>
-        <div className="cb-divider"></div>
-        <div className="cb-col">
-          <span className="cb-label"><Sparkles size={13} /> Eligible Salary Range</span>
-          <strong className="cb-val text-indigo-600">₹18 - 38 Lakhs CTC</strong>
-        </div>
-      </div>
-
-      {/* 3. Filter Navigation */}
+      {/* 2 & 3. Curated Career Pathways Section Header */}
       <div className="trajectories-section-header" id="trajectoriesSection">
-        <div>
-          <h2 className="section-main-title">Unlocked High-Growth Trajectories</h2>
-          <p className="section-subtitle">
-            4 curated pathways mapped to your current profile. Explore which skills to bridge, live market salary benchmarks, and alumni who successfully made the transition.
-          </p>
+        <div className="section-title-wrap">
+          <div className="profile-context-inline">
+            <span className="pci-pill">
+              <Sparkles size={12} className="sparkle-amber" /> Tailored for {userProfile.name} • Senior Frontend (3.5+ Yrs)
+            </span>
+            <span className="pci-bench">
+              Target CTC: <strong>₹18 – 38 Lakhs</strong>
+            </span>
+          </div>
+          <h2 className="section-main-title">Curated High-Growth Career Pathways</h2>
         </div>
 
         <div className="track-filter-pills">
-          <button className={`t-pill ${activeTab === 'all' ? 'active' : ''}`} onClick={() => setActiveTab('all')}>All Tracks (4)</button>
-          <button className={`t-pill ${activeTab === 'arch' ? 'active' : ''}`} onClick={() => setActiveTab('arch')}>Lead UI Architect</button>
-          <button className={`t-pill ${activeTab === 'pm' ? 'active' : ''}`} onClick={() => setActiveTab('pm')}>Product Management</button>
-          <button className={`t-pill ${activeTab === 'search' ? 'active' : ''}`} onClick={() => setActiveTab('search')}>Search & Solr Infra</button>
-          <button className={`t-pill ${activeTab === 'ai' ? 'active' : ''}`} onClick={() => setActiveTab('ai')}>GenAI & ML</button>
+          <button className={`t-pill ${activeTab === 'all' ? 'active' : ''}`} onClick={() => setActiveTab('all')}>
+            All Paths <span className="t-pill-count">4</span>
+          </button>
+          <button className={`t-pill ${activeTab === 'arch' ? 'active' : ''}`} onClick={() => setActiveTab('arch')}>
+            Lead UI Architect <span className="t-pill-salary">₹22–36L</span>
+          </button>
+          <button className={`t-pill ${activeTab === 'pm' ? 'active' : ''}`} onClick={() => setActiveTab('pm')}>
+            Product Management <span className="t-pill-salary">₹24–38L</span>
+          </button>
+          <button className={`t-pill ${activeTab === 'search' ? 'active' : ''}`} onClick={() => setActiveTab('search')}>
+            Search & Solr Infra <span className="t-pill-salary">₹32–48L</span>
+          </button>
+          <button className={`t-pill ${activeTab === 'ai' ? 'active' : ''}`} onClick={() => setActiveTab('ai')}>
+            GenAI & LLM <span className="t-pill-salary">₹28–45L</span>
+          </button>
         </div>
       </div>
 
@@ -177,9 +169,9 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               {/* Box 1: Foundation */}
               <div className="traj-info-box box-foundation">
                 <h4 className="box-title text-emerald-700">
-                  <CheckCircle2 size={16} /> Your Foundation (Strong)
+                  <CheckCircle2 size={16} /> What You Already Know (Strong Base)
                 </h4>
-                <p className="box-sub">Skills you already have mastered:</p>
+                <p className="box-sub">Skills you have already mastered:</p>
                 <div className="chips-flex-wrap">
                   <span className="skill-chip chip-ready">React.js</span>
                   <span className="skill-chip chip-ready">JavaScript ES6+</span>
@@ -191,9 +183,9 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               {/* Box 2: Skills to Add */}
               <div className="traj-info-box box-bridge">
                 <h4 className="box-title text-amber-700">
-                  <Sparkles size={16} /> Target Bridge Skills to Unlock Role
+                  <Sparkles size={16} /> Just 2 Booster Skills to Learn
                 </h4>
-                <p className="box-sub">Adding these makes you eligible:</p>
+                <p className="box-sub">Adding these unlocks ₹22L–36L offers:</p>
                 <div className="chips-flex-wrap">
                   <span className="skill-chip chip-bridge">+ Micro-Frontend Architecture</span>
                   <span className="skill-chip chip-bridge">+ Module Federation (Webpack/Vite)</span>
@@ -204,13 +196,13 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               {/* Box 3: Peer Role Model Proof */}
               <div className="traj-info-box box-peer-proof">
                 <h4 className="box-title text-indigo-700">
-                  <UserCheck size={16} /> Who Walked This Path?
+                  <UserCheck size={16} /> Real Proof: Someone Who Did It
                 </h4>
                 <div className="peer-proof-profile">
                   <img src="/avatars/saheli.jpg" alt="Saheli Kanjilal" className="peer-avatar" />
                   <div className="peer-meta">
                     <strong>Saheli Kanjilal</strong>
-                    <span>Staff Frontend Engineer @ FinTech</span>
+                    <span>Staff Frontend Engineer @ FinTech (Jumped from ₹6L to ₹26L)</span>
                     <p className="peer-quote">
                       "I was previously in a standard frontend role at ₹6 LPA. By mastering Module Federation and Web Vitals, I secured a Staff Engineer role at ₹26 LPA."
                     </p>
@@ -258,9 +250,9 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               {/* Box 1: Foundation */}
               <div className="traj-info-box box-foundation">
                 <h4 className="box-title text-emerald-700">
-                  <CheckCircle2 size={16} /> Your Foundation (Strong)
+                  <CheckCircle2 size={16} /> What You Already Know (Strong Base)
                 </h4>
-                <p className="box-sub">Skills you already have mastered:</p>
+                <p className="box-sub">Skills you have already mastered:</p>
                 <div className="chips-flex-wrap">
                   <span className="skill-chip chip-ready">Technical Scoping</span>
                   <span className="skill-chip chip-ready">UI/UX Empathy</span>
@@ -271,9 +263,9 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               {/* Box 2: Skills to Add */}
               <div className="traj-info-box box-bridge">
                 <h4 className="box-title text-amber-700">
-                  <Sparkles size={16} /> Target Bridge Skills to Unlock Role
+                  <Sparkles size={16} /> Just 2 Booster Skills to Learn
                 </h4>
-                <p className="box-sub">Adding these makes you eligible:</p>
+                <p className="box-sub">Adding these unlocks ₹24L–38L offers:</p>
                 <div className="chips-flex-wrap">
                   <span className="skill-chip chip-bridge">+ PRD & Product Discovery</span>
                   <span className="skill-chip chip-bridge">+ Growth Metrics & Funnels</span>
@@ -284,13 +276,13 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               {/* Box 3: Peer Role Model Proof */}
               <div className="traj-info-box box-peer-proof">
                 <h4 className="box-title text-indigo-700">
-                  <UserCheck size={16} /> Who Walked This Path?
+                  <UserCheck size={16} /> Real Proof: Someone Who Did It
                 </h4>
                 <div className="peer-proof-profile">
                   <img src="/avatars/akash.jpg" alt="Akash Jain" className="peer-avatar" />
                   <div className="peer-meta">
                     <strong>Akash Jain</strong>
-                    <span>Lead Product Manager @ Shine</span>
+                    <span>Lead Product Manager @ Shine (Jumped from SWE ₹5.5L to ₹28L)</span>
                     <p className="peer-quote">
                       "Engineers transitioning to Product have a massive technical edge. Bridging product discovery and discovery metrics helped me transition from SWE to Lead PM at ₹28 LPA."
                     </p>
@@ -317,6 +309,31 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
           </div>
         )}
 
+        {/* Clean, Visual & Minimal Text High-Motivation Mentorship Banner */}
+        {activeTab === 'all' && (
+          <div className="peerpath-mid-feed-banner">
+            <div className="pmf-left">
+              <div className="pmf-avatars-row">
+                <img src="/avatars/saheli.jpg" alt="Saheli" className="pmf-avatar" />
+                <img src="/avatars/akash.jpg" alt="Akash" className="pmf-avatar" />
+                <img src="/avatars/ishita.jpg" alt="Ishita" className="pmf-avatar" />
+                <span className="pmf-online-dot"></span>
+              </div>
+              <div className="pmf-text-block">
+                <h3 className="pmf-title">Want 1:1 Interview Prep & Direct Referrals?</h3>
+                <div className="pmf-benefits-row">
+                  <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Resume Review</span>
+                  <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Mock Interview</span>
+                  <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Direct Referrals</span>
+                </div>
+              </div>
+            </div>
+            <button className="btn-shine-gold-lg pmf-cta-btn" onClick={() => onNavigate('experts-view')}>
+              Book 1:1 Session <ArrowRight size={16} />
+            </button>
+          </div>
+        )}
+
         {/* Track 3: Principal Search & Solr Database Architect */}
         {(activeTab === 'all' || activeTab === 'search') && (
           <div className="trajectory-card card-highlight-blue">
@@ -338,9 +355,9 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               {/* Box 1: Foundation */}
               <div className="traj-info-box box-foundation">
                 <h4 className="box-title text-emerald-700">
-                  <CheckCircle2 size={16} /> Your Foundation (Strong)
+                  <CheckCircle2 size={16} /> What You Already Know (Strong Base)
                 </h4>
-                <p className="box-sub">Skills you already have mastered:</p>
+                <p className="box-sub">Skills you have already mastered:</p>
                 <div className="chips-flex-wrap">
                   <span className="skill-chip chip-ready">Node.js / Python Backend</span>
                   <span className="skill-chip chip-ready">RESTful API Design</span>
@@ -351,9 +368,9 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               {/* Box 2: Skills to Add */}
               <div className="traj-info-box box-bridge">
                 <h4 className="box-title text-amber-700">
-                  <Sparkles size={16} /> Target Bridge Skills to Unlock Role
+                  <Sparkles size={16} /> Just 2 Booster Skills to Learn
                 </h4>
-                <p className="box-sub">Adding these makes you eligible:</p>
+                <p className="box-sub">Adding these unlocks ₹32L–48L offers:</p>
                 <div className="chips-flex-wrap">
                   <span className="skill-chip chip-bridge">+ Apache Solr & Lucene Engine</span>
                   <span className="skill-chip chip-bridge">+ Inverted Indexing & Sharding</span>
@@ -364,13 +381,13 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               {/* Box 3: Peer Role Model Proof */}
               <div className="traj-info-box box-peer-proof">
                 <h4 className="box-title text-indigo-700">
-                  <UserCheck size={16} /> Who Walked This Path?
+                  <UserCheck size={16} /> Real Proof: Someone Who Did It
                 </h4>
                 <div className="peer-proof-profile">
                   <img src="/avatars/anirudh.jpg" alt="Anirudh Sharma" className="peer-avatar" />
                   <div className="peer-meta">
                     <strong>Anirudh Sharma</strong>
-                    <span>Principal Search Architect @ Shine</span>
+                    <span>Principal Search Architect @ Shine (Jumped from ₹7L to ₹38L)</span>
                     <p className="peer-quote">
                       "Distributed search talent is extremely rare in India. Mastering Solr & Lucene clustering propelled my trajectory to Principal Search Architect at ₹38 LPA."
                     </p>
@@ -418,9 +435,9 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               {/* Box 1: Foundation */}
               <div className="traj-info-box box-foundation">
                 <h4 className="box-title text-emerald-700">
-                  <CheckCircle2 size={16} /> Your Foundation (Strong)
+                  <CheckCircle2 size={16} /> What You Already Know (Strong Base)
                 </h4>
-                <p className="box-sub">Skills you already have mastered:</p>
+                <p className="box-sub">Skills you have already mastered:</p>
                 <div className="chips-flex-wrap">
                   <span className="skill-chip chip-ready">Fullstack App Architecture</span>
                   <span className="skill-chip chip-ready">API Integration & WebSockets</span>
@@ -431,9 +448,9 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               {/* Box 2: Skills to Add */}
               <div className="traj-info-box box-bridge">
                 <h4 className="box-title text-amber-700">
-                  <Sparkles size={16} /> Target Bridge Skills to Unlock Role
+                  <Sparkles size={16} /> Just 2 Booster Skills to Learn
                 </h4>
-                <p className="box-sub">Adding these makes you eligible:</p>
+                <p className="box-sub">Adding these unlocks ₹28L–45L offers:</p>
                 <div className="chips-flex-wrap">
                   <span className="skill-chip chip-bridge">+ LangChain / LLM Orchestration</span>
                   <span className="skill-chip chip-bridge">+ Vector Embeddings (Pinecone)</span>
@@ -444,13 +461,13 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               {/* Box 3: Peer Role Model Proof */}
               <div className="traj-info-box box-peer-proof">
                 <h4 className="box-title text-indigo-700">
-                  <UserCheck size={16} /> Who Walked This Path?
+                  <UserCheck size={16} /> Real Proof: Someone Who Did It
                 </h4>
                 <div className="peer-proof-profile">
                   <img src="/avatars/ishita.jpg" alt="Ishita Sharma" className="peer-avatar" />
                   <div className="peer-meta">
                     <strong>Ishita Sharma</strong>
-                    <span>GenAI & Data Science Lead @ Swiggy</span>
+                    <span>GenAI & Data Science Lead @ Swiggy (Jumped to ₹35L)</span>
                     <p className="peer-quote">
                       "Fullstack engineers who adopt LLM orchestration and Vector embeddings are commanding the highest salary multipliers in tech today."
                     </p>
@@ -480,21 +497,40 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
       </div>
 
       {/* 5. Bottom Mentorship Acceleration CTA */}
-      <div className="peerpath-bottom-acceleration-card">
-        <div className="accel-left">
-          <div className="accel-sparkle-icon">
-            <Sparkles size={24} />
+      <div className="peerpath-bottom-acceleration-card peerpath-pro-cta-card">
+        <div className="pro-cta-left">
+          <div className="pro-cta-badge-row">
+            <span className="pro-cta-sparkle-pill">
+              <Sparkles size={13} /> 1:1 CAREER ACCELERATION
+            </span>
+            <span className="pro-cta-trust-tag">500+ Successful Transitions</span>
           </div>
-          <div>
-            <h3>Want 1:1 Guidance on Which Bridge Skill to Pick First?</h3>
-            <p>
-              Book a 1:1 Strategy session with mentors from Shine, Swiggy, and Razorpay. Review your resume, test your readiness, and get direct recruiter referrals.
-            </p>
+          
+          <h3 className="pro-cta-heading">
+            Turn Your Experience into ₹22L+ Offers with 1:1 Expert Guidance
+          </h3>
+
+          <div className="pro-cta-chips-row">
+            <span className="pro-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Resume Review & ATS Fix</span>
+            <span className="pro-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Real Interview Practice</span>
+            <span className="pro-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Direct Company Referrals</span>
           </div>
         </div>
-        <button className="btn-shine-gold-lg" onClick={() => onNavigate('experts-view')}>
-          Explore All Verified Mentors <ArrowRight size={18} />
-        </button>
+
+        <div className="pro-cta-right">
+          <div className="pro-cta-mentor-proof">
+            <div className="pro-mentor-avatars">
+              <img src="/avatars/saheli.jpg" alt="Saheli" />
+              <img src="/avatars/akash.jpg" alt="Akash" />
+              <img src="/avatars/ishita.jpg" alt="Ishita" />
+            </div>
+            <span className="pro-mentor-caption">Mentors from Swiggy, Razorpay & Shine</span>
+          </div>
+
+          <button className="btn-shine-gold-lg pro-cta-btn" onClick={() => onNavigate('experts-view')}>
+            Book 1:1 Guidance Session <ArrowRight size={16} />
+          </button>
+        </div>
       </div>
 
     </div>

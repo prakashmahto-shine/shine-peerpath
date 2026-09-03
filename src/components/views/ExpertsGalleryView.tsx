@@ -20,6 +20,7 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
   const [expFilter, setExpFilter] = useState<string>('all');
   const [priceLimit, setPriceLimit] = useState<number>(2500);
   const [sortOrder, setSortOrder] = useState<string>('trajectory');
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const filteredExperts = experts.filter((exp) => {
     if (activeDomain !== 'all' && exp.domain !== activeDomain) return false;
@@ -54,6 +55,30 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
 
   return (
     <div className="content-wrapper">
+      {/* Breadcrumb Navigation Bar */}
+      <div className="view-breadcrumb-bar">
+        <button 
+          type="button"
+          className="btn-back-breadcrumb" 
+          onClick={() => {
+            if (window.history.length > 1) {
+              window.history.back();
+            } else {
+              onNavigate('guidance-view');
+            }
+          }}
+        >
+          <ChevronLeft size={16} />
+          <span>Back</span>
+        </button>
+        <span className="breadcrumb-separator">/</span>
+        <span className="breadcrumb-link" onClick={() => onNavigate('dashboard-view')}>Home</span>
+        <span className="breadcrumb-separator">/</span>
+        <span className="breadcrumb-link" onClick={() => onNavigate('guidance-view')}>Peerpath Guidance</span>
+        <span className="breadcrumb-separator">/</span>
+        <span className="breadcrumb-current">Verified Mentors</span>
+      </div>
+
       <div className="gallery-header-block">
         <div className="g-header-text">
           <h1 className="gallery-main-title">Learn from experts</h1>
@@ -215,14 +240,81 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
 
       </div>
 
+      {/* Centered Modern Shine Pagination */}
       <div className="gallery-pagination">
-        <button className="pg-btn"><ChevronLeft size={16} /></button>
-        <button className="pg-btn active">1</button>
-        <button className="pg-btn">2</button>
-        <button className="pg-btn">3</button>
+        <button 
+          type="button" 
+          className="pg-btn" 
+          disabled={currentPage === 1}
+          onClick={() => {
+            if (currentPage > 1) {
+              setCurrentPage(currentPage - 1);
+              window.scrollTo({ top: 180, behavior: 'smooth' });
+            }
+          }}
+        >
+          <ChevronLeft size={16} />
+        </button>
+        
+        <button 
+          type="button" 
+          className={`pg-btn ${currentPage === 1 ? 'active' : ''}`}
+          onClick={() => {
+            setCurrentPage(1);
+            window.scrollTo({ top: 180, behavior: 'smooth' });
+          }}
+        >
+          1
+        </button>
+        
+        <button 
+          type="button" 
+          className={`pg-btn ${currentPage === 2 ? 'active' : ''}`}
+          onClick={() => {
+            setCurrentPage(2);
+            window.scrollTo({ top: 180, behavior: 'smooth' });
+          }}
+        >
+          2
+        </button>
+        
+        <button 
+          type="button" 
+          className={`pg-btn ${currentPage === 3 ? 'active' : ''}`}
+          onClick={() => {
+            setCurrentPage(3);
+            window.scrollTo({ top: 180, behavior: 'smooth' });
+          }}
+        >
+          3
+        </button>
+        
         <span className="pg-dots">...</span>
-        <button className="pg-btn">10</button>
-        <button className="pg-btn"><ChevronRight size={16} /></button>
+        
+        <button 
+          type="button" 
+          className={`pg-btn ${currentPage === 8 ? 'active' : ''}`}
+          onClick={() => {
+            setCurrentPage(8);
+            window.scrollTo({ top: 180, behavior: 'smooth' });
+          }}
+        >
+          8
+        </button>
+        
+        <button 
+          type="button" 
+          className="pg-btn"
+          disabled={currentPage === 8}
+          onClick={() => {
+            if (currentPage < 8) {
+              setCurrentPage(currentPage + 1);
+              window.scrollTo({ top: 180, behavior: 'smooth' });
+            }
+          }}
+        >
+          <ChevronRight size={16} />
+        </button>
       </div>
 
     </div>
