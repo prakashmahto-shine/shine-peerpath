@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Briefcase, Award, Bell, FileText, ChevronDown, Sparkles, 
-  User, ShoppingBag, Settings, LogOut, Video, Mail, Search, ArrowUpRight 
+  User, ShoppingBag, Settings, LogOut, Video, Search, ArrowUpRight 
 } from 'lucide-react';
 import { ViewType } from '../../types';
 
@@ -46,49 +46,16 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="myshine-navbar" id="globalNavbar">
       <div className="myshine-nav-container">
         
-        <div className="myshine-nav-left">
+        {/* Top Header Row: Logo (Left) + Search & User Actions (Right) */}
+        <div className="myshine-nav-top-row">
           <div onClick={() => onNavigate('dashboard-view')} className="shine-logo-wrap" style={{ cursor: 'pointer' }}>
             <img 
               src="https://staticcand.shine.com/c/s1/images/candidate/nova/home/shine-logo.svg" 
               alt="Shine Logo" 
               className="shine-official-svg-logo"
-              style={{ height: '32px', display: 'block' }}
             />
           </div>
 
-          <nav className="myshine-nav-links">
-            <button 
-              className={`myshine-link ${currentView === 'dashboard-view' ? 'active' : ''}`} 
-              onClick={() => onNavigate('dashboard-view')}
-            >
-              <Briefcase size={15} /> My Jobs
-            </button>
-            
-            <button className="myshine-link">
-              <Award size={15} /> Services
-            </button>
-            
-            <button className="myshine-link">
-              <Bell size={15} /> Job Alerts
-            </button>
-            
-            <button className="myshine-link">
-              <FileText size={15} /> Blogs
-            </button>
-
-            <button 
-              onClick={() => onNavigate('guidance-view')} 
-              className={`myshine-guidance-pill ${currentView === 'guidance-view' || currentView === 'experts-view' ? 'active-pill' : ''}`}
-            >
-              <Sparkles size={14} className="sparkle-icon" />
-              <span>Peerpath</span>
-              <span className="pill-new-badge">NEW</span>
-            </button>
-          </nav>
-        </div>
-
-        <div className="myshine-nav-right-prod">
-          
           <form className="prod-nav-search-bar" onSubmit={handleSearchSubmit}>
             <Search size={14} className="prod-search-icon" />
             <input 
@@ -100,82 +67,114 @@ export const Header: React.FC<HeaderProps> = ({
             />
           </form>
 
-          <button 
-            className="btn-shine-getapp"
-            onClick={() => alert('Download Shine mobile app from Play Store or App Store!')}
-          >
-            Get App <ArrowUpRight size={13} />
-          </button>
-
-          <button 
-            className="btn-shine-recruiter-icon-circle"
-            title="Recruiter Portal (Candidate Search)"
-            onClick={() => onNavigate('recruiter-view')}
-          >
-            <Briefcase size={16} />
-          </button>
-
-          <div 
-            ref={userMenuRef}
-            className="user-avatar-dropdown-wrapper"
-            onMouseEnter={() => setIsUserMenuOpen(true)}
-            onMouseLeave={() => setIsUserMenuOpen(false)}
-          >
-            <div 
-              className="user-avatar-trigger-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsUserMenuOpen(prev => !prev);
-              }}
+          <div className="myshine-nav-right-prod">
+            <button 
+              className="btn-shine-getapp"
+              onClick={() => alert('Download Shine mobile app from Play Store or App Store!')}
             >
-              <div className="user-nav-avatar-circle">
-                <img 
-                  src="/avatars/prakash.jpg" 
-                  alt="Prakash Kumar" 
-                  className="user-nav-avatar-img" 
-                />
-              </div>
-              <ChevronDown size={14} className="user-avatar-chevron" />
-            </div>
+              Get App <ArrowUpRight size={13} />
+            </button>
 
-            {isUserMenuOpen && (
-              <div className="myshine-user-flyout-card">
-                <div className="flyout-user-header">
-                  <strong>Prakash Mahto</strong>
-                  <span>Senior Frontend Developer</span>
+            <button 
+              className="btn-shine-recruiter-icon-circle"
+              title="Recruiter Portal (Candidate Search)"
+              onClick={() => onNavigate('recruiter-view')}
+            >
+              <Briefcase size={16} />
+            </button>
+
+            <div 
+              ref={userMenuRef}
+              className="user-avatar-dropdown-wrapper"
+              onMouseEnter={() => setIsUserMenuOpen(true)}
+              onMouseLeave={() => setIsUserMenuOpen(false)}
+            >
+              <div 
+                className="user-avatar-trigger-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsUserMenuOpen(prev => !prev);
+                }}
+              >
+                <div className="user-nav-avatar-circle">
+                  <img 
+                    src="/avatars/prakash.jpg" 
+                    alt="Prakash Mahto" 
+                    className="user-nav-avatar-img" 
+                  />
                 </div>
+                <ChevronDown size={14} className="user-avatar-chevron" />
+              </div>
 
-                <div className="flyout-divider"></div>
-
-                <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('profile-view'); }}>
-                  <User size={14} /> My profile
-                </a>
-                
-                <div className="flyout-item-parent">
-                  <span className="flyout-parent-title"><ShoppingBag size={14} /> My orders</span>
-                  <div className="flyout-sub-list">
-                    <a href="#!" onClick={(e) => e.preventDefault()}>- Courses</a>
-                    <a href="#!" onClick={(e) => e.preventDefault()}>- Job Assistance Services</a>
-                    <a href="#!" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }} style={{ color: '#7C3AED', fontWeight: 700 }}>
-                      <Video size={12} /> - My Sessions (Peerpath)
-                    </a>
+              {isUserMenuOpen && (
+                <div className="myshine-user-flyout-card">
+                  <div className="flyout-user-header">
+                    <strong>Prakash Mahto</strong>
+                    <span>Senior Frontend Developer</span>
                   </div>
+
+                  <div className="flyout-divider"></div>
+
+                  <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('profile-view'); }}>
+                    <User size={14} /> My profile
+                  </a>
+                  
+                  <div className="flyout-item-parent">
+                    <span className="flyout-parent-title"><ShoppingBag size={14} /> My orders</span>
+                    <div className="flyout-sub-list">
+                      <a href="#!" onClick={(e) => e.preventDefault()}>- Courses</a>
+                      <a href="#!" onClick={(e) => e.preventDefault()}>- Job Assistance Services</a>
+                      <a href="#!" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }} style={{ color: '#7C3AED', fontWeight: 700 }}>
+                        <Video size={12} /> - My Sessions (Peerpath)
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="flyout-divider"></div>
+
+                  <a href="#!" className="flyout-item" onClick={(e) => e.preventDefault()}>
+                    <Settings size={14} /> Account Settings
+                  </a>
+                  
+                  <a href="#!" className="flyout-item text-danger" onClick={(e) => e.preventDefault()}>
+                    <LogOut size={14} /> Sign out
+                  </a>
                 </div>
-
-                <div className="flyout-divider"></div>
-
-                <a href="#!" className="flyout-item" onClick={(e) => e.preventDefault()}>
-                  <Settings size={14} /> Account Settings
-                </a>
-                
-                <a href="#!" className="flyout-item text-danger" onClick={(e) => e.preventDefault()}>
-                  <LogOut size={14} /> Sign out
-                </a>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-
         </div>
+
+        {/* Bottom Nav Links Strip */}
+        <nav className="myshine-nav-links">
+          <button 
+            className={`myshine-link ${currentView === 'dashboard-view' ? 'active' : ''}`} 
+            onClick={() => onNavigate('dashboard-view')}
+          >
+            <Briefcase size={14} /> My Jobs
+          </button>
+          
+          <button className="myshine-link">
+            <Award size={14} /> Services
+          </button>
+          
+          <button className="myshine-link">
+            <Bell size={14} /> Job Alerts
+          </button>
+          
+          <button className="myshine-link">
+            <FileText size={14} /> Blogs
+          </button>
+
+          <button 
+            onClick={() => onNavigate('guidance-view')} 
+            className={`myshine-guidance-pill ${currentView === 'guidance-view' || currentView === 'experts-view' ? 'active-pill' : ''}`}
+          >
+            <Sparkles size={13} className="sparkle-icon" />
+            <span>Peerpath</span>
+            <span className="pill-new-badge">NEW</span>
+          </button>
+        </nav>
 
       </div>
 
