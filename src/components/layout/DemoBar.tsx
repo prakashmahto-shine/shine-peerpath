@@ -21,16 +21,22 @@ export const DemoBar: React.FC<DemoBarProps> = ({
       </div>
       <div className="demo-nav-pills" id="demoNavPills">
         <button 
+          className={`demo-pill ${currentView === 'dashboard-view' ? 'active' : ''}`} 
+          onClick={() => onNavigate('dashboard-view')}
+        >
+          1. Dashboard (Home)
+        </button>
+        <button 
           className={`demo-pill ${currentView === 'profile-view' ? 'active' : ''}`} 
           onClick={() => onNavigate('profile-view')}
         >
-          1. Profile & Creator CTA
+          2. Candidate Profile (/profile)
         </button>
         <button 
           className={`demo-pill ${currentView === 'guidance-view' ? 'active' : ''}`} 
           onClick={() => onNavigate('guidance-view')}
         >
-          2. Peerpath (Trajectory Gaps)
+          3. Peerpath (Trajectory Gaps)
         </button>
         <button 
           className={`demo-pill ${currentView === 'experts-view' ? 'active' : ''}`} 

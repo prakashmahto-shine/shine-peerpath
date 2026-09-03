@@ -23,7 +23,7 @@ export const MySessionsView: React.FC<MySessionsViewProps> = ({
     <div className="content-wrapper sessions-dashboard-grid">
       <aside className="sessions-sidebar">
         <div className="sb-user-card">
-          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Prakash" />
+          <img src="/avatars/prakash.jpg" alt="Prakash" />
           <div>
             <h4>Prakash Kumar</h4>
             <span>Candidate</span>

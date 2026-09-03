@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Search, ChevronLeft, ChevronRight, Play, Award, Rocket, FileText, ArrowRight, X, PhoneCall, Mail, MessageSquare } from 'lucide-react';
+import { 
+  User, Download, Sparkles, Award, ShieldCheck, FileText, ArrowRight, 
+  Trash2, Star, Upload, ChevronDown, Check, Compass, Edit3, Briefcase, Plus
+} from 'lucide-react';
 import { ViewType } from '../../types';
 
 interface ProfileViewProps {
@@ -11,347 +14,401 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
   onNavigate,
   onOpenCreatorWizard,
 }) => {
-  const [searchVal, setSearchVal] = useState<string>('');
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onNavigate('guidance-view');
-  };
+  const [jobStatus, setJobStatus] = useState<string>('Actively looking for jobs');
+  const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState<boolean>(false);
+  const [showSummaryModal, setShowSummaryModal] = useState<boolean>(false);
+  const [summaryText, setSummaryText] = useState<string>(
+    'Senior Frontend Engineer with 4+ years of hands-on experience building scalable, high-performance web applications using React.js, TypeScript, and Next.js. Passionate about UI/UX performance optimization and micro-frontends.'
+  );
+  const [isSummarySaved, setIsSummarySaved] = useState<boolean>(true);
 
   return (
-    <div className="myshine-dashboard-page">
-      <div className="content-wrapper myshine-dashboard-content">
+    <div className="content-wrapper shine-official-myprofile-page">
+      
+      <div className="myprofile-layout-2col">
         
-        <div className="myshine-search-strip">
-          <h2 className="explore-title">Explore 300,000+ jobs</h2>
-          <form className="myshine-search-form" onSubmit={handleSearchSubmit}>
-            <input 
-              type="text" 
-              placeholder="Job title, skills" 
-              value={searchVal}
-              onChange={(e) => setSearchVal(e.target.value)}
-              className="myshine-search-input"
-            />
-            <button type="submit" className="myshine-search-submit-btn">
-              <Search size={18} />
-            </button>
-          </form>
-        </div>
+        <div className="myprofile-left-col">
+          <div className="myprofile-card user-overview-card">
+            <span className="updated-today-tag">Updated today</span>
 
-        <div className="myshine-metrics-grid">
-          
-          <div className="metric-box box-peach">
-            <div className="metric-icon-wrap icon-peach">
-              <span className="m-icon-glyph">👁️</span>
-            </div>
-            <div className="metric-details">
-              <span className="metric-count">2</span>
-              <span className="metric-label">Appeared to Recruiters</span>
-            </div>
-          </div>
-
-          <div className="metric-box box-blue">
-            <div className="metric-icon-wrap icon-blue">
-              <PhoneCall size={20} />
-            </div>
-            <div className="metric-details">
-              <span className="metric-count">1</span>
-              <span className="metric-label">Recruiter Actions</span>
-            </div>
-          </div>
-
-          <div className="metric-box box-pink">
-            <div className="metric-icon-wrap icon-pink">
-              <Mail size={20} />
-            </div>
-            <div className="metric-details">
-              <span className="metric-count">0</span>
-              <span className="metric-label">Messages</span>
-            </div>
-          </div>
-
-          <div className="metric-box box-green">
-            <div className="metric-icon-wrap icon-green">
-              <MessageSquare size={20} />
-            </div>
-            <div className="metric-details">
-              <span className="metric-count">0</span>
-              <span className="metric-label">Job alerts</span>
-            </div>
-          </div>
-
-        </div>
-
-        <div className="myshine-main-2col-layout">
-          <div className="myshine-left-column">
-            
-            <div className="dashboard-section-card">
-              <div className="sec-header-flex">
-                <h3 className="sec-heading">Recommended Jobs</h3>
-                <div className="sec-header-right">
-                  <a href="#!" className="sec-view-all-link">View all</a>
-                  <div className="carousel-nav-arrows">
-                    <button className="c-arrow"><ChevronLeft size={16} /></button>
-                    <button className="c-arrow"><ChevronRight size={16} /></button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="recommended-jobs-grid">
-                <div className="rec-job-card">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                    <span className="job-badge-cyan">INTERVIEW ASSURED IN 15 MINS</span>
-                    <span className="job-date-text">Aug 14, 2026</span>
-                  </div>
-                  <h4 className="job-title-text">Software Development Engineer - Backend (Node.js &...</h4>
-                  <p className="job-company-name">CONSULTBAE INDIA PRIVATE LIMITED</p>
-                  <p className="job-meta-line">• 3 to 7 Yrs • Mumbai City</p>
-                  <div className="job-bottom-actions">
-                    <button className="btn-job-ignore">Not Interested</button>
-                    <button className="btn-job-apply" onClick={() => onNavigate('guidance-view')}>Apply</button>
-                  </div>
-                </div>
-
-                <div className="rec-job-card">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                    <span className="job-badge-cyan">INTERVIEW ASSURED IN 15 MINS</span>
-                    <span className="job-date-text">Aug 28, 2026</span>
-                  </div>
-                  <h4 className="job-title-text">Full Stack Developer React.js & .NET Core</h4>
-                  <p className="job-company-name">NetAnalytiks Technologies Limited</p>
-                  <p className="job-meta-line">• 5 to 10 Yrs• Work From Home • Bangalore</p>
-                  <div className="job-bottom-actions">
-                    <button className="btn-job-ignore">Not Interested</button>
-                    <button className="btn-job-apply" onClick={() => onNavigate('guidance-view')}>Apply</button>
-                  </div>
-                </div>
-
-                <div className="rec-job-card">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                    <span className="job-badge-cyan">INTERVIEW ASSURED IN 15 MINS</span>
-                    <span className="job-date-text">Today</span>
-                  </div>
-                  <h4 className="job-title-text">Full Stack Developer</h4>
-                  <p className="job-company-name">HARJAI COMPUTERS PRIVATE LIMITED</p>
-                  <p className="job-meta-line">• 5 to 7 Yrs• Work From Home • Other M...</p>
-                  <div className="job-bottom-actions">
-                    <button className="btn-job-ignore">Not Interested</button>
-                    <button className="btn-job-apply" onClick={() => onNavigate('guidance-view')}>Apply</button>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <div className="dashboard-section-card" style={{ marginTop: '24px' }}>
-              <div className="sec-header-flex">
-                <div>
-                  <h3 className="sec-heading">Expert Edge: Quick Snippets</h3>
-                  <p className="sec-subcaption">Learn from verified engineers and mentors before your next interview</p>
-                </div>
-                <div className="sec-header-right">
-                  <a href="#!" onClick={() => onNavigate('experts-view')} className="sec-view-all-link">View all</a>
-                  <div className="carousel-nav-arrows">
-                    <button className="c-arrow"><ChevronLeft size={16} /></button>
-                    <button className="c-arrow"><ChevronRight size={16} /></button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="expert-snippets-grid">
-                <div className="snippet-card" onClick={() => onNavigate('experts-view')}>
-                  <div className="snippet-thumb-frame">
-                    <img 
-                      src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&auto=format&fit=crop&q=80" 
-                      alt="Expert Edge" 
-                      className="snippet-img" 
-                    />
-                    <div className="snippet-overlay-badge">
-                      <span className="edge-logo-text">Expert Edge</span>
-                    </div>
-                    <div className="snippet-play-btn">
-                      <Play size={18} fill="#ffffff" />
-                    </div>
-                    <span className="snippet-dur">01:12</span>
-                  </div>
-                  <div className="snippet-info">
-                    <h4>How I cracked Enterprise SaaS Sales at Salesforce</h4>
-                    <p>Amit Verma • Senior Lead</p>
-                  </div>
-                </div>
-
-                <div className="snippet-card" onClick={() => onNavigate('experts-view')}>
-                  <div className="snippet-thumb-frame">
-                    <img 
-                      src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&auto=format&fit=crop&q=80" 
-                      alt="Expert Edge" 
-                      className="snippet-img" 
-                    />
-                    <div className="snippet-overlay-badge">
-                      <span className="edge-logo-text">Expert Edge</span>
-                    </div>
-                    <div className="snippet-play-btn">
-                      <Play size={18} fill="#ffffff" />
-                    </div>
-                    <span className="snippet-dur">01:05</span>
-                  </div>
-                  <div className="snippet-info">
-                    <h4>Production LLM Latency & Distributed PyTorch</h4>
-                    <p>Ishita Sharma • Senior Data Scientist @ Swiggy</p>
-                  </div>
-                </div>
-
-                <div className="snippet-card" onClick={() => onNavigate('experts-view')}>
-                  <div className="snippet-thumb-frame">
-                    <img 
-                      src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&auto=format&fit=crop&q=80" 
-                      alt="Expert Edge" 
-                      className="snippet-img" 
-                    />
-                    <div className="snippet-overlay-badge">
-                      <span className="edge-logo-text">Expert Edge</span>
-                    </div>
-                    <div className="snippet-play-btn">
-                      <Play size={18} fill="#ffffff" />
-                    </div>
-                    <span className="snippet-dur">01:08</span>
-                  </div>
-                  <div className="snippet-info">
-                    <h4>Transitioning from Inside Sales to Mid-Market AE</h4>
-                    <p>Neha Gupta • Account Executive @ Zoho</p>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <div className="dashboard-section-card" style={{ marginTop: '24px' }}>
-              <div className="sec-header-flex">
-                <h3 className="sec-heading">My Resume</h3>
-                <button className="btn-upload-new-resume" onClick={() => alert('Select resume to upload')}>
-                  Upload New
-                </button>
-              </div>
-              <div className="resume-attached-item">
-                <div className="res-icon-wrap"><FileText size={20} color="#EF4444" /></div>
-                <div className="res-meta-col">
-                  <strong>Prakash-Mahto1.pdf</strong>
-                  <span>Uploaded: 24/06/2024 • Active on Shine Profile</span>
-                </div>
-                <button className="btn-shine-gold-sm" onClick={() => onNavigate('guidance-view')}>
-                  Analyze Skill Gap With Peerpath <ArrowRight size={14} />
-                </button>
-              </div>
-            </div>
-
-          </div>
-
-          <div className="myshine-right-sidebar">
-            <div className="sidebar-profile-gauge-card">
-              <div className="top-applicant-alert">
-                <span className="orange-indicator-bar"></span>
-                <span>Achieve <strong>75%</strong> to Become a Top Applicant</span>
-              </div>
-
-              <div className="gauge-profile-row">
-                <div className="circular-meter-box">
-                  <svg className="meter-svg" viewBox="0 0 100 100">
-                    <circle className="meter-track" cx="50" cy="50" r="40" />
-                    <circle 
-                      className="meter-fill" 
-                      cx="50" 
-                      cy="50" 
-                      r="40" 
-                      strokeDasharray="251.2" 
-                      strokeDashoffset="75.36" 
-                    />
-                  </svg>
-                  <div className="meter-center-text">
-                    <span className="meter-val">70%</span>
-                    <span className="meter-tag">Good</span>
-                  </div>
-                </div>
-
-                <div className="gauge-user-info">
-                  <h3 className="g-user-name">Prakash Kumar</h3>
-                  <p className="g-user-role">Senior Frontend Developer with 3+ year ...</p>
-                  <span className="g-user-date">(Updated on September 02, 2026)</span>
-                </div>
-
-              </div>
-
-              <div className="gauge-add-cert-row">
-                <a href="#!" className="add-cert-link" onClick={() => alert('Add Certification Modal')}>
-                  +5% Add Certification
-                </a>
-              </div>
-
-              <p className="gauge-help-caption">
-                Update your profile to increase your Visibility infront of recruiters
-              </p>
-
-              <button className="btn-purple-block" onClick={() => onNavigate('guidance-view')}>
-                Update Profile
-              </button>
-            </div>
-
-            <div className="sidebar-empower-hero-card">
-              <h2 className="empower-heading">
-                Empower <span className="bold-gold">Skills</span>, Elevate <span className="bold-navy">Careers</span>
-              </h2>
-              
-              <p className="empower-body-text">
-                Platform that connects you with the top 1% of mentors worldwide to train and empower your skills.
-              </p>
-
-              <div className="empower-illustration-box">
-                <img 
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80" 
-                  alt="Mentor" 
-                  className="empower-mentor-img" 
+            <div className="profile-gauge-avatar-wrap">
+              <svg className="profile-gauge-svg" viewBox="0 0 120 120">
+                <circle 
+                  className="gauge-bg-circle" 
+                  cx="60" 
+                  cy="60" 
+                  r="52" 
                 />
-                <span className="floating-badge-icon icon-python">🐍</span>
-                <span className="floating-badge-icon icon-react">⚛️</span>
+                <circle 
+                  className="gauge-fill-circle" 
+                  cx="60" 
+                  cy="60" 
+                  r="52" 
+                  strokeDasharray="326.7" 
+                  strokeDashoffset="98.0" 
+                />
+              </svg>
+              
+              <div className="profile-avatar-inner-circle">
+                <img 
+                  src="/avatars/prakash.jpg" 
+                  alt="Prakash Kumar" 
+                  className="profile-real-avatar-img"
+                />
               </div>
 
-              <button className="btn-purple-workshops" onClick={() => onNavigate('guidance-view')}>
-                View Upcoming Workshops & Mentors
+              <div className="gauge-score-badge">70%</div>
+            </div>
+
+            <h2 className="user-profile-name">Prakash Kumar</h2>
+            <p className="user-profile-designation">Senior frontend developer</p>
+
+            <div className="job-status-dropdown-wrap">
+              <button 
+                className="btn-job-status-select"
+                onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
+              >
+                <span>{jobStatus || 'Set Your Current Job Search Status'}</span>
+                <ChevronDown size={15} />
+              </button>
+
+              {isStatusDropdownOpen && (
+                <div className="job-status-menu">
+                  <div 
+                    className={`status-option ${jobStatus === 'Actively looking for jobs' ? 'selected' : ''}`}
+                    onClick={() => { setJobStatus('Actively looking for jobs'); setIsStatusDropdownOpen(false); }}
+                  >
+                    🟢 Actively looking for jobs (Immediate)
+                  </div>
+                  <div 
+                    className={`status-option ${jobStatus === 'Serving notice period' ? 'selected' : ''}`}
+                    onClick={() => { setJobStatus('Serving notice period'); setIsStatusDropdownOpen(false); }}
+                  >
+                    🟡 Serving notice period (15 days)
+                  </div>
+                  <div 
+                    className={`status-option ${jobStatus === 'Casually exploring opportunities' ? 'selected' : ''}`}
+                    onClick={() => { setJobStatus('Casually exploring opportunities'); setIsStatusDropdownOpen(false); }}
+                  >
+                    ⚪ Casually exploring opportunities
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="myprofile-card quick-nav-card">
+            <h4 className="quick-nav-title">Quick Profile Sections</h4>
+            <div className="quick-links-list">
+              <a href="#summary-section" className="q-link">Profile Summary <Check size={13} className="text-success" /></a>
+              <a href="#resume-section" className="q-link">Resume Attached <Check size={13} className="text-success" /></a>
+              <a href="#peerpath-section" className="q-link highlight-purple">✨ Peerpath Verified Badges <span className="pill-new-badge">NEW</span></a>
+              <a href="#skills-section" className="q-link">Key Skills</a>
+              <a href="#experience-section" className="q-link">Employment History</a>
+              <a href="#education-section" className="q-link">Education</a>
+            </div>
+          </div>
+
+          <div className="myprofile-card creator-promote-card" onClick={onOpenCreatorWizard}>
+            <div className="creator-promote-header">
+              <Award size={20} className="text-brand-gold" />
+              <h4>Join Shine Creator Mode</h4>
+            </div>
+            <p>Monetize your frontend experience by offering paid 1:1 mentorship calls on Peerpath.</p>
+            <button className="btn-shine-gold-sm w-100">
+              Claim Your Creator Profile <ArrowRight size={13} />
+            </button>
+          </div>
+        </div>
+
+        <div className="myprofile-right-col">
+          
+          <div className="shine-alert-banner alert-orange">
+            <div className="alert-left-content">
+              <div className="alert-circle-icon orange-icon">
+                <User size={18} />
+              </div>
+              <div className="alert-texts">
+                <h4 className="alert-heading">Profile is not updated!</h4>
+                <p className="alert-subheading">Your Profile was last updated almost a year ago</p>
+              </div>
+            </div>
+            <button className="btn-shine-outline-yellow" onClick={() => alert('Profile updated successfully!')}>
+              Update
+            </button>
+          </div>
+
+          <div className="shine-alert-banner alert-peach">
+            <div className="alert-left-content">
+              <div className="alert-circle-icon peach-icon">
+                <User size={18} />
+              </div>
+              <div className="alert-texts">
+                <p className="alert-single-text">Your profile is incomplete! Add details and increase your profile score</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="myprofile-section-card summary-box" id="summary-section">
+            <div className="summary-boost-tag">
+              <span className="text-success font-bold">↑ 5%</span>
+            </div>
+
+            <div className="summary-card-inner">
+              <div className="summary-folder-icon">
+                📁
+              </div>
+              <h3 className="section-main-heading">Profile Summary</h3>
+              
+              {isSummarySaved && summaryText ? (
+                <div className="saved-summary-display">
+                  <p className="summary-paragraph">{summaryText}</p>
+                  <button className="btn-shine-outline-yellow" onClick={() => setShowSummaryModal(true)}>
+                    <Edit3 size={13} /> Edit Summary
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <p className="summary-caption-text">
+                    A well-crafted professional summary lets recruiters understand you in under 30 seconds.
+                  </p>
+                  <button className="btn-shine-outline-yellow" onClick={() => setShowSummaryModal(true)}>
+                    Add
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="myprofile-section-card resume-box" id="resume-section">
+            <div className="section-card-top-bar">
+              <h3 className="section-main-heading">Resume</h3>
+              <button className="btn-shine-outline-yellow" onClick={() => alert('Select resume to upload')}>
+                <Upload size={14} /> Upload
               </button>
             </div>
 
-            <div className="sidebar-booster-card">
-              <div className="booster-row">
-                <div className="booster-rocket-circle">
-                  <Rocket size={22} color="#ffffff" />
-                </div>
-                <div className="booster-text-col">
-                  <h4>Profile Booster</h4>
-                  <p>Get 3x recruiter views by boosting your profile</p>
+            <div className="resume-item-row">
+              <div className="res-file-details">
+                <span className="res-filename">Prakash-Mahto1.pdf</span>
+                <div className="res-meta-line">
+                  <span>Uploaded: 26/06/2024</span>
+                  <span className="res-default-badge">Default</span>
                 </div>
               </div>
-              <button className="btn-purple-sm-block" onClick={() => onNavigate('recruiter-view')}>
-                Boost now
-              </button>
-            </div>
 
-            <div className="sidebar-creator-card" onClick={onOpenCreatorWizard}>
-              <div className="creator-row">
-                <Award size={22} className="text-brand-gold" />
+              <div className="res-actions-right">
+                <button className="icon-action-btn" title="Download Resume" onClick={() => alert('Downloading Prakash-Mahto1.pdf...')}>
+                  <Download size={16} />
+                </button>
+                <button className="icon-action-btn text-warning" title="Starred / Primary">
+                  <Star size={16} fill="#F59E0B" />
+                </button>
+                <button className="icon-action-btn text-danger" title="Delete" onClick={() => alert('Resume cannot be deleted as it is default.')}>
+                  <Trash2 size={16} />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="myprofile-section-card resume-eval-box">
+            <div className="resume-eval-flex">
+              <div className="eval-left-illo">
+                <div className="eval-gauge-icon">
+                  📊
+                </div>
                 <div>
-                  <h4>Become an Expert <span className="new-tag-gold">NEW</span></h4>
-                  <p>Share your experience, mentor peers & earn ₹20k+/month with Creator Mode.</p>
+                  <h4 className="eval-title">Is Your Resume Good Enough?</h4>
+                  <p className="eval-desc">
+                    Check your ATS score and get 1:1 CV gap analysis with verified leaders on Shine Peerpath.
+                  </p>
                 </div>
               </div>
-              <button className="btn-shine-gold w-100 mt-2">
-                Join as an Expert <ArrowRight size={14} />
+
+              <button className="btn-shine-yellow-solid" onClick={() => onNavigate('guidance-view')}>
+                <Compass size={15} /> Analyze With Peerpath
+              </button>
+            </div>
+          </div>
+
+          <div className="myprofile-section-card peerpath-badges-box" id="peerpath-section">
+            <div className="section-card-top-bar">
+              <div className="peer-title-row">
+                <Sparkles size={18} className="text-brand-purple" />
+                <h3 className="section-main-heading">Peerpath Verified Credentials & Badges</h3>
+              </div>
+              <button className="btn-secondary-purple-sm" onClick={() => onNavigate('guidance-view')}>
+                View Trajectory
               </button>
             </div>
 
+            <p className="peer-subcaption">
+              Badges awarded through verified 1:1 sessions with industry leaders. Displayed prominently in Recruiter Talent Search.
+            </p>
+
+            <div className="badges-2col-grid">
+              <div className="peer-badge-tile">
+                <div className="badge-tile-header">
+                  <div className="tile-icon-shield">
+                    <Award size={20} />
+                  </div>
+                  <div>
+                    <span className="badge-pill-gold">TIER-1 VERIFIED</span>
+                    <h4 className="badge-role-title">Frontend Architecture & System Design</h4>
+                  </div>
+                </div>
+                <p className="badge-quote-text">
+                  "Demonstrated robust understanding of scalable micro-frontends, high-performance UI optimization, and state management."
+                </p>
+                <div className="badge-verifier-strip">
+                  <img src="/avatars/amit.jpg" alt="Amit Verma" className="v-thumb" />
+                  <div>
+                    <strong>Amit Verma</strong>
+                    <span>Senior Lead @ Salesforce</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="peer-badge-tile">
+                <div className="badge-tile-header">
+                  <div className="tile-icon-shield bg-blue-subtle">
+                    <ShieldCheck size={20} color="#2563EB" />
+                  </div>
+                  <div>
+                    <span className="badge-pill-blue">VERIFIED BY PEER</span>
+                    <h4 className="badge-role-title">MEDDIC & Technical Client Pitch</h4>
+                  </div>
+                </div>
+                <p className="badge-quote-text">
+                  "Strong technical articulation with clear value-positioning for enterprise SaaS clients."
+                </p>
+                <div className="badge-verifier-strip">
+                  <img src="/avatars/neha.jpg" alt="Neha Gupta" className="v-thumb" />
+                  <div>
+                    <strong>Neha Gupta</strong>
+                    <span>Account Executive @ Zoho</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="myprofile-section-card skills-box" id="skills-section">
+            <div className="section-card-top-bar">
+              <h3 className="section-main-heading">Key Skills</h3>
+              <button className="btn-shine-outline-yellow" onClick={() => alert('Add skill modal')}>
+                <Plus size={14} /> Add Skills
+              </button>
+            </div>
+
+            <div className="skills-tags-cluster">
+              <span className="skill-bubble primary">React.js <span className="exp-num">4 Yrs</span></span>
+              <span className="skill-bubble primary">TypeScript <span className="exp-num">3 Yrs</span></span>
+              <span className="skill-bubble primary">Next.js <span className="exp-num">2 Yrs</span></span>
+              <span className="skill-bubble">JavaScript (ES6+)</span>
+              <span className="skill-bubble">System Design</span>
+              <span className="skill-bubble">Redux Toolkit</span>
+              <span className="skill-bubble">HTML5 / CSS3 / SCSS</span>
+              <span className="skill-bubble">Micro-Frontends</span>
+              <span className="skill-bubble">Vite / Webpack</span>
+              <span className="skill-bubble">REST APIs</span>
+              <span className="skill-bubble">Jest / RTL</span>
+            </div>
+          </div>
+
+          <div className="myprofile-section-card experience-box" id="experience-section">
+            <div className="section-card-top-bar">
+              <h3 className="section-main-heading">Work Experience</h3>
+              <button className="btn-shine-outline-yellow" onClick={() => alert('Add experience modal')}>
+                <Plus size={14} /> Add Experience
+              </button>
+            </div>
+
+            <div className="experience-timeline">
+              <div className="exp-entry">
+                <div className="exp-icon-dot">
+                  <Briefcase size={16} />
+                </div>
+                <div className="exp-entry-content">
+                  <div className="exp-role-row">
+                    <h4 className="exp-job-title">Senior Frontend Engineer</h4>
+                    <span className="exp-dates">Mar 2022 — Present (2 yrs 6 mos)</span>
+                  </div>
+                  <p className="exp-company-text">Tech Innovators Private Limited • Full-time • Bengaluru</p>
+                  <p className="exp-desc-text">
+                    Leading web UI architecture for customer-facing SaaS products. Responsible for component library design, state management, and performance optimization.
+                  </p>
+                </div>
+              </div>
+
+              <div className="exp-entry">
+                <div className="exp-icon-dot">
+                  <Briefcase size={16} />
+                </div>
+                <div className="exp-entry-content">
+                  <div className="exp-role-row">
+                    <h4 className="exp-job-title">Frontend Software Engineer</h4>
+                    <span className="exp-dates">Jun 2020 — Feb 2022 (1 yr 9 mos)</span>
+                  </div>
+                  <p className="exp-company-text">Web Solutions India • Full-time • Bengaluru</p>
+                  <p className="exp-desc-text">
+                    Developed cross-browser responsive frontend web pages and SPAs in React, Redux, and modern JavaScript.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="myprofile-section-card education-box" id="education-section">
+            <div className="section-card-top-bar">
+              <h3 className="section-main-heading">Education</h3>
+              <button className="btn-shine-outline-yellow" onClick={() => alert('Add education modal')}>
+                <Plus size={14} /> Add Education
+              </button>
+            </div>
+
+            <div className="edu-entry-item">
+              <div className="edu-icon-badge">🎓</div>
+              <div>
+                <h4 className="edu-degree-title">Bachelor of Technology (B.Tech) - Computer Science & Engineering</h4>
+                <p className="edu-univ-name">Visvesvaraya Technological University (VTU)</p>
+                <span className="edu-time">2016 — 2020 • Full-time</span>
+              </div>
+            </div>
           </div>
 
         </div>
 
       </div>
+
+      {showSummaryModal && (
+        <div className="modal-backdrop-overlay" onClick={() => setShowSummaryModal(false)}>
+          <div className="modal-surface-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '550px' }}>
+            <h3 style={{ fontSize: '18px', fontWeight: 800, marginBottom: '12px' }}>Edit Profile Summary</h3>
+            <textarea 
+              value={summaryText}
+              onChange={(e) => setSummaryText(e.target.value)}
+              rows={5}
+              style={{
+                width: '100%',
+                padding: '12px',
+                border: '1px solid #CBD5E1',
+                borderRadius: '8px',
+                fontSize: '13.5px',
+                lineHeight: '1.5',
+                outline: 'none',
+                fontFamily: 'inherit'
+              }}
+              placeholder="Write a brief professional summary..."
+            />
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '16px' }}>
+              <button className="btn-outline-dark-sm" onClick={() => setShowSummaryModal(false)}>Cancel</button>
+              <button className="btn-shine-yellow-solid" onClick={() => { setIsSummarySaved(true); setShowSummaryModal(false); }}>Save Summary</button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

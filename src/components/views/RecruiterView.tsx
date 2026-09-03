@@ -34,7 +34,7 @@ export const RecruiterView: React.FC<RecruiterViewProps> = ({ onNavigate }) => {
         <div className="recruiter-candidate-card verified-highlight">
           <div className="r-card-header">
             <div className="r-candidate-meta">
-              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Prakash" className="r-avatar" />
+              <img src="/avatars/prakash.jpg" alt="Prakash" className="r-avatar" />
               <div>
                 <div className="r-name-row">
                   <h3>Prakash Kumar</h3>

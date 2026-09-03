@@ -130,8 +130,8 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
           <div className="opp-footer-bar">
             <div className="matched-experts-preview">
               <div className="avatar-stack">
-                <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=60&auto=format&fit=crop&q=80" alt="Amit" />
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&auto=format&fit=crop&q=80" alt="Neha" />
+                <img src="/avatars/amit.jpg" alt="Amit" />
+                <img src="/avatars/neha.jpg" alt="Neha" />
                 <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&auto=format&fit=crop&q=80" alt="Rohan" />
               </div>
               <span className="matched-text"><strong>3 Peers</strong> transitioned from your exact role to Salesforce, Zoho & Freshworks</span>
@@ -143,45 +143,39 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
           </div>
         </div>
 
-        <div className="opp-card">
-          <div className="opp-card-header">
-            <div className="opp-title-wrap">
-              <h3 className="opp-title">AI / Machine Learning Engineer</h3>
-              <span className="badge-high-demand">High Demand</span>
-              <span className="badge-salary">₹24L - ₹45L CTC</span>
-            </div>
-            <div className="opp-match-badge match-medium">
-              <CheckCircle2 size={16} /> 88% Match
-            </div>
-          </div>
+      </div>
 
-          <div className="opp-body-grid">
-            <div className="opp-block">
-              <h4 className="opp-block-title"><ThumbsUp size={16} /> Why it's a good fit?</h4>
-              <ul className="opp-list">
-                <li>Strong Python and backend fundamentals</li>
-                <li>Data pipelines and API integration mastery</li>
-                <li>High recruiter demand in thin talent pools</li>
-              </ul>
-            </div>
-
-            <div className="opp-block">
-              <h4 className="opp-block-title text-success"><Check size={16} /> Skills you have</h4>
-              <div className="chips-wrap">
-                <span className="skill-chip chip-success">Python</span>
-                <span className="skill-chip chip-success">Data Structures</span>
-                <span className="skill-chip chip-success">REST APIs</span>
-                <span className="skill-chip chip-success">SQL / Databases</span>
+      <div className="opportunities-grid-2col" style={{ marginTop: '24px' }}>
+        <div className="opportunity-wide-card">
+          <div className="opp-main-body">
+            <div className="opp-role-head">
+              <div>
+                <span className="opp-badge-popular">HOT DOMAIN (THIN POOL)</span>
+                <h3 className="opp-title">Full-Stack Engineer ➔ Production AI/ML Engineer</h3>
+                <p className="opp-comp-range">Target Salary: <strong>₹28 - ₹42 LPA</strong> • 1,200+ Active Openings on Shine</p>
               </div>
+              <span className="opp-match-pill match-green"><Sparkles size={14} /> 85% Trajectory Match</span>
             </div>
 
-            <div className="opp-block">
-              <h4 className="opp-block-title text-warning"><AlertTriangle size={16} /> Skills to build</h4>
-              <div className="chips-wrap">
-                <span className="skill-chip chip-warning">PyTorch & Transformers</span>
-                <span className="skill-chip chip-warning">Model Quantization / Ollama</span>
-                <span className="skill-chip chip-warning">Vector DBs (Pinecone/Milvus)</span>
+            <div className="opp-skills-gap-box">
+              <div className="gap-skill-item">
+                <span className="gap-label">Skills You Have:</span>
+                <div className="gap-chips">
+                  <span className="chip-have">Python</span>
+                  <span className="chip-have">REST APIs</span>
+                  <span className="chip-have">Data Structures</span>
+                </div>
               </div>
+
+              <div className="gap-skill-item">
+                <span className="gap-label">Critical Gap to Close:</span>
+                <div className="gap-chips">
+                  <span className="chip-need">LLM Orchestration (LangChain)</span>
+                  <span className="chip-need">Vector DBs (Pinecone/Milvus)</span>
+                  <span className="chip-need">Distributed PyTorch</span>
+                </div>
+              </div>
+
               <div className="gap-meter-line">
                 <span>Skill Gap: <strong>Medium</strong></span>
                 <div className="gap-meter-bar"><div className="gap-fill" style={{ width: '45%' }}></div></div>
@@ -192,11 +186,11 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
           <div className="opp-footer-bar">
             <div className="matched-experts-preview">
               <div className="avatar-stack">
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=60&auto=format&fit=crop&q=80" alt="Ishita" />
+                <img src="/avatars/ishita.jpg" alt="Ishita" />
                 <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=60&auto=format&fit=crop&q=80" alt="Vikram" />
               </div>
               <span className="matched-text"><strong>Ishita & Vikram</strong> transitioned from Full-Stack to AI Lead @ Swiggy & Google</span>
-            </div>
+            </div>    
             <div className="opp-btn-group">
               <button className="btn-secondary-card" onClick={() => onNavigate('experts-view')}><Briefcase size={14} /> View Jobs</button>
               <button className="btn-shine-gold" onClick={() => { onSelectExpert('ishita'); onNavigate('expert-profile-view'); }}><UserCheck size={16} /> Explore Experts</button>

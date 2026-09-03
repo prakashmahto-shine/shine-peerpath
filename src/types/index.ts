@@ -20,6 +20,7 @@ export interface Expert {
 }
 
 export type ViewType = 
+  | 'dashboard-view'
   | 'profile-view'
   | 'guidance-view'
   | 'experts-view'
