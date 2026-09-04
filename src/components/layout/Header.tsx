@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Briefcase, Award, Bell, FileText, ChevronDown, Sparkles, 
-  User, ShoppingBag, Settings, LogOut, Video, Search, ArrowUpRight 
+  User, Settings, LogOut, Video, Search, ArrowUpRight, ShieldCheck,
+  RotateCcw, Users
 } from 'lucide-react';
 import { ViewType } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -19,8 +20,20 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenCreatorWizard: _onOpenCreatorWizard,
   onSearch,
 }) => {
-  const { sessions } = useApp();
-  const upcomingCount = sessions.filter(s => s.status === 'upcoming').length;
+  const { 
+    sessions, 
+    currentUser, 
+    logout,
+    switchUser,
+    resetDemoData,
+    setIsCreatorWizardOpen
+  } = useApp();
+
+  const isMentor = currentUser?.role === 'mentor';
+  const loggedInFirstName = (currentUser?.name || '').split(' ')[0].toLowerCase();
+  const upcomingCount = isMentor
+    ? sessions.filter(s => s.status === 'upcoming' && (s.expert.name.toLowerCase().includes(loggedInFirstName) || s.expert.id === currentUser?.id)).length
+    : sessions.filter(s => s.status === 'upcoming' && s.candidateName.toLowerCase().includes(loggedInFirstName)).length;
   const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -32,26 +45,29 @@ export const Header: React.FC<HeaderProps> = ({
         setIsUserMenuOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch(searchQuery);
-    onNavigate('experts-view');
+    if (searchQuery.trim()) {
+      onSearch(searchQuery.trim());
+      onNavigate('experts-view');
+    }
   };
 
   return (
-    <header className="myshine-navbar" id="globalNavbar">
+    <header className="myshine-top-header-prod">
       <div className="myshine-nav-container">
         
         {/* Left Side: Shine Logo + Nav Links */}
         <div className="myshine-nav-left">
-          <div onClick={() => onNavigate('dashboard-view')} className="shine-logo-wrap" style={{ cursor: 'pointer' }}>
+          <div 
+            onClick={() => onNavigate(currentUser ? 'dashboard-view' : 'login-view')} 
+            className="shine-logo-wrap" 
+            style={{ cursor: 'pointer' }}
+          >
             <img 
               src="https://staticcand.shine.com/c/s1/images/candidate/nova/home/shine-logo.svg" 
               alt="Shine Logo" 
@@ -90,14 +106,14 @@ export const Header: React.FC<HeaderProps> = ({
           </nav>
         </div>
 
-        {/* Right Side: Search Jobs + Get App + Recruiter Icon + Avatar */}
+        {/* Right Side: Search + Get App + Recruiter + User Dropdown / Login Button */}
         <div className="myshine-nav-right-prod">
           <form className="prod-nav-search-bar" onSubmit={handleSearchSubmit}>
             <Search size={14} className="prod-search-icon" />
             <input 
               type="text" 
-              placeholder="Search Jobs" 
-              value={searchQuery}
+              placeholder="Search Jobs or Mentors" 
+              value={searchQuery} 
               onChange={(e) => setSearchQuery(e.target.value)}
               className="prod-search-input"
             />
@@ -118,82 +134,162 @@ export const Header: React.FC<HeaderProps> = ({
             <Briefcase size={16} />
           </button>
 
-          <div 
-            ref={userMenuRef}
-            className="user-avatar-dropdown-wrapper"
-            onMouseEnter={() => setIsUserMenuOpen(true)}
-            onMouseLeave={() => setIsUserMenuOpen(false)}
-          >
+          {/* User Avatar Dropdown OR Login/Register CTA */}
+          {currentUser ? (
             <div 
-              className="user-avatar-trigger-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsUserMenuOpen(prev => !prev);
-              }}
+              ref={userMenuRef}
+              className="user-avatar-dropdown-wrapper"
+              onMouseEnter={() => setIsUserMenuOpen(true)}
+              onMouseLeave={() => setIsUserMenuOpen(false)}
             >
-              <div className="user-nav-avatar-circle">
-                <img 
-                  src="/avatars/prakash.jpg" 
-                  alt="Prakash Mahto" 
-                  className="user-nav-avatar-img" 
-                />
-              </div>
-              <ChevronDown size={14} className="user-avatar-chevron" />
-            </div>
-
-            {isUserMenuOpen && (
-              <div className="myshine-user-flyout-card">
-                <div className="flyout-user-header">
-                  <strong>Prakash Mahto</strong>
-                  <span>Senior Frontend Developer</span>
+              <div 
+                className="user-avatar-trigger-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsUserMenuOpen(prev => !prev);
+                }}
+              >
+                <div className="user-nav-avatar-circle">
+                  <img 
+                    src={currentUser.avatar} 
+                    alt={currentUser.name} 
+                    className="user-nav-avatar-img" 
+                  />
                 </div>
-
-                <div className="flyout-divider"></div>
-
-                <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('profile-view'); }}>
-                  <User size={15} /> My Profile
-                </a>
-
-                <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }}>
-                  <Video size={15} className="text-purple-600" /> 
-                  <span style={{ fontWeight: 700, color: '#0F172A' }}>My Mentorship Sessions</span>
-                  {upcomingCount > 0 && (
-                    <span className="flyout-count-pill">{upcomingCount}</span>
-                  )}
-                </a>
-
-                <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('guidance-view'); }}>
-                  <Sparkles size={15} className="text-amber-500" /> Career Roadmap (Peerpath)
-                </a>
-
-                <div className="flyout-divider"></div>
-
-                <a href="#!" className="flyout-item" onClick={(e) => e.preventDefault()}>
-                  <Settings size={14} /> Account Settings
-                </a>
-                
-                <a href="#!" className="flyout-item text-danger" onClick={(e) => e.preventDefault()}>
-                  <LogOut size={14} /> Sign out
-                </a>
+                <ChevronDown size={14} className="user-avatar-chevron" />
               </div>
-            )}
-          </div>
+
+              {isUserMenuOpen && (
+                <div className="myshine-user-flyout-card">
+                  <div className="flyout-user-header">
+                    <div className="flyout-name-badge-row">
+                      <strong>{currentUser.name}</strong>
+                      <span className={`flyout-role-badge ${isMentor ? 'mentor-badge' : 'cand-badge'}`}>
+                        {isMentor ? 'MENTOR' : 'CANDIDATE'}
+                      </span>
+                    </div>
+                    <span>{currentUser.headline.split('|')[0] || currentUser.headline}</span>
+                  </div>
+
+                  <div className="flyout-divider"></div>
+
+                  <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('profile-view'); }}>
+                    <User size={15} /> My Profile
+                  </a>
+
+                  <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }}>
+                    <Video size={15} className="text-purple-600" /> 
+                    <span style={{ fontWeight: 700, color: '#0F172A' }}>
+                      {isMentor ? 'Candidate Calls (Host)' : 'My Mentorship Sessions'}
+                    </span>
+                    {upcomingCount > 0 && (
+                      <span className="flyout-count-pill">{upcomingCount}</span>
+                    )}
+                  </a>
+
+                  {!isMentor && (currentUser?.isMentorEligible ?? false) && (
+                    <a 
+                      href="#!" 
+                      className="flyout-item flyout-item-mentor-recruit" 
+                      onClick={(e) => { 
+                        e.preventDefault(); 
+                        setIsUserMenuOpen(false); 
+                        setIsCreatorWizardOpen(true); 
+                      }}
+                    >
+                      <Sparkles size={15} className="text-amber-500" /> 
+                      <span style={{ fontWeight: 700, color: '#92400E' }}>Become a Mentor (0% Fee)</span>
+                      <span className="flyout-gold-tag">0% Fee</span>
+                    </a>
+                  )}
+
+                  <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('guidance-view'); }}>
+                    <Sparkles size={15} className="text-amber-500" /> Career Roadmap (Peerpath)
+                  </a>
+
+                  {/* Persona Switcher Section */}
+                  <div className="flyout-divider"></div>
+                  <div className="flyout-persona-switcher-section">
+                    <span className="fps-title">⚡ SWITCH PERSONA:</span>
+                    <div className="fps-grid">
+                      <button 
+                        type="button" 
+                        className={`fps-btn ${currentUser?.username === 'prakash' ? 'active' : ''}`}
+                        onClick={() => {
+                          setIsUserMenuOpen(false);
+                          switchUser('prakash');
+                        }}
+                      >
+                        <User size={12} className="text-blue-600" /> Prakash (Candidate)
+                      </button>
+
+                      <button 
+                        type="button" 
+                        className={`fps-btn ${currentUser?.username === 'nisha' ? 'active' : ''}`}
+                        onClick={() => {
+                          setIsUserMenuOpen(false);
+                          switchUser('nisha');
+                        }}
+                      >
+                        <Sparkles size={12} className="text-amber-500" /> Nisha (Pitch Lead)
+                      </button>
+
+                      <button 
+                        type="button" 
+                        className={`fps-btn ${currentUser?.username === 'akash' ? 'active' : ''}`}
+                        onClick={() => {
+                          setIsUserMenuOpen(false);
+                          switchUser('akash');
+                        }}
+                      >
+                        <ShieldCheck size={12} className="text-purple-600" /> Akash (Mentor)
+                      </button>
+                    </div>
+
+                    <button 
+                      type="button" 
+                      className="btn-reset-demo-flyout"
+                      onClick={() => {
+                        setIsUserMenuOpen(false);
+                        resetDemoData();
+                      }}
+                    >
+                      <RotateCcw size={12} /> Reset All 3 Persona Data
+                    </button>
+                  </div>
+
+                  <div className="flyout-divider"></div>
+
+                  <a href="#!" className="flyout-item" onClick={(e) => e.preventDefault()}>
+                    <Settings size={14} /> Account Settings
+                  </a>
+                  
+                  <a 
+                    href="#!" 
+                    className="flyout-item text-danger" 
+                    onClick={(e) => { 
+                      e.preventDefault(); 
+                      setIsUserMenuOpen(false); 
+                      logout(); 
+                    }}
+                  >
+                    <LogOut size={14} /> Sign out
+                  </a>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button 
+              type="button"
+              className="btn-header-login-gold"
+              onClick={() => onNavigate('login-view')}
+            >
+              <User size={14} />
+              <span>Login / Register</span>
+            </button>
+          )}
         </div>
 
-      </div>
-
-      <div className="shine-floating-peerpath-widget">
-        <button 
-          className="floating-peerpath-btn" 
-          onClick={() => onNavigate('guidance-view')}
-          title="Shine Peerpath — 1:1 Trajectory Mentorship"
-        >
-          <div className="peerpath-widget-icon-wrap">
-            <Sparkles size={18} />
-            <span className="widget-badge-count">NEW</span>
-          </div>
-          <span className="widget-text">Peerpath</span>
-        </button>
       </div>
     </header>
   );

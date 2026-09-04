@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Expert, MentorshipSession, PeerVerifiedBadge, UserProfileData, ViewType } from '../types';
+import { Expert, MentorshipSession, PeerVerifiedBadge, UserProfileData, ViewType, UserAccount } from '../types';
 import { EXPERTS_DB } from '../data/expertsData';
+import { USERS_DB } from '../data/usersData';
 
 export interface ToastMessage {
   id: string;
@@ -14,6 +15,14 @@ interface AppContextType {
   currentView: ViewType;
   previousView: ViewType;
   navigate: (view: ViewType, customPath?: string) => void;
+
+  // Authentication & Dual Roles (Prakash ⇄ Akash ⇄ Nisha)
+  currentUser: UserAccount | null;
+  isLoggedIn: boolean;
+  login: (username: string, password: string) => boolean;
+  logout: () => void;
+  switchUser: (username: string) => void;
+  resetDemoData: (targetUser?: string) => void;
 
   // Experts Database (Dynamic)
   experts: Expert[];
@@ -31,7 +40,7 @@ interface AppContextType {
   rescheduleSession: (sessionId: string, newDate: string, newTimeSlot: string) => void;
   completeSession: (sessionId: string, rating: number, notes: string, badgeTitle?: string) => void;
 
-  // User Profile (Dynamic Updates)
+  // User Profile (Candidate Profile)
   userProfile: UserProfileData;
   updateUserProfile: (updates: Partial<UserProfileData>) => void;
   updateProfileSummary: (summary: string) => void;
@@ -40,11 +49,23 @@ interface AppContextType {
   awardBadge: (badge: PeerVerifiedBadge) => void;
   updateJobSearchStatus: (status: string) => void;
 
+  // Mentor Settings & Teaser Video
+  mentorAvailability: { days: string[]; timeSlots: string[] };
+  updateMentorAvailability: (days: string[], timeSlots: string[]) => void;
+  updateMentorRatesAndAvailability: (rate: number, duration: number, days: string[], timeSlots: string[]) => void;
+  updateMentorTeaserVideo: (teaser: { url: string; title: string; duration?: string; thumbnail?: string; uploadedAt?: string } | null) => void;
+
   // Modals
   isBookingModalOpen: boolean;
   setIsBookingModalOpen: (open: boolean) => void;
   isCreatorWizardOpen: boolean;
   setIsCreatorWizardOpen: (open: boolean) => void;
+  isLoginModalOpen: boolean;
+  setIsLoginModalOpen: (open: boolean) => void;
+  isAssessmentModalOpen: boolean;
+  setIsAssessmentModalOpen: (open: boolean) => void;
+  assessmentDraftSession: MentorshipSession | null;
+  setAssessmentDraftSession: (session: MentorshipSession | null) => void;
   bookingDraft: { expert: Expert; date: string; timeSlot: string };
   setBookingDraft: (draft: { expert: Expert; date: string; timeSlot: string }) => void;
 
@@ -98,10 +119,13 @@ const initialUserProfile: UserProfileData = {
 const initialSessions: MentorshipSession[] = [
   {
     id: 'sess-1',
-    expert: EXPERTS_DB[0], // Akash Jain
+    expert: EXPERTS_DB[0], // Akash Jain (Lead PM @ Shine)
     candidateName: 'Prakash Mahto',
-    date: 'Fri, 4 Sep 2026',
-    timeSlot: '10:00 AM - 11:00 AM',
+    candidateRole: 'Senior Frontend Engineer',
+    candidateAvatar: '/avatars/prakash.jpg',
+    candidateGoal: 'Transition to Top Tier-1 Tech / ₹18L–₹24L target & Mock Interview',
+    date: 'Saturday, 5 Sep 2026',
+    timeSlot: '07:00 PM - 08:00 PM',
     status: 'upcoming',
     meetingLink: 'https://meet.shine.com/room/peerpath-akash-prakash'
   },
@@ -109,6 +133,9 @@ const initialSessions: MentorshipSession[] = [
     id: 'sess-2',
     expert: EXPERTS_DB[1], // Anirudh Sharma
     candidateName: 'Prakash Mahto',
+    candidateRole: 'Senior Frontend Engineer',
+    candidateAvatar: '/avatars/prakash.jpg',
+    candidateGoal: 'Learn Search System Architecture & Lucene Sharding',
     date: 'Thu, 28 Aug 2026',
     timeSlot: '04:00 PM - 05:00 PM',
     status: 'completed',
@@ -121,8 +148,29 @@ const initialSessions: MentorshipSession[] = [
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Authentication & Dual User Management
+  const [currentUser, setCurrentUser] = useState<UserAccount | null>(() => {
+    try {
+      const savedUser = localStorage.getItem('shine_peerpath_current_user');
+      if (savedUser === 'null') {
+        return null;
+      }
+      if (savedUser) {
+        return JSON.parse(savedUser);
+      }
+      return USERS_DB.prakash.account;
+    } catch {
+      return USERS_DB.prakash.account;
+    }
+  });
+
+  const isLoggedIn = currentUser !== null;
+
   // Navigation
-  const [currentView, setCurrentView] = useState<ViewType>('dashboard-view');
+  const [currentView, setCurrentView] = useState<ViewType>(() => {
+    if (!currentUser) return 'login-view';
+    return 'dashboard-view';
+  });
   const [previousView, setPreviousView] = useState<ViewType>('guidance-view');
   
   // Dynamic Experts
@@ -140,9 +188,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       return EXPERTS_DB;
     }
   });
-
-  const [selectedExpert, setSelectedExpert] = useState<Expert>(experts[0] || EXPERTS_DB[0]);
-
+  
+  const [selectedExpert, setSelectedExpert] = useState<Expert>(EXPERTS_DB[0]);
+  
   // Dynamic Sessions
   const [sessions, setSessions] = useState<MentorshipSession[]>(() => {
     try {
@@ -152,38 +200,79 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       return initialSessions;
     }
   });
+  
+  const [activeSession, setActiveSession] = useState<MentorshipSession | null>(null);
 
-  const [activeSession, setActiveSession] = useState<MentorshipSession | null>(sessions[0] || null);
-
-  // Dynamic User Profile
-  const [userProfile, setUserProfile] = useState<UserProfileData>(() => {
+  // Dynamic User Profiles Map (Prakash, Akash, Nisha)
+  const [userProfiles, setUserProfiles] = useState<Record<string, UserProfileData>>(() => {
     try {
-      const saved = localStorage.getItem('shine_peerpath_profile');
-      return saved ? JSON.parse(saved) : initialUserProfile;
+      const saved = localStorage.getItem('shine_peerpath_profiles_db');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
+          prakash: { ...USERS_DB.prakash.profile, ...(parsed.prakash || {}) },
+          akash: { ...USERS_DB.akash.profile, ...(parsed.akash || {}) },
+          nisha: { ...USERS_DB.nisha.profile, ...(parsed.nisha || {}) }
+        };
+      }
+      return {
+        prakash: USERS_DB.prakash.profile,
+        akash: USERS_DB.akash.profile,
+        nisha: USERS_DB.nisha.profile
+      };
     } catch {
-      return initialUserProfile;
+      return {
+        prakash: USERS_DB.prakash.profile,
+        akash: USERS_DB.akash.profile,
+        nisha: USERS_DB.nisha.profile
+      };
     }
   });
 
-  // Modals & Booking Draft
+  const activeUsername = currentUser?.username || 'prakash';
+  const userProfile: UserProfileData = userProfiles[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.prakash.profile;
+
+  // Mentor Availability
+  const [mentorAvailability, setMentorAvailability] = useState<{ days: string[]; timeSlots: string[] }>({
+    days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    timeSlots: ['10:00 AM - 11:00 AM', '02:00 PM - 03:00 PM', '06:30 PM - 07:30 PM', '08:00 PM - 09:00 PM']
+  });
+
+  // Modals & UI Drafts
   const [isBookingModalOpen, setIsBookingModalOpen] = useState<boolean>(false);
   const [isCreatorWizardOpen, setIsCreatorWizardOpen] = useState<boolean>(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
+  const [isAssessmentModalOpen, setIsAssessmentModalOpen] = useState<boolean>(false);
+  const [assessmentDraftSession, setAssessmentDraftSession] = useState<MentorshipSession | null>(null);
+
   const [bookingDraft, setBookingDraft] = useState<{ expert: Expert; date: string; timeSlot: string }>({
-    expert: experts[0] || EXPERTS_DB[0],
-    date: 'Fri, 4 Sep 2026',
+    expert: EXPERTS_DB[0],
+    date: 'Tomorrow, 5 Sep',
     timeSlot: '10:00 AM - 11:00 AM'
   });
 
-  // Search & Toasts
+  // Search & Global Toasts
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
-  // Persist state to LocalStorage
+  // Synchronize localStorage
+  useEffect(() => {
+    try {
+      if (currentUser) {
+        localStorage.setItem('shine_peerpath_current_user', JSON.stringify(currentUser));
+      } else {
+        localStorage.setItem('shine_peerpath_current_user', 'null');
+      }
+    } catch (e) {
+      console.warn('Failed to persist user', e);
+    }
+  }, [currentUser]);
+
   useEffect(() => {
     try {
       localStorage.setItem('shine_peerpath_experts', JSON.stringify(experts));
     } catch (e) {
-      console.warn('Failed to persist experts to LocalStorage', e);
+      console.warn('Failed to persist experts', e);
     }
   }, [experts]);
 
@@ -191,17 +280,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     try {
       localStorage.setItem('shine_peerpath_sessions', JSON.stringify(sessions));
     } catch (e) {
-      console.warn('Failed to persist sessions to LocalStorage', e);
+      console.warn('Failed to persist sessions', e);
     }
   }, [sessions]);
 
   useEffect(() => {
     try {
-      localStorage.setItem('shine_peerpath_profile', JSON.stringify(userProfile));
+      localStorage.setItem('shine_peerpath_profiles_db', JSON.stringify(userProfiles));
     } catch (e) {
-      console.warn('Failed to persist profile to LocalStorage', e);
+      console.warn('Failed to persist profiles db', e);
     }
-  }, [userProfile]);
+  }, [userProfiles]);
 
   const showToast = (title: string, description?: string, type: 'success' | 'info' | 'warning' = 'success') => {
     const id = 'toast-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4);
@@ -220,11 +309,95 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setPreviousView(currentView);
     }
     setCurrentView(view);
-    const pathToPush = customPath || (view === 'dashboard-view' ? '/' : `/${view.replace('-view', '')}`);
+    const pathToPush = customPath || (
+      view === 'dashboard-view' ? '/' : 
+      view === 'login-view' ? '/pages/myshine/login' :
+      `/${view.replace('-view', '')}`
+    );
     if (window.location.pathname !== pathToPush) {
       window.history.pushState({}, '', pathToPush);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Authentication methods
+  const login = (usernameInput: string, passwordInput: string): boolean => {
+    const cleanUser = usernameInput.trim().toLowerCase();
+    const entry = USERS_DB[cleanUser];
+    if (entry && entry.password === passwordInput.trim()) {
+      setCurrentUser(entry.account);
+      setUserProfiles(prev => ({
+        ...prev,
+        [cleanUser]: { ...entry.profile, ...(prev[cleanUser] || {}) }
+      }));
+      setIsLoginModalOpen(false);
+      navigate('dashboard-view');
+      showToast(`👋 Welcome back, ${entry.account.name}!`, `Logged in to Shine.`);
+      return true;
+    }
+    showToast('Invalid Credentials', 'Please check username or password (shine@123)', 'warning');
+    return false;
+  };
+
+  const switchUser = (targetUsername: string) => {
+    const cleanUser = targetUsername.trim().toLowerCase();
+    const entry = USERS_DB[cleanUser];
+    if (entry) {
+      setCurrentUser(entry.account);
+      setUserProfiles(prev => ({
+        ...prev,
+        [cleanUser]: { ...entry.profile, ...(prev[cleanUser] || {}) }
+      }));
+      navigate('dashboard-view');
+      showToast(`⚡ Logged in as ${entry.account.name}`, `Dashboard & Profile updated.`);
+    }
+  };
+
+  const resetDemoData = (targetUsername?: string) => {
+    try {
+      localStorage.removeItem('shine_peerpath_current_user');
+      localStorage.removeItem('shine_peerpath_experts');
+      localStorage.removeItem('shine_peerpath_sessions');
+      localStorage.removeItem('shine_peerpath_profiles_db');
+    } catch (e) {
+      console.warn('LocalStorage clear error', e);
+    }
+
+    const freshProfiles: Record<string, UserProfileData> = {
+      prakash: JSON.parse(JSON.stringify(USERS_DB.prakash.profile)),
+      akash: JSON.parse(JSON.stringify(USERS_DB.akash.profile)),
+      nisha: JSON.parse(JSON.stringify(USERS_DB.nisha.profile))
+    };
+
+    const freshSessions = JSON.parse(JSON.stringify(initialSessions));
+    const freshExperts = JSON.parse(JSON.stringify(EXPERTS_DB));
+
+    setExperts(freshExperts);
+    setSessions(freshSessions);
+    setUserProfiles(freshProfiles);
+
+    const target = targetUsername || currentUser?.username || 'prakash';
+    const userToSet = USERS_DB[target]?.account || USERS_DB.prakash.account;
+    setCurrentUser(userToSet);
+
+    try {
+      localStorage.setItem('shine_peerpath_current_user', JSON.stringify(userToSet));
+      localStorage.setItem('shine_peerpath_experts', JSON.stringify(freshExperts));
+      localStorage.setItem('shine_peerpath_sessions', JSON.stringify(freshSessions));
+      localStorage.setItem('shine_peerpath_profiles_db', JSON.stringify(freshProfiles));
+    } catch (e) {
+      console.warn('LocalStorage save error', e);
+    }
+
+    navigate('dashboard-view');
+    showToast('🔄 Demo Data Reset Complete', `All 3 personas (Prakash: Candidate, Nisha: Pitch, Akash: Mentor) restored to pristine state.`, 'success');
+  };
+
+  const logout = () => {
+    setCurrentUser(null);
+    setIsLoginModalOpen(false);
+    navigate('login-view', '/pages/myshine/login');
+    showToast('Signed Out', 'You have been safely signed out of your Shine account.', 'info');
   };
 
   const selectExpertById = (expertId: string) => {
@@ -248,6 +421,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       id: 'sess-' + Date.now(),
       expert,
       candidateName: userProfile.name,
+      candidateRole: userProfile.headline.split('|')[0]?.trim() || 'Senior Frontend Engineer',
+      candidateAvatar: '/avatars/prakash.jpg',
+      candidateGoal: 'Transition to Top Product Company / ₹18L-24L package & get resume reviewed',
       date,
       timeSlot,
       status: 'upcoming',
@@ -296,49 +472,126 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const updateUserProfile = (updates: Partial<UserProfileData>) => {
-    setUserProfile(prev => ({ ...prev, ...updates }));
+    setUserProfiles(prev => {
+      const existing = prev[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.prakash.profile;
+      return {
+        ...prev,
+        [activeUsername]: { ...existing, ...updates }
+      };
+    });
     showToast('Profile Updated', 'Your profile details have been saved.');
   };
 
   const updateProfileSummary = (summary: string) => {
-    setUserProfile(prev => ({
-      ...prev,
-      summary,
-      profileScore: Math.min(100, prev.profileScore + 5) // Automatically boost score by 5%
-    }));
+    setUserProfiles(prev => {
+      const existing = prev[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.prakash.profile;
+      return {
+        ...prev,
+        [activeUsername]: {
+          ...existing,
+          summary,
+          profileScore: Math.min(100, existing.profileScore + 5)
+        }
+      };
+    });
     showToast('Summary Boosted (+5%)', 'Your profile strength is now higher for recruiters!');
   };
 
   const addSkill = (skill: string) => {
-    if (!userProfile.skills.includes(skill)) {
-      setUserProfile(prev => ({
-        ...prev,
-        skills: [...prev.skills, skill],
-        profileScore: Math.min(100, prev.profileScore + 2)
-      }));
-      showToast('Skill Added', `${skill} added to your verified profile.`);
-    }
+    setUserProfiles(prev => {
+      const existing = prev[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.prakash.profile;
+      if (!existing.skills.includes(skill)) {
+        return {
+          ...prev,
+          [activeUsername]: {
+            ...existing,
+            skills: [...existing.skills, skill],
+            profileScore: Math.min(100, existing.profileScore + 2)
+          }
+        };
+      }
+      return prev;
+    });
+    showToast('Skill Added', `${skill} added to your verified profile.`);
   };
 
   const removeSkill = (skill: string) => {
-    setUserProfile(prev => ({
-      ...prev,
-      skills: prev.skills.filter(s => s !== skill)
-    }));
+    setUserProfiles(prev => {
+      const existing = prev[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.prakash.profile;
+      return {
+        ...prev,
+        [activeUsername]: {
+          ...existing,
+          skills: existing.skills.filter(s => s !== skill)
+        }
+      };
+    });
+    showToast('Skill Removed', `${skill} removed from profile.`, 'info');
   };
 
-  const awardBadge = (badge: PeerVerifiedBadge) => {
-    setUserProfile(prev => ({
-      ...prev,
-      badges: [badge, ...prev.badges],
-      profileScore: Math.min(100, prev.profileScore + 10)
-    }));
-    showToast('🏆 New Peer Badge Earned!', `${badge.title} is now visible to recruiters.`);
+  const awardBadge = (newBadge: PeerVerifiedBadge) => {
+    setUserProfiles(prev => {
+      const targetUser = 'prakash';
+      const existing = prev[targetUser] || USERS_DB.prakash.profile;
+      return {
+        ...prev,
+        [targetUser]: {
+          ...existing,
+          badges: [newBadge, ...existing.badges.filter(b => b.title !== newBadge.title)],
+          profileScore: Math.min(100, existing.profileScore + 8)
+        }
+      };
+    });
   };
 
   const updateJobSearchStatus = (status: string) => {
-    setUserProfile(prev => ({ ...prev, jobSearchStatus: status }));
-    showToast('Status Updated', `Job search status set to "${status}".`);
+    setUserProfiles(prev => {
+      const existing = prev[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.prakash.profile;
+      return {
+        ...prev,
+        [activeUsername]: {
+          ...existing,
+          jobSearchStatus: status
+        }
+      };
+    });
+    showToast('Job Status Updated', `Status changed to "${status}".`);
+  };
+
+  const updateMentorAvailability = (days: string[], timeSlots: string[]) => {
+    setMentorAvailability({ days, timeSlots });
+    showToast('Availability Saved', 'Your weekly mentorship slots have been updated.');
+  };
+
+  const updateMentorRatesAndAvailability = (rate: number, duration: number, days: string[], timeSlots: string[]) => {
+    setUserProfiles(prev => {
+      const existing = prev[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.akash.profile;
+      return {
+        ...prev,
+        [activeUsername]: {
+          ...existing,
+          mentorRate: rate,
+          mentorDuration: duration,
+          mentorAvailability: { days, timeSlots }
+        }
+      };
+    });
+    setMentorAvailability({ days, timeSlots });
+    showToast('Mentorship Settings Saved', `Session fee set to ₹${rate} & schedule updated!`);
+  };
+
+  const updateMentorTeaserVideo = (teaser: { url: string; title: string; duration?: string; thumbnail?: string; uploadedAt?: string } | null) => {
+    setUserProfiles(prev => {
+      const existing = prev[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.akash.profile;
+      return {
+        ...prev,
+        [activeUsername]: {
+          ...existing,
+          mentorTeaserVideo: teaser
+        }
+      };
+    });
+    showToast(teaser ? '🎉 Teaser Video Published!' : 'Teaser Video Removed', teaser ? 'Candidates can now watch your introduction on Peerpath.' : undefined);
   };
 
   return (
@@ -347,6 +600,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         currentView,
         previousView,
         navigate,
+        currentUser,
+        isLoggedIn,
+        login,
+        logout,
+        switchUser,
+        resetDemoData,
         experts,
         selectedExpert,
         setSelectedExpert,
@@ -366,10 +625,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         removeSkill,
         awardBadge,
         updateJobSearchStatus,
+        mentorAvailability,
+        updateMentorAvailability,
+        updateMentorRatesAndAvailability,
+        updateMentorTeaserVideo,
         isBookingModalOpen,
         setIsBookingModalOpen,
         isCreatorWizardOpen,
         setIsCreatorWizardOpen,
+        isLoginModalOpen,
+        setIsLoginModalOpen,
+        isAssessmentModalOpen,
+        setIsAssessmentModalOpen,
+        assessmentDraftSession,
+        setAssessmentDraftSession,
         bookingDraft,
         setBookingDraft,
         searchQuery,
@@ -384,7 +653,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   );
 };
 
-export const useApp = () => {
+export const useApp = (): AppContextType => {
   const context = useContext(AppContext);
   if (!context) {
     throw new Error('useApp must be used within an AppProvider');

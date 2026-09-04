@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Search, Play, ShieldCheck, Star, ChevronLeft, ChevronRight, SearchX, Compass, Users, TrendingUp } from 'lucide-react';
+import { Search, Play, ShieldCheck, Star, ChevronLeft, ChevronRight, SearchX, Compass, Users, TrendingUp, Sparkles, ArrowRight } from 'lucide-react';
 import { Expert, ViewType } from '../../types';
+import { useApp } from '../../context/AppContext';
 
 interface ExpertsGalleryViewProps {
   experts: Expert[];
@@ -15,6 +16,8 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
   onOpenBooking,
   onNavigate,
 }) => {
+  const { setIsCreatorWizardOpen, currentUser } = useApp();
+  const isMentor = currentUser?.role === 'mentor';
   const [activeDomain, setActiveDomain] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [expFilter, setExpFilter] = useState<string>('all');
@@ -55,33 +58,62 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
 
   return (
     <div className="content-wrapper">
-      {/* Peerpath Top Sub-Nav View Switcher */}
+      {/* Peerpath Top Sub-Nav View Switcher + Become Mentor CTA */}
       <div className="peerpath-top-nav-switcher">
-        <button 
-          type="button"
-          className="ptn-tab-btn"
-          onClick={() => onNavigate('guidance-view')}
-        >
-          <TrendingUp size={15} className="ptn-icon" />
-          <span>Recommended Pathways</span>
-          <span className="ptn-badge-pill">Best Fit</span>
-        </button>
-        
-        <button 
-          type="button"
-          className="ptn-tab-btn active ptn-mentors-highlight"
-          onClick={() => {}}
-        >
-          <div className="ptn-avatars-stack">
-            <img src="/avatars/saheli.jpg" alt="Mentor" className="ptn-av" />
-            <img src="/avatars/akash.jpg" alt="Mentor" className="ptn-av" />
-            <img src="/avatars/ishita.jpg" alt="Mentor" className="ptn-av" />
-            <span className="ptn-live-dot"></span>
-          </div>
-          <span className="ptn-label-main">Explore 500+ Mentors</span>
-          <span className="ptn-count-pill">Live 1:1 Prep</span>
-        </button>
+        <div className="ptn-left-group">
+          <button 
+            type="button"
+            className="ptn-tab-btn"
+            onClick={() => onNavigate('guidance-view')}
+          >
+            <TrendingUp size={15} className="ptn-icon" />
+            <span>Recommended Pathways</span>
+            <span className="ptn-badge-pill">Best Fit</span>
+          </button>
+          
+          <button 
+            type="button"
+            className="ptn-tab-btn active ptn-mentors-highlight"
+            onClick={() => {}}
+          >
+            <div className="ptn-avatars-stack">
+              <img src="/avatars/saheli.jpg" alt="Mentor" className="ptn-av" />
+              <img src="/avatars/akash.jpg" alt="Mentor" className="ptn-av" />
+              <img src="/avatars/ishita.jpg" alt="Mentor" className="ptn-av" />
+              <span className="ptn-live-dot"></span>
+            </div>
+            <span className="ptn-label-main">Explore 500+ Mentors</span>
+            <span className="ptn-count-pill">Live 1:1 Prep</span>
+          </button>
+        </div>
+
+        {!isMentor && (currentUser?.isMentorEligible ?? false) && (
+          <button 
+            type="button"
+            className="ptn-become-mentor-btn"
+            onClick={() => setIsCreatorWizardOpen(true)}
+          >
+            <Sparkles size={13} className="text-amber-500" />
+            <span>Become a Mentor</span>
+            <span className="ptn-zero-fee-tag">0% Fee</span>
+          </button>
+        )}
       </div>
+
+      {/* Mentor Acquisition Banner for Candidates in Gallery (Nisha only) */}
+      {!isMentor && (currentUser?.isMentorEligible ?? false) && (
+        <div className="peerpath-mentor-recruitment-strip" onClick={() => setIsCreatorWizardOpen(true)}>
+          <div className="pmrs-left">
+            <span className="pmrs-badge">⭐ FOUNDING MENTOR CIRCLE</span>
+            <span className="pmrs-text">
+              Monetize your expertise & mentor candidates with <strong>0% platform fee</strong>. Join 500+ Top Mentors from Swiggy, Google & Razorpay.
+            </span>
+          </div>
+          <button type="button" className="pmrs-cta-btn">
+            Join as Mentor (0% Fee) <ArrowRight size={13} />
+          </button>
+        </div>
+      )}
 
       {/* Breadcrumb Navigation Bar */}
       <div className="view-breadcrumb-bar">

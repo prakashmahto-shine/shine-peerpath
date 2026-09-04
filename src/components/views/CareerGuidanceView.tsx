@@ -17,8 +17,9 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
   onNavigate,
   onSelectExpert,
 }) => {
-  const { userProfile } = useApp();
+  const { userProfile, setIsCreatorWizardOpen, currentUser } = useApp();
   const [activeTab, setActiveTab] = useState<'all' | 'arch' | 'pm' | 'search' | 'ai'>('all');
+  const isMentor = currentUser?.role === 'mentor';
 
   const scrollToTrajectories = () => {
     const el = document.getElementById('trajectoriesSection');
@@ -33,33 +34,62 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
   return (
     <div className="content-wrapper peerpath-guidance-page">
 
-      {/* Peerpath Top Sub-Nav View Switcher */}
+      {/* Peerpath Top Sub-Nav View Switcher + Become Mentor CTA */}
       <div className="peerpath-top-nav-switcher">
-        <button 
-          type="button"
-          className="ptn-tab-btn active"
-          onClick={() => {}}
-        >
-          <TrendingUp size={15} className="ptn-icon" />
-          <span>Recommended Pathways</span>
-          <span className="ptn-badge-pill">Best Fit</span>
-        </button>
-        
-        <button 
-          type="button"
-          className="ptn-tab-btn ptn-mentors-highlight"
-          onClick={() => onNavigate('experts-view')}
-        >
-          <div className="ptn-avatars-stack">
-            <img src="/avatars/saheli.jpg" alt="Mentor" className="ptn-av" />
-            <img src="/avatars/akash.jpg" alt="Mentor" className="ptn-av" />
-            <img src="/avatars/ishita.jpg" alt="Mentor" className="ptn-av" />
-            <span className="ptn-live-dot"></span>
-          </div>
-          <span className="ptn-label-main">Explore 500+ Mentors</span>
-          <span className="ptn-count-pill">Live 1:1 Prep</span>
-        </button>
+        <div className="ptn-left-group">
+          <button 
+            type="button"
+            className="ptn-tab-btn active"
+            onClick={() => {}}
+          >
+            <TrendingUp size={15} className="ptn-icon" />
+            <span>Recommended Pathways</span>
+            <span className="ptn-badge-pill">Best Fit</span>
+          </button>
+          
+          <button 
+            type="button"
+            className="ptn-tab-btn ptn-mentors-highlight"
+            onClick={() => onNavigate('experts-view')}
+          >
+            <div className="ptn-avatars-stack">
+              <img src="/avatars/saheli.jpg" alt="Mentor" className="ptn-av" />
+              <img src="/avatars/akash.jpg" alt="Mentor" className="ptn-av" />
+              <img src="/avatars/ishita.jpg" alt="Mentor" className="ptn-av" />
+              <span className="ptn-live-dot"></span>
+            </div>
+            <span className="ptn-label-main">Explore 500+ Mentors</span>
+            <span className="ptn-count-pill">Live 1:1 Prep</span>
+          </button>
+        </div>
+
+        {!isMentor && (currentUser?.isMentorEligible ?? false) && (
+          <button 
+            type="button"
+            className="ptn-become-mentor-btn"
+            onClick={() => setIsCreatorWizardOpen(true)}
+          >
+            <Sparkles size={13} className="text-amber-500" />
+            <span>Become a Mentor</span>
+            <span className="ptn-zero-fee-tag">0% Fee</span>
+          </button>
+        )}
       </div>
+
+      {/* Mentor Recruitment Strip for Experienced Professionals (Nisha only) */}
+      {!isMentor && (currentUser?.isMentorEligible ?? false) && (
+        <div className="peerpath-mentor-recruitment-strip" onClick={() => setIsCreatorWizardOpen(true)}>
+          <div className="pmrs-left">
+            <span className="pmrs-badge">⭐ FOUNDING MENTOR CIRCLE</span>
+            <span className="pmrs-text">
+              Are you a Senior Engineer or Tech Lead? Set your own rates & mentor candidates with <strong>0% platform fee</strong>.
+            </span>
+          </div>
+          <button type="button" className="pmrs-cta-btn">
+            Apply in 60 Secs <ArrowRight size={13} />
+          </button>
+        </div>
+      )}
       
       {/* 1. Hero Trajectory Engine Header */}
       <div className="peerpath-hero-banner">

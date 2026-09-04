@@ -15,9 +15,13 @@ import { MySessionsView } from './components/views/MySessionsView';
 import { LiveVideoCallView } from './components/views/LiveVideoCallView';
 import { PostSessionView } from './components/views/PostSessionView';
 import { RecruiterView } from './components/views/RecruiterView';
+import { MentorDashboardView } from './components/views/MentorDashboardView';
+import { LoginView } from './components/views/LoginView';
 
 import { BookingModal } from './components/modals/BookingModal';
 import { CreatorWizardModal } from './components/modals/CreatorWizardModal';
+import { LoginModal } from './components/modals/LoginModal';
+import { MentorAssessmentModal } from './components/modals/MentorAssessmentModal';
 
 import { AppProvider, useApp } from './context/AppContext';
 import { ViewType } from './types';
@@ -61,20 +65,25 @@ const pathToView = (pathname: string): { view: ViewType; expertId?: string } => 
   if (clean === '/recruiter' || clean === '/recruiters') {
     return { view: 'recruiter-view' };
   }
+  if (clean === '/mentor-dashboard' || clean === '/mentor' || clean === '/mentor-portal') {
+    return { view: 'mentor-dashboard-view' };
+  }
+  if (clean === '/login' || clean === '/signin' || clean === '/pages/myshine/login') {
+    return { view: 'login-view' };
+  }
   return { view: 'dashboard-view' };
 };
 
 const AppMain: React.FC = () => {
   const { 
     currentView, 
+    currentUser,
     navigate, 
     experts,
     selectedExpert, 
     selectExpertById,
     isBookingModalOpen, 
     setIsBookingModalOpen,
-    isCreatorWizardOpen,
-    setIsCreatorWizardOpen,
     bookingDraft,
     setBookingDraft,
     setSearchQuery
@@ -122,7 +131,7 @@ const AppMain: React.FC = () => {
     <div className="app-root-container">
       <ToastContainer />
 
-      {showTopNotice && currentView !== 'live-call-view' && (
+      {showTopNotice && currentView !== 'live-call-view' && currentView !== 'login-view' && currentUser?.role === 'candidate' && (
         <div className="myshine-top-notice-bar">
           <div className="notice-inner-flex">
             <div className="notice-left-text">
@@ -141,14 +150,16 @@ const AppMain: React.FC = () => {
         </div>
       )}
 
-      <Header
-        currentView={currentView}
-        onNavigate={navigate}
-        onOpenCreatorWizard={() => setIsCreatorWizardOpen(true)}
-        onSearch={handleGlobalSearch}
-      />
+      {currentView !== 'login-view' && (
+        <Header
+          currentView={currentView}
+          onNavigate={navigate}
+          onOpenCreatorWizard={() => {}}
+          onSearch={handleGlobalSearch}
+        />
+      )}
 
-      <main className="app-main-viewport" style={{ minHeight: '80vh' }}>
+      <main className="app-main-viewport" style={{ minHeight: currentView === 'login-view' ? '100vh' : '80vh' }}>
         {currentView === 'dashboard-view' && (
           <DashboardView />
         )}
@@ -205,9 +216,17 @@ const AppMain: React.FC = () => {
         {currentView === 'recruiter-view' && (
           <RecruiterView onNavigate={navigate} />
         )}
+
+        {currentView === 'mentor-dashboard-view' && (
+          <MentorDashboardView />
+        )}
+
+        {currentView === 'login-view' && (
+          <LoginView />
+        )}
       </main>
 
-      {currentView !== 'live-call-view' && <Footer />}
+      {currentView !== 'live-call-view' && currentView !== 'login-view' && <Footer />}
 
       <BookingModal
         expert={bookingDraft.expert || selectedExpert}
@@ -224,6 +243,8 @@ const AppMain: React.FC = () => {
       />
 
       <CreatorWizardModal />
+      <LoginModal />
+      <MentorAssessmentModal />
     </div>
   );
 };
