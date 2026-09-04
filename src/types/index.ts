@@ -23,6 +23,7 @@ export type ViewType =
   | 'dashboard-view'
   | 'profile-view'
   | 'guidance-view'
+  | 'jobs-view'
   | 'experts-view'
   | 'expert-profile-view'
   | 'payment-view'
@@ -125,4 +126,14 @@ export interface UserAccount {
   hasExpertBadge?: boolean;
   isMentorEligible?: boolean;
 }
+
+export interface PeerpathJobContext {
+  isFromPeerpath: boolean;
+  trackKey: string;
+  trackTitle: string;
+  targetRole: string;
+  targetPackage: string;
+  requiredBoosterSkills: string[];
+}
+
 

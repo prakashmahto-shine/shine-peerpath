@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { 
   ChevronLeft, ChevronRight, Play, Briefcase, MapPin, 
   Clock, Eye, ChevronDown, ArrowUpRight, Sparkles, Plus, Check,
-  ShieldCheck, Banknote, Gift, Award, ArrowRight, Zap, CheckCircle2, Star, Users, TrendingUp
+  ShieldCheck, Banknote, Gift, Award, ArrowRight, Zap, CheckCircle2, Star, Users, TrendingUp, Video,
+  EyeOff
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -12,7 +13,8 @@ export const DashboardView: React.FC = () => {
     userProfile, 
     navigate, 
     addSkill,
-    setIsCreatorWizardOpen 
+    setIsCreatorWizardOpen,
+    updateJobSearchStatus
   } = useApp();
   const [skillQuery, setSkillQuery] = useState<string>('');
   const [locationQuery, setLocationQuery] = useState<string>('');
@@ -340,162 +342,122 @@ export const DashboardView: React.FC = () => {
         
         {/* Role-Based Banner Flow: Active Mentor vs Verified Expert Candidate (Nisha) vs Jobseeker Candidate (Prakash) */}
         {isMentor ? (
-          <section className="dashboard-mentor-active-banner">
-            <div className="dmab-active-grid">
-              <div className="dmab-active-left">
-                <div className="dma-pill-row">
-                  <span className="dmab-pill-green">🛡️ VERIFIED SHINE MENTOR</span>
-                  <span className="dmab-pill-gold">⭐ 0% FOUNDING COMMISSION ACTIVE</span>
-                </div>
-                <h3>Welcome back, {currentUser?.name || 'Akash'}! Your Mentorship Hub is Live</h3>
-                <p>You have <strong>1 upcoming candidate session</strong> scheduled. Candidate ATS dossier & target job criteria are ready in your video room.</p>
+          <section className="dashboard-mentor-alert-strip" onClick={() => navigate('sessions-view')}>
+            <div className="dmas-left">
+              <div className="dmas-badge">
+                <ShieldCheck size={12} className="text-emerald" />
+                <span>ACTIVE MENTOR & EVALUATOR</span>
               </div>
+              <div className="dmas-text">
+                <strong>Next Candidate Session:</strong> Prakash Mahto (Senior Frontend Engineer) • <span className="dmas-time">Saturday, 7:00 PM</span>
+              </div>
+            </div>
 
-              <div className="dmab-active-right">
-                <div className="dma-metric-item">
-                  <span className="dma-m-label">Total Earned</span>
-                  <strong className="dma-m-val text-green">₹47,952</strong>
-                </div>
-                <div className="dma-metric-item">
-                  <span className="dma-m-label">Verified Badges Issued</span>
-                  <strong className="dma-m-val text-purple">28</strong>
-                </div>
-                <button 
-                  type="button" 
-                  className="btn-shine-gold-sm"
-                  onClick={() => navigate('sessions-view')}
-                >
-                  Open Host Video Room ➔
-                </button>
-              </div>
+            <div className="dmas-right">
+              <button 
+                type="button" 
+                className="btn-dmas-host"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate('sessions-view');
+                }}
+              >
+                <Video size={13} /> Host Video Room <ArrowRight size={13} />
+              </button>
             </div>
           </section>
         ) : (currentUser?.isMentorEligible || userProfile.isMentorEligible) ? (
-          /* Qualified Senior Professionals (Nisha - Has Expert Badge) */
-          <section className="dashboard-mentor-acquisition-banner">
+          /* Mentor Eligible Candidates (Nisha - VIP Mentor Circle Acquisition) */
+          <section className="dashboard-mentor-acquisition-banner compact-vip-banner" onClick={() => setIsCreatorWizardOpen(true)}>
             <div className="dmab-glow-bg"></div>
             
-            <div className="dmab-content-grid">
-              
-              {/* Left Col: Badges & Headings */}
-              <div className="dmab-left-col">
-                <div className="dmab-top-pills-row">
+            <div className="dmab-compact-grid">
+              {/* Left Side: Punchy 2-Second Scannable Pitch */}
+              <div className="dmab-compact-left">
+                <div className="dmab-title-vip-row">
                   <span className="dmab-pill-gold">
-                    <Sparkles size={12} className="sparkle-anim" /> FOUNDING MENTOR CIRCLE
+                    <Sparkles size={11} className="sparkle-anim" /> VIP INVITATION
                   </span>
-                  <span className="dmab-pill-green">
-                    <Gift size={12} /> 0% PLATFORM FEE (6 MONTHS)
-                  </span>
-                  <span className="dmab-pill-dark">
-                    <Users size={12} /> 3.5Cr Jobseekers Auto-Matched
-                  </span>
+                  <h2 className="dmab-compact-title">
+                    {userProfile.name ? `${userProfile.name.split(' ')[0]}, turn` : 'Turn'} your {userProfile.pastCompany || 'tech'} expertise into <span className="text-gold-gradient">1:1 Mentorship</span>
+                  </h2>
                 </div>
 
-                <h2 className="dmab-title">
-                  {userProfile.name ? `${userProfile.name.split(' ')[0]}, monetize` : 'Monetize'} your {userProfile.pastCompany || userProfile.headline?.split('@')[1]?.split('•')[0]?.trim() || 'Tech'} experience <span className="text-gold-gradient">on your own schedule</span>
-                </h2>
-                
-                <p className="dmab-desc">
-                  Set your own session rates (₹999 – ₹2,499) with 0% platform fee. Shine automatically routes active jobseekers looking for 1:1 mentorship directly to your calendar slots.
-                </p>
-
-                {/* 3 Core Value Pills */}
-                <div className="dmab-value-props-row">
-                  <div className="dvp-item">
-                    <div className="dvp-icon-box bg-green"><Banknote size={15} /></div>
-                    <div>
-                      <strong>Keep 100% Payouts</strong>
-                      <span>Direct weekly UPI bank transfer</span>
-                    </div>
-                  </div>
-
-                  <div className="dvp-item">
-                    <div className="dvp-icon-box bg-purple"><Award size={15} /></div>
-                    <div>
-                      <strong>Recruiter Inbounds</strong>
-                      <span>Spotlight for ₹50L+ VP/Director roles</span>
-                    </div>
-                  </div>
-
-                  <div className="dvp-item">
-                    <div className="dvp-icon-box bg-blue"><Zap size={15} /></div>
-                    <div>
-                      <strong>Zero Prep Time</strong>
-                      <span>AI pre-loads candidate ATS report</span>
-                    </div>
-                  </div>
+                {/* 3 High-Impact Visual Badges */}
+                <div className="dmab-punchy-badges-row">
+                  <span className="dp-badge dp-fire">
+                    🔥 <strong>184+ Mentees</strong> actively looking for {userProfile.skills[0] || 'React'}
+                  </span>
+                  <span className="dp-badge dp-green">
+                    <Banknote size={12} /> <strong>0% Commission</strong> • Keep 100% Payouts
+                  </span>
+                  <span className="dp-badge dp-purple">
+                    <Award size={12} /> <strong>Unlocks ₹50L+</strong> Recruiter Inbounds
+                  </span>
                 </div>
               </div>
 
-              {/* Right Col: Live Earnings Teaser + 1-Click CTA */}
-              <div className="dmab-right-cta-col">
-                <div className="dmab-earnings-mini-card">
-                  <div className="emc-header">
-                    <span>Estimated Passive Earnings</span>
-                    <span className="emc-time">3 hrs / weekend</span>
-                  </div>
-                  <div className="emc-big-price">
-                    ₹24,000 <span className="emc-mo">/ month</span>
-                  </div>
-                  <div className="emc-fee-saved">
-                    ✨ <strong>₹0 Platform Cut</strong> (100% direct to your bank)
-                  </div>
-                </div>
-
+              {/* Right Side: Sleek One-Tap CTA */}
+              <div className="dmab-compact-right">
                 <button 
                   type="button" 
-                  className="btn-shine-gold-lg dmab-cta-btn glow-pulse"
-                  onClick={() => setIsCreatorWizardOpen(true)}
+                  className="btn-shine-gold dmab-compact-cta-btn glow-pulse"
                 >
-                  <Sparkles size={16} /> Become a Mentor (60 Sec Setup) <ArrowRight size={16} />
+                  <Sparkles size={14} /> Activate in 60s <ArrowRight size={14} />
                 </button>
-                
-                <span className="dmab-guarantee-caption">
-                  <ShieldCheck size={13} className="text-emerald" /> Pre-filled from Shine CV • Instant Verification
+                <span className="dmab-compact-caption">
+                  ⚡ Pre-filled from Shine CV
                 </span>
               </div>
-
             </div>
           </section>
         ) : (
           /* Standard Candidates (Prakash - Searching for jobs & mentorship) */
           <section className="dashboard-candidate-trajectory-banner" onClick={() => navigate('guidance-view')}>
-            <div className="dctb-content-grid">
+            <div className="dctb-compact-layout">
               <div className="dctb-left">
-                <div className="dctb-pills-row">
-                  <span className="dctb-pill-gold">
-                    <Sparkles size={12} className="sparkle-gold" /> SHINE PEERPATH • CAREER MULTIPLIER
+                <div className="dctb-top-row">
+                  <span className="dctb-badge">
+                    <Sparkles size={12} className="text-purple-600" />
+                    <span>Career Multiplier</span>
                   </span>
-                  <span className="dctb-pill-green">
-                    <TrendingUp size={12} /> UP TO +320% SALARY GROWTH
+                  <h2 className="dctb-title">
+                    {userProfile.name?.split(' ')[0] || 'Prakash'}, Fast-Track Your Career to <span className="dctb-salary-highlight">{userProfile.targetCtc || '₹18L – ₹24L'}</span>
+                  </h2>
+                  <span className="dctb-growth-tag">
+                    <TrendingUp size={11} /> +320% Growth
                   </span>
                 </div>
 
-                <h2 className="dctb-title">
-                  {userProfile.name?.split(' ')[0] || 'Prakash'}, Fast-Track Your Career to {userProfile.targetCtc || '₹18L – ₹24L'}
-                </h2>
-                
-                <p className="dctb-desc">
-                  Learn the exact 1–2 booster skills Tier-1 product companies look for. Book 1:1 mock interviews and resume reviews with verified tech leaders from Swiggy, Google & Razorpay.
-                </p>
-
-                <div className="dctb-highlights-row">
-                  <span className="dctb-tag">🛡️ Verified Peer Mentors</span>
-                  <span className="dctb-tag">💼 2,850+ Direct Jobs on Shine</span>
-                  <span className="dctb-tag">⚡ Live 1:1 System Design & Code Prep</span>
+                <div className="dctb-meta-row">
+                  <span className="dctb-meta-item">
+                    <ShieldCheck size={12} className="text-purple-600" />
+                    <span>1:1 Mentors from Google & Swiggy</span>
+                  </span>
+                  <span className="dctb-dot">•</span>
+                  <span className="dctb-meta-item">
+                    <Briefcase size={12} className="text-blue-600" />
+                    <span>2,850+ Direct Jobs on Shine</span>
+                  </span>
+                  <span className="dctb-dot">•</span>
+                  <span className="dctb-meta-item">
+                    <Zap size={12} className="text-amber-500" />
+                    <span>Live Mock Interviews & Code Prep</span>
+                  </span>
                 </div>
               </div>
 
               <div className="dctb-right">
                 <button 
                   type="button" 
-                  className="btn-shine-gold-lg dctb-cta-btn glow-pulse"
+                  className="btn-dctb-explore"
                   onClick={(e) => {
                     e.stopPropagation();
                     navigate('guidance-view');
                   }}
                 >
-                  <TrendingUp size={16} /> Explore Career Pathways <ArrowRight size={16} />
+                  <span>Explore Pathways</span>
+                  <ArrowRight size={14} />
                 </button>
               </div>
             </div>
@@ -518,24 +480,35 @@ export const DashboardView: React.FC = () => {
 
           {isNotLooking ? (
             <div className="prod-job-suggestions-paused-card">
-              <div className="jsp-icon-wrap">
-                <img 
-                  src="https://www.shine.com/next/static/images/nova/notactivejobs.svg" 
-                  alt="Not Looking" 
-                  className="jsp-icon" 
-                />
+              <div className="jsp-left">
+                <div className="jsp-icon-wrap">
+                  <EyeOff size={18} className="jsp-icon-svg" />
+                </div>
+                <div className="jsp-content">
+                  <div className="jsp-header-row">
+                    <h3 className="jsp-title">Opportunity Inbounds are Paused</h3>
+                    <span className="jsp-status-pill">● Status: Not Looking For Jobs</span>
+                  </div>
+                  <p className="jsp-desc">
+                    Inbound executive inquiries & matching recommendations are currently sleeping.
+                  </p>
+                </div>
               </div>
-              <div className="jsp-content">
-                <h3 className="jsp-title">Opportunity Recommendations are Paused</h3>
-                <p className="jsp-desc">
-                  Your profile status is currently set to <strong>Not Looking For Jobs</strong>. You won't receive job suggestions or recruiter inquiries.
-                </p>
+              <div className="jsp-actions">
                 <button 
                   type="button" 
-                  className="btn-shine-gold-sm" 
-                  onClick={() => navigate('profile-view')}
+                  className="btn-jsp-resume" 
+                  onClick={() => updateJobSearchStatus(isExecutive ? 'Casually Exploring Leadership Roles' : 'Actively Looking For Jobs')}
                 >
-                  Change Status to Start Receiving Suggestions
+                  <Zap size={13} /> Resume Inbounds
+                </button>
+                <button 
+                  type="button" 
+                  className="btn-jsp-settings" 
+                  onClick={() => navigate('profile-view')}
+                  title="Configure in Profile"
+                >
+                  Change Status ➔
                 </button>
               </div>
             </div>

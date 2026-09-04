@@ -17,6 +17,7 @@ import { PostSessionView } from './components/views/PostSessionView';
 import { RecruiterView } from './components/views/RecruiterView';
 import { MentorDashboardView } from './components/views/MentorDashboardView';
 import { LoginView } from './components/views/LoginView';
+import { JobsView } from './components/views/JobsView';
 
 import { BookingModal } from './components/modals/BookingModal';
 import { CreatorWizardModal } from './components/modals/CreatorWizardModal';
@@ -36,6 +37,9 @@ const pathToView = (pathname: string): { view: ViewType; expertId?: string } => 
   }
   if (clean === '/peerpath' || clean === '/guidance' || clean === '/career-guidance') {
     return { view: 'guidance-view' };
+  }
+  if (clean === '/jobs' || clean === '/job-search' || clean === '/matching-jobs' || clean.startsWith('/new-job-search')) {
+    return { view: 'jobs-view' };
   }
   if (clean === '/experts' || clean === '/mentors') {
     return { view: 'experts-view' };
@@ -173,6 +177,13 @@ const AppMain: React.FC = () => {
             onNavigate={navigate}
             onSelectExpert={handleSelectExpert}
             experts={experts}
+          />
+        )}
+
+        {currentView === 'jobs-view' && (
+          <JobsView
+            onNavigate={navigate}
+            onSelectExpert={handleSelectExpert}
           />
         )}
 

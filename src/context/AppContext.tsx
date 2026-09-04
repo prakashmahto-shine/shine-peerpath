@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Expert, MentorshipSession, PeerVerifiedBadge, UserProfileData, ViewType, UserAccount } from '../types';
+import { Expert, MentorshipSession, PeerVerifiedBadge, UserProfileData, ViewType, UserAccount, PeerpathJobContext } from '../types';
 import { EXPERTS_DB } from '../data/expertsData';
 import { USERS_DB } from '../data/usersData';
 
@@ -72,6 +72,11 @@ interface AppContextType {
   // Global Search & Toast Notifications
   searchQuery: string;
   setSearchQuery: (query: string) => void;
+  selectedJobCategory: string;
+  setSelectedJobCategory: (category: string) => void;
+  peerpathJobContext: PeerpathJobContext | null;
+  setPeerpathJobContext: (ctx: PeerpathJobContext | null) => void;
+  clearPeerpathJobContext: () => void;
   toasts: ToastMessage[];
   showToast: (title: string, description?: string, type?: 'success' | 'info' | 'warning') => void;
   removeToast: (id: string) => void;
@@ -251,9 +256,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     timeSlot: '10:00 AM - 11:00 AM'
   });
 
-  // Search & Global Toasts
+  // Search & Global Toasts & Selected Job Category & Peerpath Context
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedJobCategory, setSelectedJobCategory] = useState<string>('all');
+  const [peerpathJobContext, setPeerpathJobContext] = useState<PeerpathJobContext | null>(null);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
+
+  const clearPeerpathJobContext = () => {
+    setPeerpathJobContext(null);
+    setSelectedJobCategory('all');
+  };
 
   // Synchronize localStorage
   useEffect(() => {
@@ -643,6 +655,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setBookingDraft,
         searchQuery,
         setSearchQuery,
+        selectedJobCategory,
+        setSelectedJobCategory,
+        peerpathJobContext,
+        setPeerpathJobContext,
+        clearPeerpathJobContext,
         toasts,
         showToast,
         removeToast

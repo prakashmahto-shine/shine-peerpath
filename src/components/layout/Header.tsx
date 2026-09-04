@@ -26,7 +26,8 @@ export const Header: React.FC<HeaderProps> = ({
     logout,
     switchUser,
     resetDemoData,
-    setIsCreatorWizardOpen
+    setIsCreatorWizardOpen,
+    clearPeerpathJobContext
   } = useApp();
 
   const isMentor = currentUser?.role === 'mentor';
@@ -57,8 +58,13 @@ export const Header: React.FC<HeaderProps> = ({
     }
   };
 
+  const handleGoToMyJobs = () => {
+    clearPeerpathJobContext();
+    onNavigate('jobs-view');
+  };
+
   return (
-    <header className="myshine-top-header-prod">
+    <header className="myshine-top-header-prod myshine-navbar">
       <div className="myshine-nav-container">
         
         {/* Left Side: Shine Logo + Nav Links */}
@@ -77,8 +83,8 @@ export const Header: React.FC<HeaderProps> = ({
 
           <nav className="myshine-nav-links">
             <button 
-              className={`myshine-link ${currentView === 'dashboard-view' ? 'active' : ''}`} 
-              onClick={() => onNavigate('dashboard-view')}
+              className={`myshine-link ${currentView === 'jobs-view' ? 'active' : ''}`} 
+              onClick={handleGoToMyJobs}
             >
               <Briefcase size={15} /> My Jobs
             </button>
