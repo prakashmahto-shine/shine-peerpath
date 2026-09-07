@@ -1,6 +1,53 @@
 {
   "creators": [
     {
+      "id": "exp-1788759857426",
+      "name": "Nisha Kumari",
+      "role": "Staff Frontend Architect & UI Lead",
+      "company": "Flipkart",
+      "domain": "Full-Stack",
+      "experience": "6+ Years Exp.",
+      "rating": 5,
+      "reviewsCount": 1,
+      "sessionsCount": 0,
+      "price": 1299,
+      "location": "Bengaluru / Remote",
+      "duration": "01:15",
+      "avatar": "/avatars/nisha.jpg",
+      "videoPoster": "/avatars/nisha.jpg",
+      "teaserTitle": "Teaser: How I Jumped into Staff Frontend Architect & UI Lead at Flipkart",
+      "skills": [
+        "React 19",
+        "Micro-Frontends",
+        "System Design"
+      ],
+      "bio": "Staff Architect at Flipkart leading core web checkout teams.",
+      "verifiedEmail": "@flipkart.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Senior Software Engineer",
+        "company3YearsAgo": "Mid-tier Technology Firm",
+        "salary3YearsAgo": "₹8 LPA",
+        "keyJumpSkills": [
+          "React 19",
+          "Micro-Frontends",
+          "System Design"
+        ],
+        "jumpStory": "Bridged core architecture and system design requirements to land role at Flipkart."
+      },
+      "availability": {
+        "days": [
+          "Wed",
+          "Sat",
+          "Sun"
+        ],
+        "timeSlots": [
+          "07:00 PM - 08:00 PM",
+          "08:30 PM - 09:30 PM"
+        ]
+      }
+    },
+    {
       "id": "exp-1788713461274",
       "name": "Nisha Kumari",
       "role": "Staff Frontend Architect & UI Lead",
@@ -604,7 +651,7 @@
       "headline": "Senior Frontend Engineer | React.js, TypeScript, Next.js UI Architect",
       "experienceYears": "4 Years, 2 Months",
       "location": "Bengaluru, India",
-      "profileScore": 86,
+      "profileScore": 94,
       "jobSearchStatus": "Serving Notice Period (30 Days)",
       "summary": "Senior Frontend Developer with 4+ years of hands-on experience building high-traffic, resilient web applications at scale. Proficient in React.js, TypeScript, Next.js, and modern CSS architecture.",
       "skills": [
@@ -628,21 +675,21 @@
       "educationCollege": "VTU Bengaluru",
       "badges": [
         {
-          "id": "badge-1788713461279",
+          "id": "badge-1788759857433",
           "title": "Verified Tier-1 Frontend Architecture",
           "subtitle": "Verified by Ishita Sharma • Senior Data Scientist & AI Lead @ Swiggy",
           "verifierName": "Ishita Sharma",
           "verifierRole": "Senior Data Scientist & AI Lead @ Swiggy",
           "verifierAvatar": "/avatars/ishita.jpg",
           "verifierCompany": "Swiggy",
-          "date": "Sep 6, 2026",
+          "date": "Sep 7, 2026",
           "skills": [
             "React.js 19",
             "Micro-Frontends",
             "System Design"
           ],
           "status": "verified",
-          "verificationHash": "SHINE-PEER-MTQ1T7VJ-SWI"
+          "verificationHash": "SHINE-PEER-MTQTFNDL-SWI"
         },
         {
           "id": "badge-pm-1",
@@ -681,7 +728,7 @@
           "verificationHash": "SHINE-VERIFY-4491-8821-HN"
         }
       ],
-      "recruiterSearchMultiplier": 4
+      "recruiterSearchMultiplier": 4.6
     },
     {
       "id": "sunil",
@@ -771,6 +818,77 @@
     }
   ],
   "sessions": [
+    {
+      "id": "sess-1788759857429",
+      "expertId": "ishita",
+      "expert": {
+        "id": "ishita",
+        "name": "Ishita Sharma",
+        "role": "Senior Data Scientist & AI Lead",
+        "company": "Swiggy",
+        "domain": "AI/ML",
+        "experience": "7+ Years Exp.",
+        "rating": 4.8,
+        "reviewsCount": 96,
+        "sessionsCount": 210,
+        "price": 899,
+        "location": "Bengaluru, India",
+        "duration": "01:09",
+        "avatar": "/avatars/ishita.jpg",
+        "videoPoster": "/avatars/ishita.jpg",
+        "teaserTitle": "Teaser: Transitioning from Data Analyst to Production GenAI Lead",
+        "skills": [
+          "Data Science",
+          "Machine Learning",
+          "PyTorch",
+          "LLMs",
+          "RAG Systems",
+          "FastAPI"
+        ],
+        "bio": "Built real-time dispatch and recommendation algorithms at Swiggy. I guide developers making the jump into production GenAI & distributed ML systems.",
+        "verifiedEmail": "ishita.sharma@swiggy.in",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "BI & Data Analyst",
+          "company3YearsAgo": "Mu Sigma",
+          "salary3YearsAgo": "₹5.5 LPA",
+          "keyJumpSkills": [
+            "PyTorch Production Pipelines",
+            "Vector Search (Pinecone)",
+            "LLM Fine-Tuning"
+          ],
+          "jumpStory": "Transitioned from SQL dashboards to building multi-modal LLM search algorithms and dispatch heuristics serving 2M orders daily."
+        },
+        "availability": {
+          "days": [
+            "Mon",
+            "Tue",
+            "Thu",
+            "Sat"
+          ],
+          "timeSlots": [
+            "06:30 PM - 07:30 PM",
+            "08:30 PM - 09:30 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash",
+      "candidateName": "Prakash Mahto",
+      "candidateRole": "Senior Frontend Engineer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Transition to Staff Level at Tier-1 FinTech",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "Monday, 14 Sep 2026",
+      "timeSlot": "07:00 PM - 08:00 PM",
+      "status": "completed",
+      "meetingLink": "https://meet.shine.com/room/peerpath-ishita-1788759857429",
+      "paymentId": "pay_shine_mtqtfndh_7rq1",
+      "amountPaid": 999,
+      "bookedAt": "2026-09-07T05:44:17.429Z",
+      "rating": 5,
+      "feedbackNotes": "Prakash demonstrated thorough architectural mastery of micro-frontends and state synchronization.",
+      "badgeAwarded": "Verified Tier-1 Frontend Architecture"
+    },
     {
       "id": "sess-1788713461276",
       "expertId": "ishita",
@@ -1051,6 +1169,23 @@
   ],
   "badges": [
     {
+      "id": "badge-1788759857433",
+      "title": "Verified Tier-1 Frontend Architecture",
+      "subtitle": "Verified by Ishita Sharma • Senior Data Scientist & AI Lead @ Swiggy",
+      "verifierName": "Ishita Sharma",
+      "verifierRole": "Senior Data Scientist & AI Lead @ Swiggy",
+      "verifierAvatar": "/avatars/ishita.jpg",
+      "verifierCompany": "Swiggy",
+      "date": "Sep 7, 2026",
+      "skills": [
+        "React.js 19",
+        "Micro-Frontends",
+        "System Design"
+      ],
+      "status": "verified",
+      "verificationHash": "SHINE-PEER-MTQTFNDL-SWI"
+    },
+    {
       "id": "badge-1788713461279",
       "title": "Verified Tier-1 Frontend Architecture",
       "subtitle": "Verified by Ishita Sharma • Senior Data Scientist & AI Lead @ Swiggy",
@@ -1105,9 +1240,9 @@
     }
   ],
   "analytics": {
-    "profileUpdatesThisMonth": 14821,
+    "profileUpdatesThisMonth": 14822,
     "newRegistrationsThisMonth": 6350,
-    "totalSessionsBooked": 2432,
-    "totalActiveCreators": 12
+    "totalSessionsBooked": 2433,
+    "totalActiveCreators": 13
   }
 }

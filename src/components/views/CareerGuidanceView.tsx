@@ -278,15 +278,13 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
             </div>
           </div>
 
-          {/* Social Proof Checklist */}
-          <div className="sup-footer">
-            <div className="sup-stat-item">
-              <CheckCircle2 size={13} className="text-emerald-600" />
-              <span>Shortlisting Multiplier: <strong>3.4x Faster on Shine</strong></span>
-            </div>
-            <div className="sup-stat-item">
-              <ShieldCheck size={13} className="text-blue-600" />
-              <span>Verified Direct Hiring: <strong>2,850+ Openings</strong></span>
+          {/* Ultra-Compact High-Curiosity Formula Hook */}
+          <div className="sup-hook-pill">
+            <div className="shp-left">
+              <span className="shp-badge">💡 THE FORMULA</span>
+              <span className="shp-text">
+                Add <strong>2 Booster Skills</strong> + <strong>1:1 Mentor Prep</strong> ➔ Unlock <strong>{userTargetSalary}</strong>
+              </span>
             </div>
           </div>
 
@@ -297,9 +295,16 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
             onClick={scrollToTrajectories}
           >
             <Sparkles size={13} className="text-amber-400" />
-            <span>Unlock Your ₹18L – ₹24L Roadmap</span>
+            <span>Unlock Your {userTargetSalary} Roadmap</span>
             <ArrowRight size={13} />
           </button>
+
+          {/* Trust Meta */}
+          <div className="sup-trust-row">
+            <span>⚡ 3.4x Faster Shortlisting</span>
+            <span>•</span>
+            <span>2,850+ Direct Openings</span>
+          </div>
         </div>
       </div>
 
@@ -336,261 +341,341 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
         </div>
       </div>
 
-      {/* 4. Trajectory Cards Stack */}
+      {/* 4. Trajectory Cards Stack (Shine-Native Compact Clean Cards) */}
       <div className="trajectories-cards-stack">
         
         {/* Track 1: Lead UI / Micro-Frontend Architect */}
-        {(activeTab === 'all' || activeTab === 'arch') && (
-          <div className="trajectory-card card-highlight-purple compact-traj-card">
-            
-            {/* 1. Compact Header */}
-            <div className="traj-compact-header">
-              <div className="tch-left">
-                <span className="traj-domain-badge domain-purple">ARCHITECTURE TRACK</span>
-                <h3 className="traj-title">
-                  Senior Frontend Developer <span className="traj-flow-arrow">➔</span> <span className="text-target-role">Lead UI & Micro-Frontend Architect</span>
-                </h3>
-              </div>
-              <div className="tch-right">
-                <div className="tch-pkg-pill">
-                  <span className="tch-pkg-lbl">Target Potential:</span>
-                  <strong className="tch-pkg-val">₹22 - 36 LPA</strong>
-                </div>
-                <span className="tch-openings-tag">🔥 520+ Active Openings</span>
-              </div>
-            </div>
+        {(activeTab === 'all' || activeTab === 'arch') && (() => {
+          const archSkills = ['Micro-Frontend Architecture', 'Module Federation (Webpack/Vite)', 'Core Web Vitals & Performance'];
+          const addedCount = archSkills.filter(s => isSkillOnProfile(s)).length;
+          const isFullyUnlocked = addedCount === archSkills.length;
 
-            {/* 2. Seamless Unified 3-Segment Pipeline Grid */}
-            <div className="traj-pipeline-grid">
-              
-              {/* Segment 1: Base */}
-              <div className="tpg-col tpg-col-base">
-                <div className="tpg-col-header">
-                  <span className="tpg-step-pill pill-green"><CheckCircle2 size={11} /> 1. YOUR CURRENT BASE</span>
-                  <span className="tpg-match-tag">✓ 4 Matched</span>
-                </div>
-                <div className="tpg-skills-list">
-                  <span className="tpg-chip chip-base">React.js</span>
-                  <span className="tpg-chip chip-base">JS ES6+</span>
-                  <span className="tpg-chip chip-base">Component Arch</span>
-                  <span className="tpg-chip chip-base">HTML5/CSS3</span>
-                </div>
-                <div className="tpg-col-footer">
-                  <span className="tpg-footnote">✓ Profile Core Skills</span>
-                </div>
-              </div>
-
-              {/* Segment 2: Booster Skills to Learn / Add (Candidate Acquisition Focus!) */}
-              <div className="tpg-col tpg-col-gap">
-                <div className="tpg-col-header">
-                  <span className="tpg-step-pill pill-amber"><Zap size={11} /> 2. TARGET BOOSTER SKILLS</span>
-                  <span className="tpg-gap-tag">⚡ +₹14L Jump</span>
-                </div>
-                <div className="tpg-skills-list">
-                  <span className={`tpg-chip chip-booster ${isSkillOnProfile('Micro-Frontend Architecture') ? 'in-profile' : ''}`}>
-                    {isSkillOnProfile('Micro-Frontend Architecture') ? '✓ Micro-Frontends' : '+ Micro-Frontends'}
-                  </span>
-                  <span className={`tpg-chip chip-booster ${isSkillOnProfile('Module Federation (Webpack/Vite)') ? 'in-profile' : ''}`}>
-                    {isSkillOnProfile('Module Federation (Webpack/Vite)') ? '✓ Module Federation' : '+ Module Federation'}
-                  </span>
-                  <span className={`tpg-chip chip-booster ${isSkillOnProfile('Core Web Vitals & Performance') ? 'in-profile' : ''}`}>
-                    {isSkillOnProfile('Core Web Vitals & Performance') ? '✓ Web Vitals' : '+ Web Vitals'}
-                  </span>
-                </div>
-                <div className="tpg-col-footer">
-                  <button 
-                    type="button" 
-                    className="btn-tpg-add-booster"
-                    onClick={handleGoToProfileSkills}
-                    title="Go to your Profile Key Skills to add or update skills for shortlisting"
-                  >
-                    <Plus size={12} strokeWidth={2.5} />
-                    <span>Add Skills in Profile for Shortlisting ➔</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Segment 3: Mentor Guide (Optional Accelerator) */}
-              <div className="tpg-col tpg-col-mentor">
-                <div className="tpg-col-header">
-                  <span className="tpg-step-pill pill-indigo"><UserCheck size={11} /> 3. 1:1 MENTOR GUIDANCE</span>
-                  <span className="tpg-price-tag">₹999 • 45m</span>
-                </div>
-                <div className="tpg-mentor-card">
-                  <div className="tpg-mentor-avatar-wrap">
-                    <img src="/avatars/saheli.jpg" alt="Saheli" className="tpg-mentor-img" />
-                    <span className="tpg-verified-check" title="Verified Mentor">✓</span>
-                  </div>
-                  <div className="tpg-mentor-details">
-                    <div className="tpg-mentor-name-row">
-                      <strong className="tpg-mentor-name">Saheli Kanjilal</strong>
-                      <span className="tpg-mentor-rating"><Star size={10} className="fill-amber-400 text-amber-500" /> 4.9 <span className="tpg-rating-count">(178)</span></span>
+          return (
+            <div className="shine-traj-card">
+              <div className="stc-main-layout">
+                {/* Left Column: Role Details, Openings, Current & Target Skills, View Jobs */}
+                <div className="stc-left-col">
+                  <div>
+                    <div className="stc-meta-top">
+                      <span className="stc-track-pill purple">Architecture Track</span>
+                      <span>•</span>
+                      <span className="stc-openings-fire">🔥 520+ Active Openings</span>
+                      <span>•</span>
+                      <span>Hiring: <strong>Swiggy, Razorpay, PhonePe, Makemytrip</strong></span>
                     </div>
-                    <span className="tpg-mentor-company">Staff Architect @ Razorpay</span>
-                    <span className="tpg-mentor-proof">🚀 360+ Guided • Jumped ₹6L ➔ ₹26L</span>
+
+                    <h3 className="stc-role-title">
+                      Senior Frontend Developer <span className="stc-role-arrow">➔</span> <span className="stc-target-role">Lead UI & Micro-Frontend Architect</span>
+                    </h3>
+                  </div>
+
+                  <div className="stc-skills-section">
+                    <div className="stc-skills-row">
+                      <span className="stc-skills-lbl"><CheckCircle2 size={12} className="text-emerald-600" /> On Your CV:</span>
+                      <div className="stc-chips-wrap">
+                        <span className="stc-chip-base">React.js</span>
+                        <span className="stc-chip-base">JS ES6+</span>
+                        <span className="stc-chip-base">Component Arch</span>
+                        <span className="stc-chip-base">HTML5/CSS3</span>
+                      </div>
+                    </div>
+
+                    <div className="stc-skills-row">
+                      <span className="stc-skills-lbl-booster"><Zap size={12} className="text-amber-500" /> Booster Skills for +₹14L Jump:</span>
+                      <div className="stc-chips-wrap">
+                        <button 
+                          type="button" 
+                          className={`stc-chip-booster ${isSkillOnProfile('Micro-Frontend Architecture') ? 'in-profile' : ''}`}
+                          onClick={() => addSkill('Micro-Frontend Architecture')}
+                          title="Click to add to your profile"
+                        >
+                          {isSkillOnProfile('Micro-Frontend Architecture') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
+                          <span>Micro-Frontends</span>
+                        </button>
+                        <button 
+                          type="button" 
+                          className={`stc-chip-booster ${isSkillOnProfile('Module Federation (Webpack/Vite)') ? 'in-profile' : ''}`}
+                          onClick={() => addSkill('Module Federation (Webpack/Vite)')}
+                          title="Click to add to your profile"
+                        >
+                          {isSkillOnProfile('Module Federation (Webpack/Vite)') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
+                          <span>Module Federation</span>
+                        </button>
+                        <button 
+                          type="button" 
+                          className={`stc-chip-booster ${isSkillOnProfile('Core Web Vitals & Performance') ? 'in-profile' : ''}`}
+                          onClick={() => addSkill('Core Web Vitals & Performance')}
+                          title="Click to add to your profile"
+                        >
+                          {isSkillOnProfile('Core Web Vitals & Performance') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
+                          <span>Web Vitals</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* High Impact Unlock Alert Strip */}
+                    {!isFullyUnlocked && addedCount === 0 && (
+                      <div className="stc-unlock-alert-strip locked">
+                        <span className="stc-alert-icon">🔒</span>
+                        <div className="stc-alert-body">
+                          <strong>520+ Jobs Locked (₹22L–₹36L):</strong> You are currently not eligible for top Architect roles. Add these 3 booster skills to unlock direct shortlisting.
+                        </div>
+                      </div>
+                    )}
+                    {!isFullyUnlocked && addedCount > 0 && (
+                      <div className="stc-unlock-alert-strip progress">
+                        <span className="stc-alert-icon">⚡</span>
+                        <div className="stc-alert-body">
+                          <strong>Progress ({addedCount}/3 Skills Added):</strong> You are 1 step away from unlocking 520+ high-paying shortlists!
+                        </div>
+                      </div>
+                    )}
+                    {isFullyUnlocked && (
+                      <div className="stc-unlock-alert-strip unlocked">
+                        <span className="stc-alert-icon">🎉</span>
+                        <div className="stc-alert-body">
+                          <strong>3/3 Skills in Your Profile!</strong> 520+ Architect openings are now fully unlocked for direct shortlist.
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="stc-left-footer">
+                    <button 
+                      type="button" 
+                      className={`btn-stc-jobs ${isFullyUnlocked ? 'unlocked' : ''}`}
+                      onClick={() => handleOpenMatchingJobs('arch')}
+                    >
+                      {isFullyUnlocked ? <CheckCircle2 size={13} className="text-emerald-600" /> : <Briefcase size={13} />}
+                      <span>{isFullyUnlocked ? '🔓 520+ Matching Jobs Unlocked (Apply Now)' : '🔒 View 520+ Locked Jobs (Requires 3 Skills)'}</span>
+                      <ChevronRight size={13} />
+                    </button>
                   </div>
                 </div>
-                <div className="tpg-mentor-perks-row">
-                  <span className="tpg-perk-tag"><CheckCircle2 size={10} className="text-emerald-600" /> System Design Prep</span>
-                  <span className="tpg-perk-tag"><CheckCircle2 size={10} className="text-emerald-600" /> Razorpay Referral</span>
-                </div>
-                <div className="tpg-col-footer">
-                  <button 
-                    type="button" 
-                    className="btn-tpg-mentor-book" 
-                    onClick={() => handleBookWithMentor('saheli')}
-                  >
-                    <Video size={12} />
-                    <span>Book 1:1 Session ➔</span>
-                  </button>
+
+                {/* Right Column: Dedicated Mentor Trajectory Twin Card */}
+                <div className="stc-right-col">
+                  <div className="stc-mentor-hero-card">
+                    <div className="stc-target-salary-badge">
+                      <span className="stc-salary-title">🎯 Trajectory Twin</span>
+                      <strong className="stc-salary-amount">₹22 – 36 LPA</strong>
+                    </div>
+
+                    <div className="stc-mentor-profile-header">
+                      <div className="stc-mentor-avatar-wrap">
+                        <img src="/avatars/saheli.jpg" alt="Saheli Kanjilal" className="stc-mentor-avatar-img" />
+                        <span className="stc-mentor-badge-check">✓</span>
+                      </div>
+                      <div className="stc-mentor-meta-info">
+                        <div className="stc-mentor-name-row">
+                          <span className="stc-mentor-name">Saheli Kanjilal</span>
+                          <span className="stc-mentor-rating-tag"><Star size={9} fill="#D97706" color="#D97706" /> 4.9 (58)</span>
+                        </div>
+                        <span className="stc-mentor-role-sub">Staff Architect @ Razorpay</span>
+                      </div>
+                    </div>
+
+                    <div className="stc-mentor-story-box">
+                      <div className="stc-story-headline">
+                        <span>How Saheli Made This Exact Jump</span>
+                        <span className="stc-mentor-live-tag">⚡ Slot Today</span>
+                      </div>
+                      <div className="stc-story-step">
+                        <span className="stc-step-bullet">📍</span>
+                        <div className="stc-step-body">
+                          <strong>3 Yrs Ago:</strong> Frontend Dev @ ₹6L (Same CV as yours)
+                        </div>
+                      </div>
+                      <div className="stc-story-step">
+                        <span className="stc-step-bullet">🚀</span>
+                        <div className="stc-step-body">
+                          <strong>The Jump:</strong> Added Micro-Frontends ➔ Reached <strong>₹26L</strong> at Razorpay
+                        </div>
+                      </div>
+                    </div>
+
+                    <button 
+                      type="button" 
+                      className="btn-stc-book-mentor-hero"
+                      onClick={() => handleBookWithMentor('saheli')}
+                    >
+                      <Video size={13} />
+                      <span>Book 1:1 Roadmap & Prep • ₹999</span>
+                    </button>
+                    <div className="stc-card-footnote">Get Saheli's transition roadmap + Razorpay referral tips</div>
+                  </div>
                 </div>
               </div>
-
             </div>
-
-            {/* 3. Streamlined Footer */}
-            <div className="traj-compact-footer">
-              <div className="tcf-hiring">
-                <Building2 size={13} /> <span>Hiring on Shine: <strong>Swiggy, Razorpay, PhonePe, Makemytrip</strong></span>
-              </div>
-              <button 
-                type="button" 
-                className="tcf-view-jobs" 
-                onClick={() => handleOpenMatchingJobs('arch')}
-              >
-                View 520+ Matching Jobs <ChevronRight size={13} />
-              </button>
-            </div>
-
-          </div>
-        )}
+          );
+        })()}
 
         {/* Track 2: Lead Product Manager */}
-        {(activeTab === 'all' || activeTab === 'pm') && (
-          <div className="trajectory-card card-highlight-gold compact-traj-card">
-            
-            {/* 1. Compact Header */}
-            <div className="traj-compact-header">
-              <div className="tch-left">
-                <span className="traj-domain-badge domain-gold">PRODUCT TRACK</span>
-                <h3 className="traj-title">
-                  Software Engineer <span className="traj-flow-arrow">➔</span> <span className="text-target-role">Lead Technical Product Manager</span>
-                </h3>
-              </div>
-              <div className="tch-right">
-                <div className="tch-pkg-pill">
-                  <span className="tch-pkg-lbl">Target Potential:</span>
-                  <strong className="tch-pkg-val">₹24 - 38 LPA</strong>
-                </div>
-                <span className="tch-openings-tag">🔥 430+ Active Openings</span>
-              </div>
-            </div>
+        {(activeTab === 'all' || activeTab === 'pm') && (() => {
+          const pmSkills = ['PRD & Product Discovery', 'Growth Metrics & Funnels', 'Go-To-Market (GTM) Strategy'];
+          const addedCount = pmSkills.filter(s => isSkillOnProfile(s)).length;
+          const isFullyUnlocked = addedCount === pmSkills.length;
 
-            {/* 2. Seamless Unified 3-Segment Pipeline Grid */}
-            <div className="traj-pipeline-grid">
-              
-              {/* Segment 1: Base */}
-              <div className="tpg-col tpg-col-base">
-                <div className="tpg-col-header">
-                  <span className="tpg-step-pill pill-green"><CheckCircle2 size={11} /> 1. YOUR CURRENT BASE</span>
-                  <span className="tpg-match-tag">✓ 3 Matched</span>
-                </div>
-                <div className="tpg-skills-list">
-                  <span className="tpg-chip chip-base">Tech Scoping</span>
-                  <span className="tpg-chip chip-base">UI/UX Empathy</span>
-                  <span className="tpg-chip chip-base">Agile/Sprints</span>
-                </div>
-                <div className="tpg-col-footer">
-                  <span className="tpg-footnote">✓ Profile Core Skills</span>
-                </div>
-              </div>
-
-              {/* Segment 2: Booster Skills to Learn / Add (Candidate Acquisition Focus!) */}
-              <div className="tpg-col tpg-col-gap">
-                <div className="tpg-col-header">
-                  <span className="tpg-step-pill pill-amber"><Zap size={11} /> 2. TARGET BOOSTER SKILLS</span>
-                  <span className="tpg-gap-tag">⚡ +₹16L Jump</span>
-                </div>
-                <div className="tpg-skills-list">
-                  <span className={`tpg-chip chip-booster ${isSkillOnProfile('PRD & Product Discovery') ? 'in-profile' : ''}`}>
-                    {isSkillOnProfile('PRD & Product Discovery') ? '✓ PRD Discovery' : '+ PRD Discovery'}
-                  </span>
-                  <span className={`tpg-chip chip-booster ${isSkillOnProfile('Growth Metrics & Funnels') ? 'in-profile' : ''}`}>
-                    {isSkillOnProfile('Growth Metrics & Funnels') ? '✓ Product Metrics' : '+ Product Metrics'}
-                  </span>
-                  <span className={`tpg-chip chip-booster ${isSkillOnProfile('Go-To-Market (GTM) Strategy') ? 'in-profile' : ''}`}>
-                    {isSkillOnProfile('Go-To-Market (GTM) Strategy') ? '✓ GTM Strategy' : '+ GTM Strategy'}
-                  </span>
-                </div>
-                <div className="tpg-col-footer">
-                  <button 
-                    type="button" 
-                    className="btn-tpg-add-booster"
-                    onClick={handleGoToProfileSkills}
-                    title="Go to your Profile Key Skills to add or update skills for shortlisting"
-                  >
-                    <Plus size={12} strokeWidth={2.5} />
-                    <span>Add Skills in Profile for Shortlisting ➔</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Segment 3: Mentor Guide (Optional Accelerator) */}
-              <div className="tpg-col tpg-col-mentor">
-                <div className="tpg-col-header">
-                  <span className="tpg-step-pill pill-indigo"><UserCheck size={11} /> 3. 1:1 MENTOR GUIDANCE</span>
-                  <span className="tpg-price-tag">₹999 • 45m</span>
-                </div>
-                <div className="tpg-mentor-card">
-                  <div className="tpg-mentor-avatar-wrap">
-                    <img src="/avatars/akash.jpg" alt="Akash" className="tpg-mentor-img" />
-                    <span className="tpg-verified-check" title="Verified Mentor">✓</span>
-                  </div>
-                  <div className="tpg-mentor-details">
-                    <div className="tpg-mentor-name-row">
-                      <strong className="tpg-mentor-name">Akash Jain</strong>
-                      <span className="tpg-mentor-rating"><Star size={10} className="fill-amber-400 text-amber-500" /> 4.9 <span className="tpg-rating-count">(142)</span></span>
+          return (
+            <div className="shine-traj-card">
+              <div className="stc-main-layout">
+                {/* Left Column: Role Details, Openings, Current & Target Skills, View Jobs */}
+                <div className="stc-left-col">
+                  <div>
+                    <div className="stc-meta-top">
+                      <span className="stc-track-pill gold">Product Track</span>
+                      <span>•</span>
+                      <span className="stc-openings-fire">🔥 430+ Active Openings</span>
+                      <span>•</span>
+                      <span>Hiring: <strong>Shine, Zepto, Flipkart, CRED, Amazon</strong></span>
                     </div>
-                    <span className="tpg-mentor-company">Lead PM @ Shine</span>
-                    <span className="tpg-mentor-proof">🚀 310+ Guided • SWE ➔ ₹28L Lead PM</span>
+
+                    <h3 className="stc-role-title">
+                      Software Engineer <span className="stc-role-arrow">➔</span> <span className="stc-target-role">Lead Technical Product Manager</span>
+                    </h3>
+                  </div>
+
+                  <div className="stc-skills-section">
+                    <div className="stc-skills-row">
+                      <span className="stc-skills-lbl"><CheckCircle2 size={12} className="text-emerald-600" /> On Your CV:</span>
+                      <div className="stc-chips-wrap">
+                        <span className="stc-chip-base">Tech Scoping</span>
+                        <span className="stc-chip-base">UI/UX Empathy</span>
+                        <span className="stc-chip-base">Agile/Sprints</span>
+                      </div>
+                    </div>
+
+                    <div className="stc-skills-row">
+                      <span className="stc-skills-lbl-booster"><Zap size={12} className="text-amber-500" /> Booster Skills for +₹16L Jump:</span>
+                      <div className="stc-chips-wrap">
+                        <button 
+                          type="button" 
+                          className={`stc-chip-booster ${isSkillOnProfile('PRD & Product Discovery') ? 'in-profile' : ''}`}
+                          onClick={() => addSkill('PRD & Product Discovery')}
+                          title="Click to add to your profile"
+                        >
+                          {isSkillOnProfile('PRD & Product Discovery') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
+                          <span>PRD Discovery</span>
+                        </button>
+                        <button 
+                          type="button" 
+                          className={`stc-chip-booster ${isSkillOnProfile('Growth Metrics & Funnels') ? 'in-profile' : ''}`}
+                          onClick={() => addSkill('Growth Metrics & Funnels')}
+                          title="Click to add to your profile"
+                        >
+                          {isSkillOnProfile('Growth Metrics & Funnels') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
+                          <span>Product Metrics</span>
+                        </button>
+                        <button 
+                          type="button" 
+                          className={`stc-chip-booster ${isSkillOnProfile('Go-To-Market (GTM) Strategy') ? 'in-profile' : ''}`}
+                          onClick={() => addSkill('Go-To-Market (GTM) Strategy')}
+                          title="Click to add to your profile"
+                        >
+                          {isSkillOnProfile('Go-To-Market (GTM) Strategy') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
+                          <span>GTM Strategy</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* High Impact Unlock Alert Strip */}
+                    {!isFullyUnlocked && addedCount === 0 && (
+                      <div className="stc-unlock-alert-strip locked">
+                        <span className="stc-alert-icon">🔒</span>
+                        <div className="stc-alert-body">
+                          <strong>430+ Jobs Locked (₹24L–₹38L):</strong> You are currently not eligible for Technical PM shortlists. Add these 3 booster skills to unlock direct shortlisting.
+                        </div>
+                      </div>
+                    )}
+                    {!isFullyUnlocked && addedCount > 0 && (
+                      <div className="stc-unlock-alert-strip progress">
+                        <span className="stc-alert-icon">⚡</span>
+                        <div className="stc-alert-body">
+                          <strong>Progress ({addedCount}/3 Skills Added):</strong> You are almost ready for ₹24L–₹38L product roles!
+                        </div>
+                      </div>
+                    )}
+                    {isFullyUnlocked && (
+                      <div className="stc-unlock-alert-strip unlocked">
+                        <span className="stc-alert-icon">🎉</span>
+                        <div className="stc-alert-body">
+                          <strong>3/3 Skills in Your Profile!</strong> 430+ PM openings are now fully unlocked for direct shortlist.
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="stc-left-footer">
+                    <button 
+                      type="button" 
+                      className={`btn-stc-jobs ${isFullyUnlocked ? 'unlocked' : ''}`}
+                      onClick={() => handleOpenMatchingJobs('pm')}
+                    >
+                      {isFullyUnlocked ? <CheckCircle2 size={13} className="text-emerald-600" /> : <Briefcase size={13} />}
+                      <span>{isFullyUnlocked ? '🔓 430+ Matching Jobs Unlocked (Apply Now)' : '🔒 View 430+ Locked Jobs (Requires 3 Skills)'}</span>
+                      <ChevronRight size={13} />
+                    </button>
                   </div>
                 </div>
-                <div className="tpg-mentor-perks-row">
-                  <span className="tpg-perk-tag"><CheckCircle2 size={10} className="text-emerald-600" /> PRD Case Rounds</span>
-                  <span className="tpg-perk-tag"><CheckCircle2 size={10} className="text-emerald-600" /> Top PM Referrals</span>
-                </div>
-                <div className="tpg-col-footer">
-                  <button 
-                    type="button" 
-                    className="btn-tpg-mentor-book" 
-                    onClick={() => handleBookWithMentor('akash')}
-                  >
-                    <Video size={12} />
-                    <span>Book 1:1 Session ➔</span>
-                  </button>
+
+                {/* Right Column: Dedicated Mentor Trajectory Twin Card */}
+                <div className="stc-right-col">
+                  <div className="stc-mentor-hero-card">
+                    <div className="stc-target-salary-badge">
+                      <span className="stc-salary-title">🎯 Trajectory Twin</span>
+                      <strong className="stc-salary-amount">₹24 – 38 LPA</strong>
+                    </div>
+
+                    <div className="stc-mentor-profile-header">
+                      <div className="stc-mentor-avatar-wrap">
+                        <img src="/avatars/akash.jpg" alt="Akash Jain" className="stc-mentor-avatar-img" />
+                        <span className="stc-mentor-badge-check">✓</span>
+                      </div>
+                      <div className="stc-mentor-meta-info">
+                        <div className="stc-mentor-name-row">
+                          <span className="stc-mentor-name">Akash Jain</span>
+                          <span className="stc-mentor-rating-tag"><Star size={9} fill="#D97706" color="#D97706" /> 4.9 (74)</span>
+                        </div>
+                        <span className="stc-mentor-role-sub">Lead PM @ Shine • Ex-Flipkart</span>
+                      </div>
+                    </div>
+
+                    <div className="stc-mentor-story-box">
+                      <div className="stc-story-headline">
+                        <span>How Akash Made This Exact Jump</span>
+                        <span className="stc-mentor-live-tag">⚡ Slot Today</span>
+                      </div>
+                      <div className="stc-story-step">
+                        <span className="stc-step-bullet">📍</span>
+                        <div className="stc-step-body">
+                          <strong>3 Yrs Ago:</strong> Software Engineer @ ₹7L
+                        </div>
+                      </div>
+                      <div className="stc-story-step">
+                        <span className="stc-step-bullet">🚀</span>
+                        <div className="stc-step-body">
+                          <strong>The Jump:</strong> Added PRD & Growth Metrics ➔ Reached <strong>₹28L</strong> Lead PM
+                        </div>
+                      </div>
+                    </div>
+
+                    <button 
+                      type="button" 
+                      className="btn-stc-book-mentor-hero"
+                      onClick={() => handleBookWithMentor('akash')}
+                    >
+                      <Video size={13} />
+                      <span>Book 1:1 Roadmap & Prep • ₹999</span>
+                    </button>
+                    <div className="stc-card-footnote">Get PM interview case frameworks + Resume critique</div>
+                  </div>
                 </div>
               </div>
-
             </div>
+          );
+        })()}
 
-            {/* 3. Streamlined Footer */}
-            <div className="traj-compact-footer">
-              <div className="tcf-hiring">
-                <Building2 size={13} /> <span>Hiring on Shine: <strong>Shine, Zepto, Flipkart, CRED, Amazon</strong></span>
-              </div>
-              <button 
-                type="button" 
-                className="tcf-view-jobs" 
-                onClick={() => handleOpenMatchingJobs('pm')}
-              >
-                View 430+ Matching Jobs <ChevronRight size={13} />
-              </button>
-            </div>
-
-          </div>
-        )}
-
-        {/* Clean, Visual & Minimal Text High-Motivation Mentorship Banner */}
+        {/* Clean, Visual Mid-Feed Mentorship Banner */}
         {activeTab === 'all' && (
           <div className="peerpath-mid-feed-banner">
             <div className="pmf-left">
@@ -610,260 +695,340 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               </div>
             </div>
             <button className="btn-shine-gold-lg pmf-cta-btn" onClick={() => onNavigate('experts-view')}>
-              Book 1:1 Session <ArrowRight size={16} />
+              Explore Mentors <ArrowRight size={16} />
             </button>
           </div>
         )}
 
         {/* Track 3: Principal Search & Solr Database Architect */}
-        {(activeTab === 'all' || activeTab === 'search') && (
-          <div className="trajectory-card card-highlight-blue compact-traj-card">
-            
-            {/* 1. Compact Header */}
-            <div className="traj-compact-header">
-              <div className="tch-left">
-                <span className="traj-domain-badge domain-blue">CORE INFRASTRUCTURE TRACK</span>
-                <h3 className="traj-title">
-                  Backend Developer <span className="traj-flow-arrow">➔</span> <span className="text-target-role">Principal Search & Solr Architect</span>
-                </h3>
-              </div>
-              <div className="tch-right">
-                <div className="tch-pkg-pill">
-                  <span className="tch-pkg-lbl">Target Potential:</span>
-                  <strong className="tch-pkg-val">₹32 - 48 LPA</strong>
-                </div>
-                <span className="tch-openings-tag">🔥 290+ High-Paying Openings</span>
-              </div>
-            </div>
+        {(activeTab === 'all' || activeTab === 'search') && (() => {
+          const searchSkills = ['Apache Solr & Lucene Engine', 'Inverted Indexing & Sharding', 'Sub-10ms Query Optimization'];
+          const addedCount = searchSkills.filter(s => isSkillOnProfile(s)).length;
+          const isFullyUnlocked = addedCount === searchSkills.length;
 
-            {/* 2. Seamless Unified 3-Segment Pipeline Grid */}
-            <div className="traj-pipeline-grid">
-              
-              {/* Segment 1: Base */}
-              <div className="tpg-col tpg-col-base">
-                <div className="tpg-col-header">
-                  <span className="tpg-step-pill pill-green"><CheckCircle2 size={11} /> 1. YOUR CURRENT BASE</span>
-                  <span className="tpg-match-tag">✓ 3 Matched</span>
-                </div>
-                <div className="tpg-skills-list">
-                  <span className="tpg-chip chip-base">Node/Python</span>
-                  <span className="tpg-chip chip-base">REST APIs</span>
-                  <span className="tpg-chip chip-base">SQL Schema</span>
-                </div>
-                <div className="tpg-col-footer">
-                  <span className="tpg-footnote">✓ Profile Core Skills</span>
-                </div>
-              </div>
-
-              {/* Segment 2: Booster Skills to Learn / Add (Candidate Acquisition Focus!) */}
-              <div className="tpg-col tpg-col-gap">
-                <div className="tpg-col-header">
-                  <span className="tpg-step-pill pill-amber"><Zap size={11} /> 2. TARGET BOOSTER SKILLS</span>
-                  <span className="tpg-gap-tag">⚡ +₹18L Jump</span>
-                </div>
-                <div className="tpg-skills-list">
-                  <span className={`tpg-chip chip-booster ${isSkillOnProfile('Apache Solr & Lucene Engine') ? 'in-profile' : ''}`}>
-                    {isSkillOnProfile('Apache Solr & Lucene Engine') ? '✓ Apache Solr' : '+ Apache Solr'}
-                  </span>
-                  <span className={`tpg-chip chip-booster ${isSkillOnProfile('Inverted Indexing & Sharding') ? 'in-profile' : ''}`}>
-                    {isSkillOnProfile('Inverted Indexing & Sharding') ? '✓ Index Sharding' : '+ Index Sharding'}
-                  </span>
-                  <span className={`tpg-chip chip-booster ${isSkillOnProfile('Sub-10ms Query Optimization') ? 'in-profile' : ''}`}>
-                    {isSkillOnProfile('Sub-10ms Query Optimization') ? '✓ Latency Tuning' : '+ Latency Tuning'}
-                  </span>
-                </div>
-                <div className="tpg-col-footer">
-                  <button 
-                    type="button" 
-                    className="btn-tpg-add-booster"
-                    onClick={handleGoToProfileSkills}
-                    title="Go to your Profile Key Skills to add or update skills for shortlisting"
-                  >
-                    <Plus size={12} strokeWidth={2.5} />
-                    <span>Add Skills in Profile for Shortlisting ➔</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Segment 3: Mentor Guide (Optional Accelerator) */}
-              <div className="tpg-col tpg-col-mentor">
-                <div className="tpg-col-header">
-                  <span className="tpg-step-pill pill-indigo"><UserCheck size={11} /> 3. 1:1 MENTOR GUIDANCE</span>
-                  <span className="tpg-price-tag">₹1,199 • 45m</span>
-                </div>
-                <div className="tpg-mentor-card">
-                  <div className="tpg-mentor-avatar-wrap">
-                    <img src="/avatars/anirudh.jpg" alt="Anirudh" className="tpg-mentor-img" />
-                    <span className="tpg-verified-check" title="Verified Mentor">✓</span>
-                  </div>
-                  <div className="tpg-mentor-details">
-                    <div className="tpg-mentor-name-row">
-                      <strong className="tpg-mentor-name">Anirudh Sharma</strong>
-                      <span className="tpg-mentor-rating"><Star size={10} className="fill-amber-400 text-amber-500" /> 4.9 <span className="tpg-rating-count">(165)</span></span>
+          return (
+            <div className="shine-traj-card">
+              <div className="stc-main-layout">
+                {/* Left Column: Role Details, Openings, Current & Target Skills, View Jobs */}
+                <div className="stc-left-col">
+                  <div>
+                    <div className="stc-meta-top">
+                      <span className="stc-track-pill blue">Core Infrastructure</span>
+                      <span>•</span>
+                      <span className="stc-openings-fire">🔥 290+ High-Paying Openings</span>
+                      <span>•</span>
+                      <span>Hiring: <strong>Shine, Adobe, Walmart, Microsoft, Uber</strong></span>
                     </div>
-                    <span className="tpg-mentor-company">Principal Search Architect @ Shine</span>
-                    <span className="tpg-mentor-proof">🚀 390+ Guided • Jumped ₹7L ➔ ₹38L</span>
+
+                    <h3 className="stc-role-title">
+                      Backend Developer <span className="stc-role-arrow">➔</span> <span className="stc-target-role">Principal Search & Solr Architect</span>
+                    </h3>
+                  </div>
+
+                  <div className="stc-skills-section">
+                    <div className="stc-skills-row">
+                      <span className="stc-skills-lbl"><CheckCircle2 size={12} className="text-emerald-600" /> On Your CV:</span>
+                      <div className="stc-chips-wrap">
+                        <span className="stc-chip-base">Node/Python</span>
+                        <span className="stc-chip-base">REST APIs</span>
+                        <span className="stc-chip-base">SQL Schema</span>
+                      </div>
+                    </div>
+
+                    <div className="stc-skills-row">
+                      <span className="stc-skills-lbl-booster"><Zap size={12} className="text-amber-500" /> Booster Skills for +₹18L Jump:</span>
+                      <div className="stc-chips-wrap">
+                        <button 
+                          type="button" 
+                          className={`stc-chip-booster ${isSkillOnProfile('Apache Solr & Lucene Engine') ? 'in-profile' : ''}`}
+                          onClick={() => addSkill('Apache Solr & Lucene Engine')}
+                          title="Click to add to your profile"
+                        >
+                          {isSkillOnProfile('Apache Solr & Lucene Engine') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
+                          <span>Apache Solr</span>
+                        </button>
+                        <button 
+                          type="button" 
+                          className={`stc-chip-booster ${isSkillOnProfile('Inverted Indexing & Sharding') ? 'in-profile' : ''}`}
+                          onClick={() => addSkill('Inverted Indexing & Sharding')}
+                          title="Click to add to your profile"
+                        >
+                          {isSkillOnProfile('Inverted Indexing & Sharding') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
+                          <span>Index Sharding</span>
+                        </button>
+                        <button 
+                          type="button" 
+                          className={`stc-chip-booster ${isSkillOnProfile('Sub-10ms Query Optimization') ? 'in-profile' : ''}`}
+                          onClick={() => addSkill('Sub-10ms Query Optimization')}
+                          title="Click to add to your profile"
+                        >
+                          {isSkillOnProfile('Sub-10ms Query Optimization') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
+                          <span>Latency Tuning</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* High Impact Unlock Alert Strip */}
+                    {!isFullyUnlocked && addedCount === 0 && (
+                      <div className="stc-unlock-alert-strip locked">
+                        <span className="stc-alert-icon">🔒</span>
+                        <div className="stc-alert-body">
+                          <strong>290+ Jobs Locked (₹32L–₹48L):</strong> You are currently not eligible for Principal Architect shortlists. Add these 3 booster skills to unlock direct eligibility.
+                        </div>
+                      </div>
+                    )}
+                    {!isFullyUnlocked && addedCount > 0 && (
+                      <div className="stc-unlock-alert-strip progress">
+                        <span className="stc-alert-icon">⚡</span>
+                        <div className="stc-alert-body">
+                          <strong>Progress ({addedCount}/3 Skills Added):</strong> You are almost ready for ₹32L–₹48L Principal roles!
+                        </div>
+                      </div>
+                    )}
+                    {isFullyUnlocked && (
+                      <div className="stc-unlock-alert-strip unlocked">
+                        <span className="stc-alert-icon">🎉</span>
+                        <div className="stc-alert-body">
+                          <strong>3/3 Skills in Your Profile!</strong> 290+ Principal Architect openings are now fully unlocked for direct shortlist.
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="stc-left-footer">
+                    <button 
+                      type="button" 
+                      className={`btn-stc-jobs ${isFullyUnlocked ? 'unlocked' : ''}`}
+                      onClick={() => handleOpenMatchingJobs('search')}
+                    >
+                      {isFullyUnlocked ? <CheckCircle2 size={13} className="text-emerald-600" /> : <Briefcase size={13} />}
+                      <span>{isFullyUnlocked ? '🔓 290+ Matching Jobs Unlocked (Apply Now)' : '🔒 View 290+ Locked Jobs (Requires 3 Skills)'}</span>
+                      <ChevronRight size={13} />
+                    </button>
                   </div>
                 </div>
-                <div className="tpg-mentor-perks-row">
-                  <span className="tpg-perk-tag"><CheckCircle2 size={10} className="text-emerald-600" /> Solr / DB Scaling</span>
-                  <span className="tpg-perk-tag"><CheckCircle2 size={10} className="text-emerald-600" /> Mock Interview</span>
-                </div>
-                <div className="tpg-col-footer">
-                  <button 
-                    type="button" 
-                    className="btn-tpg-mentor-book" 
-                    onClick={() => handleBookWithMentor('anirudh')}
-                  >
-                    <Video size={12} />
-                    <span>Book 1:1 Session ➔</span>
-                  </button>
+
+                {/* Right Column: Dedicated Mentor Trajectory Twin Card */}
+                <div className="stc-right-col">
+                  <div className="stc-mentor-hero-card">
+                    <div className="stc-target-salary-badge">
+                      <span className="stc-salary-title">🎯 Trajectory Twin</span>
+                      <strong className="stc-salary-amount">₹32 – 48 LPA</strong>
+                    </div>
+
+                    <div className="stc-mentor-profile-header">
+                      <div className="stc-mentor-avatar-wrap">
+                        <img src="/avatars/anirudh.jpg" alt="Anirudh Sharma" className="stc-mentor-avatar-img" />
+                        <span className="stc-mentor-badge-check">✓</span>
+                      </div>
+                      <div className="stc-mentor-meta-info">
+                        <div className="stc-mentor-name-row">
+                          <span className="stc-mentor-name">Anirudh Sharma</span>
+                          <span className="stc-mentor-rating-tag"><Star size={9} fill="#D97706" color="#D97706" /> 4.9 (49)</span>
+                        </div>
+                        <span className="stc-mentor-role-sub">Principal Architect @ Shine</span>
+                      </div>
+                    </div>
+
+                    <div className="stc-mentor-story-box">
+                      <div className="stc-story-headline">
+                        <span>How Anirudh Made This Exact Jump</span>
+                        <span className="stc-mentor-live-tag">⚡ Slot Tomorrow</span>
+                      </div>
+                      <div className="stc-story-step">
+                        <span className="stc-step-bullet">📍</span>
+                        <div className="stc-step-body">
+                          <strong>3 Yrs Ago:</strong> Backend Developer @ ₹7L
+                        </div>
+                      </div>
+                      <div className="stc-story-step">
+                        <span className="stc-step-bullet">🚀</span>
+                        <div className="stc-step-body">
+                          <strong>The Jump:</strong> Added Solr & Sharding ➔ Reached <strong>₹38L</strong> Principal
+                        </div>
+                      </div>
+                    </div>
+
+                    <button 
+                      type="button" 
+                      className="btn-stc-book-mentor-hero"
+                      onClick={() => handleBookWithMentor('anirudh')}
+                    >
+                      <Video size={13} />
+                      <span>Book 1:1 Roadmap & Prep • ₹1,199</span>
+                    </button>
+                    <div className="stc-card-footnote">System design mock + Search architecture guidance</div>
+                  </div>
                 </div>
               </div>
-
             </div>
-
-            {/* 3. Streamlined Footer */}
-            <div className="traj-compact-footer">
-              <div className="tcf-hiring">
-                <Building2 size={13} /> <span>Hiring on Shine: <strong>Shine, Adobe, Walmart, Microsoft, Uber</strong></span>
-              </div>
-              <button 
-                type="button" 
-                className="tcf-view-jobs" 
-                onClick={() => handleOpenMatchingJobs('search')}
-              >
-                View 290+ Matching Jobs <ChevronRight size={13} />
-              </button>
-            </div>
-
-          </div>
-        )}
+          );
+        })()}
 
         {/* Track 4: Production GenAI / LLM Engineer */}
-        {(activeTab === 'all' || activeTab === 'ai') && (
-          <div className="trajectory-card card-highlight-teal compact-traj-card">
-            
-            {/* 1. Compact Header */}
-            <div className="traj-compact-header">
-              <div className="tch-left">
-                <span className="traj-domain-badge domain-teal">GENERATIVE AI TRACK</span>
-                <h3 className="traj-title">
-                  Fullstack Developer <span className="traj-flow-arrow">➔</span> <span className="text-target-role">Production GenAI & LLM Engineer</span>
-                </h3>
-              </div>
-              <div className="tch-right">
-                <div className="tch-pkg-pill">
-                  <span className="tch-pkg-lbl">Target Potential:</span>
-                  <strong className="tch-pkg-val">₹28 - 45 LPA</strong>
-                </div>
-                <span className="tch-openings-tag">🔥 610+ Active Openings</span>
-              </div>
-            </div>
+        {(activeTab === 'all' || activeTab === 'ai') && (() => {
+          const aiSkills = ['LangChain / LLM Orchestration', 'Vector Embeddings (Pinecone)', 'RAG Pipeline Evaluation'];
+          const addedCount = aiSkills.filter(s => isSkillOnProfile(s)).length;
+          const isFullyUnlocked = addedCount === aiSkills.length;
 
-            {/* 2. Seamless Unified 3-Segment Pipeline Grid */}
-            <div className="traj-pipeline-grid">
-              
-              {/* Segment 1: Base */}
-              <div className="tpg-col tpg-col-base">
-                <div className="tpg-col-header">
-                  <span className="tpg-step-pill pill-green"><CheckCircle2 size={11} /> 1. YOUR CURRENT BASE</span>
-                  <span className="tpg-match-tag">✓ 3 Matched</span>
-                </div>
-                <div className="tpg-skills-list">
-                  <span className="tpg-chip chip-base">Fullstack App</span>
-                  <span className="tpg-chip chip-base">WebSockets/APIs</span>
-                  <span className="tpg-chip chip-base">DB Modeling</span>
-                </div>
-                <div className="tpg-col-footer">
-                  <span className="tpg-footnote">✓ Profile Core Skills</span>
-                </div>
-              </div>
-
-              {/* Segment 2: Booster Skills to Learn / Add (Candidate Acquisition Focus!) */}
-              <div className="tpg-col tpg-col-gap">
-                <div className="tpg-col-header">
-                  <span className="tpg-step-pill pill-amber"><Zap size={11} /> 2. TARGET BOOSTER SKILLS</span>
-                  <span className="tpg-gap-tag">⚡ +₹16L Jump</span>
-                </div>
-                <div className="tpg-skills-list">
-                  <span className={`tpg-chip chip-booster ${isSkillOnProfile('LangChain / LLM Orchestration') ? 'in-profile' : ''}`}>
-                    {isSkillOnProfile('LangChain / LLM Orchestration') ? '✓ LangChain/LLMs' : '+ LangChain/LLMs'}
-                  </span>
-                  <span className={`tpg-chip chip-booster ${isSkillOnProfile('Vector Embeddings (Pinecone)') ? 'in-profile' : ''}`}>
-                    {isSkillOnProfile('Vector Embeddings (Pinecone)') ? '✓ Vector Pinecone' : '+ Vector Pinecone'}
-                  </span>
-                  <span className={`tpg-chip chip-booster ${isSkillOnProfile('RAG Pipeline Evaluation') ? 'in-profile' : ''}`}>
-                    {isSkillOnProfile('RAG Pipeline Evaluation') ? '✓ RAG Evaluation' : '+ RAG Evaluation'}
-                  </span>
-                </div>
-                <div className="tpg-col-footer">
-                  <button 
-                    type="button" 
-                    className="btn-tpg-add-booster"
-                    onClick={handleGoToProfileSkills}
-                    title="Go to your Profile Key Skills to add or update skills for shortlisting"
-                  >
-                    <Plus size={12} strokeWidth={2.5} />
-                    <span>Add Skills in Profile for Shortlisting ➔</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Segment 3: Mentor Guide (Optional Accelerator) */}
-              <div className="tpg-col tpg-col-mentor">
-                <div className="tpg-col-header">
-                  <span className="tpg-step-pill pill-indigo"><UserCheck size={11} /> 3. 1:1 MENTOR GUIDANCE</span>
-                  <span className="tpg-price-tag">₹899 • 45m</span>
-                </div>
-                <div className="tpg-mentor-card">
-                  <div className="tpg-mentor-avatar-wrap">
-                    <img src="/avatars/ishita.jpg" alt="Ishita" className="tpg-mentor-img" />
-                    <span className="tpg-verified-check" title="Verified Mentor">✓</span>
-                  </div>
-                  <div className="tpg-mentor-details">
-                    <div className="tpg-mentor-name-row">
-                      <strong className="tpg-mentor-name">Ishita Sharma</strong>
-                      <span className="tpg-mentor-rating"><Star size={10} className="fill-amber-400 text-amber-500" /> 4.8 <span className="tpg-rating-count">(96)</span></span>
+          return (
+            <div className="shine-traj-card">
+              <div className="stc-main-layout">
+                {/* Left Column: Role Details, Openings, Current & Target Skills, View Jobs */}
+                <div className="stc-left-col">
+                  <div>
+                    <div className="stc-meta-top">
+                      <span className="stc-track-pill teal">Generative AI</span>
+                      <span>•</span>
+                      <span className="stc-openings-fire">🔥 610+ Active Openings</span>
+                      <span>•</span>
+                      <span>Hiring: <strong>Swiggy, OpenAI Partner Co, Postman</strong></span>
                     </div>
-                    <span className="tpg-mentor-company">GenAI Lead @ Swiggy</span>
-                    <span className="tpg-mentor-proof">🚀 210+ Guided • ₹35L Package</span>
+
+                    <h3 className="stc-role-title">
+                      Fullstack Developer <span className="stc-role-arrow">➔</span> <span className="stc-target-role">Production GenAI & LLM Engineer</span>
+                    </h3>
+                  </div>
+
+                  <div className="stc-skills-section">
+                    <div className="stc-skills-row">
+                      <span className="stc-skills-lbl"><CheckCircle2 size={12} className="text-emerald-600" /> On Your CV:</span>
+                      <div className="stc-chips-wrap">
+                        <span className="stc-chip-base">Fullstack App</span>
+                        <span className="stc-chip-base">WebSockets/APIs</span>
+                        <span className="stc-chip-base">DB Modeling</span>
+                      </div>
+                    </div>
+
+                    <div className="stc-skills-row">
+                      <span className="stc-skills-lbl-booster"><Zap size={12} className="text-amber-500" /> Booster Skills for +₹16L Jump:</span>
+                      <div className="stc-chips-wrap">
+                        <button 
+                          type="button" 
+                          className={`stc-chip-booster ${isSkillOnProfile('LangChain / LLM Orchestration') ? 'in-profile' : ''}`}
+                          onClick={() => addSkill('LangChain / LLM Orchestration')}
+                          title="Click to add to your profile"
+                        >
+                          {isSkillOnProfile('LangChain / LLM Orchestration') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
+                          <span>LangChain/LLMs</span>
+                        </button>
+                        <button 
+                          type="button" 
+                          className={`stc-chip-booster ${isSkillOnProfile('Vector Embeddings (Pinecone)') ? 'in-profile' : ''}`}
+                          onClick={() => addSkill('Vector Embeddings (Pinecone)')}
+                          title="Click to add to your profile"
+                        >
+                          {isSkillOnProfile('Vector Embeddings (Pinecone)') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
+                          <span>Vector Pinecone</span>
+                        </button>
+                        <button 
+                          type="button" 
+                          className={`stc-chip-booster ${isSkillOnProfile('RAG Pipeline Evaluation') ? 'in-profile' : ''}`}
+                          onClick={() => addSkill('RAG Pipeline Evaluation')}
+                          title="Click to add to your profile"
+                        >
+                          {isSkillOnProfile('RAG Pipeline Evaluation') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
+                          <span>RAG Evaluation</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* High Impact Unlock Alert Strip */}
+                    {!isFullyUnlocked && addedCount === 0 && (
+                      <div className="stc-unlock-alert-strip locked">
+                        <span className="stc-alert-icon">🔒</span>
+                        <div className="stc-alert-body">
+                          <strong>610+ Jobs Locked (₹28L–₹45L):</strong> You are currently not eligible for GenAI roles. Add these 3 booster skills to unlock direct shortlisting.
+                        </div>
+                      </div>
+                    )}
+                    {!isFullyUnlocked && addedCount > 0 && (
+                      <div className="stc-unlock-alert-strip progress">
+                        <span className="stc-alert-icon">⚡</span>
+                        <div className="stc-alert-body">
+                          <strong>Progress ({addedCount}/3 Skills Added):</strong> You are almost ready for ₹28L–₹45L GenAI roles!
+                        </div>
+                      </div>
+                    )}
+                    {isFullyUnlocked && (
+                      <div className="stc-unlock-alert-strip unlocked">
+                        <span className="stc-alert-icon">🎉</span>
+                        <div className="stc-alert-body">
+                          <strong>3/3 Skills in Your Profile!</strong> 610+ GenAI openings are now fully unlocked for direct shortlist.
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="stc-left-footer">
+                    <button 
+                      type="button" 
+                      className={`btn-stc-jobs ${isFullyUnlocked ? 'unlocked' : ''}`}
+                      onClick={() => handleOpenMatchingJobs('ai')}
+                    >
+                      {isFullyUnlocked ? <CheckCircle2 size={13} className="text-emerald-600" /> : <Briefcase size={13} />}
+                      <span>{isFullyUnlocked ? '🔓 610+ Matching Jobs Unlocked (Apply Now)' : '🔒 View 610+ Locked Jobs (Requires 3 Skills)'}</span>
+                      <ChevronRight size={13} />
+                    </button>
                   </div>
                 </div>
-                <div className="tpg-mentor-perks-row">
-                  <span className="tpg-perk-tag"><CheckCircle2 size={10} className="text-emerald-600" /> RAG & LLM Pipelines</span>
-                  <span className="tpg-perk-tag"><CheckCircle2 size={10} className="text-emerald-600" /> Swiggy Referrals</span>
-                </div>
-                <div className="tpg-col-footer">
-                  <button 
-                    type="button" 
-                    className="btn-tpg-mentor-book" 
-                    onClick={() => handleBookWithMentor('ishita')}
-                  >
-                    <Video size={12} />
-                    <span>Book 1:1 Session ➔</span>
-                  </button>
+
+                {/* Right Column: Dedicated Mentor Trajectory Twin Card */}
+                <div className="stc-right-col">
+                  <div className="stc-mentor-hero-card">
+                    <div className="stc-target-salary-badge">
+                      <span className="stc-salary-title">🎯 Trajectory Twin</span>
+                      <strong className="stc-salary-amount">₹28 – 45 LPA</strong>
+                    </div>
+
+                    <div className="stc-mentor-profile-header">
+                      <div className="stc-mentor-avatar-wrap">
+                        <img src="/avatars/ishita.jpg" alt="Ishita Sharma" className="stc-mentor-avatar-img" />
+                        <span className="stc-mentor-badge-check">✓</span>
+                      </div>
+                      <div className="stc-mentor-meta-info">
+                        <div className="stc-mentor-name-row">
+                          <span className="stc-mentor-name">Ishita Sharma</span>
+                          <span className="stc-mentor-rating-tag"><Star size={9} fill="#D97706" color="#D97706" /> 4.8 (63)</span>
+                        </div>
+                        <span className="stc-mentor-role-sub">GenAI Lead @ Swiggy</span>
+                      </div>
+                    </div>
+
+                    <div className="stc-mentor-story-box">
+                      <div className="stc-story-headline">
+                        <span>How Ishita Made This Exact Jump</span>
+                        <span className="stc-mentor-live-tag">⚡ Slot Today</span>
+                      </div>
+                      <div className="stc-story-step">
+                        <span className="stc-step-bullet">📍</span>
+                        <div className="stc-step-body">
+                          <strong>3 Yrs Ago:</strong> Fullstack Dev @ ₹8L
+                        </div>
+                      </div>
+                      <div className="stc-story-step">
+                        <span className="stc-step-bullet">🚀</span>
+                        <div className="stc-step-body">
+                          <strong>The Jump:</strong> Added RAG & LangChain ➔ Reached <strong>₹35L</strong> AI Lead
+                        </div>
+                      </div>
+                    </div>
+
+                    <button 
+                      type="button" 
+                      className="btn-stc-book-mentor-hero"
+                      onClick={() => handleBookWithMentor('ishita')}
+                    >
+                      <Video size={13} />
+                      <span>Book 1:1 Roadmap & Prep • ₹899</span>
+                    </button>
+                    <div className="stc-card-footnote">RAG pipeline architecture review + Swiggy referrals</div>
+                  </div>
                 </div>
               </div>
-
             </div>
-
-            {/* 3. Streamlined Footer */}
-            <div className="traj-compact-footer">
-              <div className="tcf-hiring">
-                <Building2 size={13} /> <span>Hiring on Shine: <strong>Swiggy, OpenAI Partner Co, BrowserStack, Postman</strong></span>
-              </div>
-              <button 
-                type="button" 
-                className="tcf-view-jobs" 
-                onClick={() => handleOpenMatchingJobs('ai')}
-              >
-                View 610+ Matching Jobs <ChevronRight size={13} />
-              </button>
-            </div>
-
-          </div>
-        )}
+          );
+        })()}
 
       </div>
 
