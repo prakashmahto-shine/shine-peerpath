@@ -1,0 +1,491 @@
+import { Creator, CandidateProfile, MentorshipSession, PeerVerifiedBadge } from '../types';
+
+export const SEED_CREATORS: Creator[] = [
+  // 1. FULL-STACK VERTICAL
+  {
+    id: "saheli",
+    name: "Saheli Kanjilal",
+    role: "Staff Frontend Architect",
+    company: "Razorpay (FinTech)",
+    domain: "Full-Stack",
+    experience: "7+ Years Exp.",
+    rating: 4.9,
+    reviewsCount: 178,
+    sessionsCount: 360,
+    price: 999,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "/avatars/saheli.jpg",
+    videoPoster: "/avatars/saheli.jpg",
+    teaserTitle: "Teaser: How I Jumped from ₹6L to ₹26L Staff Frontend Architect",
+    skills: ["React.js", "TypeScript", "Micro-Frontends", "Module Federation", "Web Vitals", "Next.js"],
+    bio: "Staff Frontend Architect at Razorpay. I guide frontend developers on mastering Module Federation, Core Web Vitals, and cracking high-paying Staff & Senior Frontend interview loops.",
+    verifiedEmail: "saheli.k@razorpay.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Senior Frontend Developer",
+      company3YearsAgo: "TCS / Mid-tier Services",
+      salary3YearsAgo: "₹6.2 LPA",
+      keyJumpSkills: ["Module Federation", "Micro-Frontends", "Web Vitals Performance"],
+      jumpStory: "Was writing vanilla React components at an IT services consultancy. Mastered micro-frontends and SSR architecture to break into Tier-1 product engineering."
+    },
+    availability: {
+      days: ["Mon", "Wed", "Fri", "Sat"],
+      timeSlots: ["06:30 PM - 07:30 PM", "08:00 PM - 09:00 PM"]
+    }
+  },
+  {
+    id: "akash",
+    name: "Akash Jain",
+    role: "Lead Product Manager",
+    company: "Shine (HT Media)",
+    domain: "Product Management",
+    experience: "7+ Years Exp.",
+    rating: 4.9,
+    reviewsCount: 142,
+    sessionsCount: 310,
+    price: 999,
+    location: "Noida, India",
+    duration: "01:15",
+    avatar: "/avatars/akash.jpg",
+    videoPoster: "/avatars/akash.jpg",
+    teaserTitle: "Teaser: How to Transition from Engineering to High-Impact Product Management",
+    skills: ["Product Strategy", "Growth Metrics", "Roadmapping", "PRD & Discovery", "A/B Testing"],
+    bio: "Leading core product initiatives at Shine. I mentor engineers and business analysts on product discovery frameworks, metric storytelling, and cracking Tier-1 PM interview case rounds.",
+    verifiedEmail: "akash.jain@shine.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Senior Backend Software Engineer",
+      company3YearsAgo: "InfoEdge / Naukri",
+      salary3YearsAgo: "₹8.8 LPA",
+      keyJumpSkills: ["PRD Discovery", "Growth Funnel Analytics", "Product Strategy"],
+      jumpStory: "Spent 4 years writing APIs before transitioning into technical product management. Now architecting search & candidate trust features."
+    },
+    availability: {
+      days: ["Tue", "Thu", "Sat", "Sun"],
+      timeSlots: ["10:00 AM - 11:00 AM", "07:00 PM - 08:00 PM"]
+    }
+  },
+  {
+    id: "anirudh",
+    name: "Anirudh Sharma",
+    role: "Principal Search & Database Architect",
+    company: "Shine (HT Media)",
+    domain: "Search & Data Infra",
+    experience: "8+ Years Exp.",
+    rating: 4.9,
+    reviewsCount: 165,
+    sessionsCount: 390,
+    price: 1199,
+    location: "Noida, India",
+    duration: "01:14",
+    avatar: "/avatars/anirudh.jpg",
+    videoPoster: "/avatars/anirudh.jpg",
+    teaserTitle: "Teaser: Scaling Apache Solr & Distributed Search for 50M+ Candidate Queries",
+    skills: ["Apache Solr", "Search Indexing", "Database Tuning", "Elasticsearch", "Distributed DBs"],
+    bio: "Principal Architect managing search clustering, real-time indexing pipelines, and high-performance Solr/NoSQL data infrastructure at Shine. 1:1 guidance on database scaling.",
+    verifiedEmail: "anirudh.s@shine.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Senior Java/Search Engineer",
+      company3YearsAgo: "Cognizant",
+      salary3YearsAgo: "₹7.5 LPA",
+      keyJumpSkills: ["Solr Cluster Sharding", "Sub-10ms Inverted Indexing", "Distributed Caching"],
+      jumpStory: "Shifted from maintaining enterprise search maintenance contracts to designing real-time indexing infrastructure for 40M+ active CV profiles."
+    },
+    availability: {
+      days: ["Mon", "Wed", "Thu", "Sat"],
+      timeSlots: ["02:00 PM - 03:00 PM", "08:00 PM - 09:00 PM"]
+    }
+  },
+  {
+    id: "vikram",
+    name: "Vikram Joshi",
+    role: "Staff Engineering Manager",
+    company: "Google",
+    domain: "Full-Stack",
+    experience: "10+ Years Exp.",
+    rating: 4.9,
+    reviewsCount: 190,
+    sessionsCount: 420,
+    price: 1499,
+    location: "Hyderabad, India",
+    duration: "01:13",
+    avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: Cracking Staff Engineer & System Design Loops",
+    skills: ["Full-Stack Architecture", "System Design", "Cloud Infrastructure", "Distributed Systems", "Go", "TypeScript"],
+    bio: "Engineering leader at Google. 1:1 architectural reviews, mock coding & tier-1 system design mentorship.",
+    verifiedEmail: "vjoshi@google.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Senior Full-Stack Engineer",
+      company3YearsAgo: "Wipro Digital",
+      salary3YearsAgo: "₹11 LPA",
+      keyJumpSkills: ["Large-Scale Distributed Systems", "Concurrency Modeling", "Staff Leadership"],
+      jumpStory: "Cleared Google L6 loop after systematically leveling up in distributed state consensus and microservice fault tolerance."
+    },
+    availability: {
+      days: ["Sat", "Sun"],
+      timeSlots: ["11:00 AM - 12:00 PM", "04:30 PM - 05:30 PM"]
+    }
+  },
+
+  // 2. AI/ML VERTICAL
+  {
+    id: "ishita",
+    name: "Ishita Sharma",
+    role: "Senior Data Scientist & AI Lead",
+    company: "Swiggy",
+    domain: "AI/ML",
+    experience: "7+ Years Exp.",
+    rating: 4.8,
+    reviewsCount: 96,
+    sessionsCount: 210,
+    price: 899,
+    location: "Bengaluru, India",
+    duration: "01:09",
+    avatar: "/avatars/ishita.jpg",
+    videoPoster: "/avatars/ishita.jpg",
+    teaserTitle: "Teaser: Transitioning from Data Analyst to Production GenAI Lead",
+    skills: ["Data Science", "Machine Learning", "PyTorch", "LLMs", "RAG Systems", "FastAPI"],
+    bio: "Built real-time dispatch and recommendation algorithms at Swiggy. I guide developers making the jump into production GenAI & distributed ML systems.",
+    verifiedEmail: "ishita.sharma@swiggy.in",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "BI & Data Analyst",
+      company3YearsAgo: "Mu Sigma",
+      salary3YearsAgo: "₹5.5 LPA",
+      keyJumpSkills: ["PyTorch Production Pipelines", "Vector Search (Pinecone)", "LLM Fine-Tuning"],
+      jumpStory: "Transitioned from SQL dashboards to building multi-modal LLM search algorithms and dispatch heuristics serving 2M orders daily."
+    },
+    availability: {
+      days: ["Mon", "Tue", "Thu", "Sat"],
+      timeSlots: ["06:30 PM - 07:30 PM", "08:30 PM - 09:30 PM"]
+    }
+  },
+  {
+    id: "raghavan",
+    name: "Dr. Raghavan Nair",
+    role: "Principal AI Systems Architect",
+    company: "NVIDIA",
+    domain: "AI/ML",
+    experience: "9+ Years Exp.",
+    rating: 4.95,
+    reviewsCount: 112,
+    sessionsCount: 245,
+    price: 1599,
+    location: "Bengaluru, India",
+    duration: "01:20",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: TensorRT, CUDA & Trillion-Parameter Model Serving",
+    skills: ["CUDA", "TensorRT", "Deep Learning", "LLM Inference", "Distributed Training", "PyTorch"],
+    bio: "Principal AI Systems Architect at NVIDIA. Mentoring ML engineers on high-throughput model quantization, GPU kernel tuning, and landing principal ML roles.",
+    verifiedEmail: "rnair@nvidia.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Senior ML Engineer",
+      company3YearsAgo: "Mindtree",
+      salary3YearsAgo: "₹12 LPA",
+      keyJumpSkills: ["CUDA C++ Acceleration", "Distributed vLLM Inference", "Model Compression"],
+      jumpStory: "Was writing basic scikit-learn models before diving into hardware-accelerated deep learning. Now leading AI inference pipelines at NVIDIA."
+    },
+    availability: {
+      days: ["Wed", "Fri", "Sun"],
+      timeSlots: ["07:00 PM - 08:00 PM", "08:30 PM - 09:30 PM"]
+    }
+  },
+
+  // 3. SEMICONDUCTOR VERTICAL
+  {
+    id: "karthik",
+    name: "Karthik Nambiar",
+    role: "Lead Silicon Verification Architect",
+    company: "Qualcomm",
+    domain: "Semiconductor",
+    experience: "8+ Years Exp.",
+    rating: 4.9,
+    reviewsCount: 88,
+    sessionsCount: 185,
+    price: 1299,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: From FPGA Hobbyist to Qualcomm 3nm SoC Lead",
+    skills: ["SystemVerilog", "UVM Methodology", "PCIe Gen5", "Formal Verification", "SoC Architecture"],
+    bio: "Lead Silicon Verification Architect at Qualcomm Snapdragon division. I help VLSI engineers master UVM testbenches, assertions, and crack tier-1 semiconductor loops.",
+    verifiedEmail: "knambiar@qualcomm.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "FPGA Design Engineer",
+      company3YearsAgo: "Wipro VLSI Services",
+      salary3YearsAgo: "₹7.2 LPA",
+      keyJumpSkills: ["UVM Testbench Architecture", "Constrained Random Verification", "ARM AMBA Protocols"],
+      jumpStory: "Made the transition from outsourced FPGA board testing to leading tapeout verification for flagship 3nm smartphone chipsets."
+    },
+    availability: {
+      days: ["Tue", "Thu", "Sat"],
+      timeSlots: ["07:00 PM - 08:00 PM", "08:30 PM - 09:30 PM"]
+    }
+  },
+  {
+    id: "priya",
+    name: "Priya Raman",
+    role: "Staff ASIC Physical Design Lead",
+    company: "Texas Instruments",
+    domain: "Semiconductor",
+    experience: "7.5+ Years Exp.",
+    rating: 4.88,
+    reviewsCount: 74,
+    sessionsCount: 155,
+    price: 1199,
+    location: "Bengaluru, India",
+    duration: "01:10",
+    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: Closing Timing on 5nm FinFET with Synopsys ICC2",
+    skills: ["ASIC Physical Design", "Static Timing Analysis (STA)", "Floorplanning", "Synopsys ICC2", "FinFET 5nm"],
+    bio: "Staff Physical Design Lead at TI. 1:1 deep dives on clock tree synthesis, IR drop mitigation, and design rule check (DRC) signoff.",
+    verifiedEmail: "priya.raman@ti.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Junior Layout Engineer",
+      company3YearsAgo: "SmartSoC Solutions",
+      salary3YearsAgo: "₹6.0 LPA",
+      keyJumpSkills: ["Static Timing Closure", "Multi-Corner Multi-Mode (MCMM)", "Power Routing"],
+      jumpStory: "Started in manual layout cleanups; mastered automated P&R flows in ICC2 to lead sub-micron chip tapeouts at Texas Instruments."
+    },
+    availability: {
+      days: ["Mon", "Wed", "Sat"],
+      timeSlots: ["06:30 PM - 07:30 PM", "08:00 PM - 09:00 PM"]
+    }
+  },
+
+  // 4. CYBERSECURITY VERTICAL
+  {
+    id: "devansh",
+    name: "Devansh Saxena",
+    role: "Lead Cloud Security & DevSecOps",
+    company: "Palo Alto Networks",
+    domain: "Cybersecurity",
+    experience: "7+ Years Exp.",
+    rating: 4.92,
+    reviewsCount: 104,
+    sessionsCount: 220,
+    price: 1099,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How to Switch from Sysadmin to ₹28L DevSecOps Architect",
+    skills: ["Cloud Security", "Kubernetes Hardening", "DevSecOps", "AWS IAM", "Terraform", "Prisma Cloud"],
+    bio: "Lead Cloud Security Engineer at Palo Alto Networks. I coach engineers on shift-left security, zero trust architecture, and cracking high-paying cloud sec jobs.",
+    verifiedEmail: "dsaxena@paloaltonetworks.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Linux System Administrator",
+      company3YearsAgo: "HCL Technologies",
+      salary3YearsAgo: "₹5.2 LPA",
+      keyJumpSkills: ["Kubernetes Security Policies", "Terraform Infrastructure as Code", "Zero Trust Identity"],
+      jumpStory: "Was patching on-premise Linux servers for ₹5.2L. Mastered cloud security posture management (CSPM) and doubled salary in 18 months."
+    },
+    availability: {
+      days: ["Tue", "Thu", "Sat", "Sun"],
+      timeSlots: ["07:00 PM - 08:00 PM", "08:30 PM - 09:30 PM"]
+    }
+  },
+  {
+    id: "meera",
+    name: "Meera Iyer",
+    role: "Staff SOC & Threat Hunting Architect",
+    company: "CrowdStrike",
+    domain: "Cybersecurity",
+    experience: "8+ Years Exp.",
+    rating: 4.89,
+    reviewsCount: 82,
+    sessionsCount: 175,
+    price: 1199,
+    location: "Pune / Remote, India",
+    duration: "01:12",
+    avatar: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: Reverse Engineering Modern Ransomware & Threat Modeling",
+    skills: ["Threat Hunting", "EDR Telemetry", "Splunk SIEM", "Incident Response", "MITRE ATT&CK", "Malware Analysis"],
+    bio: "Staff Threat Hunter at CrowdStrike Falcon Overwatch. Guiding SOC Tier-1/2 analysts into offensive engineering and high-velocity IR teams.",
+    verifiedEmail: "meera.iyer@crowdstrike.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Tier-1 SOC Monitoring Analyst",
+      company3YearsAgo: "Wipro Managed Security",
+      salary3YearsAgo: "₹4.8 LPA",
+      keyJumpSkills: ["Advanced Threat Hunting", "Endpoint Behavioral Telemetry", "YARA Rule Engineering"],
+      jumpStory: "Escaped the graveyard shift alert fatigue by building automated threat attribution playbooks. Now hunting APTs at CrowdStrike."
+    },
+    availability: {
+      days: ["Mon", "Wed", "Fri"],
+      timeSlots: ["06:00 PM - 07:00 PM", "07:30 PM - 08:30 PM"]
+    }
+  }
+];
+
+export const INITIAL_BADGES: PeerVerifiedBadge[] = [
+  {
+    id: "badge-pm-1",
+    title: "Tier-1 Frontend & UI Architecture",
+    subtitle: "Verified by Saheli Kanjilal • Staff Frontend Architect @ Razorpay",
+    verifierName: "Saheli Kanjilal",
+    verifierRole: "Staff Frontend Architect @ Razorpay",
+    verifierAvatar: "/avatars/saheli.jpg",
+    verifierCompany: "Razorpay",
+    date: "Aug 24, 2026",
+    skills: ["React.js 19", "TypeScript Micro-Frontends", "UI Performance", "Design Systems"],
+    status: "verified",
+    verificationHash: "SHINE-VERIFY-7829-0192-RP"
+  },
+  {
+    id: "badge-solr-1",
+    title: "Distributed Search & Lucene Indexing",
+    subtitle: "Verified by Anirudh Sharma • Principal Search Architect @ Shine",
+    verifierName: "Anirudh Sharma",
+    verifierRole: "Principal Search Architect @ Shine",
+    verifierAvatar: "/avatars/anirudh.jpg",
+    verifierCompany: "Shine (HT Media)",
+    date: "Aug 12, 2026",
+    skills: ["Solr Query Syntax", "Inverted Indexing", "Distributed Sharding", "FastAPI"],
+    status: "verified",
+    verificationHash: "SHINE-VERIFY-4491-8821-HN"
+  }
+];
+
+export const SEED_CANDIDATES: CandidateProfile[] = [
+  {
+    id: "prakash",
+    name: "Prakash Mahto",
+    email: "prakash.mahto@gmail.com",
+    phone: "+91 98765 43210",
+    headline: "Senior Frontend Engineer | React.js, TypeScript, Next.js UI Architect",
+    experienceYears: "4 Years, 2 Months",
+    location: "Bengaluru, India",
+    profileScore: 78,
+    jobSearchStatus: "Serving Notice Period (30 Days)",
+    summary: "Senior Frontend Developer with 4+ years of hands-on experience building high-traffic, resilient web applications at scale. Proficient in React.js, TypeScript, Next.js, and modern CSS architecture.",
+    skills: ["React.js", "TypeScript", "Next.js", "JavaScript (ES6+)", "Redux Toolkit", "Tailwind CSS / Vanilla CSS", "REST APIs", "Webpack / Vite", "Jest & React Testing Library", "Git & CI/CD"],
+    currentCtc: "₹7.5 LPA",
+    targetCtc: "₹22 - 30 LPA",
+    targetRole: "Staff UI & Micro-Frontend Architect",
+    pastCompany: "Mid-Market Digital Agency",
+    pastCompanyRole: "Frontend Developer",
+    educationDegree: "B.Tech Computer Science",
+    educationCollege: "VTU Bengaluru",
+    badges: INITIAL_BADGES,
+    recruiterSearchMultiplier: 3.4
+  },
+  {
+    id: "sunil",
+    name: "Sunil Kumar",
+    email: "sunil.kumar@gmail.com",
+    phone: "+91 98123 45678",
+    headline: "Lead QA & Test Automation Architect • 6 Yrs Exp • Noida",
+    experienceYears: "6 Years",
+    location: "Noida, India",
+    profileScore: 84,
+    jobSearchStatus: "Actively Looking (Immediate Joiner)",
+    summary: "Experienced QA lead specializing in distributed load testing, API automation, and CI/CD testing pipelines.",
+    skills: ["Playwright", "Selenium", "Postman API Testing", "CI/CD Pipelines", "Performance Testing", "Python"],
+    currentCtc: "₹10 LPA",
+    targetCtc: "₹20 - 25 LPA",
+    targetRole: "Principal SDET & Automation Architect",
+    badges: [
+      {
+        id: "badge-qa-1",
+        title: "Distributed Test Automation & Performance",
+        subtitle: "Verified by Anirudh Sharma • Principal Search Architect @ Shine",
+        verifierName: "Anirudh Sharma",
+        verifierRole: "Principal Search Architect @ Shine",
+        verifierAvatar: "/avatars/anirudh.jpg",
+        verifierCompany: "Shine (HT Media)",
+        date: "Aug 18, 2026",
+        skills: ["Playwright / Selenium", "Postman API Testing", "Load Testing on Solr"],
+        status: "verified",
+        verificationHash: "SHINE-VERIFY-1902-8822-QA"
+      }
+    ],
+    recruiterSearchMultiplier: 2.8
+  },
+  {
+    id: "aditi",
+    name: "Aditi Rao",
+    email: "aditi.rao@gmail.com",
+    phone: "+91 97711 22334",
+    headline: "Data Analyst transitioning to ML Engineer • 3 Yrs Exp",
+    experienceYears: "3 Years",
+    location: "Bengaluru, India",
+    profileScore: 82,
+    jobSearchStatus: "Open to Offers",
+    summary: "Data analyst with strong Python and SQL background. Transitioning to production ML and Generative AI systems.",
+    skills: ["Python", "SQL", "Pandas", "Scikit-Learn", "FastAPI", "Data Modeling"],
+    currentCtc: "₹6.0 LPA",
+    targetCtc: "₹18 - 24 LPA",
+    targetRole: "Applied AI Engineer / GenAI Specialist",
+    badges: [
+      {
+        id: "badge-ai-1",
+        title: "Production RAG & Vector Retrieval",
+        subtitle: "Verified by Ishita Sharma • Senior Data Scientist @ Swiggy",
+        verifierName: "Ishita Sharma",
+        verifierRole: "Senior Data Scientist @ Swiggy",
+        verifierAvatar: "/avatars/ishita.jpg",
+        verifierCompany: "Swiggy",
+        date: "Sep 01, 2026",
+        skills: ["RAG Systems", "PyTorch", "FastAPI Serving"],
+        status: "verified",
+        verificationHash: "SHINE-VERIFY-9921-3310-AI"
+      }
+    ],
+    recruiterSearchMultiplier: 3.1
+  }
+];
+
+export const INITIAL_SESSIONS: MentorshipSession[] = [
+  {
+    id: "sess-1",
+    expertId: "saheli",
+    expert: SEED_CREATORS[0],
+    candidateId: "prakash",
+    candidateName: "Prakash Mahto",
+    candidateRole: "Senior Frontend Engineer",
+    candidateAvatar: "/avatars/prakash.jpg",
+    candidateGoal: "Transition to Top Product Company (₹22L-30L) & Module Federation Teardown",
+    candidateEmail: "prakash.mahto@gmail.com",
+    date: "Saturday, 12 Sep 2026",
+    timeSlot: "06:30 PM - 07:30 PM",
+    status: "upcoming",
+    meetingLink: "https://meet.shine.com/room/peerpath-saheli-prakash-7f9",
+    amountPaid: 999,
+    paymentId: "pay_live_shine_9821a",
+    bookedAt: "2026-09-05T10:15:00Z"
+  },
+  {
+    id: "sess-2",
+    expertId: "anirudh",
+    expert: SEED_CREATORS[2],
+    candidateId: "prakash",
+    candidateName: "Prakash Mahto",
+    candidateRole: "Senior Frontend Engineer",
+    candidateAvatar: "/avatars/prakash.jpg",
+    candidateGoal: "Learn Search System Architecture & Lucene Sharding",
+    candidateEmail: "prakash.mahto@gmail.com",
+    date: "Thu, 28 Aug 2026",
+    timeSlot: "02:00 PM - 03:00 PM",
+    status: "completed",
+    meetingLink: "https://meet.shine.com/room/peerpath-anirudh-prakash-31c",
+    badgeAwarded: "Distributed Search & Lucene Indexing",
+    feedbackNotes: "Prakash demonstrated solid grasp of search query routing, sub-10ms response optimization, and modern frontend cache design.",
+    rating: 5,
+    amountPaid: 1199,
+    paymentId: "pay_live_shine_1847c",
+    bookedAt: "2026-08-25T14:30:00Z"
+  }
+];

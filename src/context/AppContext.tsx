@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Expert, MentorshipSession, PeerVerifiedBadge, UserProfileData, ViewType, UserAccount, PeerpathJobContext } from '../types';
 import { EXPERTS_DB } from '../data/expertsData';
 import { USERS_DB } from '../data/usersData';
+import { peerpathApi } from '../services/api';
 
 export interface ToastMessage {
   id: string;
@@ -304,6 +305,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, [userProfiles]);
 
+  // Synchronize initial data with Backend API
+  useEffect(() => {
+    peerpathApi.getCreators().then(fetched => {
+      if (fetched && fetched.length > 0) {
+        setExperts(fetched);
+      }
+    }).catch(err => console.log('[API] Using local experts fallback:', err));
+
+    peerpathApi.getSessions().then(fetched => {
+      if (fetched && fetched.length > 0) {
+        setSessions(fetched);
+      }
+    }).catch(err => console.log('[API] Using local sessions fallback:', err));
+  }, []);
+
   const showToast = (title: string, description?: string, type: 'success' | 'info' | 'warning' = 'success') => {
     const id = 'toast-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4);
     setToasts(prev => [...prev, { id, title, description, type }]);
@@ -401,6 +417,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       console.warn('LocalStorage save error', e);
     }
 
+    peerpathApi.resetDemo().catch(err => console.warn('[API resetDemo]:', err));
+
     navigate('dashboard-view');
     showToast('🔄 Demo Data Reset Complete', `All 3 personas (Prakash: Candidate, Nisha: Pitch, Akash: Mentor) restored to pristine state.`, 'success');
   };
@@ -425,6 +443,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const fullExpert: Expert = { ...newExpertData, id };
     setExperts(prev => [fullExpert, ...prev]);
     showToast('🎉 Creator Profile Published!', `Your 1:1 Trajectory Mentorship is now live on Shine Peerpath.`);
+    
+    // Async sync to backend API
+    peerpathApi.registerCreator(newExpertData).catch(err => console.warn('[API addExpert]:', err));
     return fullExpert;
   };
 
@@ -444,17 +465,31 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setSessions(prev => [newSession, ...prev]);
     setActiveSession(newSession);
     showToast('✨ Mentorship Session Scheduled!', `Booked with ${expert.name} on ${date} at ${timeSlot}.`);
+
+    // Async sync to backend API
+    peerpathApi.checkoutAndBookSession({
+      expertId: expert.id,
+      candidateName: userProfile.name,
+      candidateRole: userProfile.headline.split('|')[0]?.trim() || 'Senior Frontend Engineer',
+      date,
+      timeSlot,
+      paymentMethod: 'upi',
+      amount: expert.price
+    }).catch(err => console.warn('[API bookSession]:', err));
+
     return newSession;
   };
 
   const cancelSession = (sessionId: string) => {
     setSessions(prev => prev.map(s => s.id === sessionId ? { ...s, status: 'cancelled' } : s));
     showToast('Session Cancelled', 'Your session has been cancelled and refund initiated.', 'info');
+    peerpathApi.cancelSession(sessionId).catch(err => console.warn('[API cancelSession]:', err));
   };
 
   const rescheduleSession = (sessionId: string, newDate: string, newTimeSlot: string) => {
     setSessions(prev => prev.map(s => s.id === sessionId ? { ...s, date: newDate, timeSlot: newTimeSlot } : s));
     showToast('Session Rescheduled', `Updated to ${newDate}, ${newTimeSlot}.`, 'success');
+    peerpathApi.rescheduleSession(sessionId, newDate, newTimeSlot).catch(err => console.warn('[API rescheduleSession]:', err));
   };
 
   const completeSession = (sessionId: string, rating: number, notes: string, badgeTitle?: string) => {
@@ -480,6 +515,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       };
       awardBadge(newBadge);
     }
+
+    peerpathApi.submitAssessment(sessionId, {
+      rating,
+      feedbackNotes: notes,
+      badgeTitle: badgeTitle || 'Trajectory Competency Verified',
+      skillsVerified: activeSession ? activeSession.expert.skills.slice(0, 4) : ['System Architecture']
+    }).catch(err => console.warn('[API submitAssessment]:', err));
+
     showToast('🎉 Assessment Complete!', 'Skill badge and feedback updated on your profile.');
   };
 

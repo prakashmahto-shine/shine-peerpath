@@ -17,6 +17,18 @@ export interface Expert {
   skills: string[];
   bio: string;
   verifiedEmail: string;
+  isVerifiedEmployer?: boolean;
+  trajectory?: {
+    role3YearsAgo: string;
+    company3YearsAgo: string;
+    salary3YearsAgo: string;
+    keyJumpSkills: string[];
+    jumpStory: string;
+  };
+  availability?: {
+    days: string[];
+    timeSlots: string[];
+  };
 }
 
 export type ViewType = 
@@ -134,6 +146,39 @@ export interface PeerpathJobContext {
   targetRole: string;
   targetPackage: string;
   requiredBoosterSkills: string[];
+}
+
+export interface TrajectoryMatch {
+  creator: Expert;
+  trajectorySimilarityScore: number;
+  jumpDelta: string;
+  matchReasons: string[];
+  criticalBoosterSkills: string[];
+  suggestedSessionGoal: string;
+}
+
+export interface ZeroPrepDossier {
+  sessionId: string;
+  candidate: {
+    name: string;
+    headline: string;
+    experienceYears: string;
+    currentCtc?: string;
+    targetCtc?: string;
+    targetRole?: string;
+    skills: string[];
+    summary: string;
+  };
+  gapReport: {
+    missingSkills: string[];
+    targetJump: string;
+    suggestedFocusAreas: string[];
+  };
+  recommendedAssessmentRubric: {
+    category: string;
+    criteria: string[];
+  }[];
+  quickDiscussionPrompts: string[];
 }
 
 
