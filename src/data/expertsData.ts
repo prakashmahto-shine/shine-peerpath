@@ -16,7 +16,7 @@ export const EXPERTS_DB: Expert[] = [
     duration: "01:15",
     avatar: "/avatars/saheli.jpg",
     videoPoster: "/avatars/saheli.jpg",
-    teaserTitle: "Teaser: How I Jumped from ₹6L to ₹26L Staff Frontend Architect",
+    teaserTitle: "Teaser: How I Jumped to Staff Frontend Architect at Razorpay",
     skills: ["React.js", "TypeScript", "Micro-Frontends", "Module Federation", "Web Vitals"],
     bio: "Staff Frontend Architect at Razorpay. I guide frontend developers on mastering Module Federation, Core Web Vitals, and cracking high-paying Staff & Senior Frontend interview loops.",
     verifiedEmail: "@razorpay.com"
@@ -180,5 +180,25 @@ export const EXPERTS_DB: Expert[] = [
     skills: ["Frontend Dev", "React.js", "System Design", "Cloud Infra", "Distributed Systems"],
     bio: "Engineering leader at Google. 1:1 architectural reviews, mock coding & tier-1 system design mentorship.",
     verifiedEmail: "@google.com"
+  },
+  {
+    id: "arunachalam",
+    name: "Arunachalam V.",
+    role: "Staff Silicon & VLSI Architect",
+    company: "Qualcomm (Ex-Intel Silicon)",
+    domain: "Semiconductor",
+    experience: "11+ Years Exp.",
+    rating: 4.95,
+    reviewsCount: 184,
+    sessionsCount: 375,
+    price: 1199,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "/avatars/sunil.jpg",
+    videoPoster: "/avatars/sunil.jpg",
+    teaserTitle: "Teaser: How India's Semiconductor Mission is Creating ₹42L+ Silicon Roles",
+    skills: ["RTL Design", "SystemVerilog", "UVM Verification", "FPGA Synthesis", "Static Timing Analysis"],
+    bio: "Staff Silicon Architect at Qualcomm. Guiding engineers on cracking top VLSI design, UVM verification, and getting headhunted for India's upcoming mega-fabs.",
+    verifiedEmail: "@qualcomm.com"
   }
 ];

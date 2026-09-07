@@ -6,7 +6,7 @@ import {
 import { useApp } from '../../context/AppContext';
 import { ViewType } from '../../types';
 
-export type PathwayTrackKey = 'arch' | 'pm' | 'search' | 'ai';
+export type PathwayTrackKey = 'arch' | 'pm' | 'search' | 'ai' | 'semi';
 
 interface MatchingJobItem {
   id: string;
@@ -344,6 +344,67 @@ const TRACKS_JOBS_DB: Record<PathwayTrackKey, PathwayTrackData> = {
         boosterSkills: ['RAG Pipeline Evaluation', 'Fine-Tuning'],
         badgeText: '🚀 Global Remote Role',
         openingsCountText: 'Actively Interviewing'
+      }
+    ]
+  },
+  semi: {
+    key: 'semi',
+    trackName: 'Semiconductor & VLSI Track (India Fab Mission)',
+    targetRole: 'Staff Silicon & RTL Design Architect',
+    targetSalary: 'Up to ₹42 LPA',
+    openingsBadge: '48+ Fab Partners Direct Sourcing',
+    mentorId: 'arunachalam',
+    mentorName: 'Arunachalam V.',
+    mentorCompany: 'Staff Silicon Architect @ Qualcomm (Ex-Intel)',
+    mentorAvatar: '/avatars/sunil.jpg',
+    jobs: [
+      {
+        id: 'job-semi-1',
+        title: 'Senior RTL & ASIC Design Engineer',
+        company: 'Qualcomm India',
+        companyInitials: 'QC',
+        companyBgColor: '#002B49',
+        exp: '3 to 7 Yrs',
+        loc: 'Bengaluru / Hyderabad',
+        salary: '₹28 - 42 LPA',
+        posted: 'Direct Sourcing Pool',
+        matchRate: 45,
+        matchedSkills: ['Verilog', 'Digital Design'],
+        boosterSkills: ['SystemVerilog', 'UVM Verification', 'RTL Synthesis'],
+        badgeText: '🏛️ Govt Fab Mission Talent Pool',
+        openingsCountText: 'Direct Sourcing Pool'
+      },
+      {
+        id: 'job-semi-2',
+        title: 'Silicon Physical Design & FPGA Architect',
+        company: 'Tata Electronics Semiconductor',
+        companyInitials: 'TE',
+        companyBgColor: '#1A365D',
+        exp: '4 to 8 Yrs',
+        loc: 'Dholera Mega-Fab / Bengaluru',
+        salary: '₹30 - 45 LPA',
+        posted: 'Direct Sourcing Pool',
+        matchRate: 40,
+        matchedSkills: ['FPGA', 'Synthesis'],
+        boosterSkills: ['Static Timing Analysis (STA)', 'Synopsys EDA'],
+        badgeText: '🔥 New Mega-Fab Drive',
+        openingsCountText: 'Direct Sourcing Pool'
+      },
+      {
+        id: 'job-semi-3',
+        title: 'Design Verification Lead (UVM / SystemVerilog)',
+        company: 'Texas Instruments',
+        companyInitials: 'TI',
+        companyBgColor: '#CC0000',
+        exp: '4 to 9 Yrs',
+        loc: 'Bengaluru',
+        salary: '₹32 - 44 LPA',
+        posted: 'Direct Sourcing Pool',
+        matchRate: 42,
+        matchedSkills: ['C/C++', 'Digital Logic'],
+        boosterSkills: ['UVM Testbench', 'Coverage Closure'],
+        badgeText: '⭐ Core Silicon Lab',
+        openingsCountText: 'Direct Sourcing Pool'
       }
     ]
   }

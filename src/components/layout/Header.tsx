@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Briefcase, Award, Bell, FileText, ChevronDown, Sparkles, 
-  User, Settings, LogOut, Video, Search, ArrowUpRight, ShieldCheck,
-  RotateCcw, Users
+  User, Settings, LogOut, Video, Search, ArrowUpRight
 } from 'lucide-react';
 import { ViewType } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -24,8 +23,6 @@ export const Header: React.FC<HeaderProps> = ({
     sessions, 
     currentUser, 
     logout,
-    switchUser,
-    resetDemoData,
     setIsCreatorWizardOpen,
     clearPeerpathJobContext
   } = useApp();
@@ -212,57 +209,6 @@ export const Header: React.FC<HeaderProps> = ({
                   <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('guidance-view'); }}>
                     <Sparkles size={15} className="text-amber-500" /> Career Roadmap (Peerpath)
                   </a>
-
-                  {/* Persona Switcher Section */}
-                  <div className="flyout-divider"></div>
-                  <div className="flyout-persona-switcher-section">
-                    <span className="fps-title">⚡ SWITCH PERSONA:</span>
-                    <div className="fps-grid">
-                      <button 
-                        type="button" 
-                        className={`fps-btn ${currentUser?.username === 'prakash' ? 'active' : ''}`}
-                        onClick={() => {
-                          setIsUserMenuOpen(false);
-                          switchUser('prakash');
-                        }}
-                      >
-                        <User size={12} className="text-blue-600" /> Prakash (Candidate)
-                      </button>
-
-                      <button 
-                        type="button" 
-                        className={`fps-btn ${currentUser?.username === 'nisha' ? 'active' : ''}`}
-                        onClick={() => {
-                          setIsUserMenuOpen(false);
-                          switchUser('nisha');
-                        }}
-                      >
-                        <Sparkles size={12} className="text-amber-500" /> Nisha (Pitch Lead)
-                      </button>
-
-                      <button 
-                        type="button" 
-                        className={`fps-btn ${currentUser?.username === 'akash' ? 'active' : ''}`}
-                        onClick={() => {
-                          setIsUserMenuOpen(false);
-                          switchUser('akash');
-                        }}
-                      >
-                        <ShieldCheck size={12} className="text-purple-600" /> Akash (Mentor)
-                      </button>
-                    </div>
-
-                    <button 
-                      type="button" 
-                      className="btn-reset-demo-flyout"
-                      onClick={() => {
-                        setIsUserMenuOpen(false);
-                        resetDemoData();
-                      }}
-                    >
-                      <RotateCcw size={12} /> Reset All 3 Persona Data
-                    </button>
-                  </div>
 
                   <div className="flyout-divider"></div>
 

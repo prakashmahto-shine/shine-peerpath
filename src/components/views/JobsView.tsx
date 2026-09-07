@@ -411,10 +411,10 @@ export const JobsView: React.FC<JobsViewProps> = ({
               <div className="spe-body">
                 <div className="spe-main-content">
                   <h3 className="spe-title">
-                    ⚠️ In jobs pe tabhi eligible hai jab aap in {missingBoosterSkills.length} skills ko profile me update karenge
+                    ⚡ Fast-Track Recruiter Shortlist: Boost Your Match from 42% to 95%
                   </h3>
                   <div className="spe-missing-chips">
-                    <span className="spe-req-label">Required Booster Skills:</span>
+                    <span className="spe-req-label">Priority Booster Skills:</span>
                     {missingBoosterSkills.map((skillName, idx) => (
                       <span key={idx} className="spe-missing-chip">
                         + {skillName}
@@ -422,7 +422,7 @@ export const JobsView: React.FC<JobsViewProps> = ({
                     ))}
                   </div>
                   <p className="spe-desc">
-                    Recruiters at Swiggy, Razorpay & Adobe filter applicants with these {missingBoosterSkills.length} booster skills. Update your profile to qualify for 1-click recruiter shortlisting.
+                    All openings below are active and open. Top hiring teams at Swiggy, Razorpay & PhonePe prioritize applicants with these {missingBoosterSkills.length} booster skills. Add them to skip standard ATS queues and unlock 1-click recruiter shortlisting.
                   </p>
                 </div>
 
@@ -432,7 +432,7 @@ export const JobsView: React.FC<JobsViewProps> = ({
                     className="btn-spe-add-now"
                     onClick={handleQuickAddSkills}
                   >
-                    <span>+ Add {missingBoosterSkills.length} Skills to Profile</span>
+                    <span>+ Add {missingBoosterSkills.length} Skills for Fast-Track Shortlist</span>
                   </button>
 
                   <button 
