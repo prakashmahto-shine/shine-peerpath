@@ -56,6 +56,11 @@ interface AppContextType {
   updateMentorRatesAndAvailability: (rate: number, duration: number, days: string[], timeSlots: string[]) => void;
   updateMentorTeaserVideo: (teaser: { url: string; title: string; duration?: string; thumbnail?: string; uploadedAt?: string } | null) => void;
 
+  // Creator / Mentor Studio Mode (Candidate View ⇄ Creator Studio)
+  isCreatorMode: boolean;
+  setIsCreatorMode: (enabled: boolean) => void;
+  toggleCreatorMode: () => void;
+
   // Modals
   isBookingModalOpen: boolean;
   setIsBookingModalOpen: (open: boolean) => void;
@@ -238,6 +243,34 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const activeUsername = currentUser?.username || 'prakash';
   const userProfile: UserProfileData = userProfiles[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.prakash.profile;
 
+  // Creator / Mentor Studio Mode
+  const [isCreatorMode, setIsCreatorMode] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem('shine_peerpath_creator_mode');
+      if (saved !== null) {
+        return JSON.parse(saved);
+      }
+    } catch {}
+    try {
+      const savedUser = localStorage.getItem('shine_peerpath_current_user');
+      if (savedUser && savedUser !== 'null') {
+        const parsed = JSON.parse(savedUser);
+        return Boolean(parsed.role === 'mentor' || parsed.id === 'akash');
+      }
+    } catch {}
+    return Boolean(currentUser?.role === 'mentor' || currentUser?.id === 'akash');
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('shine_peerpath_creator_mode', JSON.stringify(isCreatorMode));
+    } catch {}
+  }, [isCreatorMode]);
+
+  const toggleCreatorMode = () => {
+    setIsCreatorMode(prev => !prev);
+  };
+
   // Mentor Availability
   const [mentorAvailability, setMentorAvailability] = useState<{ days: string[]; timeSlots: string[] }>({
     days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -376,6 +409,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         ...prev,
         [cleanUser]: { ...entry.profile, ...(prev[cleanUser] || {}) }
       }));
+      setIsCreatorMode(entry.account.role === 'mentor' || Boolean(entry.profile.isMentor));
       navigate('dashboard-view');
       showToast(`⚡ Logged in as ${entry.account.name}`, `Dashboard & Profile updated.`);
     }
@@ -684,6 +718,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         updateMentorAvailability,
         updateMentorRatesAndAvailability,
         updateMentorTeaserVideo,
+        isCreatorMode,
+        setIsCreatorMode,
+        toggleCreatorMode,
         isBookingModalOpen,
         setIsBookingModalOpen,
         isCreatorWizardOpen,

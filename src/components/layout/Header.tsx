@@ -22,16 +22,27 @@ export const Header: React.FC<HeaderProps> = ({
   const { 
     sessions, 
     currentUser, 
+    userProfile,
     logout,
     setIsCreatorWizardOpen,
-    clearPeerpathJobContext
+    clearPeerpathJobContext,
+    isCreatorMode,
+    setIsCreatorMode,
+    showToast
   } = useApp();
 
   const isMentor = currentUser?.role === 'mentor';
+  const isEligibleForCreatorMode = Boolean(
+    currentUser?.isMentorEligible || 
+    userProfile?.isMentor || 
+    currentUser?.role === 'mentor' || 
+    userProfile?.isMentorEligible
+  );
+
   const loggedInFirstName = (currentUser?.name || '').split(' ')[0].toLowerCase();
-  const upcomingCount = isMentor
+  const upcomingCount = isCreatorMode
     ? sessions.filter(s => s.status === 'upcoming' && (s.expert.name.toLowerCase().includes(loggedInFirstName) || s.expert.id === currentUser?.id)).length
-    : sessions.filter(s => s.status === 'upcoming' && s.candidateName.toLowerCase().includes(loggedInFirstName)).length;
+    : sessions.filter(s => s.status === 'upcoming' && s.candidateName.toLowerCase().includes(loggedInFirstName) && !s.expert.name.toLowerCase().includes(loggedInFirstName) && s.expert.id !== currentUser?.id).length;
   const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -98,14 +109,17 @@ export const Header: React.FC<HeaderProps> = ({
               <FileText size={15} /> Blogs
             </button>
 
-            <button 
-              onClick={() => onNavigate('guidance-view')} 
-              className={`myshine-guidance-pill ${currentView === 'guidance-view' || currentView === 'experts-view' ? 'active-pill' : ''}`}
-            >
-              <Sparkles size={14} className="sparkle-icon" />
-              <span>Peerpath</span>
-              <span className="pill-new-badge">NEW</span>
-            </button>
+            {/* Peerpath Navigation Button: Hidden when in Creator Mode, Visible when in Candidate Mode (Off) */}
+            {!isCreatorMode && (
+              <button 
+                onClick={() => onNavigate('guidance-view')} 
+                className={`myshine-guidance-pill ${currentView === 'guidance-view' || currentView === 'experts-view' ? 'active-pill' : ''}`}
+              >
+                <Sparkles size={14} className="sparkle-icon" />
+                <span>Peerpath</span>
+                <span className="pill-new-badge">NEW</span>
+              </button>
+            )}
           </nav>
         </div>
 
@@ -115,7 +129,7 @@ export const Header: React.FC<HeaderProps> = ({
             <Search size={14} className="prod-search-icon" />
             <input 
               type="text" 
-              placeholder="Search Jobs or Mentors" 
+              placeholder={isCreatorMode ? "Search Candidates or Mentees" : "Search Jobs or Mentors"} 
               value={searchQuery} 
               onChange={(e) => setSearchQuery(e.target.value)}
               className="prod-search-input"
@@ -167,30 +181,87 @@ export const Header: React.FC<HeaderProps> = ({
                   <div className="flyout-user-header">
                     <div className="flyout-name-badge-row">
                       <strong>{currentUser.name}</strong>
-                      <span className={`flyout-role-badge ${isMentor ? 'mentor-badge' : 'cand-badge'}`}>
-                        {isMentor ? 'MENTOR' : 'CANDIDATE'}
+                      <span className={`flyout-role-badge ${isCreatorMode ? 'mentor-badge' : 'cand-badge'}`}>
+                        {isCreatorMode ? 'MENTOR' : 'CANDIDATE'}
                       </span>
                     </div>
                     <span>{currentUser.headline.split('|')[0] || currentUser.headline}</span>
                   </div>
 
+                  {/* ⚡ CREATOR / CANDIDATE MODE TOGGLE SWITCH (Inside Profile Hover Menu) */}
+                  {isEligibleForCreatorMode && (
+                    <div className="flyout-mode-switcher-row">
+                      <div className="flyout-mode-info">
+                        <span className="flyout-mode-label">
+                          {isCreatorMode ? '⚡ Creator Studio' : '👤 Candidate View'}
+                        </span>
+                        <span className="flyout-mode-status">
+                          {isCreatorMode ? 'Hosting & Payouts ON' : 'Job search & Roadmap'}
+                        </span>
+                      </div>
+                      <button 
+                        type="button"
+                        role="switch"
+                        aria-checked={isCreatorMode}
+                        className={`flyout-mode-switch-btn ${isCreatorMode ? 'switch-active' : ''}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          const nextMode = !isCreatorMode;
+                          setIsCreatorMode(nextMode);
+                          showToast(
+                            nextMode ? '⚡ Switched to Creator Studio Mode' : '👤 Switched to Candidate View',
+                            nextMode ? 'Mentor sessions, studio dashboard, and payouts active.' : 'Candidate profile and Peerpath roadmap visible.',
+                            'info'
+                          );
+                        }}
+                        title={isCreatorMode ? "Switch to Candidate Mode" : "Switch to Creator Studio"}
+                      >
+                        <span className="flyout-switch-knob">
+                          {isCreatorMode ? '⚡' : '👤'}
+                        </span>
+                      </button>
+                    </div>
+                  )}
+
                   <div className="flyout-divider"></div>
 
                   <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('profile-view'); }}>
-                    <User size={15} /> My Profile
+                    <User size={15} /> {isCreatorMode ? 'Creator Studio Profile' : 'My Profile'}
                   </a>
 
-                  <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }}>
-                    <Video size={15} className="text-purple-600" /> 
-                    <span style={{ fontWeight: 700, color: '#0F172A' }}>
-                      {isMentor ? 'Candidate Calls (Host)' : 'My Mentorship Sessions'}
-                    </span>
-                    {upcomingCount > 0 && (
+                  {/* In Creator Mode: Always show Candidate Calls (Host) */}
+                  {isCreatorMode && (
+                    <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }}>
+                      <Video size={15} className="text-purple-600" /> 
+                      <span style={{ fontWeight: 700, color: '#0F172A' }}>
+                        Candidate Calls (Host)
+                      </span>
+                      {upcomingCount > 0 && (
+                        <span className="flyout-count-pill">{upcomingCount}</span>
+                      )}
+                    </a>
+                  )}
+
+                  {/* In Candidate Mode: Show 'My Mentorship Sessions' ONLY if user has actually booked sessions */}
+                  {!isCreatorMode && upcomingCount > 0 && (
+                    <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }}>
+                      <Video size={15} className="text-purple-600" /> 
+                      <span style={{ fontWeight: 700, color: '#0F172A' }}>
+                        My Mentorship Sessions
+                      </span>
                       <span className="flyout-count-pill">{upcomingCount}</span>
-                    )}
-                  </a>
+                    </a>
+                  )}
 
-                  {!isMentor && (currentUser?.isMentorEligible ?? false) && (
+                  {/* Only visible when in Candidate Mode */}
+                  {!isCreatorMode && (
+                    <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('guidance-view'); }}>
+                      <Sparkles size={15} className="text-amber-500" /> Career Roadmap (Peerpath)
+                    </a>
+                  )}
+
+                  {!isCreatorMode && !isMentor && (currentUser?.isMentorEligible ?? false) && (
                     <a 
                       href="#!" 
                       className="flyout-item flyout-item-mentor-recruit" 
@@ -205,10 +276,6 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="flyout-gold-tag">0% Fee</span>
                     </a>
                   )}
-
-                  <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('guidance-view'); }}>
-                    <Sparkles size={15} className="text-amber-500" /> Career Roadmap (Peerpath)
-                  </a>
 
                   <div className="flyout-divider"></div>
 

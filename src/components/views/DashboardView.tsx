@@ -14,14 +14,15 @@ export const DashboardView: React.FC = () => {
     navigate, 
     addSkill,
     setIsCreatorWizardOpen,
-    updateJobSearchStatus
+    updateJobSearchStatus,
+    isCreatorMode
   } = useApp();
   const [skillQuery, setSkillQuery] = useState<string>('');
   const [locationQuery, setLocationQuery] = useState<string>('');
   const [experienceQuery, setExperienceQuery] = useState<string>('Select Experience');
   const [activeReelCategory, setActiveReelCategory] = useState<string>('sales');
 
-  const isMentor = currentUser?.role === 'mentor';
+  const isMentor = isCreatorMode;
   const isExecutive = isMentor || currentUser?.isMentorEligible || userProfile.isMentorEligible;
 
   const isNotLooking = (userProfile.jobSearchStatus || '').toLowerCase().includes('not looking');

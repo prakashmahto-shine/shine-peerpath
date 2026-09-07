@@ -15,10 +15,11 @@ export const MySessionsView: React.FC = () => {
     navigate, 
     cancelSession, 
     rescheduleSession, 
-    setActiveSession 
+    setActiveSession,
+    isCreatorMode
   } = useApp();
 
-  const isMentor = currentUser?.role === 'mentor' || Boolean(userProfile.isMentor);
+  const isMentor = isCreatorMode;
   const loggedInFirstName = (currentUser?.name || userProfile.name || 'Prakash').split(' ')[0].toLowerCase();
 
   // 1. Candidate's booked sessions (where user is the candidate)
