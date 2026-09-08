@@ -3,15 +3,44 @@ import { recruiterService } from '../services/recruiterService';
 
 const router = Router();
 
+// POST /api/recruiter/match - Explain candidate fit for a specific role
+router.post('/match', async (req: Request, res: Response) => {
+  try {
+    const { roleTitle, requiredSkills, candidateId, peerVerifiedOnly } = req.body;
+    if (!roleTitle || !Array.isArray(requiredSkills)) {
+      return res.status(400).json({ error: 'roleTitle and requiredSkills are required' });
+    }
+
+    const matches = await recruiterService.matchCandidatesToRole({
+      roleTitle,
+      requiredSkills,
+      candidateId,
+      peerVerifiedOnly
+    });
+
+    return res.json({
+      success: true,
+      data: {
+        roleTitle,
+        requiredSkills,
+        embeddingProvider: 'local-transformers-minilm',
+        matches
+      }
+    });
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message || 'Error matching candidates' });
+  }
+});
+
 // GET /api/recruiter/candidates - Search thin-pool candidates with peer verification filter
-router.get('/candidates', (req: Request, res: Response) => {
+router.get('/candidates', async (req: Request, res: Response) => {
   try {
     const domain = req.query.domain as string | undefined;
     const query = req.query.q as string | undefined;
     const peerVerifiedOnly = req.query.peer_verified_only === 'true';
     const minScore = req.query.min_score ? Number(req.query.min_score) : undefined;
 
-    const results = recruiterService.searchCandidates({
+    const results = await recruiterService.searchCandidates({
       domain,
       query,
       peerVerifiedOnly,

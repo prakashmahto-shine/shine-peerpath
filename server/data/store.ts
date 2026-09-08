@@ -145,7 +145,7 @@ class Store {
 
   // Candidates & Profile Updates
   public getCandidate(id: string): CandidateProfile | undefined {
-    return this.data.candidates.find(c => c.id === id);
+    return this.data.candidates.find(c => c.id === id || (id === 'prakash' && c.id === 'prakash-mahto') || (id === 'prakash-mahto' && c.id === 'prakash'));
   }
 
   public getCandidates(domain?: string, peerVerifiedOnly: boolean = false): CandidateProfile[] {
@@ -197,7 +197,7 @@ class Store {
       upcomingSessionsCount: this.data.sessions.filter(s => s.status === 'upcoming').length,
       completedSessionsCount: this.data.sessions.filter(s => s.status === 'completed').length,
       totalBadgesIssued: this.data.badges.length,
-      domainsCovered: ['AI/ML', 'Semiconductor', 'Cybersecurity', 'Full-Stack'],
+      domainsCovered: ['Full-Stack', 'AI/ML', 'Semiconductor', 'Cybersecurity', 'Search & Data Infra', 'Product Management', 'SaaS Sales'],
       growthStats: {
         profileUpdateRateGain: '+68% vs baseline jobs platform',
         passiveRegistrationsInUnderservedDomains: '42% from Topmate/LinkedIn referral',

@@ -4,10 +4,10 @@ import { trajectoryService } from '../services/trajectoryService';
 const router = Router();
 
 // POST /api/trajectory/match - Match candidate to professionals who had their CV 3 years ago
-router.post('/match', (req: Request, res: Response) => {
+router.post('/match', async (req: Request, res: Response) => {
   try {
     const { currentRole, currentExperience, currentSalary, targetRole, targetPackage, domain, skills } = req.body;
-    const matches = trajectoryService.matchTrajectories({
+    const matches = await trajectoryService.matchTrajectories({
       currentRole: currentRole || 'Senior Frontend Engineer',
       currentExperience: currentExperience || '4 Years',
       currentSalary,

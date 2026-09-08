@@ -1,13 +1,54 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ShieldAlert, ShieldCheck, Award, Mail, FileText } from 'lucide-react';
 import { ViewType } from '../../types';
+import { peerpathApi } from '../../services/api';
 
 interface RecruiterViewProps {
   onNavigate: (view: ViewType) => void;
 }
 
+interface CandidateRoleMatch {
+  candidate: {
+    id: string;
+    name: string;
+    headline: string;
+    location: string;
+    skills: string[];
+    badges: Array<{ title: string }>;
+  };
+  matchPercent: number;
+  matchedSkills: string[];
+  missingSkills: string[];
+  explanation: string;
+}
+
+const ROLE_TITLE = 'Staff UI & Micro-Frontend Architect';
+const REQUIRED_SKILLS = ['React.js', 'TypeScript', 'Micro-Frontends', 'Module Federation'];
+
 export const RecruiterView: React.FC<RecruiterViewProps> = ({ onNavigate }) => {
   const [showVerifiedOnly, setShowVerifiedOnly] = useState<boolean>(true);
+  const [matches, setMatches] = useState<CandidateRoleMatch[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    let isCurrent = true;
+    setIsLoading(true);
+    peerpathApi.matchRecruiterCandidates({
+      roleTitle: ROLE_TITLE,
+      requiredSkills: REQUIRED_SKILLS,
+      peerVerifiedOnly: showVerifiedOnly
+    }).then(result => {
+      if (isCurrent) setMatches(result.matches as CandidateRoleMatch[]);
+    }).catch(() => {
+      if (isCurrent) setMatches([]);
+    }).finally(() => {
+      if (isCurrent) setIsLoading(false);
+    });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [showVerifiedOnly]);
 
   return (
     <div className="content-wrapper recruiter-portal-layout">
@@ -31,38 +72,43 @@ export const RecruiterView: React.FC<RecruiterViewProps> = ({ onNavigate }) => {
       </div>
 
       <div className="recruiter-results-grid">
-        <div className="recruiter-candidate-card verified-highlight">
+        {isLoading && <div className="recruiter-candidate-card">Calculating role fit...</div>}
+        {!isLoading && matches.length === 0 && (
+          <div className="recruiter-candidate-card">No candidates match the current filters.</div>
+        )}
+        {matches.map(({ candidate, matchPercent, matchedSkills, missingSkills, explanation }) => (
+        <div className="recruiter-candidate-card verified-highlight" key={candidate.id}>
           <div className="r-card-header">
             <div className="r-candidate-meta">
-              <img src="/avatars/prakash.jpg" alt="Prakash Mahto" className="r-avatar" />
+              <img src={`/avatars/${candidate.id}.jpg`} alt={candidate.name} className="r-avatar" />
               <div>
                 <div className="r-name-row">
-                  <h3>Prakash Mahto</h3>
-                  <span className="r-gold-shield"><ShieldCheck size={14} /> PEER-VERIFIED: TIER-1 READY</span>
+                  <h3>{candidate.name}</h3>
+                  {candidate.badges.length > 0 && (
+                    <span className="r-gold-shield"><ShieldCheck size={14} /> PEER-VERIFIED</span>
+                  )}
                 </div>
-                <p className="r-title">Senior Frontend Engineer • 4.2 Yrs Exp • Bengaluru</p>
+                <p className="r-title">{candidate.headline} • {candidate.location}</p>
               </div>
             </div>
-            <div className="r-match-score">96% Relevance</div>
+            <div className="r-match-score">{matchPercent}% Match</div>
           </div>
 
-          <div className="r-verified-box">
+          <div className="r-verified-box r-match-explanation">
             <Award size={22} className="r-v-icon" />
             <div className="r-v-text">
-              <strong>Peer Assessment by Akash Jain (Lead Product Manager @ Shine):</strong>
-              <p>"Demonstrated robust understanding of scalable micro-frontends, high-performance UI optimization, and cross-functional product delivery."</p>
+              <strong>Role fit for {ROLE_TITLE}</strong>
+              <p>{explanation}</p>
             </div>
           </div>
 
           <div className="r-skills-row">
-            <span className="r-skill">React.js</span>
-            <span className="r-skill">TypeScript</span>
-            <span className="r-skill">Next.js Architecture</span>
-            <span className="r-skill">System Design</span>
+            {matchedSkills.map(skill => <span className="r-skill" key={skill}>✓ {skill}</span>)}
+            {missingSkills.map(skill => <span className="r-skill r-skill-missing" key={skill}>Missing: {skill}</span>)}
           </div>
 
           <div className="r-card-actions">
-            <button className="btn-shine-gold-sm" onClick={() => alert('Interview invite sent to Prakash Mahto!')}>
+            <button className="btn-shine-gold-sm" onClick={() => alert(`Interview invite sent to ${candidate.name}!`)}>
               <Mail size={14} /> Schedule Interview
             </button>
             <button className="btn-outline-dark-sm" onClick={() => onNavigate('profile-view')}>
@@ -70,45 +116,7 @@ export const RecruiterView: React.FC<RecruiterViewProps> = ({ onNavigate }) => {
             </button>
           </div>
         </div>
-
-        <div className="recruiter-candidate-card verified-highlight">
-          <div className="r-card-header">
-            <div className="r-candidate-meta">
-              <img src="/avatars/sunil.jpg" alt="Sunil Kumar" className="r-avatar" />
-              <div>
-                <div className="r-name-row">
-                  <h3>Sunil Kumar</h3>
-                  <span className="r-gold-shield"><ShieldCheck size={14} /> PEER-VERIFIED: TEST AUTOMATION</span>
-                </div>
-                <p className="r-title">Lead QA & Test Automation Architect • 6 Yrs Exp • Noida</p>
-              </div>
-            </div>
-            <div className="r-match-score">94% Relevance</div>
-          </div>
-
-          <div className="r-verified-box">
-            <Award size={22} className="r-v-icon" />
-            <div className="r-v-text">
-              <strong>Peer Assessment by Anirudh Sharma (Principal Search Architect @ Shine):</strong>
-              <p>"Demonstrated exceptional test automation framework design, load testing on Solr endpoints, and robust CI/CD integration."</p>
-            </div>
-          </div>
-
-          <div className="r-skills-row">
-            <span className="r-skill">Playwright / Selenium</span>
-            <span className="r-skill">Postman API Testing</span>
-            <span className="r-skill">CI/CD Pipelines</span>
-            <span className="r-skill">Performance Testing</span>
-          </div>
-
-          <div className="r-card-actions">
-            <button className="btn-shine-gold-sm" onClick={() => alert('Interview invite sent to Sunil Kumar!')}>
-              <Mail size={14} /> Schedule Interview
-            </button>
-            <button className="btn-outline-dark-sm"><FileText size={14} /> View Verified Profile</button>
-          </div>
-        </div>
-
+        ))}
       </div>
 
     </div>

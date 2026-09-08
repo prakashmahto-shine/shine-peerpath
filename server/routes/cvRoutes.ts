@@ -18,10 +18,10 @@ router.post('/parse', (req: Request, res: Response) => {
 });
 
 // POST /api/cv/gap-analysis - Analyze gap against target domain JD
-router.post('/gap-analysis', (req: Request, res: Response) => {
+router.post('/gap-analysis', async (req: Request, res: Response) => {
   try {
     const { domain, skills, currentRole, currentCtc } = req.body;
-    const result = cvService.performGapAnalysis(
+    const result = await cvService.performGapAnalysis(
       domain || 'full-stack',
       skills || [],
       currentRole || 'Senior Frontend Engineer',

@@ -160,6 +160,32 @@ export const peerpathApi = {
   },
 
   // Recruiter Search
+  async matchRecruiterCandidates(params: {
+    roleTitle: string;
+    requiredSkills: string[];
+    peerVerifiedOnly?: boolean;
+  }): Promise<{
+    roleTitle: string;
+    requiredSkills: string[];
+    embeddingProvider: string;
+    matches: Array<{
+      candidate: any;
+      matchPercent: number;
+      matchedSkills: string[];
+      missingSkills: string[];
+      explanation: string;
+    }>;
+  }> {
+    const res = await fetch(`${API_BASE}/recruiter/match`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params)
+    });
+    if (!res.ok) throw new Error(`Failed matching recruiter candidates`);
+    const json = await res.json();
+    return json.data;
+  },
+
   async searchRecruiterCandidates(params?: {
     domain?: string;
     query?: string;
