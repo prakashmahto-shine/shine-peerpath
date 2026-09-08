@@ -3794,17 +3794,20 @@ button {
 
 .stc-track-pill {
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  padding: 2px 7px;
+  padding: 2.5px 8px;
   border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
 }
 
-.stc-track-pill.purple { background: #F3E8FF; color: #6B21A8; }
-.stc-track-pill.gold { background: #FEF3C7; color: #92400E; }
-.stc-track-pill.blue { background: #EFF6FF; color: #1E40AF; }
-.stc-track-pill.teal { background: #CCFBF1; color: #0F766E; }
+.stc-track-pill.purple { background: #F3E8FF; color: #7E22CE; border: 1px solid #D8B4FE; }
+.stc-track-pill.gold { background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; }
+.stc-track-pill.blue { background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; }
+.stc-track-pill.teal { background: #CCFBF1; color: #0F766E; border: 1px solid #99F6E4; }
+.stc-track-pill.indigo { background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; }
 
 .stc-openings-fire {
   color: #D97706;
@@ -4181,37 +4184,110 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  background: #FFFFFF;
-  color: #111827;
-  border: 1.5px solid #D1D5DB;
-  font-size: 13px;
-  font-weight: 700;
-  padding: 8px 18px;
-  height: 38px;
-  border-radius: 8px;
+  background: linear-gradient(135deg, var(--shine-dark-navy, #111827) 0%, var(--shine-midnight, #1F2937) 100%);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 0 14px;
+  height: 36px;
+  border-radius: var(--radius-sm, 8px);
   cursor: pointer;
-  transition: all 0.18s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(17, 24, 39, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-stc-jobs .btn-stc-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-stc-jobs .btn-stc-icon-gold {
+  color: var(--shine-yellow, #FFC600);
+}
+
+.btn-stc-jobs .btn-stc-text {
+  font-weight: 700;
+  color: #F8FAFC;
+  white-space: nowrap;
+}
+
+.btn-stc-jobs .btn-stc-pill {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 198, 0, 0.15);
+  color: #FDE047;
+  border: 1px solid rgba(255, 198, 0, 0.3);
+  padding: 1.5px 7px;
+  border-radius: var(--radius-full, 9999px);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+.btn-stc-jobs .btn-stc-arrow {
+  color: #94A3B8;
+  margin-left: 1px;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .btn-stc-jobs:hover {
-  background: #F8FAFC;
-  border-color: #94A3B8;
-  color: #0F172A;
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #1F2937 0%, #0F172A 100%);
+  border-color: rgba(255, 198, 0, 0.6);
+  transform: translateY(-1.5px);
+  box-shadow: 0 5px 15px rgba(17, 24, 39, 0.25), 0 0 10px rgba(255, 198, 0, 0.15);
 }
 
+.btn-stc-jobs:hover .btn-stc-arrow {
+  color: #FFFFFF;
+  transform: translateX(3px);
+}
+
+.btn-stc-jobs:active {
+  transform: translateY(0);
+}
+
+/* Unlocked 100% booster state */
 .btn-stc-jobs.unlocked {
-  background: #ECFDF5;
-  border-color: #10B981;
-  color: #065F46;
+  background: linear-gradient(135deg, #065F46 0%, #047857 100%);
+  border: 1px solid #10B981;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(6, 95, 70, 0.2);
+}
+
+.btn-stc-jobs.unlocked .btn-stc-icon-emerald {
+  color: #6EE7B7;
+}
+
+.btn-stc-jobs.unlocked .btn-stc-text {
+  color: #FFFFFF;
   font-weight: 800;
 }
 
+.btn-stc-jobs.unlocked .btn-stc-pill {
+  background: rgba(110, 231, 183, 0.2);
+  color: #A7F3D0;
+  border-color: rgba(110, 231, 183, 0.4);
+}
+
+.btn-stc-jobs.unlocked .btn-stc-arrow {
+  color: #A7F3D0;
+}
+
 .btn-stc-jobs.unlocked:hover {
-  background: #D1FAE5;
-  border-color: #059669;
+  background: linear-gradient(135deg, #047857 0%, #065F46 100%);
+  border-color: #34D399;
+  box-shadow: 0 5px 16px rgba(6, 95, 70, 0.35), 0 0 12px rgba(16, 185, 129, 0.25);
+  transform: translateY(-1.5px);
+}
+
+.btn-stc-jobs.unlocked:hover .btn-stc-arrow {
+  color: #FFFFFF;
+  transform: translateX(3px);
 }
 
 /* Right Column: Dedicated Mentor Trajectory Twin Card */
@@ -4223,17 +4299,15 @@ button {
 }
 
 .stc-mentor-hero-card {
-  background: #F9FAFC;
+  background: #FAFAFA;
   border: 1px solid #E5E7EB;
   border-radius: 10px;
-  padding: 10px 12px;
+  padding: 7px 10px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  height: 100%;
-  justify-content: space-between;
+  gap: 5px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .stc-mentor-hero-card:hover {
@@ -4242,235 +4316,154 @@ button {
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
 }
 
-.stc-target-salary-badge {
+/* 1. Header: Clean Minimalist Top Row */
+.stc-mhc-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  background: #ECFDF5;
-  border: 1px solid #A7F3D0;
-  padding: 2.5px 7px;
-  border-radius: 5px;
+  padding: 0 1px;
+  margin-bottom: 0px;
 }
 
-.stc-salary-title-group {
+.stc-mhc-tag-group {
   display: flex;
   align-items: center;
   gap: 5px;
-  flex-wrap: wrap;
 }
 
-.stc-salary-title {
-  font-size: 9.5px;
-  font-weight: 800;
-  color: #065F46;
+.stc-mhc-tag {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #0F172A;
   text-transform: uppercase;
   letter-spacing: 0.3px;
 }
 
-.stc-mentors-count-chip {
+.stc-mhc-avail-chip {
+  font-size: 9px;
+  font-weight: 600;
+  color: #1D4ED8;
+  background: #DBEAFE;
+  padding: 0.5px 5px;
+  border-radius: 9999px;
   display: inline-flex;
   align-items: center;
   gap: 2.5px;
-  font-size: 9px;
-  font-weight: 700;
-  color: #1E40AF;
-  background: #DBEAFE;
-  padding: 1px 4.5px;
-  border-radius: 3px;
-  border: 1px solid #BFDBFE;
 }
 
-.stc-salary-amount {
-  font-size: 12.5px;
+.stc-mhc-salary {
+  font-size: 12px;
   font-weight: 800;
-  color: #047857;
-  white-space: nowrap;
+  color: #059669;
 }
 
-/* Multi-Mentor Switcher Interactive Container */
-.stc-mentor-switcher-container {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  background: #F8FAFC;
-  border: 1px solid #E2E8F0;
-  border-radius: 10px;
-  padding: 8px 10px;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
-}
-
-.stc-switcher-prompt-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2px;
-}
-
-.stc-switcher-prompt-text {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  color: #334155;
-}
-
-.stc-switcher-prompt-text strong {
-  font-weight: 700;
-  color: #0F172A;
-}
-
-.stc-switcher-sub-hint {
-  font-size: 10px;
-  color: #64748B;
-  font-weight: 500;
-}
-
-.stc-switcher-active-idx {
-  font-size: 10px;
-  font-weight: 700;
-  color: #0F172A;
-  background: #E2E8F0;
-  padding: 1px 7px;
-  border-radius: 12px;
-  letter-spacing: 0.3px;
-}
-
-.stc-mentor-switcher-row {
+/* 2. Ultra-Compact Segmented Selector */
+.stc-mhc-switcher-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  background: transparent;
-  padding: 0;
-  border: none;
-}
-
-.stc-mentor-tab-btn {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 8px;
-  border-radius: 8px;
+  gap: 3px;
+  background: #F1F5F9;
+  padding: 2px;
+  border-radius: 5px;
   border: 1px solid #E2E8F0;
-  background: #FFFFFF;
-  cursor: pointer;
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-  min-width: 0;
-  text-align: left;
-  position: relative;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  margin-top: 0;
 }
 
-.stc-mentor-tab-btn:hover {
-  background: #FFFFFF;
-  border-color: #FCD34D;
-  transform: translateY(-1.5px);
-  box-shadow: 0 3px 8px rgba(245, 158, 11, 0.12);
-}
-
-.stc-mentor-tab-btn.active {
-  background: linear-gradient(135deg, #FFFDF0 0%, #FFFFFF 100%);
-  border: 1.5px solid #F59E0B;
-  box-shadow: 0 3px 10px rgba(245, 158, 11, 0.18), 0 0 0 1px rgba(245, 158, 11, 0.15);
-  transform: translateY(-1px);
-}
-
-.stc-tab-av-wrap {
-  position: relative;
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-}
-
-.stc-tab-av-img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1.5px solid #E2E8F0;
-  display: block;
-}
-
-.stc-mentor-tab-btn.active .stc-tab-av-img {
-  border-color: #F59E0B;
-}
-
-.stc-tab-active-dot {
-  position: absolute;
-  bottom: -2px;
-  right: -2px;
-  width: 10px;
-  height: 10px;
-  background: #F59E0B;
-  color: #0F172A;
-  font-size: 6.5px;
-  font-weight: 900;
-  border-radius: 50%;
+.stc-mhc-tab-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1.5px solid #FFFFFF;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
-}
-
-.stc-tab-text-wrap {
-  display: flex;
-  flex-direction: column;
+  gap: 4px;
+  padding: 2px 3px;
+  height: 23px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
   min-width: 0;
-  line-height: 1.2;
 }
 
-.stc-tab-mentor-name {
-  font-size: 11px;
-  font-weight: 700;
-  color: #1E293B;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.stc-mhc-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.7);
 }
 
-.stc-mentor-tab-btn.active .stc-tab-mentor-name {
-  color: #0F172A;
+.stc-mhc-tab-btn.active {
+  background: #FFFFFF;
+  border-color: #FCD34D;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
-.stc-tab-mentor-company {
-  font-size: 9.5px;
-  font-weight: 600;
-  color: #64748B;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.stc-mentor-tab-btn.active .stc-tab-mentor-company {
-  color: #B45309;
-}
-
-/* Active Mentor Profile Header */
-.stc-mentor-profile-header {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.stc-mentor-avatar-wrap {
-  position: relative;
-  width: 32px;
-  height: 32px;
+.stc-mhc-tab-av {
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
-  border: 1.5px solid #E5E7EB;
+  object-fit: cover;
   flex-shrink: 0;
 }
 
-.stc-mentor-avatar-img {
+.stc-mhc-tab-label {
+  font-size: 9.5px;
+  color: #475569;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1;
+}
+
+.stc-mhc-tab-label strong {
+  color: #1E293B;
+  font-weight: 700;
+}
+
+.stc-mhc-tab-btn.active .stc-mhc-tab-label strong {
+  color: #0F172A;
+}
+
+.stc-mhc-tab-co {
+  color: #64748B;
+  font-size: 8.5px;
+}
+
+.stc-mhc-tab-btn.active .stc-mhc-tab-co {
+  color: #B45309;
+  font-weight: 600;
+}
+
+/* 3. Streamlined Profile & Journey Card Block */
+.stc-mhc-profile-block {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 7px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.stc-mhc-profile-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stc-mhc-avatar-wrap {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.stc-mhc-avatar-img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  display: block;
 }
 
-.stc-mentor-badge-check {
+.stc-mhc-verified-badge {
   position: absolute;
   bottom: -2px;
   right: -2px;
@@ -4478,7 +4471,7 @@ button {
   height: 12px;
   background: #059669;
   color: #FFFFFF;
-  font-size: 7.5px;
+  font-size: 7px;
   font-weight: 900;
   border-radius: 50%;
   display: flex;
@@ -4487,175 +4480,142 @@ button {
   border: 1.5px solid #FFFFFF;
 }
 
-.stc-mentor-meta-info {
+.stc-mhc-profile-info {
   display: flex;
   flex-direction: column;
   min-width: 0;
   flex: 1;
 }
 
-.stc-mentor-name-row {
+.stc-mhc-name-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 4px;
 }
 
-.stc-mentor-name {
-  font-size: 13px;
+.stc-mhc-name {
+  font-size: 12.5px;
   font-weight: 700;
-  color: #111827;
+  color: #0F172A;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.stc-mentor-rating-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  font-size: 9px;
+.stc-mhc-rating-tag {
+  font-size: 9.5px;
   font-weight: 700;
-  color: #92400E;
+  color: #B45309;
   background: #FEF3C7;
   padding: 1px 4px;
   border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
   flex-shrink: 0;
 }
 
-.stc-mentor-role-sub {
+.stc-mhc-role {
   font-size: 10.5px;
-  color: #4B5563;
+  color: #475569;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Mentor Story Breakdown Box */
-.stc-mentor-story-box {
-  background: #FFFDF0;
-  border: 1px solid #FDE68A;
-  border-radius: 6px;
-  padding: 4px 7px;
+.stc-mhc-journey-strip {
+  background: #F8FAFC;
+  border-radius: 5px;
+  padding: 5px 8px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
+  border-left: 2.5px solid #F59E0B;
 }
 
-.stc-story-headline {
-  font-size: 9px;
-  font-weight: 700;
-  color: #92400E;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.stc-story-step {
-  display: flex;
-  align-items: flex-start;
-  gap: 5px;
+.stc-mhc-journey-item {
   font-size: 10.5px;
-  color: #451A03;
-  line-height: 1.28;
+  color: #334155;
+  line-height: 1.3;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
 }
 
-.stc-step-bullet {
+.stc-mhc-j-bullet {
+  font-size: 10px;
   flex-shrink: 0;
-  font-size: 10.5px;
-  line-height: 1.28;
 }
 
-.stc-step-body {
-  flex: 1;
-  min-width: 0;
-}
-
-.stc-story-step strong {
-  color: #78350F;
-}
-
-.stc-mentor-live-tag {
-  font-size: 8.5px;
+.stc-mhc-j-text strong {
+  color: #0F172A;
   font-weight: 700;
-  color: #059669;
-  background: #ECFDF5;
-  padding: 0.5px 4px;
-  border-radius: 3px;
-  white-space: nowrap;
 }
 
-/* Shine Signature Apply/Book Style */
+/* 4. Booking Button */
 .btn-stc-book-mentor-hero {
   width: 100%;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
   background: #FFC600;
-  border: none;
-  color: #000000;
-  font-size: 12.5px;
+  border: 1px solid #EAB308;
+  color: #0F172A;
+  font-size: 11.5px;
   font-weight: 700;
-  padding: 7px 12px;
-  height: 33px;
-  border-radius: 7px;
+  border-radius: 6px;
   cursor: pointer;
+  box-shadow: 0 1px 3px rgba(234, 179, 8, 0.2);
   transition: all 0.15s ease;
-  box-shadow: 0 1px 3px rgba(255, 198, 0, 0.25);
 }
 
 .btn-stc-book-mentor-hero:hover {
-  background: #E6B200;
-  color: #000000;
-  box-shadow: 0 2px 8px rgba(255, 198, 0, 0.35);
+  background: #EAB308;
   transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(234, 179, 8, 0.25);
 }
 
-/* Single-Line Footer: Footnote + Explore Gallery Link */
+.btn-stc-book-mentor-hero:active {
+  transform: translateY(0);
+}
+
+/* 5. Minimalist Footnote & Explore Link */
 .stc-card-bottom-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 6px;
-  min-width: 0;
-  padding-top: 1px;
+  padding: 0 2px;
 }
 
 .stc-card-footnote {
-  font-size: 9.5px;
-  color: #64748B;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 1;
-  text-align: left;
-  margin: 0;
+  font-size: 10px;
+  color: #475569;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .stc-explore-gallery-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
   font-size: 10px;
   font-weight: 700;
   color: #2563EB;
-  background: transparent;
+  background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
-  margin: 0;
-  flex-shrink: 0;
   white-space: nowrap;
+  padding: 0;
   transition: color 0.15s ease;
 }
 
 .stc-explore-gallery-link:hover {
-  color: #1D4ED8;
   text-decoration: underline;
+  color: #1D4ED8;
 }
 
 

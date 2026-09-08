@@ -296,91 +296,68 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
     return (
       <div className="stc-right-col">
         <div className="stc-mentor-hero-card">
-          {/* Top Header: Target Badge + Mentors Available Count */}
-          <div className="stc-target-salary-badge">
-            <div className="stc-salary-title-group">
-              <span className="stc-salary-title">🎯 Trajectory Twin</span>
-              <span className="stc-mentors-count-chip">
-                <Users size={10} /> {mentorsList.length} Mentors Available
+          {/* Top Header: Title & Target Package */}
+          <div className="stc-mhc-header">
+            <div className="stc-mhc-tag-group">
+              <span className="stc-mhc-tag">🎯 Trajectory Twin</span>
+              <span className="stc-mhc-avail-chip">
+                <Users size={10} /> {mentorsList.length} Mentors
               </span>
             </div>
-            <strong className="stc-salary-amount">{targetSalaryDisplay}</strong>
+            <span className="stc-mhc-salary">{targetSalaryDisplay}</span>
           </div>
 
-          {/* Mentor Switcher Notice & Interactive Tabs */}
-          <div className="stc-mentor-switcher-container">
-            <div className="stc-switcher-prompt-row">
-              <div className="stc-switcher-prompt-text">
-                <Sparkles size={11} className="text-amber-500" />
-                <strong>Choose Mentor Twin:</strong>
-                <span className="stc-switcher-sub-hint">Compare real salary jumps</span>
-              </div>
-              <span className="stc-switcher-active-idx">
-                {activeIdx + 1} / {mentorsList.length}
-              </span>
-            </div>
+          {/* Ultra-Compact Segmented Mentor Selector */}
+          <div className="stc-mhc-switcher-row">
+            {mentorsList.map((m, idx) => {
+              const isSelected = activeIdx === idx;
+              const company = m.shortName.includes('@') 
+                ? m.shortName.split('@')[1].trim() 
+                : m.shortName;
+              const firstName = m.name.split(' ')[0];
 
-            <div className="stc-mentor-switcher-row">
-              {mentorsList.map((m, idx) => {
-                const isSelected = activeIdx === idx;
-                const company = m.shortName.includes('@') 
-                  ? m.shortName.split('@')[1].trim() 
-                  : m.shortName;
-                const firstName = m.name.split(' ')[0];
-
-                return (
-                  <button
-                    key={m.id + idx}
-                    type="button"
-                    className={`stc-mentor-tab-btn ${isSelected ? 'active' : ''}`}
-                    onClick={() => setSelectedMentorIndex(prev => ({ ...prev, [trackKey]: idx }))}
-                    title={`Click to view ${m.name}'s (${company}) trajectory & book 1:1 prep`}
-                  >
-                    <div className="stc-tab-av-wrap">
-                      <img src={m.avatar} alt={m.name} className="stc-tab-av-img" />
-                      {isSelected && <span className="stc-tab-active-dot">✓</span>}
-                    </div>
-                    <div className="stc-tab-text-wrap">
-                      <span className="stc-tab-mentor-name">{firstName}</span>
-                      <span className="stc-tab-mentor-company">{company}</span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+              return (
+                <button
+                  key={m.id + idx}
+                  type="button"
+                  className={`stc-mhc-tab-btn ${isSelected ? 'active' : ''}`}
+                  onClick={() => setSelectedMentorIndex(prev => ({ ...prev, [trackKey]: idx }))}
+                  title={`View ${m.name} (${company}) trajectory`}
+                >
+                  <img src={m.avatar} alt={m.name} className="stc-mhc-tab-av" />
+                  <span className="stc-mhc-tab-label">
+                    <strong>{firstName}</strong> <span className="stc-mhc-tab-co">({company})</span>
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
-          {/* Active Mentor Profile Header */}
-          <div className="stc-mentor-profile-header">
-            <div className="stc-mentor-avatar-wrap">
-              <img src={activeMentor.avatar} alt={activeMentor.name} className="stc-mentor-avatar-img" />
-              <span className="stc-mentor-badge-check">✓</span>
-            </div>
-            <div className="stc-mentor-meta-info">
-              <div className="stc-mentor-name-row">
-                <span className="stc-mentor-name">{activeMentor.name}</span>
-                <span className="stc-mentor-rating-tag"><Star size={9} fill="#D97706" color="#D97706" /> {activeMentor.rating}</span>
+          {/* Streamlined Active Mentor Profile & Journey Info */}
+          <div className="stc-mhc-profile-block">
+            <div className="stc-mhc-profile-top">
+              <div className="stc-mhc-avatar-wrap">
+                <img src={activeMentor.avatar} alt={activeMentor.name} className="stc-mhc-avatar-img" />
+                <span className="stc-mhc-verified-badge">✓</span>
               </div>
-              <span className="stc-mentor-role-sub">{activeMentor.role}</span>
+              <div className="stc-mhc-profile-info">
+                <div className="stc-mhc-name-row">
+                  <span className="stc-mhc-name">{activeMentor.name}</span>
+                  <span className="stc-mhc-rating-tag"><Star size={9} fill="#D97706" color="#D97706" /> {activeMentor.rating}</span>
+                </div>
+                <span className="stc-mhc-role">{activeMentor.role}</span>
+              </div>
             </div>
-          </div>
 
-          {/* Active Mentor Journey Story */}
-          <div className="stc-mentor-story-box">
-            <div className="stc-story-headline">
-              <span>How {activeMentor.name.split(' ')[0]} Made This Jump</span>
-              <span className="stc-mentor-live-tag">{activeMentor.liveTag}</span>
-            </div>
-            <div className="stc-story-step">
-              <span className="stc-step-bullet">📍</span>
-              <div className="stc-step-body">
-                <strong>Baseline:</strong> {activeMentor.pastRole}
+            {/* Clean Journey Summary */}
+            <div className="stc-mhc-journey-strip">
+              <div className="stc-mhc-journey-item">
+                <span className="stc-mhc-j-bullet">📍</span>
+                <span className="stc-mhc-j-text"><strong>Baseline:</strong> {activeMentor.pastRole}</span>
               </div>
-            </div>
-            <div className="stc-story-step">
-              <span className="stc-step-bullet">🚀</span>
-              <div className="stc-step-body">
-                <strong>The Jump:</strong> {activeMentor.jumpRole}
+              <div className="stc-mhc-journey-item">
+                <span className="stc-mhc-j-bullet">🚀</span>
+                <span className="stc-mhc-j-text"><strong>The Jump:</strong> {activeMentor.jumpRole}</span>
               </div>
             </div>
           </div>
@@ -391,21 +368,22 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
             className="btn-stc-book-mentor-hero"
             onClick={() => handleBookWithMentor(activeMentor.id)}
           >
-            <Video size={12} />
+            <Video size={13} />
             <span>Book 1:1 Prep with {activeMentor.name.split(' ')[0]} • ₹{activeMentor.price}</span>
           </button>
 
-          {/* Footnote + Gallery Link in One Sleek Row */}
+          {/* Clean Trust Tag & Gallery Link */}
           <div className="stc-card-bottom-row">
-            <span className="stc-card-footnote" title={activeMentor.footnote}>
-              💡 {activeMentor.footnote}
+            <span className="stc-card-footnote">
+              <ShieldCheck size={11} className="text-emerald-600 inline" />
+              1:1 Live Mock & Roadmap
             </span>
             <button 
               type="button" 
               className="stc-explore-gallery-link"
               onClick={() => onNavigate('experts-view')}
             >
-              <span>Explore All Mentors ➔</span>
+              <span>Explore 500+ Mentors ➔</span>
             </button>
           </div>
         </div>
@@ -575,9 +553,16 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                 className={`btn-stc-jobs ${isFullyUnlocked ? 'unlocked' : ''}`}
                 onClick={() => handleOpenMatchingJobs(trackKey)}
               >
-                {isFullyUnlocked ? <CheckCircle2 size={13} className="text-emerald-600" /> : <Briefcase size={13} />}
-                <span>{isFullyUnlocked ? `View ${openingsCount}+ High-Match Jobs (${targetScore}% Fast-Track Apply)` : `Explore ${openingsCount}+ Matching Jobs (${targetSalary.replace(' LPA', 'L')})`}</span>
-                <ChevronRight size={13} />
+                <span className="btn-stc-icon-wrap">
+                  {isFullyUnlocked ? <CheckCircle2 size={13} className="btn-stc-icon-emerald" /> : <Briefcase size={13} className="btn-stc-icon-gold" />}
+                </span>
+                <span className="btn-stc-text">
+                  {isFullyUnlocked ? `View ${openingsCount}+ High-Match Jobs` : `Explore ${openingsCount}+ Matching Jobs`}
+                </span>
+                <span className="btn-stc-pill">
+                  {isFullyUnlocked ? `${targetScore}% Match Active` : targetSalary.replace(' LPA', 'L')}
+                </span>
+                <ChevronRight size={13} className="btn-stc-arrow" />
               </button>
             </div>
           </div>
