@@ -3625,7 +3625,7 @@ button {
 .trajectories-cards-stack {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
 }
 
 /* ==========================================================================
@@ -3742,7 +3742,7 @@ button {
   border: 1px solid #E5E7EB;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   padding: 16px 20px;
-  margin-bottom: 16px;
+  margin-bottom: 0;
   transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
@@ -3834,7 +3834,7 @@ button {
   font-weight: 800;
 }
 
-/* Skills Section & Salary Jump Bridge */
+/* Skills Section & Booster Chips */
 .stc-skills-section {
   display: flex;
   flex-direction: column;
@@ -3852,68 +3852,272 @@ button {
 .stc-skills-lbl {
   font-size: 11.5px;
   font-weight: 600;
-  color: #6B7280;
-  min-width: 95px;
+  color: #475569;
   display: flex;
   align-items: center;
   gap: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .stc-skills-lbl-booster {
   font-size: 11.5px;
   font-weight: 700;
   color: #92400E;
-  min-width: 95px;
   display: flex;
   align-items: center;
   gap: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .stc-chips-wrap {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   flex-wrap: wrap;
   flex: 1;
 }
 
 .stc-chip-base {
-  background: #F3F4F6;
-  color: #374151;
+  background: #F1F5F9;
+  color: #334155;
+  border: 1px solid #E2E8F0;
   font-size: 11.5px;
   font-weight: 500;
-  padding: 3px 10px;
-  border-radius: 14px;
+  padding: 2.5px 8px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .stc-chip-booster {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
-  background: #FFFDF0;
-  color: #B45309;
-  border: 1.5px dashed #D97706;
+  gap: 4px;
+  background: #FFFBEB;
+  color: #92400E;
+  border: 1px solid #FCD34D;
   font-size: 11.5px;
   font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 14px;
+  padding: 2.5px 8px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(245, 158, 11, 0.06);
 }
 
 .stc-chip-booster:hover {
-  background: #FEF3C7;
-  border-color: #92400E;
+  background: #FDE68A;
+  border-color: #F59E0B;
+  color: #78350F;
   transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(245, 158, 11, 0.18);
 }
 
 .stc-chip-booster.in-profile {
   background: #ECFDF5;
   color: #065F46;
-  border: 1.5px solid #10B981;
+  border: 1px solid #6EE7B7;
+  box-shadow: none;
 }
 
-/* Dynamic Unlock Alert Strip */
+/* ==========================================================================
+   PREMIUM PROFILE MATCH & FAST-TRACK UNLOCK METER
+   ========================================================================== */
+.stc-match-meter-inline {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stc-match-meter-inline.in-progress {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F0F7FF 100%);
+  border-color: #BFDBFE;
+}
+
+.stc-match-meter-inline.unlocked {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F0FDF4 100%);
+  border-color: #A7F3D0;
+  box-shadow: 0 1px 4px rgba(16, 185, 129, 0.08);
+}
+
+.stc-mmi-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.stc-mmi-score-cluster {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.stc-mmi-score-pill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+
+.stc-mmi-score-pill.current {
+  background: #EEF2F6;
+  color: #1E293B;
+  border: 1px solid #CBD5E1;
+}
+
+.stc-mmi-score-pill.current .stc-mmi-score-val {
+  font-weight: 800;
+  font-size: 12.5px;
+  color: #0F172A;
+}
+
+.stc-mmi-score-pill.current .stc-mmi-score-lbl {
+  font-weight: 600;
+  font-size: 10px;
+  color: #64748B;
+}
+
+.stc-mmi-boost-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: #FEF3C7;
+  color: #B45309;
+  border: 1px solid #FDE68A;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.stc-mmi-arrow {
+  font-size: 10px;
+  font-weight: 700;
+  color: #94A3B8;
+}
+
+.stc-mmi-score-pill.target {
+  background: #FFFBEB;
+  color: #92400E;
+  border: 1px solid #FCD34D;
+}
+
+.stc-mmi-score-pill.target .stc-mmi-score-val {
+  font-weight: 800;
+  font-size: 12.5px;
+  color: #B45309;
+}
+
+.stc-mmi-score-pill.target .stc-mmi-score-lbl {
+  font-weight: 600;
+  font-size: 10px;
+  color: #B45309;
+}
+
+.stc-mmi-score-pill.target.achieved {
+  background: #ECFDF5;
+  border-color: #6EE7B7;
+}
+
+.stc-mmi-score-pill.target.achieved .stc-mmi-score-val,
+.stc-mmi-score-pill.target.achieved .stc-mmi-score-lbl {
+  color: #065F46;
+}
+
+.stc-mmi-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #475569;
+  background: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  padding: 2px 7px;
+  border-radius: 9999px;
+}
+
+.stc-mmi-status-pill.unlocked {
+  background: #ECFDF5;
+  color: #065F46;
+  border-color: #A7F3D0;
+  font-weight: 700;
+}
+
+.stc-mmi-gauge-track {
+  position: relative;
+  height: 5px;
+  background: #E2E8F0;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.stc-mmi-gauge-fill-current {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #2563EB 0%, #3B82F6 100%);
+  border-radius: 9999px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+}
+
+.stc-match-meter-inline.in-progress .stc-mmi-gauge-fill-current {
+  background: linear-gradient(90deg, #2563EB 0%, #1D4ED8 100%);
+}
+
+.stc-match-meter-inline.unlocked .stc-mmi-gauge-fill-current {
+  background: linear-gradient(90deg, #059669 0%, #10B981 100%);
+}
+
+.stc-mmi-gauge-fill-potential {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #FDE68A 0%, #F59E0B 100%);
+  opacity: 0.85;
+  z-index: 1;
+}
+
+.stc-mmi-cutoff-notch {
+  position: absolute;
+  top: 0;
+  width: 1.5px;
+  height: 100%;
+  background: #475569;
+  z-index: 3;
+  opacity: 0.6;
+}
+
+.stc-mmi-footer-text {
+  font-size: 11px;
+  color: #475569;
+  line-height: 1.35;
+}
+
+.stc-mmi-footer-text strong {
+  color: #0F172A;
+  font-weight: 700;
+}
+
+.stc-mmi-unlocked-highlight {
+  color: #065F46;
+}
+
+/* Dynamic Unlock Alert Strip (Legacy Fallback) */
 .stc-unlock-alert-strip {
   display: flex;
   align-items: flex-start;
@@ -4456,63 +4660,6 @@ button {
 
 
 
-/* Mid-Feed Mentorship Banner (Shine Root Palette) */
-.peerpath-mid-feed-banner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  border-radius: 12px;
-  padding: 16px 22px;
-  box-shadow: 0 1px 4px rgba(12, 35, 64, 0.04);
-  margin-bottom: 20px;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.pmf-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: #0C2340;
-  margin: 0 0 4px 0;
-}
-
-.pmf-benefits-row {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.pmf-benefit-chip {
-  font-size: 12px;
-  color: #475569;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.pmf-cta-btn {
-  background: #F59E0B !important;
-  color: #0C2340 !important;
-  font-size: 13px !important;
-  font-weight: 800 !important;
-  padding: 9px 18px !important;
-  border-radius: 8px !important;
-  border: 1px solid #D97706 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  cursor: pointer !important;
-  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.25) !important;
-  transition: all 0.2s ease !important;
-}
-
-.pmf-cta-btn:hover {
-  background: #D97706 !important;
-  color: #FFFFFF !important;
-  transform: translateY(-1px) !important;
-}
 
 /* ==========================================================================
    MATCHING JOBS MODAL (PEERPATH LIVE OPPORTUNITIES)
@@ -5856,16 +6003,16 @@ button {
 }
 
 .peerpath-bottom-acceleration-card {
-  margin-top: 36px;
+  margin-top: 12px;
   background: linear-gradient(135deg, #FFFDF5 0%, #FEF9C3 100%);
   border: 1.5px solid #FDE68A;
-  border-radius: 16px;
-  padding: 22px 28px;
+  border-radius: 12px;
+  padding: 12px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.1);
-  gap: 24px;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.08);
+  gap: 16px;
 }
 
 .pro-cta-left {
@@ -5983,16 +6130,16 @@ button {
 }
 
 .peerpath-mid-feed-banner {
-  margin: 14px 0 18px 0;
+  margin: 0;
   background: linear-gradient(135deg, #FFFDF0 0%, #FEF9C3 100%);
   border: 1.5px solid #FDE68A;
-  border-radius: 14px;
-  padding: 14px 22px;
+  border-radius: 12px;
+  padding: 10px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 18px;
-  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.1);
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.08);
   transition: all 0.2s ease;
 }
 

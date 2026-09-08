@@ -481,7 +481,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               </div>
 
               <div className="stc-skills-row">
-                <span className="stc-skills-lbl-booster"><Zap size={12} className="text-amber-500" /> Recommended Booster Skills:</span>
+                <span className="stc-skills-lbl-booster"><Zap size={12} className="text-amber-500" /> Booster Skills:</span>
                 <div className="stc-chips-wrap">
                   {boosterSkills.map((skillName, idx) => {
                     const isAdded = isSkillOnProfile(skillName);
@@ -501,31 +501,72 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                 </div>
               </div>
 
-              {/* Dynamic Unlock Alert Strip */}
-              {!isFullyUnlocked && addedCount === 0 && (
-                <div className="stc-unlock-alert-strip locked">
-                  <span className="stc-alert-icon">🎯</span>
-                  <div className="stc-alert-body">
-                    <strong>{openingsCount}+ Verified Openings ({targetSalary.replace(' LPA', 'L')}):</strong> Current profile match is {currentScore}%. Add these {boosterSkills.length} booster skills to reach {targetScore}% match & get direct recruiter shortlists.
+              {/* Premium Profile Match & Fast-Track Unlock Meter */}
+              <div className={`stc-match-meter-inline ${isFullyUnlocked ? 'unlocked' : addedCount > 0 ? 'in-progress' : ''}`}>
+                <div className="stc-mmi-header-row">
+                  {/* Left: Score Progression Cluster */}
+                  <div className="stc-mmi-score-cluster">
+                    <div className="stc-mmi-score-pill current">
+                      <span className="stc-mmi-score-val">{currentScore}%</span>
+                      <span className="stc-mmi-score-lbl">Match</span>
+                    </div>
+
+                    {!isFullyUnlocked && (
+                      <span className="stc-mmi-boost-delta">
+                        <TrendingUp size={10} /> +{targetScore - currentScore}% Boost
+                      </span>
+                    )}
+
+                    <span className="stc-mmi-arrow">➔</span>
+
+                    <div className={`stc-mmi-score-pill target ${isFullyUnlocked ? 'achieved' : ''}`}>
+                      <span className="stc-mmi-score-val">{targetScore}%</span>
+                      <span className="stc-mmi-score-lbl">{isFullyUnlocked ? 'Top Match 🏆' : 'Potential'}</span>
+                    </div>
+                  </div>
+
+                  {/* Right: Recruiter Priority Status Pill */}
+                  <div className={`stc-mmi-status-pill ${isFullyUnlocked ? 'unlocked' : ''}`}>
+                    <Zap size={11} className={isFullyUnlocked ? 'text-emerald-600' : 'text-amber-500'} />
+                    <span>{isFullyUnlocked ? 'Direct Shortlists Active' : '90%+ Fast-Track Cutoff'}</span>
                   </div>
                 </div>
-              )}
-              {!isFullyUnlocked && addedCount > 0 && (
-                <div className="stc-unlock-alert-strip progress">
-                  <span className="stc-alert-icon">⚡</span>
-                  <div className="stc-alert-body">
-                    <strong>{openingsCount}+ Verified Openings ({targetSalary.replace(' LPA', 'L')}):</strong> Current profile match increased to <strong>{currentScore}%</strong> ({addedCount}/{boosterSkills.length} skills added). Add {remainingCount} more booster {remainingCount === 1 ? 'skill' : 'skills'} to reach {targetScore}% match & get direct recruiter shortlists.
-                  </div>
+
+                {/* Multi-Segment Visual Progress Gauge */}
+                <div className="stc-mmi-gauge-track">
+                  <div 
+                    className="stc-mmi-gauge-fill-current" 
+                    style={{ width: `${Math.min(100, currentScore)}%` }} 
+                  />
+                  {!isFullyUnlocked && (
+                    <div 
+                      className="stc-mmi-gauge-fill-potential" 
+                      style={{ 
+                        left: `${Math.min(100, currentScore)}%`, 
+                        width: `${Math.max(0, Math.min(100, targetScore) - currentScore)}%` 
+                      }} 
+                    />
+                  )}
+                  {/* 90% Benchmark Notch */}
+                  <div className="stc-mmi-cutoff-notch" style={{ left: '90%' }} title="90% Recruiter Shortlist Cutoff" />
                 </div>
-              )}
-              {isFullyUnlocked && (
-                <div className="stc-unlock-alert-strip unlocked">
-                  <span className="stc-alert-icon">🎉</span>
-                  <div className="stc-alert-body">
-                    <strong>{openingsCount}+ Verified Openings ({targetSalary.replace(' LPA', 'L')}):</strong> <strong>{targetScore}% Top Match Profile Achieved!</strong> You qualify for direct recruiter shortlisting across all {openingsCount}+ {meta.trackCategory} openings.
-                  </div>
+
+                {/* Contextual Action Guidance Micro-Copy */}
+                <div className="stc-mmi-footer-text">
+                  {!isFullyUnlocked && addedCount === 0 && (
+                    <span>Add <strong>{boosterSkills.length} booster skills</strong> above to unlock <strong>{targetScore}% match</strong> & qualify for direct recruiter shortlisting.</span>
+                  )}
+                  {!isFullyUnlocked && addedCount > 0 && (
+                    <span>Score boosted by <strong>+{currentScore - baseScore}%</strong> ({addedCount}/{boosterSkills.length} skills added). Add <strong>{remainingCount} more</strong> to reach <strong>{targetScore}%</strong>!</span>
+                  )}
+                  {isFullyUnlocked && (
+                    <span className="stc-mmi-unlocked-highlight">
+                      <CheckCircle2 size={12} className="text-emerald-600 inline mr-1" />
+                      <strong>100% Boosters Added ({targetScore}% Top Match)!</strong> Direct recruiter shortlisting active across all {openingsCount}+ openings.
+                    </span>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
 
             <div className="stc-left-footer">
@@ -742,24 +783,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               Target CTC Potential: <strong>{userTargetSalary}</strong>
             </span>
           </div>
-          <div className="flex items-center gap-3 flex-wrap">
-            <h2 className="section-main-title m-0">Curated High-Growth Job Pathways & Opportunities</h2>
-            <span style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '3px 10px',
-              borderRadius: '9999px',
-              fontSize: '11px',
-              fontWeight: 600,
-              background: '#ECFDF5',
-              color: '#065F46',
-              border: '1px solid #A7F3D0'
-            }}>
-              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#10B981', display: 'inline-block' }} />
-              Live API Mapping (POST /api/cv/pathways-analysis • Descending Match Score)
-            </span>
-          </div>
+          <h2 className="section-main-title">Curated High-Growth Job Pathways & Opportunities</h2>
         </div>
 
         <div className="track-filter-pills">
