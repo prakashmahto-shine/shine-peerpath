@@ -434,7 +434,7 @@ export const DashboardView: React.FC = () => {
                 {/* 3 High-Impact Visual Badges */}
                 <div className="dmab-punchy-badges-row">
                   <span className="dp-badge dp-fire">
-                    🔥 <strong>184+ Mentees</strong> actively looking for {userProfile.skills[0] || 'React'}
+                    🔥 <strong>4,850+ Mentees</strong> actively looking for {userProfile.skills[0] || 'React'}
                   </span>
                   <span className="dp-badge dp-green">
                     <Banknote size={12} /> <strong>0% Commission</strong> • Keep 100% Payouts

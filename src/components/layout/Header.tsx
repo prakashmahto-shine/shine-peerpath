@@ -31,13 +31,13 @@ export const Header: React.FC<HeaderProps> = ({
     showToast
   } = useApp();
 
-  const isMentor = currentUser?.role === 'mentor';
-  const isEligibleForCreatorMode = Boolean(
-    currentUser?.isMentorEligible || 
-    userProfile?.isMentor || 
+  const isAlreadyMentor = Boolean(
     currentUser?.role === 'mentor' || 
-    userProfile?.isMentorEligible
+    userProfile?.isMentor || 
+    currentUser?.id === 'akash' ||
+    (currentUser?.username && currentUser.username.toLowerCase() === 'akash')
   );
+  const isMentor = isAlreadyMentor;
 
   const loggedInFirstName = (currentUser?.name || '').split(' ')[0].toLowerCase();
   const upcomingCount = isCreatorMode
@@ -110,7 +110,7 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
 
             {/* Dynamic Role Pill: Creator Studio (for Mentors) ⇄ Peerpath Guidance (for Candidates) */}
-            {isCreatorMode ? (
+            {isAlreadyMentor && isCreatorMode ? (
               <button 
                 onClick={() => onNavigate('mentor-dashboard-view')} 
                 className={`myshine-creator-pill ${currentView === 'mentor-dashboard-view' ? 'active-creator-pill' : ''}`}
@@ -193,8 +193,8 @@ export const Header: React.FC<HeaderProps> = ({
                     <span>{currentUser.email || 'akash.jain@shine.com'}</span>
                   </div>
 
-                  {/* ⚡ CREATOR / CANDIDATE MODE TOGGLE SWITCH (Inside Profile Hover Menu) */}
-                  {isEligibleForCreatorMode && (
+                  {/* ⚡ CREATOR / CANDIDATE MODE TOGGLE SWITCH (Inside Profile Hover Menu - Only for Registered Mentors!) */}
+                  {isAlreadyMentor && (
                     <div className="flyout-mode-switcher-row">
                       <div className="flyout-mode-info">
                         <span className="flyout-mode-label">
@@ -237,7 +237,7 @@ export const Header: React.FC<HeaderProps> = ({
 
                   <div className="flyout-divider"></div>
 
-                  {isCreatorMode ? (
+                  {isAlreadyMentor && isCreatorMode ? (
                     <>
                       <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('mentor-dashboard-view'); }}>
                         <Sparkles size={15} className="text-amber-500" /> <span style={{ fontWeight: 700 }}>Creator Studio Dashboard</span>
@@ -245,35 +245,31 @@ export const Header: React.FC<HeaderProps> = ({
                       <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('profile-view'); }}>
                         <User size={15} /> My Profile
                       </a>
+                      <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }}>
+                        <Video size={15} className="text-purple-600" /> 
+                        <span style={{ fontWeight: 700, color: '#0F172A' }}>
+                          Candidate Calls (Host)
+                        </span>
+                        {upcomingCount > 0 && (
+                          <span className="flyout-count-pill">{upcomingCount}</span>
+                        )}
+                      </a>
                     </>
                   ) : (
-                    <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('profile-view'); }}>
-                      <User size={15} /> My Profile
-                    </a>
-                  )}
-
-                  {/* In Creator Mode: Always show Candidate Calls (Host) */}
-                  {isCreatorMode && (
-                    <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }}>
-                      <Video size={15} className="text-purple-600" /> 
-                      <span style={{ fontWeight: 700, color: '#0F172A' }}>
-                        Candidate Calls (Host)
-                      </span>
+                    <>
+                      <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('profile-view'); }}>
+                        <User size={15} /> My Profile
+                      </a>
                       {upcomingCount > 0 && (
-                        <span className="flyout-count-pill">{upcomingCount}</span>
+                        <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }}>
+                          <Video size={15} className="text-purple-600" /> 
+                          <span style={{ fontWeight: 700, color: '#0F172A' }}>
+                            My Mentorship Sessions
+                          </span>
+                          <span className="flyout-count-pill">{upcomingCount}</span>
+                        </a>
                       )}
-                    </a>
-                  )}
-
-                  {/* In Candidate Mode: Show 'My Mentorship Sessions' ONLY if user has actually booked sessions */}
-                  {!isCreatorMode && upcomingCount > 0 && (
-                    <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }}>
-                      <Video size={15} className="text-purple-600" /> 
-                      <span style={{ fontWeight: 700, color: '#0F172A' }}>
-                        My Mentorship Sessions
-                      </span>
-                      <span className="flyout-count-pill">{upcomingCount}</span>
-                    </a>
+                    </>
                   )}
 
                   {/* Only visible when in Candidate Mode */}
@@ -283,7 +279,7 @@ export const Header: React.FC<HeaderProps> = ({
                     </a>
                   )}
 
-                  {!isCreatorMode && !isMentor && (currentUser?.isMentorEligible ?? false) && (
+                  {!isAlreadyMentor && (currentUser?.isMentorEligible || userProfile?.isMentorEligible) && (
                     <a 
                       href="#!" 
                       className="flyout-item flyout-item-mentor-recruit" 

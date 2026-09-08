@@ -15656,22 +15656,22 @@ button {
 
 /* 4. Profile View Mentor Pitch Card (Target Campaign for Senior Professionals like Nisha) */
 .profile-mentor-pitch-card {
-  background: linear-gradient(135deg, #0B132B 0%, #1C2541 60%, #1E1B4B 100%);
-  border: 1.5px solid rgba(245, 158, 11, 0.45);
+  background: linear-gradient(135deg, #111827 0%, #1E293B 55%, #0F172A 100%);
+  border: 1.5px solid rgba(255, 198, 0, 0.45);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.2), 0 0 0 1px rgba(254, 240, 138, 0.1);
+  box-shadow: 0 10px 28px rgba(17, 24, 39, 0.2), 0 0 0 1px rgba(255, 198, 0, 0.15);
   margin-bottom: 24px;
   color: #ffffff;
 }
 
 .pmpc-top-bar {
-  background: rgba(15, 23, 42, 0.6);
-  padding: 8px 18px;
+  background: rgba(17, 24, 39, 0.7);
+  padding: 9px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .pmpc-badge {
@@ -15680,26 +15680,27 @@ button {
   gap: 6px;
   font-size: 11px;
   font-weight: 800;
-  color: #FDE047;
+  color: var(--shine-yellow);
   letter-spacing: 0.04em;
 }
 
 .pmpc-fee-tag {
-  background: rgba(16, 185, 129, 0.2);
+  background: rgba(16, 185, 129, 0.16);
   color: #34D399;
-  border: 1px solid rgba(16, 185, 129, 0.4);
+  border: 1px solid rgba(16, 185, 129, 0.35);
   font-size: 10.5px;
   font-weight: 800;
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
+  letter-spacing: 0.02em;
 }
 
 .pmpc-body {
   display: grid;
-  grid-template-columns: 1fr 280px;
+  grid-template-columns: 1fr 290px;
   gap: 24px;
   padding: 22px 24px;
   align-items: center;
@@ -15710,58 +15711,73 @@ button {
   font-weight: 800;
   color: #ffffff;
   margin: 0 0 8px 0;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 .pmpc-market-intel {
-  font-size: 13px;
-  color: #CBD5E1;
+  font-size: 12.5px;
+  color: #E2E8F0;
   margin: 0 0 16px 0;
-  background: rgba(255, 255, 255, 0.08);
-  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 7px 14px;
   border-radius: var(--radius-sm);
   display: inline-block;
+  line-height: 1.4;
 }
 
 .pmpc-perks-grid {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .pmpc-perk {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .pmpc-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 
-.pmpc-icon.bg-green { background: rgba(16, 185, 129, 0.2); color: #34D399; }
-.pmpc-icon.bg-purple { background: rgba(168, 85, 247, 0.2); color: #C084FC; }
-.pmpc-icon.bg-blue { background: rgba(59, 130, 246, 0.2); color: #60A5FA; }
+.pmpc-icon.bg-green { 
+  background: rgba(16, 185, 129, 0.16); 
+  color: #34D399; 
+  border: 1px solid rgba(16, 185, 129, 0.28); 
+}
+.pmpc-icon.bg-purple { 
+  background: rgba(139, 92, 246, 0.16); 
+  color: #C084FC; 
+  border: 1px solid rgba(139, 92, 246, 0.28); 
+}
+.pmpc-icon.bg-blue { 
+  background: rgba(37, 99, 235, 0.16); 
+  color: #60A5FA; 
+  border: 1px solid rgba(37, 99, 235, 0.28); 
+}
 
 .pmpc-perk div {
   display: flex;
   flex-direction: column;
+  gap: 1px;
 }
 
 .pmpc-perk strong {
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 700;
   color: #F8FAFC;
 }
 
 .pmpc-perk span {
-  font-size: 11px;
+  font-size: 11.5px;
   color: #94A3B8;
 }
 
@@ -15769,11 +15785,12 @@ button {
 .pmpc-cta-right {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  gap: 12px;
+  background: rgba(17, 24, 39, 0.85);
+  border: 1.5px solid rgba(255, 198, 0, 0.35);
   border-radius: var(--radius-md);
-  padding: 18px 20px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .pmpc-est-box {
@@ -15781,20 +15798,21 @@ button {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  gap: 3px;
 }
 
 .pmpc-est-lbl {
   font-size: 11px;
   color: #94A3B8;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
 }
 
 .pmpc-est-amt {
   font-size: 26px;
   font-weight: 900;
-  color: #FDE047;
+  color: var(--shine-yellow);
   letter-spacing: -0.02em;
 }
 
@@ -15805,7 +15823,7 @@ button {
 }
 
 .pmpc-est-sub {
-  font-size: 11px;
+  font-size: 11.5px;
   color: #34D399;
   font-weight: 700;
 }
@@ -15814,7 +15832,20 @@ button {
   width: 100%;
   justify-content: center;
   font-size: 13px !important;
-  padding: 10px 16px !important;
+  font-weight: 800 !important;
+  padding: 11px 16px !important;
+  border-radius: var(--radius-sm) !important;
+  background: var(--shine-yellow) !important;
+  color: var(--shine-dark-navy) !important;
+  box-shadow: 0 4px 14px rgba(255, 198, 0, 0.35) !important;
+  border: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.pmpc-cta-btn:hover {
+  background: var(--shine-yellow-hover) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(255, 198, 0, 0.45) !important;
 }
 
 .pmpc-prefill-note {

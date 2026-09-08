@@ -16,7 +16,8 @@ export const CreatorWizardModal: React.FC = () => {
     userProfile,
     currentUser,
     showToast,
-    updateUserProfile
+    updateUserProfile,
+    setIsCreatorMode
   } = useApp();
 
   const [step, setStep] = useState<number>(1);
@@ -149,9 +150,10 @@ export const CreatorWizardModal: React.FC = () => {
       currentUser.role = 'mentor';
     }
 
+    setIsCreatorMode(true);
     setIsCreatorWizardOpen(false);
-    showToast('🚀 Welcome to the Founding Mentor Circle!', `Your profile is live with 0% platform fee.`, 'success');
-    navigate('profile-view');
+    showToast('🚀 Welcome to Creator Studio!', 'Your Mentor Profile is live. You can now toggle between Candidate & Creator modes anytime.', 'success');
+    navigate('mentor-dashboard-view');
   };
 
   const stepList = [
@@ -290,9 +292,9 @@ export const CreatorWizardModal: React.FC = () => {
                     </div>
                     <input 
                       type="range" 
-                      min="499" 
+                      min="99" 
                       max="2499" 
-                      step="100"
+                      step="50"
                       value={calcRate} 
                       onChange={(e) => {
                         const val = Number(e.target.value);
@@ -302,7 +304,7 @@ export const CreatorWizardModal: React.FC = () => {
                       className="mentor-range-slider" 
                     />
                     <div className="csg-preset-chips">
-                      {[699, 1299, 1799, 2499].map(p => (
+                      {[99, 499, 999, 1499, 2499].map(p => (
                         <button
                           key={p}
                           type="button"

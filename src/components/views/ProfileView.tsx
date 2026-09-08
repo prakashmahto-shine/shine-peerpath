@@ -333,14 +333,14 @@ export const ProfileView: React.FC = () => {
                   </h3>
                   
                   <p className="pmpc-market-intel">
-                    🔥 <strong>184+ Candidates on Shine</strong> are actively seeking 1:1 mentorship in <strong>{userProfile.skills.slice(0, 3).join(', ') || 'React, System Design'}</strong>.
+                    🔥 <strong>4,850+ Candidates on Shine</strong> are actively seeking 1:1 mentorship in <strong>{userProfile.skills.slice(0, 3).join(', ') || 'React, System Design'}</strong>.
                   </p>
 
                   <div className="pmpc-perks-grid">
                     <div className="pmpc-perk">
                       <div className="pmpc-icon bg-green"><Banknote size={14} /></div>
                       <div>
-                        <strong>Set Your Own Session Rates (₹999 – ₹2,499)</strong>
+                        <strong>Set Your Own Session Rates (₹99 – ₹2,499)</strong>
                         <span>Keep 100% payouts with 0% platform fee for 6 months</span>
                       </div>
                     </div>
@@ -366,8 +366,8 @@ export const ProfileView: React.FC = () => {
                 <div className="pmpc-cta-right">
                   <div className="pmpc-est-box">
                     <span className="pmpc-est-lbl">Flexible Earning Power</span>
-                    <strong className="pmpc-est-amt">₹1,299+<span className="pmpc-est-mo">/session</span></strong>
-                    <span className="pmpc-est-sub">Take calls only when free</span>
+                    <strong className="pmpc-est-amt">Up to ₹2,499<span className="pmpc-est-mo">/session</span></strong>
+                    <span className="pmpc-est-sub">Set your own rate (₹99 – ₹2,499)</span>
                   </div>
 
                   <button 
