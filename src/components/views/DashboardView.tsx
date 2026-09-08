@@ -15,15 +15,24 @@ export const DashboardView: React.FC = () => {
     addSkill,
     setIsCreatorWizardOpen,
     updateJobSearchStatus,
-    isCreatorMode
+    isCreatorMode,
+    setIsCreatorMode,
+    showToast
   } = useApp();
   const [skillQuery, setSkillQuery] = useState<string>('');
   const [locationQuery, setLocationQuery] = useState<string>('');
   const [experienceQuery, setExperienceQuery] = useState<string>('Select Experience');
   const [activeReelCategory, setActiveReelCategory] = useState<string>('sales');
 
-  const isMentor = isCreatorMode;
-  const isExecutive = isMentor || currentUser?.isMentorEligible || userProfile.isMentorEligible;
+  const isAlreadyMentor = Boolean(
+    currentUser?.role === 'mentor' || 
+    userProfile?.isMentor || 
+    currentUser?.id === 'akash' ||
+    (currentUser?.username && currentUser.username.toLowerCase() === 'akash')
+  );
+  const isEligibleCandidate = !isAlreadyMentor && Boolean(currentUser?.isMentorEligible || userProfile.isMentorEligible);
+  const isMentor = isAlreadyMentor && isCreatorMode;
+  const isExecutive = isAlreadyMentor || isEligibleCandidate;
 
   const isNotLooking = (userProfile.jobSearchStatus || '').toLowerCase().includes('not looking');
 
@@ -341,34 +350,72 @@ export const DashboardView: React.FC = () => {
       {/* 2. Main Content Area */}
       <div className="content-wrapper prod-main-page-flow">
         
-        {/* Role-Based Banner Flow: Active Mentor vs Verified Expert Candidate (Nisha) vs Jobseeker Candidate (Prakash) */}
-        {isMentor ? (
-          <section className="dashboard-mentor-alert-strip" onClick={() => navigate('sessions-view')}>
-            <div className="dmas-left">
-              <div className="dmas-badge">
-                <ShieldCheck size={12} className="text-emerald" />
-                <span>ACTIVE MENTOR & EVALUATOR</span>
+        {/* Role-Based Banner Flow: Active Mentor vs Paused Mentor (Akash) vs Unregistered Eligible Candidate (Nisha) vs Jobseeker (Prakash) */}
+        {isAlreadyMentor ? (
+          isCreatorMode ? (
+            /* 1. Active Mentor Alert Strip (Creator Mode ON) */
+            <section className="dashboard-mentor-alert-strip" onClick={() => navigate('mentor-dashboard-view')}>
+              <div className="dmas-left">
+                <div className="dmas-badge">
+                  <ShieldCheck size={12} className="text-emerald" />
+                  <span>ACTIVE MENTOR & EVALUATOR</span>
+                </div>
+                <div className="dmas-text">
+                  <strong>Next Candidate Session:</strong> Prakash Mahto (Senior Frontend Engineer) • <span className="dmas-time">Saturday, 7:00 PM</span>
+                </div>
               </div>
-              <div className="dmas-text">
-                <strong>Next Candidate Session:</strong> Prakash Mahto (Senior Frontend Engineer) • <span className="dmas-time">Saturday, 7:00 PM</span>
-              </div>
-            </div>
 
-            <div className="dmas-right">
-              <button 
-                type="button" 
-                className="btn-dmas-host"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate('sessions-view');
-                }}
-              >
-                <Video size={13} /> Host Video Room <ArrowRight size={13} />
-              </button>
-            </div>
-          </section>
-        ) : (currentUser?.isMentorEligible || userProfile.isMentorEligible) ? (
-          /* Mentor Eligible Candidates (Nisha - VIP Mentor Circle Acquisition) */
+              <div className="dmas-right">
+                <button 
+                  type="button" 
+                  className="btn-dmas-host"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate('mentor-dashboard-view');
+                  }}
+                >
+                  <Video size={13} /> Host Video Room <ArrowRight size={13} />
+                </button>
+              </div>
+            </section>
+          ) : (
+            /* 2. Paused Creator Studio Banner (Akash in Candidate View - NEVER shows 60s onboarding wizard!) */
+            <section 
+              className="dashboard-mentor-alert-strip paused-creator-strip" 
+              onClick={() => {
+                setIsCreatorMode(true);
+                showToast('⚡ Creator Studio Active!', 'Switched back to your Mentor Creator Studio.', 'success');
+                navigate('mentor-dashboard-view');
+              }}
+            >
+              <div className="dmas-left">
+                <div className="dmas-badge paused-badge">
+                  <Zap size={12} className="text-amber-500" />
+                  <span>CREATOR STUDIO • PAUSED</span>
+                </div>
+                <div className="dmas-text">
+                  <strong>{userProfile.name?.split(' ')[0] || 'Akash'}, your mentor profile is in candidate view:</strong> Mentees can still book your active 1:1 sessions.
+                </div>
+              </div>
+
+              <div className="dmas-right">
+                <button 
+                  type="button" 
+                  className="btn-dmas-host paused-switch-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsCreatorMode(true);
+                    showToast('⚡ Creator Studio Active!', 'Switched back to your Mentor Creator Studio.', 'success');
+                    navigate('mentor-dashboard-view');
+                  }}
+                >
+                  <Zap size={13} /> Turn ON Creator Studio <ArrowRight size={13} />
+                </button>
+              </div>
+            </section>
+          )
+        ) : isEligibleCandidate ? (
+          /* 3. Mentor Eligible Candidates ONLY (Nisha - Unregistered VIP Mentor Circle Acquisition) */
           <section className="dashboard-mentor-acquisition-banner compact-vip-banner" onClick={() => setIsCreatorWizardOpen(true)}>
             <div className="dmab-glow-bg"></div>
             
@@ -413,7 +460,7 @@ export const DashboardView: React.FC = () => {
             </div>
           </section>
         ) : (
-          /* Standard Candidates (Prakash - Searching for jobs & mentorship) */
+          /* 4. Standard Candidates (Prakash - Searching for jobs & mentorship) */
           <section className="dashboard-candidate-trajectory-banner" onClick={() => navigate('guidance-view')}>
             <div className="dctb-compact-layout">
               <div className="dctb-left">

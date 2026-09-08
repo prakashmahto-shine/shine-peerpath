@@ -311,6 +311,48 @@ export const MentorDashboardView: React.FC = () => {
             <ShieldCheck size={16} className="text-emerald-600 flex-shrink-0" />
             <span>Changes are saved automatically and synchronized with candidate date/time selectors.</span>
           </div>
+
+          {/* Video Teaser Reel Manager */}
+          <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid #E2E8F0' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+              <div>
+                <h4 style={{ margin: 0, fontSize: '15px', fontWeight: 800, color: '#0F172A', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Video size={16} className="text-purple-600" /> 60-Second Video Introduction & Teaser Reel
+                </h4>
+                <p style={{ margin: '4px 0 0 0', fontSize: '12.5px', color: '#64748B' }}>
+                  A short intro video pitch builds trust and helps you receive 3x more bookings from ambitious candidates.
+                </p>
+              </div>
+              <span style={{ background: '#EDE9FE', color: '#7C3AED', padding: '4px 10px', borderRadius: '12px', fontSize: '11.5px', fontWeight: 700 }}>
+                0:58m Reel
+              </span>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '16px', alignItems: 'center', background: '#F8FAFC', padding: '16px', borderRadius: '12px', border: '1px solid #E2E8F0' }}>
+              <video 
+                controls 
+                poster={currentUser.avatar || '/avatars/akash.jpg'}
+                style={{ width: '100%', height: '140px', objectFit: 'cover', borderRadius: '8px', background: '#000' }}
+              >
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-man-working-on-his-laptop-308-large.mp4" type="video/mp4" />
+              </video>
+              <div>
+                <strong style={{ fontSize: '14px', color: '#0F172A', display: 'block', marginBottom: '4px' }}>
+                  "How I Help Candidates Transition to PM & Tech Leadership (₹30L+ Target)"
+                </strong>
+                <p style={{ fontSize: '12px', color: '#64748B', margin: '0 0 12px 0', lineHeight: 1.4 }}>
+                  Published on your Peerpath expert profile. Candidates watch this before booking a 1:1 call.
+                </p>
+                <button 
+                  type="button" 
+                  className="btn-shine-gold-sm"
+                  onClick={() => alert('Teaser video URL updated!')}
+                >
+                  Update Video Pitch
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

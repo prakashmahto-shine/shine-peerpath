@@ -25,19 +25,26 @@ export const ProfileView: React.FC = () => {
   } = useApp();
 
   const loggedInFirstName = (userProfile.name || currentUser?.name || 'Prakash').split(' ')[0].toLowerCase();
+  const isMentor = Boolean(
+    userProfile.isMentor || 
+    currentUser?.role === 'mentor' || 
+    currentUser?.id === 'akash' ||
+    (currentUser?.username && currentUser.username.toLowerCase() === 'akash')
+  );
   const isNotLooking = (userProfile.jobSearchStatus || '').toLowerCase().includes('not looking');
   
   // 1. Sessions where logged in user is candidate (booked guidance calls with other mentors)
-  const candidateUpcomingSessions = sessions.filter(s => 
+  const candidateUpcomingSessions = isMentor ? [] : sessions.filter(s => 
     s.status === 'upcoming' && 
     s.candidateName.toLowerCase().includes(loggedInFirstName) &&
-    !s.expert.name.toLowerCase().includes(loggedInFirstName)
+    !s.expert.name.toLowerCase().includes(loggedInFirstName) &&
+    s.expert.id !== currentUser?.id
   );
 
   // 2. Sessions where logged in user is mentor (candidate bookings hosted by this mentor)
   const mentorHostedSessions = sessions.filter(s => 
     s.status === 'upcoming' && 
-    (s.expert.name.toLowerCase().includes(loggedInFirstName) || s.expert.id === currentUser?.id)
+    (s.expert.name.toLowerCase().includes(loggedInFirstName) || s.expert.id === currentUser?.id || s.expert.id === 'akash')
   );
 
   // Modals state
@@ -234,33 +241,13 @@ export const ProfileView: React.FC = () => {
 
             <h2 className="prod-user-fullname">{userProfile.name}</h2>
             <div className="prod-user-designation-wrap">
-              <p className="prod-user-designation-sub">{userProfile.headline?.split('|')[0] || userProfile.headline}</p>
+              <p className="prod-user-designation-sub">{userProfile.headline}</p>
               {userProfile.isMentor && (
                 <span className="profile-verified-mentor-tag">
                   <ShieldCheck size={13} /> Verified Mentor
                 </span>
               )}
             </div>
-
-            {/* Mentor Stats Box Directly inside Profile Card */}
-            {userProfile.isMentor && (
-              <div className="profile-mentor-stats-banner">
-                <div className="pms-stat-item">
-                  <span className="pms-stat-val">⭐ {userProfile.mentorRating || 4.9}</span>
-                  <span className="pms-stat-label">({userProfile.mentorReviewsCount || 142} Reviews)</span>
-                </div>
-                <div className="pms-divider-v" />
-                <div className="pms-stat-item">
-                  <span className="pms-stat-val pms-earnings-val">₹{(userProfile.mentorEarnings || 47952).toLocaleString('en-IN')}</span>
-                  <span className="pms-stat-label">Total Earned</span>
-                </div>
-                <div className="pms-divider-v" />
-                <div className="pms-stat-item">
-                  <span className="pms-stat-val">{userProfile.mentorSessionsCount || 48}</span>
-                  <span className="pms-stat-label">Mentored</span>
-                </div>
-              </div>
-            )}
 
             {/* Hook 1: Visual & Easy-to-Understand Salary Growth Card (Hidden if Not Looking For Jobs) */}
             {!isNotLooking && (
@@ -396,94 +383,8 @@ export const ProfileView: React.FC = () => {
             </div>
           )}
 
-          {/* Unified Space-Optimized Mentor Hub Card */}
-          {userProfile.isMentor && (
-            <div className="compact-mentor-hub-card">
-              <div className="cmh-header-row">
-                <div className="cmh-title-left">
-                  <div className="cmh-icon-box">
-                    <Video size={17} />
-                  </div>
-                  <div>
-                    <h3 className="cmh-title-text">Peerpath Mentorship Studio</h3>
-                    <span className="cmh-sub-hint">
-                      ₹{userProfile.mentorRate || 499} / {userProfile.mentorDuration || 30} mins • {(userProfile.mentorAvailability?.days || ['Sat', 'Sun']).join(', ')} • {userProfile.mentorAvailability?.timeSlots?.length || 4} slots
-                    </span>
-                  </div>
-                </div>
-
-                <div className="cmh-meta-pills-right">
-                  {userProfile.mentorTeaserVideo ? (
-                    <span className="cmh-pill-reel">
-                      <Film size={12} /> {userProfile.mentorTeaserVideo.duration || '0:58m'} Reel
-                    </span>
-                  ) : (
-                    <span className="cmh-pill-reel" style={{ background: '#FFFBEB', color: '#B45309', borderColor: '#FDE68A' }}>
-                      + Add Reel
-                    </span>
-                  )}
-                  
-                  <button 
-                    type="button" 
-                    className="btn-cmh-manage"
-                    onClick={openMentorshipModal}
-                    title="Edit Mentorship Pricing, Schedule & Teaser Video"
-                  >
-                    <Edit2 size={12} /> Edit Settings
-                  </button>
-                </div>
-              </div>
-
-              {/* Active Candidate Mentorship Calls (if any booked) */}
-              {mentorHostedSessions.length > 0 && (
-                <div className="cmh-active-calls-wrap">
-                  <div className="cmh-calls-section-title">
-                    <span>Active Booked Calls ({mentorHostedSessions.length})</span>
-                    <span style={{ color: '#059669', fontSize: '11px', textTransform: 'none' }}>🟢 Confirmed</span>
-                  </div>
-
-                  {mentorHostedSessions.slice(0, 2).map((sess) => (
-                    <div key={sess.id} className="cmh-call-item-compact">
-                      <div className="cmh-call-left">
-                        <img src={sess.candidateAvatar || '/avatars/prakash.jpg'} alt={sess.candidateName} className="cmh-call-avatar" />
-                        <div>
-                          <strong className="cmh-candidate-name">{sess.candidateName}</strong>
-                          <div className="cmh-call-meta">
-                            <span>{sess.candidateRole || 'Candidate'}</span>
-                            <span>•</span>
-                            <span>🕒 {sess.date} ({sess.timeSlot})</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="cmh-call-actions">
-                        <button 
-                          type="button" 
-                          className="btn-cmh-reschedule"
-                          onClick={() => navigate('sessions-view')}
-                        >
-                          <RotateCcw size={11} /> Reschedule
-                        </button>
-                        <button 
-                          type="button" 
-                          className="btn-cmh-join"
-                          onClick={() => {
-                            setActiveSession(sess);
-                            navigate('live-call-view');
-                          }}
-                        >
-                          <Video size={12} /> Start Call
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Card: Active Mentorship Sessions Widget (Candidate Bookings) */}
-          {candidateUpcomingSessions.length > 0 && (
+          {/* Card: Active Mentorship Sessions Widget (Candidate Bookings ONLY - Never on Mentor Profile) */}
+          {!isMentor && candidateUpcomingSessions.length > 0 && (
             <div className="myprofile-card prod-sessions-widget-card">
               <div className="prod-card-top-row">
                 <div className="ps-widget-title-row">

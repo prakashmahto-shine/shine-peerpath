@@ -109,8 +109,18 @@ export const Header: React.FC<HeaderProps> = ({
               <FileText size={15} /> Blogs
             </button>
 
-            {/* Peerpath Navigation Button: Hidden when in Creator Mode, Visible when in Candidate Mode (Off) */}
-            {!isCreatorMode && (
+            {/* Dynamic Role Pill: Creator Studio (for Mentors) ⇄ Peerpath Guidance (for Candidates) */}
+            {isCreatorMode ? (
+              <button 
+                onClick={() => onNavigate('mentor-dashboard-view')} 
+                className={`myshine-creator-pill ${currentView === 'mentor-dashboard-view' ? 'active-creator-pill' : ''}`}
+                title="Go to Creator & Mentor Studio Dashboard"
+              >
+                <Sparkles size={14} className="creator-sparkle-icon" />
+                <span>Creator Studio</span>
+                <span className="pill-creator-badge">⚡ LIVE</span>
+              </button>
+            ) : (
               <button 
                 onClick={() => onNavigate('guidance-view')} 
                 className={`myshine-guidance-pill ${currentView === 'guidance-view' || currentView === 'experts-view' ? 'active-pill' : ''}`}
@@ -179,13 +189,8 @@ export const Header: React.FC<HeaderProps> = ({
               {isUserMenuOpen && (
                 <div className="myshine-user-flyout-card">
                   <div className="flyout-user-header">
-                    <div className="flyout-name-badge-row">
-                      <strong>{currentUser.name}</strong>
-                      <span className={`flyout-role-badge ${isCreatorMode ? 'mentor-badge' : 'cand-badge'}`}>
-                        {isCreatorMode ? 'MENTOR' : 'CANDIDATE'}
-                      </span>
-                    </div>
-                    <span>{currentUser.headline.split('|')[0] || currentUser.headline}</span>
+                    <strong>{currentUser.name}</strong>
+                    <span>{currentUser.email || 'akash.jain@shine.com'}</span>
                   </div>
 
                   {/* ⚡ CREATOR / CANDIDATE MODE TOGGLE SWITCH (Inside Profile Hover Menu) */}
@@ -211,9 +216,15 @@ export const Header: React.FC<HeaderProps> = ({
                           setIsCreatorMode(nextMode);
                           showToast(
                             nextMode ? '⚡ Switched to Creator Studio Mode' : '👤 Switched to Candidate View',
-                            nextMode ? 'Mentor sessions, studio dashboard, and payouts active.' : 'Candidate profile and Peerpath roadmap visible.',
+                            nextMode ? 'Opening Creator Studio dashboard & payouts.' : 'Switched to candidate profile & career roadmap.',
                             'info'
                           );
+                          setIsUserMenuOpen(false);
+                          if (nextMode) {
+                            onNavigate('mentor-dashboard-view');
+                          } else {
+                            onNavigate('profile-view');
+                          }
                         }}
                         title={isCreatorMode ? "Switch to Candidate Mode" : "Switch to Creator Studio"}
                       >
@@ -226,9 +237,20 @@ export const Header: React.FC<HeaderProps> = ({
 
                   <div className="flyout-divider"></div>
 
-                  <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('profile-view'); }}>
-                    <User size={15} /> {isCreatorMode ? 'Creator Studio Profile' : 'My Profile'}
-                  </a>
+                  {isCreatorMode ? (
+                    <>
+                      <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('mentor-dashboard-view'); }}>
+                        <Sparkles size={15} className="text-amber-500" /> <span style={{ fontWeight: 700 }}>Creator Studio Dashboard</span>
+                      </a>
+                      <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('profile-view'); }}>
+                        <User size={15} /> My Profile
+                      </a>
+                    </>
+                  ) : (
+                    <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('profile-view'); }}>
+                      <User size={15} /> My Profile
+                    </a>
+                  )}
 
                   {/* In Creator Mode: Always show Candidate Calls (Host) */}
                   {isCreatorMode && (

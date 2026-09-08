@@ -69,7 +69,7 @@ const pathToView = (pathname: string): { view: ViewType; expertId?: string } => 
   if (clean === '/recruiter' || clean === '/recruiters') {
     return { view: 'recruiter-view' };
   }
-  if (clean === '/mentor-dashboard' || clean === '/mentor' || clean === '/mentor-portal') {
+  if (clean === '/mentor-dashboard' || clean === '/mentor' || clean === '/mentor-portal' || clean === '/creator-studio' || clean === '/creator' || clean === '/creator-dashboard') {
     return { view: 'mentor-dashboard-view' };
   }
   if (clean === '/login' || clean === '/signin' || clean === '/pages/myshine/login') {

@@ -260,6 +260,44 @@ button {
   border-radius: 3px;
 }
 
+.myshine-creator-pill {
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  border: 1px solid #F59E0B;
+  color: #FCD34D;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.myshine-creator-pill:hover, .myshine-creator-pill.active-creator-pill {
+  background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+  border-color: #FBBF24;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+}
+
+.creator-sparkle-icon {
+  color: #FBBF24;
+}
+
+.pill-creator-badge {
+  background: #F59E0B;
+  color: #0F172A;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.3px;
+}
+
 .myshine-nav-right-prod {
   display: flex;
   align-items: center;
@@ -12492,11 +12530,11 @@ button {
 
 .shine-toast-container {
   position: fixed;
-  top: 80px;
-  right: 20px;
+  bottom: 24px;
+  right: 24px;
   z-index: 9999;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 10px;
   max-width: 380px;
   pointer-events: none;
@@ -12504,10 +12542,10 @@ button {
 
 @media (max-width: 640px) {
   .shine-toast-container {
-    top: 60px;
-    right: 10px;
-    left: 10px;
-    max-width: calc(100vw - 20px);
+    bottom: 16px;
+    right: 12px;
+    left: 12px;
+    max-width: calc(100vw - 24px);
   }
 }
 
@@ -14732,6 +14770,36 @@ button {
 .btn-dmas-host:hover {
   background: #D97706;
   color: #ffffff;
+}
+
+/* Paused Mentor in Candidate View Strip */
+.dashboard-mentor-alert-strip.paused-creator-strip {
+  background: #FFFBEB;
+  border: 1px solid #FCD34D;
+}
+
+.dashboard-mentor-alert-strip.paused-creator-strip:hover {
+  background: #FEF3C7;
+  border-color: #F59E0B;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.15);
+}
+
+.dmas-badge.paused-badge {
+  background: #FEF3C7;
+  border: 1px solid #FCD34D;
+  color: #B45309;
+}
+
+.btn-dmas-host.paused-switch-btn {
+  background: #0F172A;
+  color: #FBBF24;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
+}
+
+.btn-dmas-host.paused-switch-btn:hover {
+  background: #1E293B;
+  color: #FDE68A;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.35);
 }
 
 /* 2. Peerpath Top Nav & Recruitment Strips */
