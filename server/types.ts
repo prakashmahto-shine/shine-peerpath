@@ -1,4 +1,4 @@
-export type DomainVertical = 'AI/ML' | 'Semiconductor' | 'Cybersecurity' | 'Full-Stack' | 'Product Management' | 'Search & Data Infra';
+export type DomainVertical = 'AI/ML' | 'Semiconductor' | 'Cybersecurity' | 'Full-Stack' | 'Product Management' | 'Search & Data Infra' | 'SaaS Sales';
 
 export interface CreatorTrajectory {
   role3YearsAgo: string;

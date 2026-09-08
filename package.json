@@ -13,6 +13,7 @@
     "start": "tsx server/index.ts"
   },
   "dependencies": {
+    "@huggingface/transformers": "^4.2.0",
     "canvas-confetti": "^1.9.3",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",

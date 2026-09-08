@@ -9,7 +9,10 @@ export class AnalyticsService {
       'AI/ML': creators.filter(c => c.domain === 'AI/ML').length,
       'Semiconductor': creators.filter(c => c.domain === 'Semiconductor').length,
       'Cybersecurity': creators.filter(c => c.domain === 'Cybersecurity').length,
-      'Full-Stack': creators.filter(c => c.domain === 'Full-Stack').length
+      'Full-Stack': creators.filter(c => c.domain === 'Full-Stack').length,
+      'Product Management': creators.filter(c => c.domain === 'Product Management').length,
+      'Search & Data Infra': creators.filter(c => c.domain === 'Search & Data Infra').length,
+      'SaaS Sales': creators.filter(c => c.domain === 'SaaS Sales').length
     };
 
     return {

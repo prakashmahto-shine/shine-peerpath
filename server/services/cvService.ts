@@ -1,5 +1,6 @@
 import { DomainVertical, GapAnalysisResult } from '../types';
 import { trajectoryService } from './trajectoryService';
+import { createEmbedding, cosineSimilarity } from './embeddingService';
 
 interface DomainJDTemplate {
   domain: DomainVertical;
@@ -82,14 +83,14 @@ export class CvService {
   }
 
   /**
-   * Run targeted gap analysis against target role JDs across the 4 key verticals.
+   * Run targeted gap analysis against target role JDs across the 4 key verticals using Dense Embeddings.
    */
-  public performGapAnalysis(
+  public async performGapAnalysis(
     domainKey: string = 'full-stack', 
     candidateSkills: string[] = [],
     candidateRole: string = 'Senior Frontend Engineer',
     currentCtc: string = '₹7.5 LPA'
-  ): GapAnalysisResult {
+  ): Promise<GapAnalysisResult> {
     const key = domainKey.toLowerCase().replace(/[^a-z0-9]/g, '');
     let matchedTemplate = DOMAIN_TEMPLATES['full-stack'];
     
@@ -103,19 +104,29 @@ export class CvService {
 
     const candSkillsLower = candidateSkills.map(s => s.toLowerCase());
 
+    // Embedding semantic similarity between candidate and target role template
+    const candidateText = `${candidateRole} ${candidateSkills.join(', ')}`;
+    const targetText = `${matchedTemplate.defaultTargetRole} ${matchedTemplate.domain} ${matchedTemplate.expectedSkills.join(' ')} ${matchedTemplate.highLeverageBoosterSkills.join(' ')}`;
+    
+    const [candVec, targetVec] = await Promise.all([
+      createEmbedding(candidateText),
+      createEmbedding(targetText)
+    ]);
+    const semanticFit = Math.max(0, cosineSimilarity(candVec, targetVec));
+
     const matchedSkills = matchedTemplate.expectedSkills.filter(es => 
-      candSkillsLower.some(cs => cs.includes(es.toLowerCase()))
+      candSkillsLower.some(cs => cs.includes(es.toLowerCase()) || es.toLowerCase().includes(cs))
     );
 
     const missingBoosterSkills = matchedTemplate.highLeverageBoosterSkills.filter(bs => 
-      !candSkillsLower.some(cs => cs.includes(bs.toLowerCase()))
+      !candSkillsLower.some(cs => cs.includes(bs.toLowerCase()) || bs.toLowerCase().includes(cs))
     );
 
-    const currentScore = Math.min(85, 60 + matchedSkills.length * 5);
-    const targetScore = 96;
+    const currentScore = Math.min(94, Math.round(55 + (semanticFit * 35) + (matchedSkills.length * 2)));
+    const targetScore = 98;
 
     // Run trajectory matching to get top 3 verified creators who made this jump
-    const recommendedCreators = trajectoryService.matchTrajectories({
+    const allMatches = await trajectoryService.matchTrajectories({
       currentRole: candidateRole,
       currentExperience: '4 Years',
       currentSalary: currentCtc,
@@ -123,7 +134,8 @@ export class CvService {
       targetPackage: matchedTemplate.targetPackage,
       domain: matchedTemplate.domain,
       skills: candidateSkills
-    }).slice(0, 3);
+    });
+    const recommendedCreators = allMatches.slice(0, 3);
 
     return {
       candidateRole,
@@ -131,7 +143,7 @@ export class CvService {
       targetDomain: matchedTemplate.domain,
       currentSalaryBaseline: currentCtc || matchedTemplate.baselineSalary,
       targetSalaryPotential: matchedTemplate.targetPackage,
-      estimatedJump: '+₹14L - ₹20L Jump',
+      estimatedJump: '+₹14L - ₹22L Jump',
       currentScore,
       targetScore,
       matchedSkills: matchedSkills.length > 0 ? matchedSkills : matchedTemplate.expectedSkills.slice(0, 3),
