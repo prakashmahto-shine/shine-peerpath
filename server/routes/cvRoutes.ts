@@ -33,10 +33,16 @@ router.post('/gap-analysis', async (req: Request, res: Response) => {
   }
 });
 
-// POST /api/cv/pathways-analysis - Analyze all pathway tracks in parallel
-router.post('/pathways-analysis', async (req: Request, res: Response) => {
+// GET & POST /api/cv/pathways-analysis - Analyze all pathway tracks in parallel
+const handlePathwaysAnalysis = async (req: Request, res: Response) => {
   try {
-    const { skills, currentRole, currentCtc } = req.body;
+    const rawSkills = req.body?.skills || req.query.skills;
+    const skills = Array.isArray(rawSkills) 
+      ? rawSkills 
+      : (typeof rawSkills === 'string' ? rawSkills.split(',').map(s => s.trim()) : ['React.js', 'TypeScript', 'JavaScript']);
+    const currentRole = req.body?.currentRole || (req.query.currentRole as string) || 'Senior Frontend Engineer';
+    const currentCtc = req.body?.currentCtc || (req.query.currentCtc as string) || '₹7.5 LPA';
+
     const tracks = ['arch', 'pm', 'search', 'ai', 'semi'];
     const results: Record<string, any> = {};
 
@@ -44,9 +50,9 @@ router.post('/pathways-analysis', async (req: Request, res: Response) => {
       tracks.map(async (trackKey) => {
         results[trackKey] = await cvService.performGapAnalysis(
           trackKey,
-          skills || [],
-          currentRole || 'Senior Frontend Engineer',
-          currentCtc || '₹7.5 LPA'
+          skills,
+          currentRole,
+          currentCtc
         );
       })
     );
@@ -55,6 +61,9 @@ router.post('/pathways-analysis', async (req: Request, res: Response) => {
   } catch (error: any) {
     return res.status(500).json({ error: error.message || 'Error running pathways analysis' });
   }
-});
+};
+
+router.post('/pathways-analysis', handlePathwaysAnalysis);
+router.get('/pathways-analysis', handlePathwaysAnalysis);
 
 export default router;
