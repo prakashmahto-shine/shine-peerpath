@@ -1,4 +1,4 @@
-import { Expert, MentorshipSession, PeerVerifiedBadge, TrajectoryMatch, ZeroPrepDossier } from '../types';
+import { Expert, MentorshipSession, PeerVerifiedBadge, TrajectoryMatch, ZeroPrepDossier, GapAnalysisResult, ShineJob } from '../types';
 
 const API_BASE = '/api';
 
@@ -66,13 +66,50 @@ export const peerpathApi = {
     skills?: string[];
     currentRole?: string;
     currentCtc?: string;
-  }) {
+  }): Promise<GapAnalysisResult> {
     const res = await fetch(`${API_BASE}/cv/gap-analysis`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(params)
     });
     if (!res.ok) throw new Error(`Failed running gap analysis`);
+    const json = await res.json();
+    return json.data;
+  },
+
+  // Batch Pathways Analysis for all 5 domains
+  async getPathwaysAnalysis(params: {
+    skills?: string[];
+    currentRole?: string;
+    currentCtc?: string;
+  }): Promise<Record<string, GapAnalysisResult>> {
+    const res = await fetch(`${API_BASE}/cv/pathways-analysis`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params)
+    });
+    if (!res.ok) throw new Error(`Failed running pathways analysis`);
+    const json = await res.json();
+    return json.data;
+  },
+
+  // Jobs API
+  async getJobs(params?: {
+    domain?: string;
+    q?: string;
+    loc?: string;
+    trackKey?: string;
+    minSalary?: number;
+  }): Promise<ShineJob[]> {
+    const qs = new URLSearchParams();
+    if (params?.domain && params.domain !== 'all') qs.append('domain', params.domain);
+    if (params?.q) qs.append('q', params.q);
+    if (params?.loc && params.loc !== 'all') qs.append('loc', params.loc);
+    if (params?.trackKey) qs.append('trackKey', params.trackKey);
+    if (params?.minSalary) qs.append('minSalary', String(params.minSalary));
+
+    const res = await fetch(`${API_BASE}/jobs?${qs.toString()}`);
+    if (!res.ok) throw new Error(`Failed fetching jobs`);
     const json = await res.json();
     return json.data;
   },

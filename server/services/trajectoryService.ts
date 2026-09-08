@@ -46,21 +46,22 @@ export class TrajectoryService {
 
       // Domain match bonus
       let domainBonus = 0;
-      if (input.domain && (
-        creator.domain.toLowerCase().includes(input.domain.toLowerCase()) ||
-        input.domain.toLowerCase().includes(creator.domain.toLowerCase())
-      )) {
-        domainBonus = 0.12;
+      if (input.domain) {
+        const inDom = input.domain.toLowerCase();
+        const cDom = creator.domain.toLowerCase();
+        if (cDom.includes(inDom) || inDom.includes(cDom)) {
+          domainBonus = 0.45;
+        }
       }
 
       // Verified employer bonus
-      const verifiedBonus = creator.isVerifiedEmployer ? 0.04 : 0;
+      const verifiedBonus = creator.isVerifiedEmployer ? 0.05 : 0;
 
       // Composite semantic score (0 to 1)
-      const compositeScore = (pastSim * 0.42) + (targetSim * 0.42) + domainBonus + verifiedBonus;
+      const compositeScore = (pastSim * 0.35) + (targetSim * 0.35) + domainBonus + verifiedBonus;
 
-      // Scale appropriately: 70% baseline + (compositeScore * 55), clamped between 72% and 98%
-      const normalizedScore = Math.min(98, Math.max(72, Math.round(68 + (compositeScore * 55))));
+      // Scale appropriately: clamped between 72% and 98%
+      const normalizedScore = Math.min(98, Math.max(72, Math.round(68 + (compositeScore * 40))));
 
       // Missing booster skills
       const missingBridgeSkills = creator.trajectory.keyJumpSkills.filter(
@@ -85,7 +86,19 @@ export class TrajectoryService {
 
     // Sort descending by trajectory similarity
     matches.sort((a, b) => b.trajectorySimilarityScore - a.trajectorySimilarityScore);
-    return matches;
+
+    // Deduplicate creators by name so each mentor twin is unique
+    const seenNames = new Set<string>();
+    const uniqueMatches: TrajectoryMatch[] = [];
+    for (const m of matches) {
+      const key = m.creator.name.toLowerCase().trim();
+      if (!seenNames.has(key)) {
+        seenNames.add(key);
+        uniqueMatches.push(m);
+      }
+    }
+
+    return uniqueMatches;
   }
 
   public getTrajectoryDetails(creatorId: string) {

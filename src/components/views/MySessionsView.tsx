@@ -19,7 +19,7 @@ export const MySessionsView: React.FC = () => {
     isCreatorMode
   } = useApp();
 
-  const isMentor = isCreatorMode;
+  const isMentor = isCreatorMode || currentUser?.role === 'mentor';
   const loggedInFirstName = (currentUser?.name || userProfile.name || 'Prakash').split(' ')[0].toLowerCase();
 
   // 1. Candidate's booked sessions (where user is the candidate)

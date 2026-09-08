@@ -1325,6 +1325,73 @@
   ],
   "sessions": [
     {
+      "id": "sess-1788869869750",
+      "expertId": "akash",
+      "expert": {
+        "id": "akash",
+        "name": "Akash Jain",
+        "role": "Lead Product Manager",
+        "company": "Shine (HT Media)",
+        "domain": "Product Management",
+        "experience": "7+ Years Exp.",
+        "rating": 4.9,
+        "reviewsCount": 142,
+        "sessionsCount": 310,
+        "price": 999,
+        "location": "Noida, India",
+        "duration": "01:15",
+        "avatar": "/avatars/akash.jpg",
+        "videoPoster": "/avatars/akash.jpg",
+        "teaserTitle": "Teaser: How to Transition from Engineering to High-Impact Product Management",
+        "skills": [
+          "Product Strategy",
+          "Growth Metrics",
+          "Roadmapping",
+          "PRD & Discovery",
+          "A/B Testing"
+        ],
+        "bio": "Leading core product initiatives at Shine. I mentor engineers and business analysts on product discovery frameworks, metric storytelling, and cracking Tier-1 PM interview case rounds.",
+        "verifiedEmail": "akash.jain@shine.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Senior Backend Software Engineer",
+          "company3YearsAgo": "InfoEdge / Naukri",
+          "salary3YearsAgo": "₹8.8 LPA",
+          "keyJumpSkills": [
+            "PRD Discovery",
+            "Growth Funnel Analytics",
+            "Product Strategy"
+          ],
+          "jumpStory": "Spent 4 years writing APIs before transitioning into technical product management. Now architecting search & candidate trust features."
+        },
+        "availability": {
+          "days": [
+            "Tue",
+            "Thu",
+            "Sat",
+            "Sun"
+          ],
+          "timeSlots": [
+            "10:00 AM - 11:00 AM",
+            "07:00 PM - 08:00 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash",
+      "candidateName": "Prakash Mahto",
+      "candidateRole": "Senior Frontend Engineer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Trajectory mentorship & target jump into Shine (HT Media)",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "Wed, 9 Sep 2026",
+      "timeSlot": "10:00 AM - 11:00 AM",
+      "status": "upcoming",
+      "meetingLink": "https://meet.shine.com/room/peerpath-akash-1788869869750",
+      "paymentId": "pay_shine_mtsmxlfa_pgs3",
+      "amountPaid": 999,
+      "bookedAt": "2026-09-08T12:17:49.750Z"
+    },
+    {
       "id": "sess-1788861218466",
       "expertId": "ishita",
       "expert": {
@@ -1720,7 +1787,7 @@
   "analytics": {
     "profileUpdatesThisMonth": 14823,
     "newRegistrationsThisMonth": 6350,
-    "totalSessionsBooked": 2434,
+    "totalSessionsBooked": 2435,
     "totalActiveCreators": 21
   }
 }

@@ -116,6 +116,8 @@ export interface GapAnalysisResult {
   missingBoosterSkills: string[];
   trajectoryRecommendation: string;
   recommendedCreators: TrajectoryMatch[];
+  openingsCount?: number;
+  hiringCompanies?: string;
 }
 
 export interface ZeroPrepDossier {

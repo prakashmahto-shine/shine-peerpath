@@ -78,7 +78,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Left Side: Shine Logo + Nav Links */}
         <div className="myshine-nav-left">
           <div 
-            onClick={() => onNavigate(currentUser ? 'dashboard-view' : 'login-view')} 
+            onClick={() => onNavigate(currentUser ? (isAlreadyMentor && isCreatorMode ? 'mentor-dashboard-view' : 'dashboard-view') : 'login-view')} 
             className="shine-logo-wrap" 
             style={{ cursor: 'pointer' }}
           >
@@ -90,50 +90,76 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           <nav className="myshine-nav-links">
-            <button 
-              className={`myshine-link ${currentView === 'jobs-view' ? 'active' : ''}`} 
-              onClick={handleGoToMyJobs}
-            >
-              <Briefcase size={15} /> My Jobs
-            </button>
-            
-            <button className="myshine-link">
-              <Award size={15} /> Services
-            </button>
-            
-            <button className="myshine-link">
-              <Bell size={15} /> Job Alerts
-            </button>
-            
-            <button className="myshine-link">
-              <FileText size={15} /> Blogs
-            </button>
-
-            {/* Dynamic Role Pill: Creator Studio (for Mentors) ⇄ Peerpath Guidance (for Candidates) */}
             {isAlreadyMentor && isCreatorMode ? (
-              <button 
-                onClick={() => onNavigate('mentor-dashboard-view')} 
-                className={`myshine-creator-pill ${currentView === 'mentor-dashboard-view' ? 'active-creator-pill' : ''}`}
-                title="Go to Creator & Mentor Studio Dashboard"
-              >
-                <Sparkles size={14} className="creator-sparkle-icon" />
-                <span>Creator Studio</span>
-                <span className="pill-creator-badge">⚡ LIVE</span>
-              </button>
+              <>
+                <button 
+                  onClick={() => onNavigate('mentor-dashboard-view')} 
+                  className={`myshine-creator-pill ${currentView === 'mentor-dashboard-view' ? 'active-creator-pill' : ''}`}
+                  title="Go to Creator & Mentor Studio Dashboard"
+                >
+                  <Sparkles size={14} className="creator-sparkle-icon" />
+                  <span>Creator Studio</span>
+                  <span className="pill-creator-badge">⚡ LIVE</span>
+                </button>
+
+                <button 
+                  className={`myshine-link ${currentView === 'sessions-view' ? 'active' : ''}`} 
+                  onClick={() => onNavigate('sessions-view')}
+                >
+                  <Video size={15} /> Candidate Calls
+                </button>
+
+                <button 
+                  className={`myshine-link ${currentView === 'guidance-view' ? 'active' : ''}`} 
+                  onClick={() => onNavigate('guidance-view')}
+                  title="Browse Candidate Peerpath & Pathways"
+                >
+                  <FileText size={15} /> Candidate Roadmap
+                </button>
+
+                <button 
+                  className={`myshine-link ${currentView === 'experts-view' ? 'active' : ''}`} 
+                  onClick={() => onNavigate('experts-view')}
+                  title="Browse All 500+ Mentors"
+                >
+                  <Award size={15} /> Mentors Gallery
+                </button>
+              </>
             ) : (
-              <button 
-                onClick={() => onNavigate('guidance-view')} 
-                className={`myshine-guidance-pill ${currentView === 'guidance-view' || currentView === 'experts-view' ? 'active-pill' : ''}`}
-              >
-                <Sparkles size={14} className="sparkle-icon" />
-                <span>Peerpath</span>
-                <span className="pill-new-badge">NEW</span>
-              </button>
+              <>
+                <button 
+                  className={`myshine-link ${currentView === 'jobs-view' ? 'active' : ''}`} 
+                  onClick={handleGoToMyJobs}
+                >
+                  <Briefcase size={15} /> My Jobs
+                </button>
+                
+                <button className="myshine-link" onClick={() => onNavigate('experts-view')}>
+                  <Award size={15} /> Explore Mentors
+                </button>
+                
+                <button className="myshine-link">
+                  <Bell size={15} /> Job Alerts
+                </button>
+                
+                <button className="myshine-link">
+                  <FileText size={15} /> Blogs
+                </button>
+
+                <button 
+                  onClick={() => onNavigate('guidance-view')} 
+                  className={`myshine-guidance-pill ${currentView === 'guidance-view' ? 'active-pill' : ''}`}
+                >
+                  <Sparkles size={14} className="sparkle-icon" />
+                  <span>Peerpath</span>
+                  <span className="pill-new-badge">NEW</span>
+                </button>
+              </>
             )}
           </nav>
         </div>
 
-        {/* Right Side: Search + Get App + Recruiter + User Dropdown / Login Button */}
+        {/* Right Side: Search + Get App + User Dropdown / Login Button */}
         <div className="myshine-nav-right-prod">
           <form className="prod-nav-search-bar" onSubmit={handleSearchSubmit}>
             <Search size={14} className="prod-search-icon" />
@@ -151,14 +177,6 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={() => alert('Download Shine mobile app from Play Store or App Store!')}
           >
             Get App <ArrowUpRight size={13} />
-          </button>
-
-          <button 
-            className="btn-shine-recruiter-icon-circle"
-            title="Recruiter Portal (Candidate Search)"
-            onClick={() => onNavigate('recruiter-view')}
-          >
-            <Briefcase size={16} />
           </button>
 
           {/* User Avatar Dropdown OR Login/Register CTA */}

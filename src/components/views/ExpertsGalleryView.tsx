@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Play, ShieldCheck, Star, ChevronLeft, ChevronRight, SearchX, Compass, Users, TrendingUp, Sparkles, ArrowRight } from 'lucide-react';
 import { Expert, ViewType } from '../../types';
 import { useApp } from '../../context/AppContext';
+import { peerpathApi } from '../../services/api';
 
 interface ExpertsGalleryViewProps {
   experts: Expert[];
@@ -25,7 +26,25 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
   const [sortOrder, setSortOrder] = useState<string>('trajectory');
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const filteredExperts = experts.filter((exp) => {
+  // Live creators fetched from Backend API
+  const [creatorsList, setCreatorsList] = useState<Expert[]>(experts);
+
+  useEffect(() => {
+    let isCurrent = true;
+    peerpathApi.getCreators(activeDomain !== 'all' ? activeDomain : undefined, searchTerm.trim() || undefined)
+      .then(fetched => {
+        if (isCurrent && fetched && fetched.length > 0) {
+          setCreatorsList(fetched);
+        }
+      })
+      .catch(err => console.warn('[Creators API Fallback]:', err));
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [activeDomain, searchTerm]);
+
+  const filteredExperts = creatorsList.filter((exp) => {
     if (activeDomain !== 'all' && exp.domain !== activeDomain) return false;
     if (exp.price > priceLimit) return false;
     if (searchTerm) {

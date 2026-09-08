@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Expert, MentorshipSession, PeerVerifiedBadge, UserProfileData, ViewType, UserAccount, PeerpathJobContext } from '../types';
-import { EXPERTS_DB } from '../data/expertsData';
-import { USERS_DB } from '../data/usersData';
 import { peerpathApi } from '../services/api';
 
 export interface ToastMessage {
@@ -127,10 +125,139 @@ const initialUserProfile: UserProfileData = {
   phone: '+91 98765 43210'
 };
 
+const DEFAULT_FALLBACK_EXPERT: Expert = {
+  id: 'akash',
+  name: 'Akash Jain',
+  role: 'Lead Product Manager',
+  company: 'Shine (HT Media)',
+  domain: 'Product Management',
+  experience: '7+ Years Exp.',
+  rating: 4.95,
+  reviewsCount: 142,
+  sessionsCount: 280,
+  price: 999,
+  location: 'Bengaluru / Hybrid',
+  duration: '01:00',
+  avatar: '/avatars/akash.jpg',
+  videoPoster: '/avatars/akash.jpg',
+  teaserTitle: 'Teaser: Transitioning from SDE-2 to Tier-1 Product Management',
+  skills: ['PRD Writing', 'Product Discovery', 'Growth Metrics', 'A/B Testing'],
+  bio: 'Lead PM at Shine managing Career Multiplier & Peerpath.',
+  verifiedEmail: 'akash.jain@shine.com',
+  isVerifiedEmployer: true
+};
+
+const DEFAULT_ACCOUNTS: Record<string, { password: string; account: UserAccount; profile: UserProfileData }> = {
+  prakash: {
+    password: 'shine@123',
+    account: {
+      id: 'prakash',
+      username: 'prakash',
+      name: 'Prakash Mahto',
+      role: 'candidate',
+      avatar: '/avatars/prakash.jpg',
+      email: 'prakash.mahto@gmail.com',
+      headline: 'Senior Frontend Engineer | React.js, TypeScript, Next.js UI Architect',
+      company: 'Current: Tech Services',
+      experienceYears: '4 Years, 2 Months',
+      location: 'Bengaluru, India',
+      hasExpertBadge: false,
+      isMentorEligible: false
+    },
+    profile: initialUserProfile
+  },
+  akash: {
+    password: 'shine@123',
+    account: {
+      id: 'akash',
+      username: 'akash',
+      name: 'Akash Jain',
+      role: 'mentor',
+      avatar: '/avatars/akash.jpg',
+      email: 'akash.jain@shine.com',
+      headline: 'Lead Product Manager @ Shine (HT Media) • Ex-Paytm, Flipkart',
+      company: 'Shine (HT Media)',
+      experienceYears: '8 yrs 2 Months',
+      location: 'Gurugram / Remote',
+      earnings: 47952,
+      rating: 4.95,
+      reviewsCount: 142,
+      completedSessionsCount: 48,
+      hasExpertBadge: true,
+      isMentorEligible: true
+    },
+    profile: {
+      name: 'Akash Jain',
+      headline: 'Lead Product Manager @ Shine (HT Media) • Ex-Paytm, Flipkart',
+      experienceYears: '8 yrs 2 Months',
+      location: 'Gurugram / Bengaluru, India',
+      hasExpertBadge: true,
+      isMentorEligible: true,
+      profileScore: 95,
+      jobSearchStatus: 'Open to High-Impact Advisory Roles',
+      currentCtc: '₹34 LPA',
+      targetCtc: '₹45 LPA+',
+      summary: 'Lead Product Manager at Shine (HT Media) heading core Career Multiplier initiatives.',
+      skills: ['Product Management', 'PRD Discovery & Roadmarking', 'Product Metrics & Analytics', 'A/B Testing', 'Go-to-Market (GTM) Strategy'],
+      educationDegree: 'B.Tech + MBA',
+      educationCollege: 'IIT / IIM Alumni',
+      pastCompany: 'Paytm / Flipkart',
+      pastCompanyRole: 'Senior Product Manager',
+      badges: [],
+      isMentor: true,
+      email: 'akash.jain@shine.com',
+      phone: '+91 98111 22334'
+    }
+  },
+  nisha: {
+    password: 'shine@123',
+    account: {
+      id: 'nisha',
+      username: 'nisha',
+      name: 'Nisha Kumari',
+      role: 'mentor',
+      avatar: '/avatars/nisha.jpg',
+      email: 'nisha.kumari@flipkart.com',
+      headline: 'Staff Frontend Architect & UI Lead @ Flipkart',
+      company: 'Flipkart',
+      experienceYears: '6+ Years Exp.',
+      location: 'Bengaluru / Remote',
+      earnings: 38970,
+      rating: 4.91,
+      reviewsCount: 65,
+      completedSessionsCount: 32,
+      hasExpertBadge: true,
+      isMentorEligible: true
+    },
+    profile: {
+      name: 'Nisha Kumari',
+      headline: 'Staff Frontend Architect & UI Lead @ Flipkart',
+      experienceYears: '6+ Years Exp.',
+      location: 'Bengaluru / Remote',
+      hasExpertBadge: true,
+      isMentorEligible: true,
+      profileScore: 98,
+      jobSearchStatus: 'Leading Core Web at Flipkart',
+      currentCtc: '₹36 LPA',
+      targetCtc: '₹50 LPA+',
+      summary: 'Staff Architect at Flipkart leading core web checkout teams.',
+      skills: ['React 19', 'Micro-Frontends', 'System Design', 'Module Federation', 'Web Performance'],
+      educationDegree: 'B.Tech Computer Science',
+      educationCollege: 'NIT Trichy',
+      pastCompany: 'Mid-tier Technology Firm',
+      pastCompanyRole: 'Senior Software Engineer',
+      badges: [],
+      isMentor: true,
+      email: 'nisha.kumari@flipkart.com',
+      phone: '+91 98222 33445'
+    }
+  }
+};
+
 const initialSessions: MentorshipSession[] = [
   {
     id: 'sess-1',
-    expert: EXPERTS_DB[0], // Akash Jain (Lead PM @ Shine)
+    expert: DEFAULT_FALLBACK_EXPERT,
     candidateName: 'Prakash Mahto',
     candidateRole: 'Senior Frontend Engineer',
     candidateAvatar: '/avatars/prakash.jpg',
@@ -139,20 +266,6 @@ const initialSessions: MentorshipSession[] = [
     timeSlot: '07:00 PM - 08:00 PM',
     status: 'upcoming',
     meetingLink: 'https://meet.shine.com/room/peerpath-akash-prakash'
-  },
-  {
-    id: 'sess-2',
-    expert: EXPERTS_DB[1], // Anirudh Sharma
-    candidateName: 'Prakash Mahto',
-    candidateRole: 'Senior Frontend Engineer',
-    candidateAvatar: '/avatars/prakash.jpg',
-    candidateGoal: 'Learn Search System Architecture & Lucene Sharding',
-    date: 'Thu, 28 Aug 2026',
-    timeSlot: '04:00 PM - 05:00 PM',
-    status: 'completed',
-    badgeAwarded: 'Distributed Search & Lucene Indexing',
-    feedbackNotes: 'Prakash demonstrated a solid grasp of search query routing, sub-10ms response optimization, and modern frontend cache design.',
-    rating: 5
   }
 ];
 
@@ -169,9 +282,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       if (savedUser) {
         return JSON.parse(savedUser);
       }
-      return USERS_DB.prakash.account;
+      return DEFAULT_ACCOUNTS.prakash.account;
     } catch {
-      return USERS_DB.prakash.account;
+      return DEFAULT_ACCOUNTS.prakash.account;
     }
   });
 
@@ -180,27 +293,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Navigation
   const [currentView, setCurrentView] = useState<ViewType>(() => {
     if (!currentUser) return 'login-view';
+    if (currentUser.role === 'mentor') return 'mentor-dashboard-view';
     return 'dashboard-view';
   });
   const [previousView, setPreviousView] = useState<ViewType>('guidance-view');
   
-  // Dynamic Experts
-  const [experts, setExperts] = useState<Expert[]>(() => {
-    try {
-      const saved = localStorage.getItem('shine_peerpath_experts');
-      if (saved) {
-        const parsed: Expert[] = JSON.parse(saved);
-        const existingIds = new Set(parsed.map(e => e.id));
-        const missing = EXPERTS_DB.filter(e => !existingIds.has(e.id));
-        return [...missing, ...parsed];
-      }
-      return EXPERTS_DB;
-    } catch {
-      return EXPERTS_DB;
-    }
-  });
-  
-  const [selectedExpert, setSelectedExpert] = useState<Expert>(EXPERTS_DB[0]);
+  // Dynamic Experts (Fetched from backend API on mount)
+  const [experts, setExperts] = useState<Expert[]>([DEFAULT_FALLBACK_EXPERT]);
+  const [selectedExpert, setSelectedExpert] = useState<Expert>(DEFAULT_FALLBACK_EXPERT);
   
   // Dynamic Sessions
   const [sessions, setSessions] = useState<MentorshipSession[]>(() => {
@@ -221,27 +321,48 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       if (saved) {
         const parsed = JSON.parse(saved);
         return {
-          prakash: { ...USERS_DB.prakash.profile, ...(parsed.prakash || {}) },
-          akash: { ...USERS_DB.akash.profile, ...(parsed.akash || {}) },
-          nisha: { ...USERS_DB.nisha.profile, ...(parsed.nisha || {}) }
+          prakash: { ...DEFAULT_ACCOUNTS.prakash.profile, ...(parsed.prakash || {}) },
+          akash: { ...DEFAULT_ACCOUNTS.akash.profile, ...(parsed.akash || {}) },
+          nisha: { ...DEFAULT_ACCOUNTS.nisha.profile, ...(parsed.nisha || {}) }
         };
       }
       return {
-        prakash: USERS_DB.prakash.profile,
-        akash: USERS_DB.akash.profile,
-        nisha: USERS_DB.nisha.profile
+        prakash: DEFAULT_ACCOUNTS.prakash.profile,
+        akash: DEFAULT_ACCOUNTS.akash.profile,
+        nisha: DEFAULT_ACCOUNTS.nisha.profile
       };
     } catch {
       return {
-        prakash: USERS_DB.prakash.profile,
-        akash: USERS_DB.akash.profile,
-        nisha: USERS_DB.nisha.profile
+        prakash: DEFAULT_ACCOUNTS.prakash.profile,
+        akash: DEFAULT_ACCOUNTS.akash.profile,
+        nisha: DEFAULT_ACCOUNTS.nisha.profile
       };
     }
   });
 
+  // Fetch live creators and sessions from backend API on startup
+  useEffect(() => {
+    let isCurrent = true;
+    peerpathApi.getCreators().then(fetched => {
+      if (isCurrent && fetched && fetched.length > 0) {
+        setExperts(fetched);
+        setSelectedExpert(prev => (prev?.id && prev.id !== 'akash' ? prev : fetched[0]));
+      }
+    }).catch(err => console.log('[API getCreators]:', err));
+
+    peerpathApi.getSessions('prakash', 'candidate').then(fetchedSessions => {
+      if (isCurrent && fetchedSessions && fetchedSessions.length > 0) {
+        setSessions(fetchedSessions);
+      }
+    }).catch(err => console.log('[API getSessions]:', err));
+
+    return () => {
+      isCurrent = false;
+    };
+  }, []);
+
   const activeUsername = currentUser?.username || 'prakash';
-  const userProfile: UserProfileData = userProfiles[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.prakash.profile;
+  const userProfile: UserProfileData = userProfiles[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.prakash.profile;
 
   // Creator / Mentor Studio Mode
   const [isCreatorMode, setIsCreatorMode] = useState<boolean>(() => {
@@ -285,7 +406,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [assessmentDraftSession, setAssessmentDraftSession] = useState<MentorshipSession | null>(null);
 
   const [bookingDraft, setBookingDraft] = useState<{ expert: Expert; date: string; timeSlot: string }>({
-    expert: EXPERTS_DB[0],
+    expert: DEFAULT_FALLBACK_EXPERT,
     date: 'Tomorrow, 5 Sep',
     timeSlot: '10:00 AM - 11:00 AM'
   });
@@ -298,83 +419,43 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const clearPeerpathJobContext = () => {
     setPeerpathJobContext(null);
-    setSelectedJobCategory('all');
   };
 
-  // Synchronize localStorage
-  useEffect(() => {
-    try {
-      if (currentUser) {
-        localStorage.setItem('shine_peerpath_current_user', JSON.stringify(currentUser));
-      } else {
-        localStorage.setItem('shine_peerpath_current_user', 'null');
-      }
-    } catch (e) {
-      console.warn('Failed to persist user', e);
-    }
-  }, [currentUser]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('shine_peerpath_experts', JSON.stringify(experts));
-    } catch (e) {
-      console.warn('Failed to persist experts', e);
-    }
-  }, [experts]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('shine_peerpath_sessions', JSON.stringify(sessions));
-    } catch (e) {
-      console.warn('Failed to persist sessions', e);
-    }
-  }, [sessions]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('shine_peerpath_profiles_db', JSON.stringify(userProfiles));
-    } catch (e) {
-      console.warn('Failed to persist profiles db', e);
-    }
-  }, [userProfiles]);
-
-  // Synchronize initial data with Backend API
-  useEffect(() => {
-    peerpathApi.getCreators().then(fetched => {
-      if (fetched && fetched.length > 0) {
-        setExperts(fetched);
-      }
-    }).catch(err => console.log('[API] Using local experts fallback:', err));
-
-    peerpathApi.getSessions().then(fetched => {
-      if (fetched && fetched.length > 0) {
-        setSessions(fetched);
-      }
-    }).catch(err => console.log('[API] Using local sessions fallback:', err));
-  }, []);
-
   const showToast = (title: string, description?: string, type: 'success' | 'info' | 'warning' = 'success') => {
-    const id = 'toast-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4);
+    const id = 'toast-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6);
     setToasts(prev => [...prev, { id, title, description, type }]);
     setTimeout(() => {
       setToasts(prev => prev.filter(t => t.id !== id));
-    }, 4000);
+    }, 4500);
   };
 
   const removeToast = (id: string) => {
     setToasts(prev => prev.filter(t => t.id !== id));
   };
 
+  // View Navigation with URL sync & Smooth Scroll
   const navigate = (view: ViewType, customPath?: string) => {
-    if (view !== currentView) {
-      setPreviousView(currentView);
-    }
+    setPreviousView(currentView);
     setCurrentView(view);
-    const pathToPush = customPath || (
-      view === 'dashboard-view' ? '/' : 
-      view === 'login-view' ? '/pages/myshine/login' :
-      `/${view.replace('-view', '')}`
-    );
+
+    const routeMap: Record<ViewType, string> = {
+      'guidance-view': '/guidance',
+      'experts-view': '/experts',
+      'expert-profile-view': selectedExpert ? `/mentor/${selectedExpert.id}` : '/experts',
+      'payment-view': '/checkout',
+      'confirmed-view': '/confirmed',
+      'sessions-view': '/sessions',
+      'dashboard-view': '/dashboard',
+      'profile-view': '/profile',
+      'live-call-view': '/room/peerpath-session',
+      'post-session-view': '/session/feedback',
+      'recruiter-view': '/recruiter',
+      'jobs-view': '/jobs',
+      'login-view': '/pages/myshine/login',
+      'mentor-dashboard-view': '/creator-studio'
+    };
+
+    const pathToPush = customPath || routeMap[view] || '/guidance';
     if (window.location.pathname !== pathToPush) {
       window.history.pushState({}, '', pathToPush);
     }
@@ -384,7 +465,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Authentication methods
   const login = (usernameInput: string, passwordInput: string): boolean => {
     const cleanUser = usernameInput.trim().toLowerCase();
-    const entry = USERS_DB[cleanUser];
+    const entry = DEFAULT_ACCOUNTS[cleanUser];
     if (entry && entry.password === passwordInput.trim()) {
       setCurrentUser(entry.account);
       setUserProfiles(prev => ({
@@ -392,8 +473,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         [cleanUser]: { ...entry.profile, ...(prev[cleanUser] || {}) }
       }));
       setIsLoginModalOpen(false);
-      navigate('dashboard-view');
-      showToast(`👋 Welcome back, ${entry.account.name}!`, `Logged in to Shine.`);
+      const isMentorRole = entry.account.role === 'mentor' || Boolean(entry.profile.isMentor);
+      setIsCreatorMode(isMentorRole);
+      if (isMentorRole) {
+        navigate('mentor-dashboard-view');
+      } else {
+        navigate('dashboard-view');
+      }
+      showToast(`👋 Welcome back, ${entry.account.name}!`, `Logged in as ${isMentorRole ? 'Lead Mentor' : 'Candidate'}.`);
       return true;
     }
     showToast('Invalid Credentials', 'Please check username or password (shine@123)', 'warning');
@@ -402,16 +489,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const switchUser = (targetUsername: string) => {
     const cleanUser = targetUsername.trim().toLowerCase();
-    const entry = USERS_DB[cleanUser];
+    const entry = DEFAULT_ACCOUNTS[cleanUser];
     if (entry) {
       setCurrentUser(entry.account);
       setUserProfiles(prev => ({
         ...prev,
         [cleanUser]: { ...entry.profile, ...(prev[cleanUser] || {}) }
       }));
-      setIsCreatorMode(entry.account.role === 'mentor' || Boolean(entry.profile.isMentor));
-      navigate('dashboard-view');
-      showToast(`⚡ Logged in as ${entry.account.name}`, `Dashboard & Profile updated.`);
+      const isMentorRole = entry.account.role === 'mentor' || Boolean(entry.profile.isMentor);
+      setIsCreatorMode(isMentorRole);
+      if (isMentorRole) {
+        navigate('mentor-dashboard-view');
+      } else {
+        navigate('dashboard-view');
+      }
+      showToast(`⚡ Logged in as ${entry.account.name}`, `Switched to ${isMentorRole ? 'Creator Studio' : 'Candidate Dashboard'}.`);
     }
   };
 
@@ -426,25 +518,26 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
 
     const freshProfiles: Record<string, UserProfileData> = {
-      prakash: JSON.parse(JSON.stringify(USERS_DB.prakash.profile)),
-      akash: JSON.parse(JSON.stringify(USERS_DB.akash.profile)),
-      nisha: JSON.parse(JSON.stringify(USERS_DB.nisha.profile))
+      prakash: JSON.parse(JSON.stringify(DEFAULT_ACCOUNTS.prakash.profile)),
+      akash: JSON.parse(JSON.stringify(DEFAULT_ACCOUNTS.akash.profile)),
+      nisha: JSON.parse(JSON.stringify(DEFAULT_ACCOUNTS.nisha.profile))
     };
 
     const freshSessions = JSON.parse(JSON.stringify(initialSessions));
-    const freshExperts = JSON.parse(JSON.stringify(EXPERTS_DB));
 
-    setExperts(freshExperts);
+    peerpathApi.getCreators().then(c => {
+      if (c && c.length > 0) setExperts(c);
+    }).catch(() => {});
+
     setSessions(freshSessions);
     setUserProfiles(freshProfiles);
 
     const target = targetUsername || currentUser?.username || 'prakash';
-    const userToSet = USERS_DB[target]?.account || USERS_DB.prakash.account;
+    const userToSet = DEFAULT_ACCOUNTS[target]?.account || DEFAULT_ACCOUNTS.prakash.account;
     setCurrentUser(userToSet);
 
     try {
       localStorage.setItem('shine_peerpath_current_user', JSON.stringify(userToSet));
-      localStorage.setItem('shine_peerpath_experts', JSON.stringify(freshExperts));
       localStorage.setItem('shine_peerpath_sessions', JSON.stringify(freshSessions));
       localStorage.setItem('shine_peerpath_profiles_db', JSON.stringify(freshProfiles));
     } catch (e) {
@@ -465,10 +558,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const selectExpertById = (expertId: string) => {
-    const found = experts.find(e => e.id === expertId) || EXPERTS_DB.find(e => e.id === expertId);
+    const found = experts.find(e => e.id === expertId);
     if (found) {
       setSelectedExpert(found);
       setBookingDraft(prev => ({ ...prev, expert: found }));
+    } else {
+      peerpathApi.getCreatorById(expertId).then(creator => {
+        if (creator) {
+          setSelectedExpert(creator);
+          setBookingDraft(prev => ({ ...prev, expert: creator }));
+        }
+      }).catch(() => {});
     }
   };
 
@@ -476,85 +576,80 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const id = 'exp-' + Date.now();
     const fullExpert: Expert = { ...newExpertData, id };
     setExperts(prev => [fullExpert, ...prev]);
-    showToast('🎉 Creator Profile Published!', `Your 1:1 Trajectory Mentorship is now live on Shine Peerpath.`);
-    
-    // Async sync to backend API
-    peerpathApi.registerCreator(newExpertData).catch(err => console.warn('[API addExpert]:', err));
+
+    // Asynchronously publish to backend API store
+    peerpathApi.registerCreator(fullExpert).catch(err => console.warn('[API registerCreator]:', err));
+
     return fullExpert;
   };
 
+  // Sessions Management
   const bookSession = (expert: Expert, date: string, timeSlot: string): MentorshipSession => {
     const newSession: MentorshipSession = {
       id: 'sess-' + Date.now(),
       expert,
-      candidateName: userProfile.name,
-      candidateRole: userProfile.headline.split('|')[0]?.trim() || 'Senior Frontend Engineer',
+      candidateName: userProfile.name || 'Prakash Mahto',
+      candidateRole: userProfile.headline?.split('|')[0]?.trim() || 'Senior Frontend Engineer',
       candidateAvatar: '/avatars/prakash.jpg',
-      candidateGoal: 'Transition to Top Product Company / ₹18L-24L package & get resume reviewed',
+      candidateGoal: `Career Guidance & Transition Strategy into ${expert.company}`,
       date,
       timeSlot,
       status: 'upcoming',
-      meetingLink: `https://meet.shine.com/room/peerpath-${expert.id}-${Date.now().toString(36)}`
+      meetingLink: `https://meet.shine.com/room/peerpath-${expert.id}-${Date.now().toString().slice(-4)}`
     };
-    setSessions(prev => [newSession, ...prev]);
-    setActiveSession(newSession);
-    showToast('✨ Mentorship Session Scheduled!', `Booked with ${expert.name} on ${date} at ${timeSlot}.`);
 
-    // Async sync to backend API
+    setSessions(prev => [newSession, ...prev]);
+
+    // Post to backend API
     peerpathApi.checkoutAndBookSession({
       expertId: expert.id,
-      candidateName: userProfile.name,
-      candidateRole: userProfile.headline.split('|')[0]?.trim() || 'Senior Frontend Engineer',
+      candidateName: newSession.candidateName,
+      candidateRole: newSession.candidateRole,
       date,
       timeSlot,
       paymentMethod: 'upi',
-      amount: expert.price
-    }).catch(err => console.warn('[API bookSession]:', err));
+      amount: expert.price || 999
+    }).catch(err => console.warn('[API checkout]:', err));
 
+    showToast('🎉 Session Booked Successfully!', `Meeting scheduled with ${expert.name} on ${date}.`);
     return newSession;
   };
 
   const cancelSession = (sessionId: string) => {
-    setSessions(prev => prev.map(s => s.id === sessionId ? { ...s, status: 'cancelled' } : s));
-    showToast('Session Cancelled', 'Your session has been cancelled and refund initiated.', 'info');
-    peerpathApi.cancelSession(sessionId).catch(err => console.warn('[API cancelSession]:', err));
+    setSessions(prev => prev.filter(s => s.id !== sessionId));
+    showToast('Session Cancelled', 'Your mentorship booking has been removed.', 'info');
   };
 
   const rescheduleSession = (sessionId: string, newDate: string, newTimeSlot: string) => {
-    setSessions(prev => prev.map(s => s.id === sessionId ? { ...s, date: newDate, timeSlot: newTimeSlot } : s));
-    showToast('Session Rescheduled', `Updated to ${newDate}, ${newTimeSlot}.`, 'success');
-    peerpathApi.rescheduleSession(sessionId, newDate, newTimeSlot).catch(err => console.warn('[API rescheduleSession]:', err));
+    setSessions(prev => prev.map(s => {
+      if (s.id === sessionId) {
+        return { ...s, date: newDate, timeSlot: newTimeSlot };
+      }
+      return s;
+    }));
+    showToast('Session Rescheduled', `Updated to ${newDate} (${newTimeSlot}).`);
   };
 
   const completeSession = (sessionId: string, rating: number, notes: string, badgeTitle?: string) => {
-    setSessions(prev => prev.map(s => s.id === sessionId ? {
-      ...s,
-      status: 'completed',
-      rating,
-      feedbackNotes: notes,
-      badgeAwarded: badgeTitle || 'Trajectory Competency Verified'
-    } : s));
+    setSessions(prev => prev.map(s => {
+      if (s.id === sessionId) {
+        return {
+          ...s,
+          status: 'completed',
+          rating,
+          feedbackNotes: notes,
+          badgeAwarded: badgeTitle
+        };
+      }
+      return s;
+    }));
 
-    if (badgeTitle && activeSession) {
-      const newBadge: PeerVerifiedBadge = {
-        id: 'badge-' + Date.now(),
-        title: badgeTitle,
-        subtitle: `Verified by ${activeSession.expert.name} • ${activeSession.expert.role} @ ${activeSession.expert.company}`,
-        verifierName: activeSession.expert.name,
-        verifierRole: `${activeSession.expert.role} @ ${activeSession.expert.company}`,
-        verifierAvatar: activeSession.expert.avatar,
-        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-        skills: activeSession.expert.skills.slice(0, 4),
-        status: 'verified'
-      };
-      awardBadge(newBadge);
-    }
-
+    // Post rubric & badge to backend assessment API
     peerpathApi.submitAssessment(sessionId, {
-      rating,
+      badgeTitle: badgeTitle || 'Tier-1 Peer Verified',
       feedbackNotes: notes,
-      badgeTitle: badgeTitle || 'Trajectory Competency Verified',
-      skillsVerified: activeSession ? activeSession.expert.skills.slice(0, 4) : ['System Architecture']
+      rating,
+      skillsVerified: ['System Architecture', 'Problem Solving']
     }).catch(err => console.warn('[API submitAssessment]:', err));
 
     showToast('🎉 Assessment Complete!', 'Skill badge and feedback updated on your profile.');
@@ -562,7 +657,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateUserProfile = (updates: Partial<UserProfileData>) => {
     setUserProfiles(prev => {
-      const existing = prev[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.prakash.profile;
+      const existing = prev[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.prakash.profile;
       return {
         ...prev,
         [activeUsername]: { ...existing, ...updates }
@@ -573,7 +668,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateProfileSummary = (summary: string) => {
     setUserProfiles(prev => {
-      const existing = prev[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.prakash.profile;
+      const existing = prev[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.prakash.profile;
       return {
         ...prev,
         [activeUsername]: {
@@ -588,7 +683,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const addSkill = (skill: string) => {
     setUserProfiles(prev => {
-      const existing = prev[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.prakash.profile;
+      const existing = prev[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.prakash.profile;
       if (!existing.skills.includes(skill)) {
         return {
           ...prev,
@@ -606,7 +701,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const removeSkill = (skill: string) => {
     setUserProfiles(prev => {
-      const existing = prev[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.prakash.profile;
+      const existing = prev[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.prakash.profile;
       return {
         ...prev,
         [activeUsername]: {
@@ -621,7 +716,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const awardBadge = (newBadge: PeerVerifiedBadge) => {
     setUserProfiles(prev => {
       const targetUser = 'prakash';
-      const existing = prev[targetUser] || USERS_DB.prakash.profile;
+      const existing = prev[targetUser] || DEFAULT_ACCOUNTS.prakash.profile;
       return {
         ...prev,
         [targetUser]: {
@@ -635,7 +730,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateJobSearchStatus = (status: string) => {
     setUserProfiles(prev => {
-      const existing = prev[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.prakash.profile;
+      const existing = prev[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.prakash.profile;
       return {
         ...prev,
         [activeUsername]: {
@@ -654,7 +749,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateMentorRatesAndAvailability = (rate: number, duration: number, days: string[], timeSlots: string[]) => {
     setUserProfiles(prev => {
-      const existing = prev[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.akash.profile;
+      const existing = prev[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.akash.profile;
       return {
         ...prev,
         [activeUsername]: {
@@ -671,7 +766,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateMentorTeaserVideo = (teaser: { url: string; title: string; duration?: string; thumbnail?: string; uploadedAt?: string } | null) => {
     setUserProfiles(prev => {
-      const existing = prev[activeUsername] || USERS_DB[activeUsername]?.profile || USERS_DB.akash.profile;
+      const existing = prev[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.akash.profile;
       return {
         ...prev,
         [activeUsername]: {

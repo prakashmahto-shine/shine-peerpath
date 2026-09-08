@@ -33,4 +33,28 @@ router.post('/gap-analysis', async (req: Request, res: Response) => {
   }
 });
 
+// POST /api/cv/pathways-analysis - Analyze all pathway tracks in parallel
+router.post('/pathways-analysis', async (req: Request, res: Response) => {
+  try {
+    const { skills, currentRole, currentCtc } = req.body;
+    const tracks = ['arch', 'pm', 'search', 'ai', 'semi'];
+    const results: Record<string, any> = {};
+
+    await Promise.all(
+      tracks.map(async (trackKey) => {
+        results[trackKey] = await cvService.performGapAnalysis(
+          trackKey,
+          skills || [],
+          currentRole || 'Senior Frontend Engineer',
+          currentCtc || '₹7.5 LPA'
+        );
+      })
+    );
+
+    return res.json({ success: true, data: results });
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message || 'Error running pathways analysis' });
+  }
+});
+
 export default router;

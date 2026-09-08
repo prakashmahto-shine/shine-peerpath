@@ -5472,6 +5472,145 @@ button {
   transform: none;
 }
 
+/* Peerpath Prep Button on Job Cards */
+.sjc-btn-peerpath-prep {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #7C3AED 0%, #6366F1 100%);
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(124, 58, 237, 0.25);
+  white-space: nowrap;
+}
+
+.sjc-btn-peerpath-prep:hover {
+  background: linear-gradient(135deg, #6D28D9 0%, #4F46E5 100%);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+  transform: translateY(-1px);
+}
+
+.sjc-btn-peerpath-prep .sjc-prep-icon {
+  color: #DDD6FE;
+  transition: transform 0.3s ease;
+}
+
+.sjc-btn-peerpath-prep:hover .sjc-prep-icon {
+  transform: rotate(45deg);
+  color: #FFFFFF;
+}
+
+/* Mini Mentor Twin Carousel / Strip inside Job Eligibility Banner */
+.spe-mentors-preview-section {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(245, 158, 11, 0.35);
+  width: 100%;
+}
+
+.spe-mentors-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #92400E;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.spe-mentors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+.spe-mentor-mini-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+  border: 1px solid #FDE68A;
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.spe-mentor-mini-card:hover {
+  border-color: #F59E0B;
+  box-shadow: 0 3px 8px rgba(245, 158, 11, 0.15);
+  transform: translateY(-1px);
+}
+
+.spe-mentor-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.spe-mentor-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #7C3AED;
+}
+
+.spe-mentor-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.spe-mentor-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.spe-mentor-jump {
+  font-size: 11px;
+  font-weight: 700;
+  color: #059669;
+  background: #ECFDF5;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.spe-mentor-role {
+  font-size: 11px;
+  color: #64748B;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+.spe-mentor-book-btn {
+  background: #7C3AED;
+  color: #FFFFFF;
+  border: none;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+
+.spe-mentor-book-btn:hover {
+  background: #6D28D9;
+}
+
 /* ==========================================================================
    SRP PEERPATH ELIGIBILITY REQUIREMENT BANNER & GATING
    ========================================================================== */

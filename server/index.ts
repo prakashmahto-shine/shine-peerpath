@@ -10,6 +10,7 @@ import bookingRoutes from './routes/bookingRoutes';
 import assessmentRoutes from './routes/assessmentRoutes';
 import recruiterRoutes from './routes/recruiterRoutes';
 import analyticsRoutes from './routes/analyticsRoutes';
+import jobRoutes from './routes/jobRoutes';
 
 dotenv.config();
 
@@ -52,6 +53,7 @@ app.use('/api/sessions', assessmentRoutes);
 app.use('/api/recruiter', recruiterRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/demo', analyticsRoutes);
+app.use('/api/jobs', jobRoutes);
 
 // Serve static frontend build (production)
 const distPath = path.resolve(__dirname, '../dist');

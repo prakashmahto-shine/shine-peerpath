@@ -1,38 +1,28 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Briefcase, MapPin, Clock, Share2, Bookmark, ArrowRight, Check, 
-  Edit3, Filter, ArrowUpDown, ChevronDown, Search, X
+  Edit3, Filter, ArrowUpDown, ChevronDown, Search, X,
+  Compass, Sparkles, UserCheck, Loader2, Award
 } from 'lucide-react';
-import { ViewType } from '../../types';
+import { ViewType, ShineJob, GapAnalysisResult, PathwayTrackKey } from '../../types';
 import { useApp } from '../../context/AppContext';
+import { peerpathApi } from '../../services/api';
 
-export interface ShineJobListing {
-  id: string;
-  title: string;
-  company: string;
-  companyInitials?: string;
-  companyColor?: string;
-  postedTime: string;
-  exp: string;
-  salary: string;
-  loc: string;
-  requiredSkills: string[];
-  isActivelyHiring?: boolean;
-  isEarlyApplicant?: boolean;
-}
-
-const SHINE_JOBS_SRP_DB: ShineJobListing[] = [
+// Fallback initial jobs list if offline
+const FALLBACK_JOBS: ShineJob[] = [
   {
     id: 'srp-job-1',
     title: 'Senior React / Java Developer',
     company: 'IQuest Management Consultants Pvt Ltd.',
     companyInitials: 'IM',
-    companyColor: '#C026D3', // Magenta square from screenshot
+    companyColor: '#C026D3',
     postedTime: '3 days ago',
     exp: '5 to 10 Yrs',
-    salary: '5 – 12 Lakh/Yr',
+    salary: '₹14 – ₹22 Lakh/Yr',
+    salaryNum: 22,
     loc: 'Pune',
-    requiredSkills: ['react.js', 'java', 'sql'],
+    domain: 'Full-Stack',
+    requiredSkills: ['react.js', 'java', 'sql', 'typescript'],
     isActivelyHiring: true,
     isEarlyApplicant: true
   },
@@ -41,98 +31,133 @@ const SHINE_JOBS_SRP_DB: ShineJobListing[] = [
     title: 'AWS Java Full Stack Developer',
     company: 'SP Staffing Services Private Limited Hiring For Leading MNC Company',
     companyInitials: 'SS',
-    companyColor: '#7C3AED', // Purple square from screenshot
+    companyColor: '#7C3AED',
     postedTime: '4 days ago',
     exp: '8 to 12 Yrs',
-    salary: '26 – 38 Lakh/Yr',
-    loc: 'Chennai, Hyderabad, Pune, Delhi, Kochi, Gurugram, Kolkata, Noida, Bangalore',
-    requiredSkills: ['java', 'spring boot', 'core java', 'aws'],
+    salary: '₹26 – ₹38 Lakh/Yr',
+    salaryNum: 38,
+    loc: 'Bengaluru, Hyderabad, Pune',
+    domain: 'Full-Stack',
+    requiredSkills: ['java', 'spring boot', 'aws', 'micro-frontends'],
     isActivelyHiring: true,
     isEarlyApplicant: true
   },
   {
     id: 'srp-job-3',
-    title: 'Java Fullstack Developer',
-    company: 'HARJAI COMPUTERS PRIVATE LIMITED',
-    postedTime: '1 week ago',
-    exp: '3 to 6 Yrs',
-    salary: '1.5 – 4.5 Lakh/Yr',
-    loc: 'Mumbai City',
-    requiredSkills: ['java', 'postgresql', 'react.js', 'springboot'],
-    isActivelyHiring: true,
-    isEarlyApplicant: false
-  },
-  {
-    id: 'srp-job-4',
-    title: 'Java Full Stack/ Spring Boot Developer 6PlusYrs Blore Chennai Pune',
-    company: 'WHITE HORSE MANPOWER CONSULTANCY (P) LTD',
-    companyInitials: 'WH',
-    companyColor: '#0284C7',
-    postedTime: '1 month ago',
-    exp: '6 to 11 Yrs',
-    salary: '10 – 14 Lakh/Yr',
-    loc: 'Chennai, Pune',
-    requiredSkills: ['java', 'spring boot', 'microservices', 'hibernate'],
-    isActivelyHiring: true,
-    isEarlyApplicant: false
-  },
-  {
-    id: 'srp-job-5',
     title: 'Lead UI & Micro-Frontend Architect',
     company: 'Swiggy Tech Labs',
     companyInitials: 'SW',
     companyColor: '#FC8019',
     postedTime: '1 day ago',
     exp: '4 to 8 Yrs',
-    salary: '26 – 35 Lakh/Yr',
+    salary: '₹26 – ₹36 Lakh/Yr',
+    salaryNum: 36,
     loc: 'Bengaluru / Hybrid',
-    requiredSkills: ['react.js', 'micro-frontends', 'module federation', 'typescript'],
+    domain: 'Full-Stack',
+    requiredSkills: ['react.js', 'micro-frontends', 'module federation', 'typescript', 'core web vitals'],
     isActivelyHiring: true,
     isEarlyApplicant: true
   },
   {
-    id: 'srp-job-6',
+    id: 'srp-job-4',
     title: 'Staff UI Platform Architect',
     company: 'Razorpay Fintech Technologies',
     companyInitials: 'RZ',
     companyColor: '#0C2340',
     postedTime: '18 hours ago',
     exp: '5 to 9 Yrs',
-    salary: '28 – 38 Lakh/Yr',
+    salary: '₹28 – ₹38 Lakh/Yr',
+    salaryNum: 38,
     loc: 'Remote / Bengaluru',
-    requiredSkills: ['react.js', 'component architecture', 'micro-frontends', 'rest apis'],
+    domain: 'Full-Stack',
+    requiredSkills: ['react.js', 'component architecture', 'micro-frontends', 'typescript'],
     isActivelyHiring: true,
     isEarlyApplicant: true
   },
   {
-    id: 'srp-job-7',
+    id: 'srp-job-5',
     title: 'Lead Technical Product Manager',
     company: 'Shine (HT Media Group)',
     companyInitials: 'SH',
     companyColor: '#1E3A8A',
     postedTime: '2 days ago',
     exp: '5 to 9 Yrs',
-    salary: '28 – 38 Lakh/Yr',
+    salary: '₹28 – ₹38 Lakh/Yr',
+    salaryNum: 38,
     loc: 'Gurugram / Hybrid',
-    requiredSkills: ['prd discovery', 'product metrics', 'tech scoping', 'growth funnels'],
+    domain: 'Product Management',
+    requiredSkills: ['prd discovery', 'product metrics', 'tech scoping', 'growth funnels', 'gtm strategy'],
     isActivelyHiring: true,
     isEarlyApplicant: true
   },
   {
-    id: 'srp-job-8',
+    id: 'srp-job-6',
     title: 'Principal Search & Solr Database Cloud Architect',
     company: 'Adobe Systems India',
     companyInitials: 'AD',
     companyColor: '#E11D48',
     postedTime: '2 days ago',
     exp: '7 to 12 Yrs',
-    salary: '38 – 50 Lakh/Yr',
+    salary: '₹38 – ₹48 Lakh/Yr',
+    salaryNum: 48,
     loc: 'Noida / Remote',
-    requiredSkills: ['apache solr', 'lucene engine', 'sub-10ms query optimization', 'rest apis'],
+    domain: 'Search & Data Infra',
+    requiredSkills: ['apache solr', 'lucene engine', 'sub-10ms query optimization', 'inverted indexing'],
+    isActivelyHiring: true,
+    isEarlyApplicant: true
+  },
+  {
+    id: 'srp-job-7',
+    title: 'Production GenAI & LLM Systems Engineer',
+    company: 'Swiggy AI Core Lab',
+    companyInitials: 'SW',
+    companyColor: '#FC8019',
+    postedTime: '1 day ago',
+    exp: '3 to 7 Yrs',
+    salary: '₹30 – ₹45 Lakh/Yr',
+    salaryNum: 45,
+    loc: 'Bengaluru',
+    domain: 'AI/ML',
+    requiredSkills: ['langchain', 'vector embeddings', 'rag pipelines', 'python'],
+    isActivelyHiring: true,
+    isEarlyApplicant: true
+  },
+  {
+    id: 'srp-job-8',
+    title: 'Staff Silicon Verification & RTL Architect',
+    company: 'Qualcomm India Pvt Ltd',
+    companyInitials: 'QC',
+    companyColor: '#002B49',
+    postedTime: '3 days ago',
+    exp: '5 to 11 Yrs',
+    salary: '₹32 – ₹42 Lakh/Yr',
+    salaryNum: 42,
+    loc: 'Bengaluru / Hyderabad',
+    domain: 'Semiconductor',
+    requiredSkills: ['systemverilog', 'uvm architecture', 'pcie/cxl', 'rtl design'],
     isActivelyHiring: true,
     isEarlyApplicant: true
   }
 ];
+
+// Infer domain from job title & skills
+const inferDomainFromJob = (job: ShineJob): string => {
+  if (job.domain) return job.domain;
+  const combined = (job.title + ' ' + job.requiredSkills.join(' ')).toLowerCase();
+  if (combined.includes('solr') || combined.includes('search') || combined.includes('lucene') || combined.includes('data infra')) {
+    return 'Search & Data Infra';
+  }
+  if (combined.includes('product') || combined.includes('pm')) {
+    return 'Product Management';
+  }
+  if (combined.includes('ai') || combined.includes('ml') || combined.includes('genai') || combined.includes('llm')) {
+    return 'AI/ML';
+  }
+  if (combined.includes('silicon') || combined.includes('semiconductor') || combined.includes('vlsi')) {
+    return 'Semiconductor';
+  }
+  return 'Full-Stack';
+};
 
 interface JobsViewProps {
   onNavigate: (view: ViewType) => void;
@@ -141,16 +166,21 @@ interface JobsViewProps {
 
 export const JobsView: React.FC<JobsViewProps> = ({
   onNavigate,
-  onSelectExpert: _onSelectExpert
+  onSelectExpert
 }) => {
   const { 
     userProfile, 
     addSkill, 
     showToast, 
     peerpathJobContext, 
-    clearPeerpathJobContext 
+    clearPeerpathJobContext,
+    selectExpertById,
+    setIsBookingModalOpen
   } = useApp();
   
+  const [jobsList, setJobsList] = useState<ShineJob[]>(FALLBACK_JOBS);
+  const [isLoadingJobs, setIsLoadingJobs] = useState<boolean>(false);
+
   const [showEditSearch, setShowEditSearch] = useState<boolean>(false);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [sortBy, setSortBy] = useState<'relevance' | 'date'>('relevance');
@@ -159,11 +189,78 @@ export const JobsView: React.FC<JobsViewProps> = ({
   
   const [appliedJobIds, setAppliedJobIds] = useState<Record<string, boolean>>({});
   const [savedJobIds, setSavedJobIds] = useState<Record<string, boolean>>({});
+  const [loadingTwinsForJob, setLoadingTwinsForJob] = useState<Record<string, boolean>>({});
+
+  // Dynamic Gap Analysis for targeted track
+  const [apiGapResult, setApiGapResult] = useState<GapAnalysisResult | null>(null);
+
+  // 1. Fetch live jobs from Backend API
+  useEffect(() => {
+    let isCurrent = true;
+    setIsLoadingJobs(true);
+
+    const trackKey = peerpathJobContext?.isFromPeerpath ? peerpathJobContext.trackKey : undefined;
+
+    peerpathApi.getJobs({
+      trackKey,
+      loc: selectedLocFilter !== 'all' ? selectedLocFilter : undefined,
+      q: searchKeyword.trim() || undefined
+    })
+      .then(fetched => {
+        if (isCurrent && fetched && fetched.length > 0) {
+          setJobsList(fetched);
+        }
+      })
+      .catch(err => {
+        console.warn('[Jobs API fallback]:', err);
+      })
+      .finally(() => {
+        if (isCurrent) setIsLoadingJobs(false);
+      });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [peerpathJobContext?.trackKey, peerpathJobContext?.isFromPeerpath, selectedLocFilter, searchKeyword]);
+
+  // 2. Fetch pathway gap analysis if coming from Peerpath CTA
+  useEffect(() => {
+    if (!peerpathJobContext?.isFromPeerpath) {
+      setApiGapResult(null);
+      return;
+    }
+
+    let isCurrent = true;
+    const domainKey = peerpathJobContext.trackKey || 'full-stack';
+    const activeRole = userProfile.headline 
+      ? userProfile.headline.split('|')[0].split('•')[0].split('@')[0].trim() 
+      : 'Senior Frontend Developer';
+
+    peerpathApi.runGapAnalysis({
+      domain: domainKey,
+      skills: userProfile.skills || [],
+      currentRole: activeRole,
+      currentCtc: userProfile.currentCtc || '₹7.5 LPA'
+    }).then(res => {
+      if (isCurrent && res) {
+        setApiGapResult(res);
+      }
+    }).catch(err => {
+      console.warn('[JobsView Gap Analysis Fallback]:', err);
+    });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [peerpathJobContext?.isFromPeerpath, peerpathJobContext?.trackKey, userProfile.skills, userProfile.headline, userProfile.currentCtc]);
 
   // Booster skill requirement calculation when coming from Peerpath CTA
   const requiredBoosterSkills = useMemo(() => {
+    if (apiGapResult?.missingBoosterSkills && apiGapResult.missingBoosterSkills.length > 0) {
+      return apiGapResult.missingBoosterSkills;
+    }
     return peerpathJobContext?.requiredBoosterSkills || [];
-  }, [peerpathJobContext]);
+  }, [apiGapResult, peerpathJobContext]);
 
   const missingBoosterSkills = useMemo(() => {
     if (!peerpathJobContext?.isFromPeerpath || requiredBoosterSkills.length === 0) {
@@ -180,34 +277,18 @@ export const JobsView: React.FC<JobsViewProps> = ({
     });
   }, [peerpathJobContext, requiredBoosterSkills, userProfile.skills]);
 
-  const isEligibleFromPeerpath = Boolean(
-    peerpathJobContext?.isFromPeerpath && missingBoosterSkills.length === 0
-  );
-
+  // Filtered jobs
   const filteredJobs = useMemo(() => {
-    let list = [...SHINE_JOBS_SRP_DB];
+    let list = [...jobsList];
 
-    // If coming from Peerpath trajectory, prioritize relevant high-salary role cards on top
     if (peerpathJobContext?.isFromPeerpath) {
       const trackKey = peerpathJobContext.trackKey;
       if (trackKey === 'arch') {
-        list.sort((a, b) => {
-          const aMatch = a.requiredSkills.includes('micro-frontends') ? -1 : 1;
-          const bMatch = b.requiredSkills.includes('micro-frontends') ? -1 : 1;
-          return aMatch - bMatch;
-        });
+        list.sort((a, b) => (b.requiredSkills.includes('micro-frontends') ? 1 : 0) - (a.requiredSkills.includes('micro-frontends') ? 1 : 0));
       } else if (trackKey === 'pm') {
-        list.sort((a, b) => {
-          const aMatch = a.requiredSkills.includes('prd discovery') ? -1 : 1;
-          const bMatch = b.requiredSkills.includes('prd discovery') ? -1 : 1;
-          return aMatch - bMatch;
-        });
+        list.sort((a, b) => (b.requiredSkills.includes('prd discovery') ? 1 : 0) - (a.requiredSkills.includes('prd discovery') ? 1 : 0));
       } else if (trackKey === 'search') {
-        list.sort((a, b) => {
-          const aMatch = a.requiredSkills.includes('apache solr') ? -1 : 1;
-          const bMatch = b.requiredSkills.includes('apache solr') ? -1 : 1;
-          return aMatch - bMatch;
-        });
+        list.sort((a, b) => (b.requiredSkills.includes('apache solr') ? 1 : 0) - (a.requiredSkills.includes('apache solr') ? 1 : 0));
       }
     }
 
@@ -224,18 +305,66 @@ export const JobsView: React.FC<JobsViewProps> = ({
       }
       return true;
     });
-  }, [selectedLocFilter, searchKeyword, peerpathJobContext]);
+  }, [jobsList, selectedLocFilter, searchKeyword, peerpathJobContext]);
 
-  const handleApply = (job: ShineJobListing) => {
+  // PREP WITH PEER: Live API trajectory twin matching
+  const handlePrepareWithPeer = async (job: ShineJob) => {
+    const domain = inferDomainFromJob(job);
+    setLoadingTwinsForJob(prev => ({ ...prev, [job.id]: true }));
+
+    showToast(
+      `Matching Mentors for ${job.title}...`,
+      `Scanning verified trajectory twins for ${job.company}`,
+      'info'
+    );
+
+    try {
+      const activeRole = userProfile.headline 
+        ? userProfile.headline.split('|')[0].split('•')[0].split('@')[0].trim() 
+        : 'Senior Frontend Developer';
+
+      const matches = await peerpathApi.matchTrajectories({
+        currentRole: activeRole,
+        currentExperience: job.exp || userProfile.experienceYears || '4 Years',
+        currentSalary: userProfile.currentCtc || '₹7.5 LPA',
+        targetRole: job.title,
+        targetPackage: job.salary,
+        domain: domain,
+        skills: job.requiredSkills
+      });
+
+      if (matches && matches.length > 0) {
+        const top = matches[0];
+        selectExpertById(top.creator.id);
+        if (onSelectExpert) onSelectExpert(top.creator.id);
+
+        showToast(
+          `⚡ Found ${matches.length} Verified Twins!`,
+          `Top Match: ${top.creator.name} (${top.creator.role}) with ${top.trajectorySimilarityScore}% AI match.`,
+          'success'
+        );
+        setIsBookingModalOpen(true);
+      } else {
+        onNavigate('experts-view');
+      }
+    } catch (err) {
+      console.warn('[JobsView trajectory match fallback]:', err);
+      onNavigate('experts-view');
+    } finally {
+      setLoadingTwinsForJob(prev => ({ ...prev, [job.id]: false }));
+    }
+  };
+
+  const handleApply = (job: ShineJob) => {
     setAppliedJobIds(prev => ({ ...prev, [job.id]: true }));
     showToast(
       `Applied to ${job.company}!`,
-      `Your Shine profile was sent to the recruiter.`,
+      `Your Shine profile was sent directly to the hiring recruiter.`,
       'success'
     );
   };
 
-  const handleSave = (job: ShineJobListing) => {
+  const handleSave = (job: ShineJob) => {
     const nextState = !savedJobIds[job.id];
     setSavedJobIds(prev => ({ ...prev, [job.id]: nextState }));
     showToast(
@@ -245,7 +374,7 @@ export const JobsView: React.FC<JobsViewProps> = ({
     );
   };
 
-  const handleShare = (job: ShineJobListing) => {
+  const handleShare = (job: ShineJob) => {
     navigator.clipboard?.writeText(window.location.href);
     showToast(`Link Copied!`, `Share ${job.title}`, 'info');
   };
@@ -276,7 +405,7 @@ export const JobsView: React.FC<JobsViewProps> = ({
   return (
     <div className="shine-srp-clean-page">
       
-      {/* Top Sub-Action Bar (Exact 1:1 match to Shine SRP Image 2) */}
+      {/* Top Sub-Action Bar */}
       <div className="shine-srp-subbar">
         <div className="srp-clean-container srp-subbar-row">
           
@@ -320,7 +449,7 @@ export const JobsView: React.FC<JobsViewProps> = ({
             <div className="srp-drawer-inner">
               <input 
                 type="text" 
-                placeholder="Search by Job Title, Skill or Company (e.g. Java, React, Pune)..."
+                placeholder="Search by Job Title, Skill or Company (e.g. Java, React, Swiggy, Pune)..."
                 value={searchKeyword}
                 onChange={(e) => setSearchKeyword(e.target.value)}
                 className="srp-inline-search-input"
@@ -344,47 +473,22 @@ export const JobsView: React.FC<JobsViewProps> = ({
           <div className="srp-clean-container srp-filters-drawer">
             <div className="srp-filter-chips">
               <span className="srp-filter-label">Location:</span>
-              <button 
-                type="button" 
-                className={`srp-filter-chip ${selectedLocFilter === 'all' ? 'active' : ''}`}
-                onClick={() => setSelectedLocFilter('all')}
-              >
-                All
-              </button>
-              <button 
-                type="button" 
-                className={`srp-filter-chip ${selectedLocFilter === 'Pune' ? 'active' : ''}`}
-                onClick={() => setSelectedLocFilter('Pune')}
-              >
-                Pune
-              </button>
-              <button 
-                type="button" 
-                className={`srp-filter-chip ${selectedLocFilter === 'Bengaluru' ? 'active' : ''}`}
-                onClick={() => setSelectedLocFilter('Bengaluru')}
-              >
-                Bengaluru
-              </button>
-              <button 
-                type="button" 
-                className={`srp-filter-chip ${selectedLocFilter === 'Chennai' ? 'active' : ''}`}
-                onClick={() => setSelectedLocFilter('Chennai')}
-              >
-                Chennai
-              </button>
-              <button 
-                type="button" 
-                className={`srp-filter-chip ${selectedLocFilter === 'Mumbai' ? 'active' : ''}`}
-                onClick={() => setSelectedLocFilter('Mumbai')}
-              >
-                Mumbai
-              </button>
+              {['all', 'Bengaluru', 'Pune', 'Hyderabad', 'Gurugram', 'Noida', 'Mumbai'].map(loc => (
+                <button 
+                  key={loc}
+                  type="button" 
+                  className={`srp-filter-chip ${selectedLocFilter === loc ? 'active' : ''}`}
+                  onClick={() => setSelectedLocFilter(loc)}
+                >
+                  {loc === 'all' ? 'All Locations' : loc}
+                </button>
+              ))}
             </div>
           </div>
         )}
       </div>
 
-      {/* CONDITIONAL PEERPATH ELIGIBILITY BANNER (Only shows when navigating from Peerpath CTA) */}
+      {/* CONDITIONAL PEERPATH ELIGIBILITY BANNER */}
       {peerpathJobContext?.isFromPeerpath && (
         <div className="srp-clean-container srp-peerpath-banner-wrapper">
           {missingBoosterSkills.length > 0 ? (
@@ -444,6 +548,47 @@ export const JobsView: React.FC<JobsViewProps> = ({
                   </button>
                 </div>
               </div>
+
+              {/* Verified Mentors Twin Carousel from API */}
+              {apiGapResult?.recommendedCreators && apiGapResult.recommendedCreators.length > 0 && (
+                <div className="spe-mentors-preview-section">
+                  <div className="spe-mentors-title">
+                    <Sparkles size={12} className="text-amber-600" />
+                    <span>Mentors Who Made This Jump Available for 1:1 Prep:</span>
+                  </div>
+                  <div className="spe-mentors-grid">
+                    {apiGapResult.recommendedCreators.slice(0, 2).map((match, idx) => (
+                      <div key={idx} className="spe-mentor-mini-card">
+                        <div className="spe-mentor-profile">
+                          <img 
+                            src={match.creator.avatar} 
+                            alt={match.creator.name} 
+                            className="spe-mentor-avatar" 
+                          />
+                          <div>
+                            <div className="spe-mentor-name-row">
+                              <span className="spe-mentor-name">{match.creator.name}</span>
+                              <span className="spe-mentor-jump">{match.jumpDelta}</span>
+                            </div>
+                            <div className="spe-mentor-role">{match.creator.role}</div>
+                          </div>
+                        </div>
+                        <button 
+                          type="button" 
+                          className="spe-mentor-book-btn"
+                          onClick={() => {
+                            selectExpertById(match.creator.id);
+                            if (onSelectExpert) onSelectExpert(match.creator.id);
+                            setIsBookingModalOpen(true);
+                          }}
+                        >
+                          Prep ₹{match.creator.price}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             /* Success / 100% Eligible Banner */
@@ -490,136 +635,169 @@ export const JobsView: React.FC<JobsViewProps> = ({
         </div>
       )}
 
-      {/* Main Jobs Feed List (Exact 1:1 match to Screenshot Cards) */}
+      {/* Main Jobs Feed List */}
       <div className="srp-clean-container srp-cards-stack">
-        {filteredJobs.map((job) => {
-          const isApplied = Boolean(appliedJobIds[job.id]);
-          const isSaved = Boolean(savedJobIds[job.id]);
+        {isLoadingJobs ? (
+          <div style={{ textAlign: 'center', padding: '40px', background: '#fff', borderRadius: '12px' }}>
+            <Loader2 size={28} className="animate-spin text-purple-600 mb-2" style={{ margin: '0 auto' }} />
+            <p style={{ color: '#64748B', fontSize: '14px' }}>Loading verified jobs from Shine API...</p>
+          </div>
+        ) : filteredJobs.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '40px', background: '#fff', borderRadius: '12px' }}>
+            <Briefcase size={36} style={{ color: '#94A3B8', margin: '0 auto 10px' }} />
+            <h3>No jobs match the current filters</h3>
+            <p style={{ color: '#64748B', fontSize: '13px' }}>Try resetting your location or keyword search.</p>
+          </div>
+        ) : (
+          filteredJobs.map((job) => {
+            const isApplied = Boolean(appliedJobIds[job.id]);
+            const isSaved = Boolean(savedJobIds[job.id]);
 
-          return (
-            <div key={job.id} className="srp-job-card-official">
-              
-              {/* Top Row: Company Logo Badge + Company Name + Posted Date + Status Badges */}
-              <div className="sjc-top-row">
-                <div className="sjc-company-info">
-                  {job.companyInitials && (
-                    <div 
-                      className="sjc-initials-badge" 
-                      style={{ backgroundColor: job.companyColor || '#7C3AED' }}
-                    >
-                      {job.companyInitials}
-                    </div>
-                  )}
-                  <span className="sjc-company-name">{job.company}</span>
-                  <span className="sjc-dot-sep">•</span>
-                  <span className="sjc-posted-time">{job.postedTime}</span>
-                </div>
+            return (
+              <div key={job.id} className="srp-job-card-official">
+                
+                {/* Top Row: Company Logo Badge + Company Name + Posted Date + Status Badges */}
+                <div className="sjc-top-row">
+                  <div className="sjc-company-info">
+                    {job.companyInitials && (
+                      <div 
+                        className="sjc-initials-badge" 
+                        style={{ backgroundColor: job.companyColor || '#7C3AED' }}
+                      >
+                        {job.companyInitials}
+                      </div>
+                    )}
+                    <span className="sjc-company-name">{job.company}</span>
+                    <span className="sjc-dot-sep">•</span>
+                    <span className="sjc-posted-time">{job.postedTime}</span>
+                  </div>
 
-                <div className="sjc-badges-wrap">
-                  {job.isActivelyHiring && (
-                    <span className="sjc-badge-actively-hiring">Actively Hiring</span>
-                  )}
-                  {job.isEarlyApplicant && (
-                    <span className="sjc-badge-early-applicant">Be An Early Applicant</span>
-                  )}
-                </div>
-              </div>
-
-              {/* Row 2: Big Bold Job Title */}
-              <h2 className="sjc-title">
-                {job.title}
-              </h2>
-
-              {/* Row 3: Metadata (Exp • Salary • Location) */}
-              <div className="sjc-meta-row">
-                <div className="sjc-meta-item">
-                  <Briefcase size={14} className="sjc-icon" />
-                  <span>{job.exp}</span>
-                </div>
-                <span className="sjc-dot-sep">•</span>
-                <div className="sjc-meta-item">
-                  <Clock size={14} className="sjc-icon" />
-                  <span>{job.salary}</span>
-                </div>
-                <span className="sjc-dot-sep">•</span>
-                <div className="sjc-meta-item">
-                  <MapPin size={14} className="sjc-icon" />
-                  <span>{job.loc}</span>
-                </div>
-              </div>
-
-              {/* Row 4: Required Skills (Left) + Action Buttons (Right) */}
-              <div className="sjc-bottom-row">
-                <div className="sjc-skills-block">
-                  <span className="sjc-required-text">Required:</span>
-                  <div className="sjc-skills-tags">
-                    {job.requiredSkills.map((skill, idx) => {
-                      const isBoosterMatch = peerpathJobContext?.isFromPeerpath && 
-                        requiredBoosterSkills.some(bs => bs.toLowerCase().includes(skill.toLowerCase()) || skill.toLowerCase().includes(bs.toLowerCase()));
-                      
-                      return (
-                        <React.Fragment key={idx}>
-                          <strong className={`sjc-skill-name ${isBoosterMatch ? 'sjc-skill-booster-highlight' : ''}`}>
-                            {skill}
-                          </strong>
-                          {idx < job.requiredSkills.length - 1 && (
-                            <span className="sjc-skill-bullet">•</span>
-                          )}
-                        </React.Fragment>
-                      );
-                    })}
+                  <div className="sjc-badges-wrap">
+                    {job.isActivelyHiring && (
+                      <span className="sjc-badge-actively-hiring">Actively Hiring</span>
+                    )}
+                    {job.isEarlyApplicant && (
+                      <span className="sjc-badge-early-applicant">Be An Early Applicant</span>
+                    )}
                   </div>
                 </div>
 
-                <div className="sjc-actions-block">
-                  {/* Share Icon */}
-                  <button 
-                    type="button" 
-                    className="sjc-btn-icon" 
-                    onClick={() => handleShare(job)}
-                    title="Share Job"
-                  >
-                    <Share2 size={16} />
-                  </button>
+                {/* Row 2: Big Bold Job Title */}
+                <h2 className="sjc-title">
+                  {job.title}
+                </h2>
 
-                  {/* Bookmark Icon */}
-                  <button 
-                    type="button" 
-                    className={`sjc-btn-icon ${isSaved ? 'is-saved' : ''}`} 
-                    onClick={() => handleSave(job)}
-                    title={isSaved ? "Saved" : "Save Job"}
-                  >
-                    <Bookmark size={16} className={isSaved ? "fill-blue-600 text-blue-600" : ""} />
-                  </button>
-
-                  {/* Main Apply Button */}
-                  <button 
-                    type="button" 
-                    className={`sjc-btn-apply ${isApplied ? 'is-applied' : ''}`}
-                    onClick={() => handleApply(job)}
-                    disabled={isApplied}
-                  >
-                    {isApplied ? (
-                      <>
-                        <Check size={14} strokeWidth={3} />
-                        <span>Applied</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Apply</span>
-                        <ArrowRight size={14} />
-                      </>
-                    )}
-                  </button>
+                {/* Row 3: Metadata (Exp • Salary • Location) */}
+                <div className="sjc-meta-row">
+                  <div className="sjc-meta-item">
+                    <Briefcase size={14} className="sjc-icon" />
+                    <span>{job.exp}</span>
+                  </div>
+                  <span className="sjc-dot-sep">•</span>
+                  <div className="sjc-meta-item">
+                    <Clock size={14} className="sjc-icon" />
+                    <span>{job.salary}</span>
+                  </div>
+                  <span className="sjc-dot-sep">•</span>
+                  <div className="sjc-meta-item">
+                    <MapPin size={14} className="sjc-icon" />
+                    <span>{job.loc}</span>
+                  </div>
                 </div>
-              </div>
 
-            </div>
-          );
-        })}
+                {/* Row 4: Required Skills (Left) + Action Buttons (Right) */}
+                <div className="sjc-bottom-row">
+                  <div className="sjc-skills-block">
+                    <span className="sjc-required-text">Required:</span>
+                    <div className="sjc-skills-tags">
+                      {job.requiredSkills.map((skill, idx) => {
+                        const isBoosterMatch = peerpathJobContext?.isFromPeerpath && 
+                          requiredBoosterSkills.some(bs => bs.toLowerCase().includes(skill.toLowerCase()) || skill.toLowerCase().includes(bs.toLowerCase()));
+                        
+                        return (
+                          <React.Fragment key={idx}>
+                            <strong className={`sjc-skill-name ${isBoosterMatch ? 'sjc-skill-booster-highlight' : ''}`}>
+                              {skill}
+                            </strong>
+                            {idx < job.requiredSkills.length - 1 && (
+                              <span className="sjc-skill-bullet">•</span>
+                            )}
+                          </React.Fragment>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="sjc-actions-block">
+                    {/* Share Icon */}
+                    <button 
+                      type="button" 
+                      className="sjc-btn-icon" 
+                      onClick={() => handleShare(job)}
+                      title="Share Job"
+                    >
+                      <Share2 size={16} />
+                    </button>
+
+                    {/* Bookmark Icon */}
+                    <button 
+                      type="button" 
+                      className={`sjc-btn-icon ${isSaved ? 'is-saved' : ''}`} 
+                      onClick={() => handleSave(job)}
+                      title={isSaved ? "Saved" : "Save Job"}
+                    >
+                      <Bookmark size={16} className={isSaved ? "fill-blue-600 text-blue-600" : ""} />
+                    </button>
+
+                    {/* Peerpath Twin Prep Button (Live API Trajectory Twin Match) */}
+                    <button 
+                      type="button" 
+                      className="sjc-btn-peerpath-prep"
+                      onClick={() => handlePrepareWithPeer(job)}
+                      disabled={loadingTwinsForJob[job.id]}
+                      title={`Match with verified mentors who landed ${job.title}`}
+                    >
+                      {loadingTwinsForJob[job.id] ? (
+                        <>
+                          <Loader2 size={13} className="animate-spin" />
+                          <span>Matching...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Compass size={13} className="sjc-prep-icon" />
+                          <span>Prep with Peer</span>
+                        </>
+                      )}
+                    </button>
+
+                    {/* Main Apply Button */}
+                    <button 
+                      type="button" 
+                      className={`sjc-btn-apply ${isApplied ? 'is-applied' : ''}`}
+                      onClick={() => handleApply(job)}
+                      disabled={isApplied}
+                    >
+                      {isApplied ? (
+                        <>
+                          <Check size={14} strokeWidth={3} />
+                          <span>Applied</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Apply</span>
+                          <ArrowRight size={14} />
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            );
+          })
+        )}
       </div>
 
     </div>
   );
 };
-

@@ -1,14 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Compass, Sparkles, Video, User, Clock, MapPin, GraduationCap, 
   Zap, CheckCircle2, ThumbsUp, Check, ArrowRight, TrendingUp,
   Briefcase, Star, Building2, UserCheck, ChevronRight, Award, Plus, LockOpen, Users,
-  ShieldCheck
+  ShieldCheck, Loader2
 } from 'lucide-react';
-import { ViewType, Expert } from '../../types';
+import { ViewType, Expert, GapAnalysisResult, PathwayTrackKey } from '../../types';
 import { useApp } from '../../context/AppContext';
-import { MatchingJobsModal, PathwayTrackKey } from '../modals/MatchingJobsModal';
 import { calculateSalaryBenchmark } from '../../utils/salaryBenchmark';
+import { peerpathApi } from '../../services/api';
+
+interface TrackMetadata {
+  trackCategory: string;
+  tabShortLabel: string;
+  pillColorClass: string;
+  openingsCount: number;
+  hiringCompanies: string;
+  defaultMatched: string[];
+  defaultBoosters: string[];
+}
+
+const TRACKS_METADATA: Record<PathwayTrackKey, TrackMetadata> = {
+  pm: {
+    trackCategory: 'Product Management',
+    tabShortLabel: 'Product Management',
+    pillColorClass: 'gold',
+    openingsCount: 430,
+    hiringCompanies: 'Shine, Zepto, Flipkart, CRED, Amazon',
+    defaultMatched: ['Tech Scoping', 'UI/UX Empathy', 'Agile & Scrum', 'Stakeholder Mgmt', 'Wireframing', 'Data Analytics'],
+    defaultBoosters: ['PRD Discovery', 'Product Metrics', 'GTM Strategy']
+  },
+  arch: {
+    trackCategory: 'Architecture',
+    tabShortLabel: 'Lead UI Architect',
+    pillColorClass: 'purple',
+    openingsCount: 520,
+    hiringCompanies: 'Swiggy, Razorpay, PhonePe, Makemytrip',
+    defaultMatched: ['React.js', 'JavaScript (ES6+)', 'TypeScript', 'Component Arch', 'Redux / State Mgmt', 'HTML5/CSS3'],
+    defaultBoosters: ['Micro-Frontends', 'Module Federation', 'Web Vitals']
+  },
+  ai: {
+    trackCategory: 'Generative AI & LLM',
+    tabShortLabel: 'GenAI & LLM',
+    pillColorClass: 'teal',
+    openingsCount: 610,
+    hiringCompanies: 'Swiggy, OpenAI Partner Co, Postman',
+    defaultMatched: ['Python / APIs', 'DB Modeling', 'WebSockets', 'Async Queues', 'Cloud Deployment', 'Fullstack App'],
+    defaultBoosters: ['LangChain/LLMs', 'Vector Pinecone', 'RAG Evaluation']
+  },
+  search: {
+    trackCategory: 'Search & Solr',
+    tabShortLabel: 'Search & Solr',
+    pillColorClass: 'blue',
+    openingsCount: 380,
+    hiringCompanies: 'Shine, Adobe, Walmart, Microsoft, Uber',
+    defaultMatched: ['Node.js / Python', 'REST APIs', 'SQL Schema', 'Microservices', 'PostgreSQL/MySQL', 'Distributed Systems'],
+    defaultBoosters: ['Apache Solr', 'Index Sharding', 'Latency Tuning']
+  },
+  semi: {
+    trackCategory: 'Semiconductor & VLSI',
+    tabShortLabel: 'Semiconductor',
+    pillColorClass: 'indigo',
+    openingsCount: 240,
+    hiringCompanies: 'Qualcomm, Intel, Tata Electronics, Micron, TI',
+    defaultMatched: ['C / C++', 'Digital Logic', 'Basic Verilog', 'FPGA Boards', 'Linux & Shell', 'Circuit Analysis'],
+    defaultBoosters: ['RTL Design/SV', 'UVM Verification', 'Static Timing (STA)']
+  }
+};
 
 interface CareerGuidanceViewProps {
   onNavigate: (view: ViewType) => void;
@@ -28,10 +86,39 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
     setSelectedJobCategory,
     setPeerpathJobContext 
   } = useApp();
-  const [activeTab, setActiveTab] = useState<'all' | 'arch' | 'pm' | 'search' | 'ai' | 'semi'>('all');
-  const [isJobsModalOpen, setIsJobsModalOpen] = useState<boolean>(false);
-  const [matchingJobsTrack, setMatchingJobsTrack] = useState<PathwayTrackKey>('arch');
+  const [activeTab, setActiveTab] = useState<'all' | PathwayTrackKey>('all');
   const isMentor = currentUser?.role === 'mentor';
+
+  // Live Backend Pathways Analysis for all domains based on candidate's profile
+  const [pathwayGapResults, setPathwayGapResults] = useState<Record<string, GapAnalysisResult> | null>(null);
+  const [isPathwaysLoading, setIsPathwaysLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    let isCurrent = true;
+    setIsPathwaysLoading(true);
+
+    const activeRole = userProfile.headline 
+      ? userProfile.headline.split('|')[0].split('•')[0].split('@')[0].trim() 
+      : 'Senior Frontend Developer';
+
+    peerpathApi.getPathwaysAnalysis({
+      skills: userProfile.skills || [],
+      currentRole: activeRole,
+      currentCtc: userProfile.currentCtc || '₹7.5 LPA'
+    }).then(results => {
+      if (isCurrent && results) {
+        setPathwayGapResults(results);
+      }
+    }).catch(err => {
+      console.log('[Pathways Analysis API Fallback]:', err);
+    }).finally(() => {
+      if (isCurrent) setIsPathwaysLoading(false);
+    });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [userProfile.headline, userProfile.skills, userProfile.currentCtc]);
 
   // Dynamic benchmark calculation anchored to user's actual currentCtc & domain targets
   const benchmark = calculateSalaryBenchmark(userProfile.currentCtc, userProfile.targetCtc);
@@ -77,16 +164,34 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
     }
   };
 
+  const allTrackKeys: PathwayTrackKey[] = ['arch', 'pm', 'ai', 'search', 'semi'];
+
+  // Dynamically sort tracks by descending currentScore from the API analysis
+  const sortedTracks = useMemo(() => {
+    return [...allTrackKeys].sort((a, b) => {
+      const scoreA = pathwayGapResults?.[a]?.currentScore ?? (a === 'arch' ? 78 : a === 'pm' ? 68 : a === 'ai' ? 65 : a === 'search' ? 62 : 55);
+      const scoreB = pathwayGapResults?.[b]?.currentScore ?? (b === 'arch' ? 78 : b === 'pm' ? 68 : b === 'ai' ? 65 : b === 'search' ? 62 : 55);
+      return scoreB - scoreA; // Descending: highest currentScore first!
+    });
+  }, [pathwayGapResults]);
+
+  // Top 3 Recommended Careers for candidate based on API match score
+  const top3Tracks = useMemo(() => sortedTracks.slice(0, 3), [sortedTracks]);
+
   const handleOpenMatchingJobs = (trackKey: PathwayTrackKey) => {
+    const gap = pathwayGapResults?.[trackKey];
+    const meta = TRACKS_METADATA[trackKey];
     const info = trackBoosterInfo[trackKey] || trackBoosterInfo.arch;
     setSelectedJobCategory(trackKey);
     setPeerpathJobContext({
       isFromPeerpath: true,
       trackKey,
-      trackTitle: info.trackTitle,
-      targetRole: info.targetRole,
-      targetPackage: info.targetPackage,
-      requiredBoosterSkills: info.skills
+      trackTitle: gap?.targetDomain || meta?.trackCategory || info.trackTitle,
+      targetRole: gap?.targetRole || info.targetRole,
+      targetPackage: gap?.targetSalaryPotential || info.targetPackage,
+      requiredBoosterSkills: (gap?.missingBoosterSkills && gap.missingBoosterSkills.length > 0)
+        ? gap.missingBoosterSkills
+        : info.skills
     });
     onNavigate('jobs-view');
   };
@@ -135,243 +240,58 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
     liveTag: string;
   }
 
-  const trackMentorsConfig: Record<PathwayTrackKey, {
-    totalInTrack: number;
-    trackLabel: string;
-    mentors: TrackMentorOption[];
-  }> = {
-    arch: {
-      totalInTrack: 18,
-      trackLabel: 'Architecture',
-      mentors: [
-        {
-          id: 'saheli',
-          name: 'Saheli Kanjilal',
-          shortName: 'Saheli @ Razorpay',
-          avatar: '/avatars/saheli.jpg',
-          role: 'Staff Architect @ Razorpay',
-          rating: '4.9 (58)',
-          price: 999,
-          pastRole: 'Junior Frontend Dev (Same baseline CV)',
-          jumpRole: '3.8x Package Jump to Staff Architect @ Razorpay',
-          footnote: "Get Saheli's transition roadmap + Razorpay referral tips",
-          liveTag: '⚡ Slot Today'
-        },
-        {
-          id: 'vikram',
-          name: 'Vikram Joshi',
-          shortName: 'Vikram @ Google',
-          avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80',
-          role: 'Staff EM @ Google (Ex-Uber)',
-          rating: '4.9 (190)',
-          price: 1499,
-          pastRole: 'Frontend Dev @ ₹8L',
-          jumpRole: '3.5x Package Jump to Staff Lead @ Google',
-          footnote: 'Tier-1 system design review + Google hiring rubric',
-          liveTag: '⚡ Slot Tomorrow'
-        },
-        {
-          id: 'prakash',
-          name: 'Prakash M.',
-          shortName: 'Prakash @ MMT',
-          avatar: '/avatars/prakash.jpg',
-          role: 'Principal Architect @ Makemytrip',
-          rating: '4.9 (84)',
-          price: 999,
-          pastRole: 'UI Engineer (Baseline React)',
-          jumpRole: '3.9x Package Jump to Principal UI Architect',
-          footnote: 'Module Federation roadmap + Makemytrip referrals',
-          liveTag: '⚡ Slot Today'
-        }
-      ]
-    },
-    pm: {
-      totalInTrack: 14,
-      trackLabel: 'Product Management',
-      mentors: [
-        {
-          id: 'akash',
-          name: 'Akash Jain',
-          shortName: 'Akash @ Shine',
-          avatar: '/avatars/akash.jpg',
-          role: 'Lead PM @ Shine • Ex-Flipkart',
-          rating: '4.9 (74)',
-          price: 999,
-          pastRole: 'Senior Software Engineer',
-          jumpRole: '3.2x Package Jump to Lead PM @ Shine',
-          footnote: 'Get PM interview case frameworks + Resume critique',
-          liveTag: '⚡ Slot Today'
-        },
-        {
-          id: 'rohan',
-          name: 'Rohan Mehta',
-          shortName: 'Rohan @ Freshworks',
-          avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80',
-          role: 'Director of Product @ Freshworks',
-          rating: '4.9 (150)',
-          price: 1299,
-          pastRole: 'Technical Business Analyst',
-          jumpRole: '3.4x Package Jump to Product Director',
-          footnote: 'Product teardown critique + Freshworks hiring tips',
-          liveTag: '⚡ Slot Tomorrow'
-        },
-        {
-          id: 'pooja',
-          name: 'Pooja Nair',
-          shortName: 'Pooja @ CRED',
-          avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80',
-          role: 'Lead PM @ CRED • Ex-Swiggy',
-          rating: '4.9 (112)',
-          price: 1199,
-          pastRole: 'Frontend Developer',
-          jumpRole: '3.6x Package Jump to Lead PM @ CRED',
-          footnote: 'Product teardown critique + CRED interview prep',
-          liveTag: '⚡ Slot Today'
-        }
-      ]
-    },
-    search: {
-      totalInTrack: 12,
-      trackLabel: 'Search & Data Infra',
-      mentors: [
-        {
-          id: 'anirudh',
-          name: 'Anirudh Sharma',
-          shortName: 'Anirudh @ Shine',
-          avatar: '/avatars/anirudh.jpg',
-          role: 'Principal Architect @ Shine',
-          rating: '4.9 (49)',
-          price: 1199,
-          pastRole: 'Backend & Database Engineer',
-          jumpRole: '3.5x Package Jump to Principal Architect',
-          footnote: 'System design mock + Search architecture guidance',
-          liveTag: '⚡ Slot Tomorrow'
-        },
-        {
-          id: 'amit',
-          name: 'Amit Verma',
-          shortName: 'Amit @ Salesforce',
-          avatar: '/avatars/amit.jpg',
-          role: 'Lead Cloud & DB Architect @ Salesforce',
-          rating: '4.8 (120)',
-          price: 999,
-          pastRole: 'Database Administrator',
-          jumpRole: '3.3x Package Jump to Cloud Architect',
-          footnote: 'Distributed DB scaling + Salesforce referrals',
-          liveTag: '⚡ Slot Today'
-        },
-        {
-          id: 'neha',
-          name: 'Neha Gupta',
-          shortName: 'Neha @ Uber',
-          avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&auto=format&fit=crop&q=80',
-          role: 'Principal Search Infra Lead @ Uber',
-          rating: '4.9 (135)',
-          price: 1299,
-          pastRole: 'Backend & Data Engineer',
-          jumpRole: '3.6x Package Jump to Uber Search Infra',
-          footnote: 'Real-time pipeline mock + Uber & Zepto referrals',
-          liveTag: '⚡ Slot Today'
-        }
-      ]
-    },
-    ai: {
-      totalInTrack: 16,
-      trackLabel: 'Generative AI & LLM',
-      mentors: [
-        {
-          id: 'ishita',
-          name: 'Ishita Sharma',
-          shortName: 'Ishita @ Swiggy',
-          avatar: '/avatars/ishita.jpg',
-          role: 'GenAI Lead @ Swiggy',
-          rating: '4.8 (63)',
-          price: 899,
-          pastRole: 'Fullstack Developer',
-          jumpRole: '3.6x Package Jump to GenAI Lead @ Swiggy',
-          footnote: 'RAG pipeline architecture review + Swiggy referrals',
-          liveTag: '⚡ Slot Today'
-        },
-        {
-          id: 'vikram',
-          name: 'Vikram Joshi',
-          shortName: 'Vikram @ Google',
-          avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80',
-          role: 'AI Infrastructure Lead @ Google',
-          rating: '4.9 (190)',
-          price: 1499,
-          pastRole: 'Senior ML Engineer',
-          jumpRole: '3.7x Package Jump to AI Lead @ Google',
-          footnote: 'Production LLM deployment + Google interview prep',
-          liveTag: '⚡ Slot Today'
-        },
-        {
-          id: 'amit',
-          name: 'Amit Verma',
-          shortName: 'Amit @ Salesforce',
-          avatar: '/avatars/amit.jpg',
-          role: 'Staff AI & Platform Architect @ Salesforce',
-          rating: '4.85 (128)',
-          price: 1199,
-          pastRole: 'Backend Engineer (Python/Django)',
-          jumpRole: '3.5x Package Jump to Staff AI Architect',
-          footnote: 'Enterprise LLM fine-tuning + Salesforce hiring tips',
-          liveTag: '⚡ Slot Tomorrow'
-        }
-      ]
-    },
-    semi: {
-      totalInTrack: 9,
-      trackLabel: 'Semiconductor & VLSI',
-      mentors: [
-        {
-          id: 'arunachalam',
-          name: 'Arunachalam V.',
-          shortName: 'Arun @ Qualcomm',
-          avatar: '/avatars/sunil.jpg',
-          role: 'Staff Silicon Architect @ Qualcomm',
-          rating: '4.9 (184)',
-          price: 1199,
-          pastRole: 'Junior Embedded / FPGA Engineer',
-          jumpRole: '4.1x Package Jump to Staff Silicon Architect @ Qualcomm',
-          footnote: 'ASIC testbench review + Qualcomm & Tata Fab referrals',
-          liveTag: '⚡ Slot Today'
-        },
-        {
-          id: 'anirudh',
-          name: 'Anirudh S.',
-          shortName: 'Anirudh @ TI',
-          avatar: '/avatars/anirudh.jpg',
-          role: 'Principal Hardware & EDA Lead @ TI',
-          rating: '4.85 (92)',
-          price: 1199,
-          pastRole: 'Digital Design Engineer',
-          jumpRole: '3.8x Package Jump to Principal EDA Lead',
-          footnote: 'UVM & SystemVerilog testbench review + TI referrals',
-          liveTag: '⚡ Slot Tomorrow'
-        },
-        {
-          id: 'sunil',
-          name: 'Sunil Kumar',
-          shortName: 'Sunil @ Intel',
-          avatar: '/avatars/amit.jpg',
-          role: 'Principal RTL Architect @ Intel',
-          rating: '4.9 (140)',
-          price: 1299,
-          pastRole: 'VLSI Verification Engineer',
-          jumpRole: '3.9x Package Jump to Principal Intel Engineer',
-          footnote: 'SoC floorplanning review + Intel/Nvidia referrals',
-          liveTag: '⚡ Slot Today'
-        }
-      ]
-    }
-  };
-
   const renderMentorTwinCard = (trackKey: PathwayTrackKey) => {
-    const config = trackMentorsConfig[trackKey];
-    const activeIdx = selectedMentorIndex[trackKey] || 0;
-    const activeMentor = config.mentors[activeIdx] || config.mentors[0];
-    const targetSalaryDisplay = benchmark.tracks[trackKey].display;
+    const gap = pathwayGapResults?.[trackKey];
+    const liveCreators = gap?.recommendedCreators;
+
+    if (isPathwaysLoading && (!liveCreators || liveCreators.length === 0)) {
+      return (
+        <div className="stc-right-col">
+          <div className="stc-mentor-hero-card" style={{ minHeight: '340px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '32px' }}>
+            <Loader2 size={32} className="animate-spin text-blue-600 mb-3" />
+            <strong style={{ fontSize: '14px', color: '#1E293B' }}>Matching Live AI Trajectory Twins...</strong>
+            <span style={{ fontSize: '12px', color: '#64748B', marginTop: '4px' }}>Querying Shine Peerpath API (/api/cv/pathways-analysis)</span>
+          </div>
+        </div>
+      );
+    }
+
+    const mentorsList: TrackMentorOption[] = (liveCreators && liveCreators.length > 0)
+      ? liveCreators.map((m) => {
+          const compName = m.creator.company.replace(/\(.*?\)/g, '').trim();
+          return {
+            id: m.creator.id,
+            name: m.creator.name,
+            shortName: `${m.creator.name.split(' ')[0]} @ ${compName.split(' ')[0]}`,
+            avatar: m.creator.avatar,
+            role: `${m.creator.role} @ ${compName}`,
+            rating: `${m.creator.rating} (${m.creator.reviewsCount})`,
+            price: m.creator.price,
+            pastRole: m.creator.trajectory 
+              ? `${m.creator.trajectory.role3YearsAgo} (${m.creator.trajectory.salary3YearsAgo})` 
+              : 'Senior Engineer',
+            jumpRole: `${m.jumpDelta} • ${m.creator.role}`,
+            footnote: m.matchReasons?.[0] || m.suggestedSessionGoal || `Get ${m.creator.name.split(' ')[0]}'s transition roadmap`,
+            liveTag: `⚡ ${m.trajectorySimilarityScore}% AI Match`
+          };
+        })
+      : [];
+
+    if (mentorsList.length === 0) {
+      return (
+        <div className="stc-right-col">
+          <div className="stc-mentor-hero-card" style={{ minHeight: '280px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '32px' }}>
+            <Users size={32} className="text-slate-400 mb-2" />
+            <strong style={{ fontSize: '14px', color: '#334155' }}>Mentors Currently Being Matched</strong>
+            <span style={{ fontSize: '12px', color: '#64748B', marginTop: '4px' }}>Our AI engine is pairing verified Tier-1 mentors for this vertical.</span>
+          </div>
+        </div>
+      );
+    }
+
+    const activeIdx = Math.min(selectedMentorIndex[trackKey] || 0, mentorsList.length - 1);
+    const activeMentor = mentorsList[activeIdx] || mentorsList[0];
+    const targetSalaryDisplay = gap?.targetSalaryPotential || benchmark.tracks[trackKey].display;
 
     return (
       <div className="stc-right-col">
@@ -381,7 +301,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
             <div className="stc-salary-title-group">
               <span className="stc-salary-title">🎯 Trajectory Twin</span>
               <span className="stc-mentors-count-chip">
-                <Users size={10} /> {config.mentors.length} Mentors Available
+                <Users size={10} /> {mentorsList.length} Mentors Available
               </span>
             </div>
             <strong className="stc-salary-amount">{targetSalaryDisplay}</strong>
@@ -396,12 +316,12 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                 <span className="stc-switcher-sub-hint">Compare real salary jumps</span>
               </div>
               <span className="stc-switcher-active-idx">
-                {activeIdx + 1} / {config.mentors.length}
+                {activeIdx + 1} / {mentorsList.length}
               </span>
             </div>
 
             <div className="stc-mentor-switcher-row">
-              {config.mentors.map((m, idx) => {
+              {mentorsList.map((m, idx) => {
                 const isSelected = activeIdx === idx;
                 const company = m.shortName.includes('@') 
                   ? m.shortName.split('@')[1].trim() 
@@ -485,7 +405,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               className="stc-explore-gallery-link"
               onClick={() => onNavigate('experts-view')}
             >
-              <span>All {config.totalInTrack}+ Mentors ➔</span>
+              <span>Explore All Mentors ➔</span>
             </button>
           </div>
         </div>
@@ -507,6 +427,125 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
         setTimeout(() => el.classList.remove('highlight-section-pulse'), 2500);
       }
     }, 120);
+  };
+
+  const renderCareerCard = (trackKey: PathwayTrackKey, rank: number) => {
+    const meta = TRACKS_METADATA[trackKey];
+    const gap = pathwayGapResults?.[trackKey];
+    const boosterSkills = (gap?.missingBoosterSkills && gap.missingBoosterSkills.length > 0)
+      ? gap.missingBoosterSkills
+      : meta.defaultBoosters;
+    const onCvSkills = (gap?.matchedSkills && gap.matchedSkills.length > 0)
+      ? gap.matchedSkills
+      : meta.defaultMatched;
+
+    const addedCount = boosterSkills.filter(s => isSkillOnProfile(s)).length;
+    const remainingCount = Math.max(0, boosterSkills.length - addedCount);
+    const isFullyUnlocked = addedCount === boosterSkills.length && boosterSkills.length > 0;
+    const baseScore = gap?.currentScore ?? (trackKey === 'arch' ? 78 : trackKey === 'pm' ? 68 : trackKey === 'ai' ? 65 : trackKey === 'search' ? 62 : 55);
+    const targetScore = gap?.targetScore ?? 95;
+    const currentScore = Math.min(targetScore, baseScore + Math.round(addedCount * ((targetScore - baseScore) / (boosterSkills.length || 1))));
+    const targetRole = gap?.targetRole || (trackBoosterInfo[trackKey]?.targetRole || meta.tabShortLabel);
+    const targetSalary = gap?.targetSalaryPotential || benchmark.tracks[trackKey]?.display || 'Up to ₹36L';
+    const openingsCount = meta.openingsCount;
+
+    return (
+      <div key={trackKey} className="shine-traj-card">
+        <div className="stc-main-layout">
+          {/* Left Column: Role Details, Openings, Current & Target Skills, View Jobs */}
+          <div className="stc-left-col">
+            <div>
+              <div className="stc-meta-top">
+                <span className={`stc-track-pill ${meta.pillColorClass}`}>
+                  Career #{rank} • {meta.trackCategory}
+                </span>
+                <span>•</span>
+                <span className="stc-openings-fire">🔥 {openingsCount}+ Active Openings</span>
+                <span>•</span>
+                <span>Hiring: <strong>{meta.hiringCompanies}</strong></span>
+              </div>
+
+              <h3 className="stc-role-title">
+                {userRole} <span className="stc-role-arrow">➔</span> <span className="stc-target-role">{targetRole}</span>
+              </h3>
+            </div>
+
+            <div className="stc-skills-section">
+              <div className="stc-skills-row">
+                <span className="stc-skills-lbl"><CheckCircle2 size={12} className="text-emerald-600" /> On Your CV:</span>
+                <div className="stc-chips-wrap">
+                  {onCvSkills.map((skill, idx) => (
+                    <span key={idx} className="stc-chip-base">{skill}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="stc-skills-row">
+                <span className="stc-skills-lbl-booster"><Zap size={12} className="text-amber-500" /> Recommended Booster Skills:</span>
+                <div className="stc-chips-wrap">
+                  {boosterSkills.map((skillName, idx) => {
+                    const isAdded = isSkillOnProfile(skillName);
+                    return (
+                      <button 
+                        key={idx}
+                        type="button" 
+                        className={`stc-chip-booster ${isAdded ? 'in-profile' : ''}`}
+                        onClick={() => addSkill(skillName)}
+                        title="Click to add to your profile"
+                      >
+                        {isAdded ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
+                        <span>{skillName}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Dynamic Unlock Alert Strip */}
+              {!isFullyUnlocked && addedCount === 0 && (
+                <div className="stc-unlock-alert-strip locked">
+                  <span className="stc-alert-icon">🎯</span>
+                  <div className="stc-alert-body">
+                    <strong>{openingsCount}+ Verified Openings ({targetSalary.replace(' LPA', 'L')}):</strong> Current profile match is {currentScore}%. Add these {boosterSkills.length} booster skills to reach {targetScore}% match & get direct recruiter shortlists.
+                  </div>
+                </div>
+              )}
+              {!isFullyUnlocked && addedCount > 0 && (
+                <div className="stc-unlock-alert-strip progress">
+                  <span className="stc-alert-icon">⚡</span>
+                  <div className="stc-alert-body">
+                    <strong>{openingsCount}+ Verified Openings ({targetSalary.replace(' LPA', 'L')}):</strong> Current profile match increased to <strong>{currentScore}%</strong> ({addedCount}/{boosterSkills.length} skills added). Add {remainingCount} more booster {remainingCount === 1 ? 'skill' : 'skills'} to reach {targetScore}% match & get direct recruiter shortlists.
+                  </div>
+                </div>
+              )}
+              {isFullyUnlocked && (
+                <div className="stc-unlock-alert-strip unlocked">
+                  <span className="stc-alert-icon">🎉</span>
+                  <div className="stc-alert-body">
+                    <strong>{openingsCount}+ Verified Openings ({targetSalary.replace(' LPA', 'L')}):</strong> <strong>{targetScore}% Top Match Profile Achieved!</strong> You qualify for direct recruiter shortlisting across all {openingsCount}+ {meta.trackCategory} openings.
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="stc-left-footer">
+              <button 
+                type="button" 
+                className={`btn-stc-jobs ${isFullyUnlocked ? 'unlocked' : ''}`}
+                onClick={() => handleOpenMatchingJobs(trackKey)}
+              >
+                {isFullyUnlocked ? <CheckCircle2 size={13} className="text-emerald-600" /> : <Briefcase size={13} />}
+                <span>{isFullyUnlocked ? `View ${openingsCount}+ High-Match Jobs (${targetScore}% Fast-Track Apply)` : `Explore ${openingsCount}+ Matching Jobs (${targetSalary.replace(' LPA', 'L')})`}</span>
+                <ChevronRight size={13} />
+              </button>
+            </div>
+          </div>
+
+          {/* Right Column: Dedicated Mentor Trajectory Twin Card */}
+          {renderMentorTwinCard(trackKey)}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -703,649 +742,87 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               Target CTC Potential: <strong>{userTargetSalary}</strong>
             </span>
           </div>
-          <h2 className="section-main-title">Curated High-Growth Job Pathways & Opportunities</h2>
+          <div className="flex items-center gap-3 flex-wrap">
+            <h2 className="section-main-title m-0">Curated High-Growth Job Pathways & Opportunities</h2>
+            <span style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '3px 10px',
+              borderRadius: '9999px',
+              fontSize: '11px',
+              fontWeight: 600,
+              background: '#ECFDF5',
+              color: '#065F46',
+              border: '1px solid #A7F3D0'
+            }}>
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#10B981', display: 'inline-block' }} />
+              Live API Mapping (POST /api/cv/pathways-analysis • Descending Match Score)
+            </span>
+          </div>
         </div>
 
         <div className="track-filter-pills">
-          <button className={`t-pill ${activeTab === 'all' ? 'active' : ''}`} onClick={() => setActiveTab('all')}>
-            All Opportunities <span className="t-pill-count">5</span>
+          <button 
+            className={`t-pill ${activeTab === 'all' ? 'active' : ''}`} 
+            onClick={() => setActiveTab('all')}
+          >
+            Top 3 Careers <span className="t-pill-count">3</span>
           </button>
-          <button className={`t-pill ${activeTab === 'arch' ? 'active' : ''}`} onClick={() => setActiveTab('arch')}>
-            Lead UI Architect <span className="t-pill-salary">{benchmark.tracks.arch.display.replace(' LPA', 'L')}</span>
-          </button>
-          <button className={`t-pill ${activeTab === 'pm' ? 'active' : ''}`} onClick={() => setActiveTab('pm')}>
-            Product Management <span className="t-pill-salary">{benchmark.tracks.pm.display.replace(' LPA', 'L')}</span>
-          </button>
-          <button className={`t-pill ${activeTab === 'search' ? 'active' : ''}`} onClick={() => setActiveTab('search')}>
-            Search & Solr Infra <span className="t-pill-salary">{benchmark.tracks.search.display.replace(' LPA', 'L')}</span>
-          </button>
-          <button className={`t-pill ${activeTab === 'ai' ? 'active' : ''}`} onClick={() => setActiveTab('ai')}>
-            GenAI & LLM <span className="t-pill-salary">{benchmark.tracks.ai.display.replace(' LPA', 'L')}</span>
-          </button>
-          <button className={`t-pill ${activeTab === 'semi' ? 'active' : ''}`} onClick={() => setActiveTab('semi')}>
-            Semiconductor & VLSI <span className="t-pill-salary">{benchmark.tracks.semi.display.replace(' LPA', 'L')}</span>
-          </button>
+          {top3Tracks.map((trackKey, idx) => {
+            const meta = TRACKS_METADATA[trackKey];
+            const gap = pathwayGapResults?.[trackKey];
+            const salary = (gap?.targetSalaryPotential || benchmark.tracks[trackKey]?.display || 'Up to ₹36L').replace(' LPA', 'L');
+            const score = gap?.currentScore ?? (trackKey === 'arch' ? 78 : trackKey === 'pm' ? 68 : trackKey === 'ai' ? 65 : trackKey === 'search' ? 62 : 55);
+            return (
+              <button
+                key={trackKey}
+                className={`t-pill ${activeTab === trackKey ? 'active' : ''}`}
+                onClick={() => setActiveTab(trackKey)}
+              >
+                {idx + 1}. {meta.tabShortLabel} <span className="t-pill-salary">{salary}</span>
+                <span style={{ fontSize: '10px', opacity: 0.85, marginLeft: '4px' }}>({score}%)</span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      {/* 4. Trajectory Cards Stack (Shine-Native Compact Clean Cards) */}
+      {/* 4. Trajectory Cards Stack: Dynamically mapped TOP 3 Highest-Growth Career Pathways in descending order of currentScore */}
       <div className="trajectories-cards-stack">
-        
-        {/* Track 1: Lead UI / Micro-Frontend Architect */}
-        {(activeTab === 'all' || activeTab === 'arch') && (() => {
-          const archSkills = ['Micro-Frontend Architecture', 'Module Federation (Webpack/Vite)', 'Core Web Vitals & Performance'];
-          const addedCount = archSkills.filter(s => isSkillOnProfile(s)).length;
-          const isFullyUnlocked = addedCount === archSkills.length;
-
-          return (
-            <div className="shine-traj-card">
-              <div className="stc-main-layout">
-                {/* Left Column: Role Details, Openings, Current & Target Skills, View Jobs */}
-                <div className="stc-left-col">
-                  <div>
-                    <div className="stc-meta-top">
-                      <span className="stc-track-pill purple">Architecture Track</span>
-                      <span>•</span>
-                      <span className="stc-openings-fire">🔥 520+ Active Openings</span>
-                      <span>•</span>
-                      <span>Hiring: <strong>Swiggy, Razorpay, PhonePe, Makemytrip</strong></span>
+        {activeTab === 'all' ? (
+          top3Tracks.map((trackKey, idx) => (
+            <React.Fragment key={trackKey}>
+              {renderCareerCard(trackKey, idx + 1)}
+              {/* Clean, Visual Mid-Feed Mentorship Banner after Career #1 */}
+              {idx === 0 && (
+                <div className="peerpath-mid-feed-banner">
+                  <div className="pmf-left">
+                    <div className="pmf-avatars-row">
+                      <img src="/avatars/saheli.jpg" alt="Saheli" className="pmf-avatar" />
+                      <img src="/avatars/akash.jpg" alt="Akash" className="pmf-avatar" />
+                      <img src="/avatars/ishita.jpg" alt="Ishita" className="pmf-avatar" />
+                      <span className="pmf-online-dot"></span>
                     </div>
-
-                    <h3 className="stc-role-title">
-                      Senior Frontend Developer <span className="stc-role-arrow">➔</span> <span className="stc-target-role">Lead UI & Micro-Frontend Architect</span>
-                    </h3>
-                  </div>
-
-                  <div className="stc-skills-section">
-                    <div className="stc-skills-row">
-                      <span className="stc-skills-lbl"><CheckCircle2 size={12} className="text-emerald-600" /> On Your CV:</span>
-                      <div className="stc-chips-wrap">
-                        <span className="stc-chip-base">React.js</span>
-                        <span className="stc-chip-base">JavaScript (ES6+)</span>
-                        <span className="stc-chip-base">TypeScript</span>
-                        <span className="stc-chip-base">Component Arch</span>
-                        <span className="stc-chip-base">Redux / State Mgmt</span>
-                        <span className="stc-chip-base">HTML5/CSS3</span>
+                    <div className="pmf-text-block">
+                      <h3 className="pmf-title">Want 1:1 Interview Prep & Direct Referrals?</h3>
+                      <div className="pmf-benefits-row">
+                        <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Resume Review</span>
+                        <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Mock Interview</span>
+                        <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Direct Referrals</span>
                       </div>
                     </div>
-
-                    <div className="stc-skills-row">
-                      <span className="stc-skills-lbl-booster"><Zap size={12} className="text-amber-500" /> Recommended Booster Skills:</span>
-                      <div className="stc-chips-wrap">
-                        <button 
-                          type="button" 
-                          className={`stc-chip-booster ${isSkillOnProfile('Micro-Frontend Architecture') ? 'in-profile' : ''}`}
-                          onClick={() => addSkill('Micro-Frontend Architecture')}
-                          title="Click to add to your profile"
-                        >
-                          {isSkillOnProfile('Micro-Frontend Architecture') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
-                          <span>Micro-Frontends</span>
-                        </button>
-                        <button 
-                          type="button" 
-                          className={`stc-chip-booster ${isSkillOnProfile('Module Federation (Webpack/Vite)') ? 'in-profile' : ''}`}
-                          onClick={() => addSkill('Module Federation (Webpack/Vite)')}
-                          title="Click to add to your profile"
-                        >
-                          {isSkillOnProfile('Module Federation (Webpack/Vite)') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
-                          <span>Module Federation</span>
-                        </button>
-                        <button 
-                          type="button" 
-                          className={`stc-chip-booster ${isSkillOnProfile('Core Web Vitals & Performance') ? 'in-profile' : ''}`}
-                          onClick={() => addSkill('Core Web Vitals & Performance')}
-                          title="Click to add to your profile"
-                        >
-                          {isSkillOnProfile('Core Web Vitals & Performance') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
-                          <span>Web Vitals</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* High Impact Unlock Alert Strip */}
-                    {!isFullyUnlocked && addedCount === 0 && (
-                      <div className="stc-unlock-alert-strip locked">
-                        <span className="stc-alert-icon">🎯</span>
-                        <div className="stc-alert-body">
-                          <strong>{benchmark.tracks.arch.lockedCount}+ Verified Openings ({benchmark.tracks.arch.display.replace(' LPA', 'L')}):</strong> Current profile match is 42%. Add these 3 booster skills to reach 95% match & get direct recruiter shortlists.
-                        </div>
-                      </div>
-                    )}
-                    {!isFullyUnlocked && addedCount > 0 && (
-                      <div className="stc-unlock-alert-strip progress">
-                        <span className="stc-alert-icon">⚡</span>
-                        <div className="stc-alert-body">
-                          <strong>Match Rate: 72% ({addedCount}/3 Skills Added):</strong> You are 1 step away from unlocking direct recruiter shortlisting!
-                        </div>
-                      </div>
-                    )}
-                    {isFullyUnlocked && (
-                      <div className="stc-unlock-alert-strip unlocked">
-                        <span className="stc-alert-icon">🎉</span>
-                        <div className="stc-alert-body">
-                          <strong>95% Top Match Profile!</strong> You qualify for direct recruiter shortlisting across {benchmark.tracks.arch.lockedCount}+ Architect openings.
-                        </div>
-                      </div>
-                    )}
                   </div>
-
-                  <div className="stc-left-footer">
-                    <button 
-                      type="button" 
-                      className={`btn-stc-jobs ${isFullyUnlocked ? 'unlocked' : ''}`}
-                      onClick={() => handleOpenMatchingJobs('arch')}
-                    >
-                      {isFullyUnlocked ? <CheckCircle2 size={13} className="text-emerald-600" /> : <Briefcase size={13} />}
-                      <span>{isFullyUnlocked ? `View ${benchmark.tracks.arch.lockedCount}+ High-Match Jobs (95% Fast-Track Apply)` : `Explore ${benchmark.tracks.arch.lockedCount}+ Matching Jobs (${benchmark.tracks.arch.display.replace(' LPA', 'L')})`}</span>
-                      <ChevronRight size={13} />
-                    </button>
-                  </div>
+                  <button className="btn-shine-gold-lg pmf-cta-btn" onClick={() => onNavigate('experts-view')}>
+                    Explore Mentors <ArrowRight size={16} />
+                  </button>
                 </div>
-
-                {/* Right Column: Dedicated Mentor Trajectory Twin Card */}
-                {renderMentorTwinCard('arch')}
-              </div>
-            </div>
-          );
-        })()}
-
-        {/* Track 2: Lead Product Manager */}
-        {(activeTab === 'all' || activeTab === 'pm') && (() => {
-          const pmSkills = ['PRD & Product Discovery', 'Growth Metrics & Funnels', 'Go-To-Market (GTM) Strategy'];
-          const addedCount = pmSkills.filter(s => isSkillOnProfile(s)).length;
-          const isFullyUnlocked = addedCount === pmSkills.length;
-
-          return (
-            <div className="shine-traj-card">
-              <div className="stc-main-layout">
-                {/* Left Column: Role Details, Openings, Current & Target Skills, View Jobs */}
-                <div className="stc-left-col">
-                  <div>
-                    <div className="stc-meta-top">
-                      <span className="stc-track-pill gold">Product Track</span>
-                      <span>•</span>
-                      <span className="stc-openings-fire">🔥 430+ Active Openings</span>
-                      <span>•</span>
-                      <span>Hiring: <strong>Shine, Zepto, Flipkart, CRED, Amazon</strong></span>
-                    </div>
-
-                    <h3 className="stc-role-title">
-                      Software Engineer <span className="stc-role-arrow">➔</span> <span className="stc-target-role">Lead Technical Product Manager</span>
-                    </h3>
-                  </div>
-
-                  <div className="stc-skills-section">
-                    <div className="stc-skills-row">
-                      <span className="stc-skills-lbl"><CheckCircle2 size={12} className="text-emerald-600" /> On Your CV:</span>
-                      <div className="stc-chips-wrap">
-                        <span className="stc-chip-base">Tech Scoping</span>
-                        <span className="stc-chip-base">UI/UX Empathy</span>
-                        <span className="stc-chip-base">Agile & Scrum</span>
-                        <span className="stc-chip-base">Stakeholder Mgmt</span>
-                        <span className="stc-chip-base">Wireframing</span>
-                        <span className="stc-chip-base">Data Analytics</span>
-                      </div>
-                    </div>
-
-                    <div className="stc-skills-row">
-                      <span className="stc-skills-lbl-booster"><Zap size={12} className="text-amber-500" /> Recommended Booster Skills:</span>
-                      <div className="stc-chips-wrap">
-                        <button 
-                          type="button" 
-                          className={`stc-chip-booster ${isSkillOnProfile('PRD & Product Discovery') ? 'in-profile' : ''}`}
-                          onClick={() => addSkill('PRD & Product Discovery')}
-                          title="Click to add to your profile"
-                        >
-                          {isSkillOnProfile('PRD & Product Discovery') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
-                          <span>PRD Discovery</span>
-                        </button>
-                        <button 
-                          type="button" 
-                          className={`stc-chip-booster ${isSkillOnProfile('Growth Metrics & Funnels') ? 'in-profile' : ''}`}
-                          onClick={() => addSkill('Growth Metrics & Funnels')}
-                          title="Click to add to your profile"
-                        >
-                          {isSkillOnProfile('Growth Metrics & Funnels') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
-                          <span>Product Metrics</span>
-                        </button>
-                        <button 
-                          type="button" 
-                          className={`stc-chip-booster ${isSkillOnProfile('Go-To-Market (GTM) Strategy') ? 'in-profile' : ''}`}
-                          onClick={() => addSkill('Go-To-Market (GTM) Strategy')}
-                          title="Click to add to your profile"
-                        >
-                          {isSkillOnProfile('Go-To-Market (GTM) Strategy') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
-                          <span>GTM Strategy</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* High Impact Unlock Alert Strip */}
-                    {!isFullyUnlocked && addedCount === 0 && (
-                      <div className="stc-unlock-alert-strip locked">
-                        <span className="stc-alert-icon">🎯</span>
-                        <div className="stc-alert-body">
-                          <strong>{benchmark.tracks.pm.lockedCount}+ Verified Openings ({benchmark.tracks.pm.display.replace(' LPA', 'L')}):</strong> Current profile match is 45%. Add these 3 booster skills to reach 94% match & get direct PM shortlists.
-                        </div>
-                      </div>
-                    )}
-                    {!isFullyUnlocked && addedCount > 0 && (
-                      <div className="stc-unlock-alert-strip progress">
-                        <span className="stc-alert-icon">⚡</span>
-                        <div className="stc-alert-body">
-                          <strong>Match Rate: 74% ({addedCount}/3 Skills Added):</strong> You are almost ready for direct {benchmark.tracks.pm.display} product shortlists!
-                        </div>
-                      </div>
-                    )}
-                    {isFullyUnlocked && (
-                      <div className="stc-unlock-alert-strip unlocked">
-                        <span className="stc-alert-icon">🎉</span>
-                        <div className="stc-alert-body">
-                          <strong>94% Top Match Profile!</strong> You qualify for direct recruiter shortlisting across {benchmark.tracks.pm.lockedCount}+ PM openings.
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="stc-left-footer">
-                    <button 
-                      type="button" 
-                      className={`btn-stc-jobs ${isFullyUnlocked ? 'unlocked' : ''}`}
-                      onClick={() => handleOpenMatchingJobs('pm')}
-                    >
-                      {isFullyUnlocked ? <CheckCircle2 size={13} className="text-emerald-600" /> : <Briefcase size={13} />}
-                      <span>{isFullyUnlocked ? `View ${benchmark.tracks.pm.lockedCount}+ High-Match Jobs (94% Fast-Track Apply)` : `Explore ${benchmark.tracks.pm.lockedCount}+ Matching Jobs (${benchmark.tracks.pm.display.replace(' LPA', 'L')})`}</span>
-                      <ChevronRight size={13} />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Right Column: Dedicated Mentor Trajectory Twin Card */}
-                {renderMentorTwinCard('pm')}
-              </div>
-            </div>
-          );
-        })()}
-
-        {/* Clean, Visual Mid-Feed Mentorship Banner */}
-        {activeTab === 'all' && (
-          <div className="peerpath-mid-feed-banner">
-            <div className="pmf-left">
-              <div className="pmf-avatars-row">
-                <img src="/avatars/saheli.jpg" alt="Saheli" className="pmf-avatar" />
-                <img src="/avatars/akash.jpg" alt="Akash" className="pmf-avatar" />
-                <img src="/avatars/ishita.jpg" alt="Ishita" className="pmf-avatar" />
-                <span className="pmf-online-dot"></span>
-              </div>
-              <div className="pmf-text-block">
-                <h3 className="pmf-title">Want 1:1 Interview Prep & Direct Referrals?</h3>
-                <div className="pmf-benefits-row">
-                  <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Resume Review</span>
-                  <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Mock Interview</span>
-                  <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Direct Referrals</span>
-                </div>
-              </div>
-            </div>
-            <button className="btn-shine-gold-lg pmf-cta-btn" onClick={() => onNavigate('experts-view')}>
-              Explore Mentors <ArrowRight size={16} />
-            </button>
-          </div>
+              )}
+            </React.Fragment>
+          ))
+        ) : (
+          renderCareerCard(activeTab, top3Tracks.indexOf(activeTab) + 1 || 1)
         )}
-
-        {/* Track 3: Principal Search & Solr Database Architect */}
-        {(activeTab === 'all' || activeTab === 'search') && (() => {
-          const searchSkills = ['Apache Solr & Lucene Engine', 'Inverted Indexing & Sharding', 'Sub-10ms Query Optimization'];
-          const addedCount = searchSkills.filter(s => isSkillOnProfile(s)).length;
-          const isFullyUnlocked = addedCount === searchSkills.length;
-
-          return (
-            <div className="shine-traj-card">
-              <div className="stc-main-layout">
-                {/* Left Column: Role Details, Openings, Current & Target Skills, View Jobs */}
-                <div className="stc-left-col">
-                  <div>
-                    <div className="stc-meta-top">
-                      <span className="stc-track-pill blue">Core Infrastructure</span>
-                      <span>•</span>
-                      <span className="stc-openings-fire">🔥 290+ High-Paying Openings</span>
-                      <span>•</span>
-                      <span>Hiring: <strong>Shine, Adobe, Walmart, Microsoft, Uber</strong></span>
-                    </div>
-
-                    <h3 className="stc-role-title">
-                      Backend Developer <span className="stc-role-arrow">➔</span> <span className="stc-target-role">Principal Search & Solr Architect</span>
-                    </h3>
-                  </div>
-
-                  <div className="stc-skills-section">
-                    <div className="stc-skills-row">
-                      <span className="stc-skills-lbl"><CheckCircle2 size={12} className="text-emerald-600" /> On Your CV:</span>
-                      <div className="stc-chips-wrap">
-                        <span className="stc-chip-base">Node.js / Python</span>
-                        <span className="stc-chip-base">REST APIs</span>
-                        <span className="stc-chip-base">SQL Schema</span>
-                        <span className="stc-chip-base">Microservices</span>
-                        <span className="stc-chip-base">PostgreSQL/MySQL</span>
-                        <span className="stc-chip-base">Distributed Systems</span>
-                      </div>
-                    </div>
-
-                    <div className="stc-skills-row">
-                      <span className="stc-skills-lbl-booster"><Zap size={12} className="text-amber-500" /> Recommended Booster Skills:</span>
-                      <div className="stc-chips-wrap">
-                        <button 
-                          type="button" 
-                          className={`stc-chip-booster ${isSkillOnProfile('Apache Solr & Lucene Engine') ? 'in-profile' : ''}`}
-                          onClick={() => addSkill('Apache Solr & Lucene Engine')}
-                          title="Click to add to your profile"
-                        >
-                          {isSkillOnProfile('Apache Solr & Lucene Engine') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
-                          <span>Apache Solr</span>
-                        </button>
-                        <button 
-                          type="button" 
-                          className={`stc-chip-booster ${isSkillOnProfile('Inverted Indexing & Sharding') ? 'in-profile' : ''}`}
-                          onClick={() => addSkill('Inverted Indexing & Sharding')}
-                          title="Click to add to your profile"
-                        >
-                          {isSkillOnProfile('Inverted Indexing & Sharding') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
-                          <span>Index Sharding</span>
-                        </button>
-                        <button 
-                          type="button" 
-                          className={`stc-chip-booster ${isSkillOnProfile('Sub-10ms Query Optimization') ? 'in-profile' : ''}`}
-                          onClick={() => addSkill('Sub-10ms Query Optimization')}
-                          title="Click to add to your profile"
-                        >
-                          {isSkillOnProfile('Sub-10ms Query Optimization') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
-                          <span>Latency Tuning</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* High Impact Unlock Alert Strip */}
-                    {!isFullyUnlocked && addedCount === 0 && (
-                      <div className="stc-unlock-alert-strip locked">
-                        <span className="stc-alert-icon">🎯</span>
-                        <div className="stc-alert-body">
-                          <strong>{benchmark.tracks.search.lockedCount}+ Verified Openings ({benchmark.tracks.search.display.replace(' LPA', 'L')}):</strong> Current profile match is 38%. Add these 3 booster skills to reach 96% match & get direct search infra shortlists.
-                        </div>
-                      </div>
-                    )}
-                    {!isFullyUnlocked && addedCount > 0 && (
-                      <div className="stc-unlock-alert-strip progress">
-                        <span className="stc-alert-icon">⚡</span>
-                        <div className="stc-alert-body">
-                          <strong>Match Rate: 70% ({addedCount}/3 Skills Added):</strong> You are almost ready for direct {benchmark.tracks.search.display} Principal shortlists!
-                        </div>
-                      </div>
-                    )}
-                    {isFullyUnlocked && (
-                      <div className="stc-unlock-alert-strip unlocked">
-                        <span className="stc-alert-icon">🎉</span>
-                        <div className="stc-alert-body">
-                          <strong>96% Top Match Profile!</strong> You qualify for direct recruiter shortlisting across {benchmark.tracks.search.lockedCount}+ Principal openings.
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="stc-left-footer">
-                    <button 
-                      type="button" 
-                      className={`btn-stc-jobs ${isFullyUnlocked ? 'unlocked' : ''}`}
-                      onClick={() => handleOpenMatchingJobs('search')}
-                    >
-                      {isFullyUnlocked ? <CheckCircle2 size={13} className="text-emerald-600" /> : <Briefcase size={13} />}
-                      <span>{isFullyUnlocked ? `View ${benchmark.tracks.search.lockedCount}+ High-Match Jobs (96% Fast-Track Apply)` : `Explore ${benchmark.tracks.search.lockedCount}+ Matching Jobs (${benchmark.tracks.search.display.replace(' LPA', 'L')})`}</span>
-                      <ChevronRight size={13} />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Right Column: Dedicated Mentor Trajectory Twin Card */}
-                {renderMentorTwinCard('search')}
-              </div>
-            </div>
-          );
-        })()}
-
-        {/* Track 4: Production GenAI / LLM Engineer */}
-        {(activeTab === 'all' || activeTab === 'ai') && (() => {
-          const aiSkills = ['LangChain / LLM Orchestration', 'Vector Embeddings (Pinecone)', 'RAG Pipeline Evaluation'];
-          const addedCount = aiSkills.filter(s => isSkillOnProfile(s)).length;
-          const isFullyUnlocked = addedCount === aiSkills.length;
-
-          return (
-            <div className="shine-traj-card">
-              <div className="stc-main-layout">
-                {/* Left Column: Role Details, Openings, Current & Target Skills, View Jobs */}
-                <div className="stc-left-col">
-                  <div>
-                    <div className="stc-meta-top">
-                      <span className="stc-track-pill teal">Generative AI</span>
-                      <span>•</span>
-                      <span className="stc-openings-fire">🔥 610+ Active Openings</span>
-                      <span>•</span>
-                      <span>Hiring: <strong>Swiggy, OpenAI Partner Co, Postman</strong></span>
-                    </div>
-
-                    <h3 className="stc-role-title">
-                      Fullstack Developer <span className="stc-role-arrow">➔</span> <span className="stc-target-role">Production GenAI & LLM Engineer</span>
-                    </h3>
-                  </div>
-
-                  <div className="stc-skills-section">
-                    <div className="stc-skills-row">
-                      <span className="stc-skills-lbl"><CheckCircle2 size={12} className="text-emerald-600" /> On Your CV:</span>
-                      <div className="stc-chips-wrap">
-                        <span className="stc-chip-base">Fullstack App</span>
-                        <span className="stc-chip-base">Python / APIs</span>
-                        <span className="stc-chip-base">DB Modeling</span>
-                        <span className="stc-chip-base">WebSockets</span>
-                        <span className="stc-chip-base">Async Queues</span>
-                        <span className="stc-chip-base">Cloud Deployment</span>
-                      </div>
-                    </div>
-
-                    <div className="stc-skills-row">
-                      <span className="stc-skills-lbl-booster"><Zap size={12} className="text-amber-500" /> Recommended Booster Skills:</span>
-                      <div className="stc-chips-wrap">
-                        <button 
-                          type="button" 
-                          className={`stc-chip-booster ${isSkillOnProfile('LangChain / LLM Orchestration') ? 'in-profile' : ''}`}
-                          onClick={() => addSkill('LangChain / LLM Orchestration')}
-                          title="Click to add to your profile"
-                        >
-                          {isSkillOnProfile('LangChain / LLM Orchestration') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
-                          <span>LangChain/LLMs</span>
-                        </button>
-                        <button 
-                          type="button" 
-                          className={`stc-chip-booster ${isSkillOnProfile('Vector Embeddings (Pinecone)') ? 'in-profile' : ''}`}
-                          onClick={() => addSkill('Vector Embeddings (Pinecone)')}
-                          title="Click to add to your profile"
-                        >
-                          {isSkillOnProfile('Vector Embeddings (Pinecone)') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
-                          <span>Vector Pinecone</span>
-                        </button>
-                        <button 
-                          type="button" 
-                          className={`stc-chip-booster ${isSkillOnProfile('RAG Pipeline Evaluation') ? 'in-profile' : ''}`}
-                          onClick={() => addSkill('RAG Pipeline Evaluation')}
-                          title="Click to add to your profile"
-                        >
-                          {isSkillOnProfile('RAG Pipeline Evaluation') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
-                          <span>RAG Evaluation</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* High Impact Unlock Alert Strip */}
-                    {!isFullyUnlocked && addedCount === 0 && (
-                      <div className="stc-unlock-alert-strip locked">
-                        <span className="stc-alert-icon">🎯</span>
-                        <div className="stc-alert-body">
-                          <strong>{benchmark.tracks.ai.lockedCount}+ Verified Openings ({benchmark.tracks.ai.display.replace(' LPA', 'L')}):</strong> Current profile match is 40%. Add these 3 booster skills to reach 95% match & get direct GenAI shortlists.
-                        </div>
-                      </div>
-                    )}
-                    {!isFullyUnlocked && addedCount > 0 && (
-                      <div className="stc-unlock-alert-strip progress">
-                        <span className="stc-alert-icon">⚡</span>
-                        <div className="stc-alert-body">
-                          <strong>Match Rate: 72% ({addedCount}/3 Skills Added):</strong> You are almost ready for direct {benchmark.tracks.ai.display} GenAI shortlists!
-                        </div>
-                      </div>
-                    )}
-                    {isFullyUnlocked && (
-                      <div className="stc-unlock-alert-strip unlocked">
-                        <span className="stc-alert-icon">🎉</span>
-                        <div className="stc-alert-body">
-                          <strong>95% Top Match Profile!</strong> You qualify for direct recruiter shortlisting across {benchmark.tracks.ai.lockedCount}+ GenAI openings.
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="stc-left-footer">
-                    <button 
-                      type="button" 
-                      className={`btn-stc-jobs ${isFullyUnlocked ? 'unlocked' : ''}`}
-                      onClick={() => handleOpenMatchingJobs('ai')}
-                    >
-                      {isFullyUnlocked ? <CheckCircle2 size={13} className="text-emerald-600" /> : <Briefcase size={13} />}
-                      <span>{isFullyUnlocked ? `View ${benchmark.tracks.ai.lockedCount}+ High-Match Jobs (95% Fast-Track Apply)` : `Explore ${benchmark.tracks.ai.lockedCount}+ Matching Jobs (${benchmark.tracks.ai.display.replace(' LPA', 'L')})`}</span>
-                      <ChevronRight size={13} />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Right Column: Dedicated Mentor Trajectory Twin Card */}
-                {renderMentorTwinCard('ai')}
-              </div>
-            </div>
-          );
-        })()}
-
-        {/* Track 5: Semiconductor & VLSI (Govt Fab Mission Talent Pool) */}
-        {(activeTab === 'all' || activeTab === 'semi') && (() => {
-          const semiSkills = ['RTL Design (SystemVerilog)', 'UVM ASIC Verification', 'Static Timing Analysis (STA)'];
-          const addedCount = semiSkills.filter(s => isSkillOnProfile(s)).length;
-          const isFullyUnlocked = addedCount === semiSkills.length;
-
-          return (
-            <div className="shine-traj-card">
-              <div className="stc-main-layout">
-                {/* Left Column: Role Details, Openings, Current & Target Skills, View Jobs */}
-                <div className="stc-left-col">
-                  <div>
-                    <div className="stc-meta-top">
-                      <span className="stc-track-pill amber">⚡ High-Demand Talent Pool</span>
-                      <span>•</span>
-                      <span className="stc-openings-fire">🏛️ Govt India Fab Mission</span>
-                      <span>•</span>
-                      <span>Sourcing: <strong>Qualcomm, Intel, Tata Electronics, Micron, TI</strong></span>
-                    </div>
-
-                    <h3 className="stc-role-title">
-                      Junior Embedded / Hardware Engineer <span className="stc-role-arrow">➔</span> <span className="stc-target-role">Staff Silicon & RTL Design Architect</span>
-                    </h3>
-                  </div>
-
-                  <div className="stc-skills-section">
-                    <div className="stc-skills-row">
-                      <span className="stc-skills-lbl"><CheckCircle2 size={12} className="text-emerald-600" /> On Your CV:</span>
-                      <div className="stc-chips-wrap">
-                        <span className="stc-chip-base">C / C++</span>
-                        <span className="stc-chip-base">Digital Logic</span>
-                        <span className="stc-chip-base">Basic Verilog</span>
-                        <span className="stc-chip-base">FPGA Boards</span>
-                        <span className="stc-chip-base">Linux & Shell</span>
-                        <span className="stc-chip-base">Circuit Analysis</span>
-                      </div>
-                    </div>
-
-                    <div className="stc-skills-row">
-                      <span className="stc-skills-lbl-booster"><Zap size={12} className="text-amber-500" /> Recommended Booster Skills:</span>
-                      <div className="stc-chips-wrap">
-                        <button 
-                          type="button" 
-                          className={`stc-chip-booster ${isSkillOnProfile('RTL Design (SystemVerilog)') ? 'in-profile' : ''}`}
-                          onClick={() => addSkill('RTL Design (SystemVerilog)')}
-                          title="Click to add to your profile"
-                        >
-                          {isSkillOnProfile('RTL Design (SystemVerilog)') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
-                          <span>RTL Design/SV</span>
-                        </button>
-                        <button 
-                          type="button" 
-                          className={`stc-chip-booster ${isSkillOnProfile('UVM ASIC Verification') ? 'in-profile' : ''}`}
-                          onClick={() => addSkill('UVM ASIC Verification')}
-                          title="Click to add to your profile"
-                        >
-                          {isSkillOnProfile('UVM ASIC Verification') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
-                          <span>UVM Verification</span>
-                        </button>
-                        <button 
-                          type="button" 
-                          className={`stc-chip-booster ${isSkillOnProfile('Static Timing Analysis (STA)') ? 'in-profile' : ''}`}
-                          onClick={() => addSkill('Static Timing Analysis (STA)')}
-                          title="Click to add to your profile"
-                        >
-                          {isSkillOnProfile('Static Timing Analysis (STA)') ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
-                          <span>Static Timing (STA)</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* High Impact Strategic Talent Pool Alert Strip */}
-                    {!isFullyUnlocked && addedCount === 0 && (
-                      <div className="stc-unlock-alert-strip locked">
-                        <span className="stc-alert-icon">🏛️</span>
-                        <div className="stc-alert-body">
-                          <strong>India Semiconductor Talent Pool ({benchmark.tracks.semi.display.replace(' LPA', 'L')}):</strong> 48+ Fab Partners (Qualcomm, Intel, Tata Electronics) are direct-sourcing talent before public postings. Add these 3 booster skills to activate your Direct Recruiter Spotlight.
-                        </div>
-                      </div>
-                    )}
-                    {!isFullyUnlocked && addedCount > 0 && (
-                      <div className="stc-unlock-alert-strip progress">
-                        <span className="stc-alert-icon">⚡</span>
-                        <div className="stc-alert-body">
-                          <strong>Match Rate: 75% ({addedCount}/3 Skills Added):</strong> Profile primed for direct headhunting invites!
-                        </div>
-                      </div>
-                    )}
-                    {isFullyUnlocked && (
-                      <div className="stc-unlock-alert-strip unlocked">
-                        <span className="stc-alert-icon">🎉</span>
-                        <div className="stc-alert-body">
-                          <strong>Top 1% Verified Silicon Candidate!</strong> Your profile is active in Shine's Priority Sourcing Pipeline for 48+ semiconductor hiring partners.
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="stc-left-footer">
-                    <button 
-                      type="button" 
-                      className={`btn-stc-jobs ${isFullyUnlocked ? 'unlocked' : ''}`}
-                      onClick={() => handleOpenMatchingJobs('semi')}
-                    >
-                      {isFullyUnlocked ? <CheckCircle2 size={13} className="text-emerald-600" /> : <Sparkles size={13} className="text-amber-500" />}
-                      <span>{isFullyUnlocked ? `View Verified Semiconductor Talent Pool (Priority Headhunt)` : `Join India Semiconductor Talent Pool (${benchmark.tracks.semi.display.replace(' LPA', 'L')})`}</span>
-                      <ChevronRight size={13} />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Right Column: Dedicated Mentor Trajectory Twin Card */}
-                {renderMentorTwinCard('semi')}
-              </div>
-            </div>
-          );
-        })()}
-
       </div>
 
       {/* 5. Bottom Mentorship Acceleration CTA */}
@@ -1384,16 +861,6 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
           </button>
         </div>
       </div>
-
-      {/* 6. Matching Jobs Modal Flow */}
-      <MatchingJobsModal
-        isOpen={isJobsModalOpen}
-        initialTrack={matchingJobsTrack}
-        onClose={() => setIsJobsModalOpen(false)}
-        onNavigate={onNavigate}
-        onSelectExpert={onSelectExpert}
-      />
-
     </div>
   );
 };

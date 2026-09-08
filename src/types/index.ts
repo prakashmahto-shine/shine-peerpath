@@ -96,6 +96,7 @@ export interface UserProfileData {
   phone: string;
   currentCtc?: string;
   targetCtc?: string;
+  targetRole?: string;
   resumeFileName?: string;
   educationDegree?: string;
   educationCollege?: string;
@@ -157,6 +158,23 @@ export interface TrajectoryMatch {
   suggestedSessionGoal: string;
 }
 
+export interface GapAnalysisResult {
+  candidateRole: string;
+  targetRole: string;
+  targetDomain: string;
+  currentSalaryBaseline: string;
+  targetSalaryPotential: string;
+  estimatedJump: string;
+  currentScore: number;
+  targetScore: number;
+  matchedSkills: string[];
+  missingBoosterSkills: string[];
+  trajectoryRecommendation: string;
+  recommendedCreators: TrajectoryMatch[];
+  openingsCount?: number;
+  hiringCompanies?: string;
+}
+
 export interface ZeroPrepDossier {
   sessionId: string;
   candidate: {
@@ -181,4 +199,22 @@ export interface ZeroPrepDossier {
   quickDiscussionPrompts: string[];
 }
 
+export interface ShineJob {
+  id: string;
+  title: string;
+  company: string;
+  companyInitials?: string;
+  companyColor?: string;
+  postedTime: string;
+  exp: string;
+  salary: string;
+  salaryNum?: number;
+  loc: string;
+  domain: string;
+  requiredSkills: string[];
+  isActivelyHiring?: boolean;
+  isEarlyApplicant?: boolean;
+  description?: string;
+}
 
+export type PathwayTrackKey = 'arch' | 'pm' | 'search' | 'ai' | 'semi';
