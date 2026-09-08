@@ -390,11 +390,13 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
           {/* Mentor Switcher Notice & Interactive Tabs */}
           <div className="stc-mentor-switcher-container">
             <div className="stc-switcher-prompt-row">
-              <span className="stc-switcher-prompt-text">
-                ✨ <strong>Choose Mentor:</strong> Click to view jump & roadmap
-              </span>
+              <div className="stc-switcher-prompt-text">
+                <Sparkles size={11} className="text-amber-500" />
+                <strong>Choose Mentor Twin:</strong>
+                <span className="stc-switcher-sub-hint">Compare real salary jumps</span>
+              </div>
               <span className="stc-switcher-active-idx">
-                {activeIdx + 1} of {config.mentors.length}
+                {activeIdx + 1} / {config.mentors.length}
               </span>
             </div>
 

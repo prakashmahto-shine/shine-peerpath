@@ -4088,40 +4088,54 @@ button {
 .stc-mentor-switcher-container {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 6px;
   background: #F8FAFC;
   border: 1px solid #E2E8F0;
-  border-radius: 7px;
-  padding: 4px 6px;
+  border-radius: 10px;
+  padding: 8px 10px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
 .stc-switcher-prompt-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 9.5px;
-  color: #475569;
-  padding: 0 1px;
+  padding: 0 2px;
+}
+
+.stc-switcher-prompt-text {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #334155;
 }
 
 .stc-switcher-prompt-text strong {
+  font-weight: 700;
   color: #0F172A;
 }
 
+.stc-switcher-sub-hint {
+  font-size: 10px;
+  color: #64748B;
+  font-weight: 500;
+}
+
 .stc-switcher-active-idx {
-  font-size: 8.5px;
+  font-size: 10px;
   font-weight: 700;
-  color: #4F46E5;
-  background: #EEF2FF;
-  padding: 0.5px 4px;
-  border-radius: 3px;
-  border: 1px solid #E0E7FF;
+  color: #0F172A;
+  background: #E2E8F0;
+  padding: 1px 7px;
+  border-radius: 12px;
+  letter-spacing: 0.3px;
 }
 
 .stc-mentor-switcher-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
+  gap: 6px;
   background: transparent;
   padding: 0;
   border: none;
@@ -4130,35 +4144,37 @@ button {
 .stc-mentor-tab-btn {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 3px 5px;
-  border-radius: 5px;
-  border: 1px solid #CBD5E1;
+  gap: 7px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid #E2E8F0;
   background: #FFFFFF;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   min-width: 0;
   text-align: left;
   position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .stc-mentor-tab-btn:hover {
-  background: #F8FAFC;
-  border-color: #6366F1;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(99, 102, 241, 0.12);
+  background: #FFFFFF;
+  border-color: #FCD34D;
+  transform: translateY(-1.5px);
+  box-shadow: 0 3px 8px rgba(245, 158, 11, 0.12);
 }
 
 .stc-mentor-tab-btn.active {
-  background: #FFFFFF;
-  border: 1.5px solid #4F46E5;
-  box-shadow: 0 2px 5px rgba(79, 70, 229, 0.15);
+  background: linear-gradient(135deg, #FFFDF0 0%, #FFFFFF 100%);
+  border: 1.5px solid #F59E0B;
+  box-shadow: 0 3px 10px rgba(245, 158, 11, 0.18), 0 0 0 1px rgba(245, 158, 11, 0.15);
+  transform: translateY(-1px);
 }
 
 .stc-tab-av-wrap {
   position: relative;
-  width: 17px;
-  height: 17px;
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
 }
 
@@ -4167,40 +4183,41 @@ button {
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid #E2E8F0;
+  border: 1.5px solid #E2E8F0;
   display: block;
 }
 
 .stc-mentor-tab-btn.active .stc-tab-av-img {
-  border-color: #4F46E5;
+  border-color: #F59E0B;
 }
 
 .stc-tab-active-dot {
   position: absolute;
   bottom: -2px;
   right: -2px;
-  width: 8px;
-  height: 8px;
-  background: #4F46E5;
-  color: #FFFFFF;
-  font-size: 5.5px;
+  width: 10px;
+  height: 10px;
+  background: #F59E0B;
+  color: #0F172A;
+  font-size: 6.5px;
   font-weight: 900;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #FFFFFF;
+  border: 1.5px solid #FFFFFF;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
 }
 
 .stc-tab-text-wrap {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  line-height: 1.1;
+  line-height: 1.2;
 }
 
 .stc-tab-mentor-name {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   color: #1E293B;
   white-space: nowrap;
@@ -4209,16 +4226,20 @@ button {
 }
 
 .stc-mentor-tab-btn.active .stc-tab-mentor-name {
-  color: #4F46E5;
+  color: #0F172A;
 }
 
 .stc-tab-mentor-company {
-  font-size: 8.5px;
+  font-size: 9.5px;
   font-weight: 600;
   color: #64748B;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.stc-mentor-tab-btn.active .stc-tab-mentor-company {
+  color: #B45309;
 }
 
 /* Active Mentor Profile Header */
