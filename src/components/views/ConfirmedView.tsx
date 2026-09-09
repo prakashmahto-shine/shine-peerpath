@@ -68,7 +68,7 @@ export const ConfirmedView: React.FC = () => {
                 <strong className="conf-cv-title">1:1 Session Dossier: Attached Resume</strong>
                 {isRecentlySynced ? (
                   <span className="conf-cv-synced-badge">
-                    <CheckCircle2 size={12} /> 2026 CV Synced
+                    <CheckCircle2 size={12} /> Latest CV Synced
                   </span>
                 ) : (
                   <span className="conf-cv-old-badge">

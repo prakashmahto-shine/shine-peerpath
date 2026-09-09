@@ -74,6 +74,7 @@ interface AppContextType {
   isCvSyncModalOpen: boolean;
   setIsCvSyncModalOpen: (open: boolean) => void;
   updateCandidateResume: (fileName: string, extractedSkills?: string[], targetCtc?: string) => void;
+  removeCandidateResume: () => void;
   assessmentDraftSession: MentorshipSession | null;
   setAssessmentDraftSession: (session: MentorshipSession | null) => void;
   bookingDraft: { expert: Expert; date: string; timeSlot: string; attachedCvName?: string };
@@ -500,6 +501,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
     setBookingDraft(prev => ({ ...prev, attachedCvName: fileName }));
     showToast('📄 Resume AI Synced!', `Skills updated & profile boosted to 88%+ recruiter match!`, 'success');
+  };
+
+  const removeCandidateResume = () => {
+    setUserProfiles(prev => {
+      const existing = prev[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.prakash.profile;
+      return {
+        ...prev,
+        [activeUsername]: {
+          ...existing,
+          resumeFileName: '',
+          resumeLastUpdated: 'No CV uploaded',
+        }
+      };
+    });
+    setBookingDraft(prev => ({ ...prev, attachedCvName: '' }));
+    showToast('🗑️ Resume Removed', 'CV removed from this session booking.', 'info');
   };
 
   // Search & Global Toasts & Selected Job Category & Peerpath Context
@@ -930,6 +947,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         isCvSyncModalOpen,
         setIsCvSyncModalOpen,
         updateCandidateResume,
+        removeCandidateResume,
         assessmentDraftSession,
         setAssessmentDraftSession,
         bookingDraft,

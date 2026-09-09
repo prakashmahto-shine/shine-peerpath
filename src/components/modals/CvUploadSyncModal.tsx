@@ -96,7 +96,7 @@ export const CvUploadSyncModal: React.FC = () => {
   };
 
   const handleUsePresetDemo = () => {
-    const dummyFile = new File(['sample resume content'], 'Prakash_Mahto_LeadFrontend_2026.pdf', { type: 'application/pdf' });
+    const dummyFile = new File(['sample resume content'], 'Prakash_Mahto_LeadFrontend_Updated.pdf', { type: 'application/pdf' });
     processFile(dummyFile);
   };
 
@@ -117,7 +117,7 @@ export const CvUploadSyncModal: React.FC = () => {
               </span>
               <span className="cv-free-pill">100% Free Shine Upgrade</span>
             </div>
-            <h2 className="cv-sync-title">Update Your Latest 2026 CV</h2>
+            <h2 className="cv-sync-title">Update Your Latest CV</h2>
             <p className="cv-sync-subtitle">
               Your profile on Shine was last updated <strong className="text-amber-600">{userProfile?.resumeLastUpdated || 'almost a year ago'}</strong>.
               Updating takes 5 seconds and gives your mentors & recruiters an instant, accurate picture of your skills.
@@ -152,7 +152,7 @@ export const CvUploadSyncModal: React.FC = () => {
                 
                 <div className="cv-preset-action" onClick={(e) => { e.stopPropagation(); handleUsePresetDemo(); }}>
                   <button type="button" className="btn-preset-fast-demo">
-                    <Sparkles size={13} /> ⚡ Fast Demo: Upload 2026 Updated Resume (1-Click)
+                    <Sparkles size={13} /> ⚡ Fast Demo: Upload Updated Resume (1-Click)
                   </button>
                 </div>
               </div>
@@ -232,7 +232,7 @@ export const CvUploadSyncModal: React.FC = () => {
 
               <h3 className="cv-complete-title">Resume Synced & Profile Boosted!</h3>
               <p className="cv-complete-sub">
-                Your Shine profile is now updated with your 2026 resume details and synced across PeerPath mentors.
+                Your Shine profile is now updated with your latest resume details and synced across PeerPath mentors.
               </p>
 
               <div className="cv-results-card">

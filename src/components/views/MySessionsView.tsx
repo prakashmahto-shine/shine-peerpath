@@ -3,7 +3,7 @@ import {
   Video, Plus, Calendar, FileCheck, CheckCircle2, 
   Award, Clock, AlertCircle, ArrowLeft, RotateCcw, 
   XCircle, ShieldCheck, Sparkles, Star, User, Settings,
-  DollarSign, Briefcase
+  DollarSign, Briefcase, Trash2, X, FileText, UploadCloud
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -17,7 +17,10 @@ export const MySessionsView: React.FC = () => {
     cancelSession, 
     rescheduleSession, 
     setActiveSession,
-    isCreatorMode
+    isCreatorMode,
+    updateCandidateResume,
+    removeCandidateResume,
+    setIsCvSyncModalOpen
   } = useApp();
 
   const isMentor = isCreatorMode || currentUser?.role === 'mentor';
@@ -54,10 +57,21 @@ export const MySessionsView: React.FC = () => {
   const [reschedulingId, setReschedulingId] = useState<string | null>(null);
   const [rescheduleDate, setRescheduleDate] = useState<string>('Tomorrow, 6 Sep');
   const [rescheduleTime, setRescheduleTime] = useState<string>('06:00 PM - 07:00 PM');
+  const [preJoinCheckSession, setPreJoinCheckSession] = useState<typeof sessions[0] | null>(null);
+
+  const isCandidateCvSynced = Boolean(
+    userProfile?.resumeLastUpdated && 
+    (userProfile.resumeLastUpdated.includes('Just now') || userProfile.resumeLastUpdated.includes('Synced')) &&
+    userProfile?.resumeFileName
+  );
 
   const handleJoinCall = (session: typeof sessions[0]) => {
-    setActiveSession(session);
-    navigate('live-call-view');
+    if (!isMentor && !isCandidateCvSynced) {
+      setPreJoinCheckSession(session);
+    } else {
+      setActiveSession(session);
+      navigate('live-call-view');
+    }
   };
 
   const handleConfirmReschedule = (sessionId: string) => {
@@ -460,6 +474,55 @@ export const MySessionsView: React.FC = () => {
                   </div>
                 </div>
 
+                {/* CV Attachment & Pre-Call Readiness Strip */}
+                <div className={`sc-cv-nudge-box ${isCandidateCvSynced ? 'sc-cv-synced' : 'sc-cv-pending'}`}>
+                  <div className="sc-cv-nudge-left">
+                    {isCandidateCvSynced ? (
+                      <CheckCircle2 size={16} className="text-emerald-600 flex-shrink-0" />
+                    ) : (
+                      <AlertCircle size={16} className="text-amber-600 flex-shrink-0" />
+                    )}
+                    <div>
+                      <div className="sc-cv-title-row">
+                        <strong>{isCandidateCvSynced ? `✨ Latest CV Attached (${userProfile.resumeFileName || 'Resume.pdf'})` : '⚠️ Latest CV Pending for Mentor'}</strong>
+                        <span className={isCandidateCvSynced ? 'sc-pill-synced' : 'sc-pill-pending'}>
+                          {isCandidateCvSynced ? 'Ready for 1:1' : 'Upload for 2x Advice'}
+                        </span>
+                      </div>
+                      <p className="sc-cv-desc">
+                        {isCandidateCvSynced 
+                          ? `${sess.expert.name} has your latest skills & recent projects loaded in her zero-prep dossier.`
+                          : `Upload your latest CV so ${sess.expert.name} can give tailored mock feedback and salary guidance.`}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="sc-cv-nudge-actions">
+                    <button 
+                      type="button" 
+                      className="btn-sc-cv-primary"
+                      onClick={() => setIsCvSyncModalOpen(true)}
+                    >
+                      <Sparkles size={12} />
+                      <span>{isCandidateCvSynced ? 'Change CV' : 'Upload Latest CV'}</span>
+                    </button>
+                    {isCandidateCvSynced && (
+                      <button 
+                        type="button" 
+                        className="btn-sc-cv-delete"
+                        onClick={() => {
+                          if (window.confirm('Are you sure you want to remove your attached CV for this session?')) {
+                            removeCandidateResume();
+                          }
+                        }}
+                        title="Remove attached CV"
+                      >
+                        <Trash2 size={12} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
                 {/* Inline Reschedule Drawer */}
                 {reschedulingId === sess.id && (
                   <div className="reschedule-drawer-card">
@@ -619,6 +682,73 @@ export const MySessionsView: React.FC = () => {
               </div>
             ))
           )}
+        </div>
+      )}
+
+      {/* Pre-Call Zero-Prep CV Check Modal */}
+      {preJoinCheckSession && (
+        <div className="app-modal-backdrop open">
+          <div className="app-modal-card prejoin-modal-card">
+            <button className="modal-close-btn" onClick={() => setPreJoinCheckSession(null)} aria-label="Close">
+              <X size={18} />
+            </button>
+            
+            <div className="prejoin-content">
+              <div className="prejoin-top-chip">
+                <Video size={14} className="text-emerald-600" />
+                <span>1:1 Video Mentorship Room is Ready</span>
+              </div>
+              
+              <h3 className="prejoin-title">Before joining {preJoinCheckSession.expert.name}...</h3>
+              <p className="prejoin-sub">
+                {preJoinCheckSession.expert.name} is waiting in the video room. Having your latest CV attached will give her your exact current tech stack and CTC for <strong>2x better guidance</strong>.
+              </p>
+
+              <div className="prejoin-mentor-box">
+                <img 
+                  src={preJoinCheckSession.expert.avatar} 
+                  alt={preJoinCheckSession.expert.name} 
+                  className="prejoin-mentor-avatar" 
+                />
+                <div className="prejoin-mentor-info">
+                  <strong>{preJoinCheckSession.expert.name}</strong>
+                  <p>{preJoinCheckSession.expert.role} • {preJoinCheckSession.expert.company}</p>
+                </div>
+              </div>
+
+              <div className="prejoin-actions-col">
+                <button 
+                  type="button" 
+                  className="btn-shine-gold-lg btn-prejoin-sync"
+                  onClick={() => {
+                    if (updateCandidateResume) {
+                      updateCandidateResume('Prakash_Mahto_LeadFrontend_Updated.pdf', ['Next.js 15', 'React 19', 'Micro-Frontends', 'UI Architecture'], '₹24L - ₹30 LPA');
+                    }
+                    const target = preJoinCheckSession;
+                    setPreJoinCheckSession(null);
+                    setActiveSession(target);
+                    navigate('live-call-view');
+                  }}
+                >
+                  <Sparkles size={16} />
+                  <span>⚡ 1-Click Sync Latest CV & Enter Video Room</span>
+                </button>
+
+                <button 
+                  type="button" 
+                  className="btn-prejoin-direct"
+                  onClick={() => {
+                    const target = preJoinCheckSession;
+                    setPreJoinCheckSession(null);
+                    setActiveSession(target);
+                    navigate('live-call-view');
+                  }}
+                >
+                  <span>Continue to Video Room with Existing Profile →</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

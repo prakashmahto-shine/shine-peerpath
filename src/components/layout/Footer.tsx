@@ -222,7 +222,7 @@ export const Footer: React.FC = () => {
               alt="Shine Logo" 
               className="fb-logo"
             />
-            <span>@ 2026 Shine.com | All Right Reserved</span>
+            <span>@ {new Date().getFullYear()} Shine.com | All Rights Reserved</span>
           </div>
 
           <div className="fb-center-links">

@@ -1004,7 +1004,7 @@
       "headline": "Senior Frontend Engineer • 4 Years, 2 Months • Bengaluru",
       "experienceYears": "4 Years, 2 Months",
       "location": "Bengaluru, India",
-      "profileScore": 94,
+      "profileScore": 100,
       "jobSearchStatus": "Serving Notice Period (30 Days)",
       "summary": "Senior Frontend Developer with 4+ years of hands-on experience building high-traffic, resilient web applications at scale. Specializing in React 19, TypeScript, and micro-frontends.",
       "skills": [
@@ -1027,6 +1027,22 @@
       "educationDegree": "B.Tech / M.Tech Computer Engineering",
       "educationCollege": "VTU Bengaluru",
       "badges": [
+        {
+          "id": "badge-1788945803993",
+          "title": "Product Management Production Ready",
+          "subtitle": "Verified by Saheli Kanjilal • Staff Frontend Architect @ Razorpay (FinTech)",
+          "verifierName": "Saheli Kanjilal",
+          "verifierRole": "Staff Frontend Architect @ Razorpay (FinTech)",
+          "verifierAvatar": "/avatars/saheli.jpg",
+          "verifierCompany": "Razorpay (FinTech)",
+          "date": "Sep 9, 2026",
+          "skills": [
+            "System Architecture",
+            "Problem Solving"
+          ],
+          "status": "verified",
+          "verificationHash": "SHINE-PEER-MTTW54NT-RAZ"
+        },
         {
           "id": "badge-pm-1",
           "title": "Tier-1 Frontend & UI Architecture",
@@ -1064,7 +1080,7 @@
           "verificationHash": "SHINE-VERIFY-4491-8821-HN"
         }
       ],
-      "recruiterSearchMultiplier": 3.8
+      "recruiterSearchMultiplier": 4.3999999999999995
     },
     {
       "id": "kunal-singh",
@@ -1263,7 +1279,7 @@
   ],
   "sessions": [
     {
-      "id": "sess-1788945568475",
+      "id": "sess-1788946484954",
       "expertId": "karthik",
       "expert": {
         "id": "karthik",
@@ -1323,10 +1339,10 @@
       "date": "Thu, 10 Sep 2026",
       "timeSlot": "10:00 AM - 11:00 AM",
       "status": "upcoming",
-      "meetingLink": "https://meet.shine.com/room/peerpath-karthik-1788945568475",
-      "paymentId": "pay_shine_mttw02xn_76cp",
+      "meetingLink": "https://meet.shine.com/room/peerpath-karthik-1788946484954",
+      "paymentId": "pay_shine_mttwjq3e_boqm",
       "amountPaid": 1299,
-      "bookedAt": "2026-09-09T09:19:28.475Z"
+      "bookedAt": "2026-09-09T09:34:44.954Z"
     },
     {
       "id": "sess-1",
@@ -1390,11 +1406,14 @@
       "candidateEmail": "prakash.mahto@gmail.com",
       "date": "Saturday, 12 Sep 2026",
       "timeSlot": "06:30 PM - 07:30 PM",
-      "status": "upcoming",
+      "status": "completed",
       "meetingLink": "https://meet.shine.com/room/peerpath-saheli-prakash-7f9",
       "amountPaid": 999,
       "paymentId": "pay_live_shine_9821a",
-      "bookedAt": "2026-09-05T10:15:00Z"
+      "bookedAt": "2026-09-05T10:15:00Z",
+      "rating": 5,
+      "feedbackNotes": "Akash Jain completely transformed my approach to career transitions. The framework shared for handling interview objections and system design was invaluable!",
+      "badgeAwarded": "Product Management Production Ready"
     },
     {
       "id": "sess-2",
@@ -1469,6 +1488,22 @@
   ],
   "badges": [
     {
+      "id": "badge-1788945803993",
+      "title": "Product Management Production Ready",
+      "subtitle": "Verified by Saheli Kanjilal • Staff Frontend Architect @ Razorpay (FinTech)",
+      "verifierName": "Saheli Kanjilal",
+      "verifierRole": "Staff Frontend Architect @ Razorpay (FinTech)",
+      "verifierAvatar": "/avatars/saheli.jpg",
+      "verifierCompany": "Razorpay (FinTech)",
+      "date": "Sep 9, 2026",
+      "skills": [
+        "System Architecture",
+        "Problem Solving"
+      ],
+      "status": "verified",
+      "verificationHash": "SHINE-PEER-MTTW54NT-RAZ"
+    },
+    {
       "id": "badge-pm-1",
       "title": "Tier-1 Frontend & UI Architecture",
       "subtitle": "Verified by Saheli Kanjilal • Staff Frontend Architect @ Razorpay",
@@ -1506,7 +1541,7 @@
     }
   ],
   "analytics": {
-    "profileUpdatesThisMonth": 14820,
+    "profileUpdatesThisMonth": 14821,
     "newRegistrationsThisMonth": 6350,
     "totalSessionsBooked": 2431,
     "totalActiveCreators": 20

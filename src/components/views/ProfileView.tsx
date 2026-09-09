@@ -24,7 +24,8 @@ export const ProfileView: React.FC = () => {
     updateMentorRatesAndAvailability,
     updateMentorTeaserVideo,
     setIsCreatorWizardOpen,
-    setIsCvSyncModalOpen
+    setIsCvSyncModalOpen,
+    removeCandidateResume
   } = useApp();
 
   const loggedInFirstName = (userProfile.name || currentUser?.name || 'Prakash').split(' ')[0].toLowerCase();
@@ -488,7 +489,7 @@ export const ProfileView: React.FC = () => {
                 <div className="res-sub-meta">
                   <span>Uploaded: {userProfile.resumeLastUpdated || 'Almost a year ago'}</span>
                   {(userProfile.resumeLastUpdated || '').includes('Just now') || (userProfile.resumeLastUpdated || '').includes('Synced') ? (
-                    <span className="res-default-blue-chip" style={{ background: '#ECFDF5', color: '#047857', border: '1px solid #A7F3D0' }}>✨ 2026 AI Synced</span>
+                    <span className="res-default-blue-chip" style={{ background: '#ECFDF5', color: '#047857', border: '1px solid #A7F3D0' }}>✨ AI Synced & Updated</span>
                   ) : (
                     <span className="res-default-blue-chip">Default (Outdated)</span>
                   )}
@@ -505,6 +506,19 @@ export const ProfileView: React.FC = () => {
                 <button className="res-action-circle-btn" title="AI Sync / Update" onClick={() => setIsCvSyncModalOpen(true)}>
                   <Sparkles size={15} color="#7C3AED" />
                 </button>
+                {userProfile.resumeFileName && (
+                  <button 
+                    className="res-action-circle-btn res-delete-btn" 
+                    title="Delete Resume" 
+                    onClick={() => {
+                      if (window.confirm('Are you sure you want to delete this resume from your Shine profile?')) {
+                        removeCandidateResume();
+                      }
+                    }}
+                  >
+                    <Trash2 size={15} color="#DC2626" />
+                  </button>
+                )}
               </div>
             </div>
           </div>

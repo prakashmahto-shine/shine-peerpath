@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useRef } from 'react';
 import { 
   X, Video, Clock, ShieldCheck, Info, ArrowRight, Lock, 
-  CheckCircle2, Calendar, Star, FileText, UploadCloud, Sparkles, RefreshCw 
+  CheckCircle2, Calendar, Star, FileText, UploadCloud, Sparkles, RefreshCw, Trash2 
 } from 'lucide-react';
 import { Expert } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -27,7 +27,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   onSelectTime,
   onProceedToPay,
 }) => {
-  const { userProfile, updateCandidateResume, bookingDraft, setBookingDraft, selectedExpert } = useApp();
+  const { userProfile, updateCandidateResume, removeCandidateResume, bookingDraft, setBookingDraft, selectedExpert } = useApp();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isScanningCv, setIsScanningCv] = useState<boolean>(false);
   const [scannedSuccess, setScannedSuccess] = useState<boolean>(false);
@@ -139,8 +139,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const expertRating = expert?.rating || 4.9;
   const expertReviewsCount = expert?.reviewsCount || 100;
 
-  const currentCvName = bookingDraft?.attachedCvName || userProfile?.resumeFileName || 'Prakash_Mahto_Frontend_Resume.pdf';
-  const isCvRecentlyUpdated = Boolean(
+  const isCvExplicitlyRemoved = bookingDraft?.attachedCvName === '';
+  const currentCvName = isCvExplicitlyRemoved 
+    ? '' 
+    : (bookingDraft?.attachedCvName || userProfile?.resumeFileName || 'Prakash_Mahto_Frontend_Resume.pdf');
+  
+  const isCvRecentlyUpdated = !isCvExplicitlyRemoved && Boolean(
     (userProfile?.resumeLastUpdated && (userProfile.resumeLastUpdated.includes('Just now') || userProfile.resumeLastUpdated.includes('Synced'))) ||
     scannedSuccess
   );
@@ -167,7 +171,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     setTimeout(() => {
       setIsScanningCv(false);
       setScannedSuccess(true);
-      const demoName = 'Prakash_Mahto_LeadFrontend_2026.pdf';
+      const demoName = 'Prakash_Mahto_LeadFrontend_Updated.pdf';
       if (updateCandidateResume) {
         updateCandidateResume(demoName, ['Next.js 15', 'React 19', 'Micro-Frontends', 'UI Architecture'], '₹24L - ₹30 LPA');
       }
@@ -175,6 +179,16 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         setBookingDraft({ ...bookingDraft, expert, attachedCvName: demoName });
       }
     }, 1100);
+  };
+
+  const handleRemoveResume = () => {
+    setScannedSuccess(false);
+    if (removeCandidateResume) {
+      removeCandidateResume();
+    }
+    if (setBookingDraft) {
+      setBookingDraft({ ...bookingDraft, expert, attachedCvName: '' });
+    }
   };
 
   const handleProceed = () => {
@@ -319,7 +333,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               )}
             </div>
 
-            {/* Step 3: CV Attachment & Auto AI Sync (Option 1: Direct Cause-and-Effect Incentive) */}
+            {/* Step 3: CV Attachment (Clean & Modern SaaS UX) */}
             <div className="bk-cv-attachment-section">
               <div className="bk-cv-sec-header">
                 <label className="bk-field-label">
@@ -328,59 +342,80 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 <span className="bk-cv-impact-tag">⚡ Latest CV = 2x Better Guidance</span>
               </div>
 
-              <div className={`bk-cv-box ${isCvRecentlyUpdated ? 'cv-box-updated' : 'cv-box-notice'}`}>
-                <div className="bk-cv-icon-col">
-                  {isScanningCv ? (
-                    <RefreshCw size={22} className="text-purple-600 animate-spin" />
-                  ) : isCvRecentlyUpdated ? (
-                    <CheckCircle2 size={22} className="text-emerald-500" />
-                  ) : (
-                    <FileText size={22} className="text-amber-500" />
-                  )}
-                </div>
+              {/* Clean Single Card */}
+              <div className={`bk-clean-cv-card ${isCvRecentlyUpdated ? 'cv-card-synced' : currentCvName ? 'cv-card-notice' : 'cv-card-empty'}`}>
+                <input 
+                  ref={fileInputRef}
+                  type="file" 
+                  accept=".pdf,.doc,.docx" 
+                  style={{ display: 'none' }}
+                  onChange={handleFileUpload}
+                />
 
-                <div className="bk-cv-info-col">
-                  <div className="bk-cv-filename-row">
-                    <strong className="bk-cv-filename">{currentCvName}</strong>
-                    {isCvRecentlyUpdated ? (
-                      <span className="bk-cv-badge-synced">✨ 2026 Latest CV Attached</span>
+                {/* Left File Info / Status */}
+                <div className="bk-clean-cv-left">
+                  <div className="bk-clean-file-header">
+                    <div className="bk-clean-file-icon">
+                      {isScanningCv ? (
+                        <RefreshCw size={18} className="text-purple-600 animate-spin" />
+                      ) : isCvRecentlyUpdated ? (
+                        <CheckCircle2 size={18} className="text-emerald-500" />
+                      ) : currentCvName ? (
+                        <FileText size={18} className="text-rose-500" />
+                      ) : (
+                        <UploadCloud size={18} className="text-slate-400" />
+                      )}
+                    </div>
+                    
+                    {currentCvName ? (
+                      <div className="bk-clean-file-meta">
+                        <strong className="bk-clean-filename">{currentCvName}</strong>
+                        <button 
+                          type="button" 
+                          className="btn-clean-remove-cv"
+                          onClick={handleRemoveResume}
+                          disabled={isScanningCv}
+                          title="Remove attached file"
+                          aria-label="Remove attached file"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
                     ) : (
-                      <span className="bk-cv-badge-old">⚠️ 1 yr old (Outdated skills)</span>
+                      <span className="bk-clean-nofile-lbl">No Resume Attached</span>
                     )}
                   </div>
-                  
-                  <p className="bk-cv-subtext">
+
+                  {/* Single Line Clean Context / Reason */}
+                  <p className="bk-clean-cv-hint">
                     {isScanningCv ? (
-                      <span className="text-purple-600 font-medium">⚡ AI scanning skills & creating tailored dossier for {expertName}...</span>
+                      <span className="text-purple-600 font-medium">⚡ AI scanning skills & creating dossier for {expertName}...</span>
                     ) : isCvRecentlyUpdated ? (
-                      <span className="text-emerald-600 font-medium">✅ Synced! {expertName} will review your latest 2026 skills & projects before the call for maximum value.</span>
+                      <span className="text-emerald-600 font-medium">✅ Synced! {expertName} will review your latest skills & projects before the call.</span>
+                    ) : currentCvName ? (
+                      <span className="text-amber-800">⚠️ Needs update: Mentors give <strong>2x better mock & salary advice</strong> with your latest CV.</span>
                     ) : (
-                      <span><strong>Why upload?</strong> {expertName} provides <strong>2x better mock interview & salary guidance</strong> with your 2026 CV (Older CV gives generic feedback).</span>
+                      <span className="text-slate-500">Attach your latest CV so {expertName} can prepare tailored guidance for your call.</span>
                     )}
                   </p>
                 </div>
 
-                <div className="bk-cv-upload-action">
-                  <input 
-                    ref={fileInputRef}
-                    type="file" 
-                    accept=".pdf,.doc,.docx" 
-                    style={{ display: 'none' }}
-                    onChange={handleFileUpload}
-                  />
+                {/* Right Action Buttons */}
+                <div className="bk-clean-cv-right">
                   <button 
                     type="button" 
-                    className="btn-bk-upload-cv"
+                    className="btn-clean-upload"
                     onClick={() => fileInputRef.current?.click()}
                     disabled={isScanningCv}
                   >
-                    <UploadCloud size={14} />
-                    <span>{isCvRecentlyUpdated ? 'Change' : 'Upload Latest CV'}</span>
+                    <UploadCloud size={13} />
+                    <span>{currentCvName ? 'Replace' : 'Upload CV'}</span>
                   </button>
+
                   {!isCvRecentlyUpdated && (
                     <button 
                       type="button" 
-                      className="btn-bk-fast-sync"
+                      className="btn-clean-fast-demo"
                       onClick={handleQuickDemoUpload}
                       title="1-Click AI Demo Resume Upload"
                     >
