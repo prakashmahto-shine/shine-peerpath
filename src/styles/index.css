@@ -358,77 +358,110 @@ button {
   border-color: #CBD5E1;
 }
 
-/* ⚡ Direct Navbar Creator Studio Switcher Pill */
-.btn-navbar-creator-pill {
+/* ⚡ Direct Navbar Creator Studio Toggle Switch Control */
+.navbar-creator-toggle-control {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px 11px;
+  gap: 8px;
+  padding: 4px 6px 4px 11px;
   height: 34px;
   border-radius: var(--radius-full, 9999px);
-  font-size: 12px;
-  font-weight: 700;
   cursor: pointer;
+  user-select: none;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  text-decoration: none;
   white-space: nowrap;
 }
 
-.btn-navbar-creator-pill.candidate-active {
-  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
-  border: 1.5px solid #FCD34D;
-  color: #92400E;
-  box-shadow: 0 1px 3px rgba(245, 158, 11, 0.1);
+/* When OFF (Candidate View) */
+.navbar-creator-toggle-control.is-off {
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
-.btn-navbar-creator-pill.candidate-active:hover {
+.navbar-creator-toggle-control.is-off:hover {
+  background: #F8FAFC;
+  border-color: #CBD5E1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-creator-toggle-control.is-off .nct-label {
+  color: #475569;
+  font-weight: 700;
+}
+
+/* When ON (Creator Studio Active) */
+.navbar-creator-toggle-control.is-on {
+  background: linear-gradient(135deg, #FFFDF0 0%, #FEF3C7 100%);
+  border: 1.5px solid #FCD34D;
+  box-shadow: 0 1px 4px rgba(245, 158, 11, 0.15);
+}
+
+.navbar-creator-toggle-control.is-on:hover {
   background: #FEF08A;
   border-color: #F59E0B;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.22);
+  box-shadow: 0 3px 10px rgba(245, 158, 11, 0.25);
 }
 
-.btn-navbar-creator-pill.creator-active {
-  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-  border: 1.5px solid #334155;
-  color: #FFFFFF;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.15);
+.navbar-creator-toggle-control.is-on .nct-label {
+  color: #92400E;
+  font-weight: 800;
 }
 
-.btn-navbar-creator-pill.creator-active:hover {
-  background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-  border-color: var(--shine-yellow, #FFC600);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+/* Inner Elements */
+.nct-text-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.btn-nav-creator-pill-icon {
+.nct-icon {
   font-size: 13px;
   line-height: 1;
 }
 
-.btn-nav-creator-pill-label {
-  font-weight: 700;
+.nct-label {
+  font-size: 12px;
   letter-spacing: -0.01em;
 }
 
-.btn-nav-creator-pill-tag {
-  font-size: 10px;
-  font-weight: 800;
-  padding: 1px 6px;
+/* Toggle Slider Track & Knob */
+.nct-toggle-track {
+  width: 32px;
+  height: 18px;
   border-radius: var(--radius-full, 9999px);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+  position: relative;
+  transition: background-color 0.22s ease, box-shadow 0.22s ease;
+  padding: 2px;
+  box-sizing: border-box;
 }
 
-.btn-navbar-creator-pill.candidate-active .btn-nav-creator-pill-tag {
-  background: rgba(245, 158, 11, 0.2);
-  color: #B45309;
+.nct-toggle-track.track-off {
+  background: #CBD5E1;
 }
 
-.btn-navbar-creator-pill.creator-active .btn-nav-creator-pill-tag {
-  background: rgba(255, 198, 0, 0.2);
-  color: var(--shine-yellow, #FFC600);
+.navbar-creator-toggle-control:hover .nct-toggle-track.track-off {
+  background: #94A3B8;
+}
+
+.nct-toggle-track.track-on {
+  background: #FFC600;
+  box-shadow: 0 0 8px rgba(255, 198, 0, 0.45);
+}
+
+.nct-toggle-knob {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: translateX(0);
+}
+
+.nct-toggle-track.track-on .nct-toggle-knob {
+  transform: translateX(14px);
+  background: #111827;
 }
 
 /* Become a Mentor Navbar Pill for unregistered candidates */
@@ -6487,6 +6520,38 @@ button {
 .btn-card-action-sm { font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: var(--radius-sm); }
 .btn-teaser-play { background: #F8FAFC; border: 1px solid var(--shine-border); color: var(--shine-dark-navy); }
 .btn-book-sm { background: var(--shine-yellow); color: var(--shine-dark-navy); }
+.btn-edit-listing-sm {
+  background: linear-gradient(135deg, var(--shine-dark-navy, #111827) 0%, var(--shine-midnight, #1F2937) 100%);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.btn-edit-listing-sm:hover {
+  background: linear-gradient(135deg, #1F2937 0%, #111827 100%);
+  border-color: var(--shine-yellow, #FFC600);
+  transform: translateY(-1px);
+}
+
+.self-expert-card {
+  border: 1.5px solid #FCD34D !important;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.12) !important;
+}
+
+.my-listing-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+  color: #92400E;
+  border: 1px solid #FCD34D;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 7px;
+  border-radius: var(--radius-full, 9999px);
+  margin-left: 6px;
+  vertical-align: middle;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
 
 /* Centered Modern Shine Gallery Pagination */
 .gallery-pagination {

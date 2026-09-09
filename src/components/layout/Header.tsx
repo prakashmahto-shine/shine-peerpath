@@ -172,16 +172,15 @@ export const Header: React.FC<HeaderProps> = ({
             />
           </form>
 
-          {/* ⚡ DIRECT NAVBAR CREATOR STUDIO SWITCH PILL (Only for users with Expert / Mentor Access, e.g. Nisha & Akash) */}
+          {/* ⚡ DIRECT NAVBAR CREATOR STUDIO TOGGLE SWITCH (Only for users with Expert / Mentor Access, e.g. Nisha & Akash) */}
           {currentUser && isAlreadyMentor && (
-            <button
-              type="button"
-              className={`btn-navbar-creator-pill ${isCreatorMode ? 'creator-active' : 'candidate-active'}`}
+            <div
+              className={`navbar-creator-toggle-control ${isCreatorMode ? 'is-on' : 'is-off'}`}
               onClick={() => {
                 const nextMode = !isCreatorMode;
                 setIsCreatorMode(nextMode);
                 showToast(
-                  nextMode ? '⚡ Switched to Creator Studio Mode' : '👤 Switched to Candidate View',
+                  nextMode ? '⚡ Creator Studio Mode Activated' : '👤 Switched to Candidate View',
                   nextMode ? 'Opening Creator Studio dashboard & payouts.' : 'Switched to candidate profile & career roadmap.',
                   'info'
                 );
@@ -191,16 +190,18 @@ export const Header: React.FC<HeaderProps> = ({
                   onNavigate('profile-view');
                 }
               }}
-              title={isCreatorMode ? "Switch to Candidate View" : "Switch to Creator Studio Mode"}
+              role="switch"
+              aria-checked={isCreatorMode}
+              title={isCreatorMode ? "Creator Studio is ON (Click to turn OFF)" : "Creator Studio is OFF (Click to turn ON)"}
             >
-              <span className="btn-nav-creator-pill-icon">{isCreatorMode ? '👤' : '⚡'}</span>
-              <span className="btn-nav-creator-pill-label">
-                {isCreatorMode ? 'Candidate View' : 'Creator Studio'}
-              </span>
-              <span className="btn-nav-creator-pill-tag">
-                {isCreatorMode ? 'Switch' : 'Active'}
-              </span>
-            </button>
+              <div className="nct-text-wrap">
+                <span className="nct-icon">⚡</span>
+                <span className="nct-label">Creator Studio</span>
+              </div>
+              <div className={`nct-toggle-track ${isCreatorMode ? 'track-on' : 'track-off'}`}>
+                <div className="nct-toggle-knob" />
+              </div>
+            </div>
           )}
 
           {/* User Avatar Dropdown OR Login/Register CTA */}

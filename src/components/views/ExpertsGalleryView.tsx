@@ -261,53 +261,68 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
               <p style={{ color: '#64748b', fontSize: '13px' }}>Try resetting filters or adjusting search terms.</p>
             </div>
           ) : (
-            filteredExperts.map((exp) => (
-              <div key={exp.id} className="expert-teaser-card" id={`card-${exp.id}`}>
-                <div className="card-video-thumb-wrap" onClick={() => handleCardClick(exp.id)}>
-                  <img src={exp.videoPoster} alt={exp.name} className="card-video-thumb-img" />
-                  <div className="video-thumb-play-overlay">
-                    <div className="thumb-play-btn"><Play size={20} fill="#0f172a" /></div>
-                  </div>
-                  <span className="thumb-duration-badge">{exp.duration}</span>
-                </div>
+            filteredExperts.map((exp) => {
+              const isSelf = Boolean(
+                currentUser && (
+                  exp.id === currentUser.id ||
+                  (currentUser.username && exp.id.toLowerCase() === currentUser.username.toLowerCase()) ||
+                  (currentUser.name && exp.name.toLowerCase() === currentUser.name.toLowerCase())
+                )
+              );
 
-                <div className="card-content-body">
-                  <div className="card-expert-info">
-                    <img src={exp.avatar} alt={exp.name} className="card-avatar-img" />
-                    <div className="card-meta-text">
-                      <div className="card-name-row">
-                        <h3 className="card-expert-name">
-                          {exp.name} <ShieldCheck size={15} className="verified-badge-shield" />
-                        </h3>
+              return (
+                <div key={exp.id} className={`expert-teaser-card ${isSelf ? 'self-expert-card' : ''}`} id={`card-${exp.id}`}>
+                  <div className="card-video-thumb-wrap" onClick={() => handleCardClick(exp.id)}>
+                    <img src={exp.videoPoster} alt={exp.name} className="card-video-thumb-img" />
+                    <div className="video-thumb-play-overlay">
+                      <div className="thumb-play-btn"><Play size={20} fill="#0f172a" /></div>
+                    </div>
+                    <span className="thumb-duration-badge">{exp.duration}</span>
+                  </div>
+
+                  <div className="card-content-body">
+                    <div className="card-expert-info">
+                      <img src={exp.avatar} alt={exp.name} className="card-avatar-img" />
+                      <div className="card-meta-text">
+                        <div className="card-name-row">
+                          <h3 className="card-expert-name">
+                            {exp.name} <ShieldCheck size={15} className="verified-badge-shield" />
+                            {isSelf && <span className="my-listing-badge">⭐ Your Listing</span>}
+                          </h3>
+                        </div>
+                        <p className="card-expert-role">{exp.role} at <strong>{exp.company}</strong></p>
                       </div>
-                      <p className="card-expert-role">{exp.role} at <strong>{exp.company}</strong></p>
                     </div>
-                  </div>
 
-                  <div className="card-stats-row">
-                    <span className="card-exp">{exp.experience}</span>
-                    <span className="card-rating"><Star size={13} className="star-gold" /> {exp.rating} ({exp.reviewsCount})</span>
-                  </div>
-
-                  <div className="card-skills-row">
-                    {exp.skills.slice(0, 2).map((s) => (
-                      <span key={s} className="card-skill-tag">{s}</span>
-                    ))}
-                  </div>
-
-                  <div className="card-footer-pricing-row">
-                    <div>
-                      <span className="card-price-text">₹{exp.price}</span>
-                      <span className="card-price-unit"> / 60 min</span>
+                    <div className="card-stats-row">
+                      <span className="card-exp">{exp.experience}</span>
+                      <span className="card-rating"><Star size={13} className="star-gold" /> {exp.rating} ({exp.reviewsCount})</span>
                     </div>
-                    <div className="card-btn-group">
-                      <button className="btn-card-action-sm btn-teaser-play" onClick={() => handleCardClick(exp.id)}>Watch Teaser</button>
-                      <button className="btn-card-action-sm btn-book-sm" onClick={() => onOpenBooking(exp.id)}>Book Session</button>
+
+                    <div className="card-skills-row">
+                      {exp.skills.slice(0, 2).map((s) => (
+                        <span key={s} className="card-skill-tag">{s}</span>
+                      ))}
+                    </div>
+
+                    <div className="card-footer-pricing-row">
+                      <div>
+                        <span className="card-price-text">₹{exp.price}</span>
+                        <span className="card-price-unit"> / 60 min</span>
+                      </div>
+                      <div className="card-btn-group">
+                        <button className="btn-card-action-sm btn-teaser-play" onClick={() => handleCardClick(exp.id)}>Watch Teaser</button>
+                        {isSelf ? (
+                          <button className="btn-card-action-sm btn-edit-listing-sm" onClick={() => onNavigate('profile-view')} title="Manage your mentor profile, slots and pricing">Edit Listing</button>
+                        ) : (
+                          <button className="btn-card-action-sm btn-book-sm" onClick={() => onOpenBooking(exp.id)}>Book Session</button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
 

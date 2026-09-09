@@ -14,7 +14,14 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
   onNavigate,
   onOpenBooking,
 }) => {
-  const { previousView } = useApp();
+  const { previousView, currentUser } = useApp();
+  const isSelf = Boolean(
+    currentUser && (
+      expert.id === currentUser.id ||
+      (currentUser.username && expert.id.toLowerCase() === currentUser.username.toLowerCase()) ||
+      (currentUser.name && expert.name.toLowerCase() === currentUser.name.toLowerCase())
+    )
+  );
   const [activeTab, setActiveTab] = useState<'about' | 'trajectory' | 'sessions' | 'reviews'>('about');
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [videoProgress, setVideoProgress] = useState<number>(35);
@@ -99,9 +106,15 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
               <span className="price-val">₹{expert.price}</span>
               <span className="price-unit"> / 60 Min Session</span>
             </div>
-            <button className="btn-shine-gold-lg" onClick={() => onOpenBooking(expert.id)}>
-              <Calendar size={18} /> Book a Session
-            </button>
+            {isSelf ? (
+              <button className="btn-shine-gold-lg" onClick={() => onNavigate('profile-view')}>
+                <Award size={18} /> Manage Your Listing
+              </button>
+            ) : (
+              <button className="btn-shine-gold-lg" onClick={() => onOpenBooking(expert.id)}>
+                <Calendar size={18} /> Book a Session
+              </button>
+            )}
             <button className="btn-white-outline" onClick={togglePlay}>
               <PlayCircle size={18} /> Watch Teaser Video
             </button>
@@ -128,23 +141,25 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
             <div className="video-bottom-controls">
               <div className="video-caption-text">
                 <h4>{expert.teaserTitle}</h4>
-                <p>Key pitfalls to avoid, how to pitch enterprise clients, and the interview questions that matter.</p>
-              </div>
-              <div className="video-progress-track">
-                <div className="video-progress-fill" style={{ width: `${videoProgress}%` }}></div>
+                <p>Learn how {expert.name.split(' ')[0]} broke into Tier-1 product engineering and fast-tracked compensation.</p>
               </div>
             </div>
           </div>
+          
+          <div className="video-custom-seekbar">
+            <div className="seek-fill" style={{ width: `${videoProgress}%` }}></div>
+          </div>
         </div>
 
-        <div className="ep-tabs-bar">
-          <button className={`ep-tab ${activeTab === 'about' ? 'active' : ''}`} onClick={() => setActiveTab('about')}>About</button>
-          <button className={`ep-tab ${activeTab === 'trajectory' ? 'active' : ''}`} onClick={() => setActiveTab('trajectory')}>Career Trajectory</button>
-          <button className={`ep-tab ${activeTab === 'sessions' ? 'active' : ''}`} onClick={() => setActiveTab('sessions')}>Sessions Offered</button>
-          <button className={`ep-tab ${activeTab === 'reviews' ? 'active' : ''}`} onClick={() => setActiveTab('reviews')}>Reviews & Ratings ({expert.reviewsCount})</button>
+        <div className="expert-tabs-bar">
+          <button className={`ep-tab ${activeTab === 'about' ? 'active' : ''}`} onClick={() => setActiveTab('about')}>About Mentor</button>
+          <button className={`ep-tab ${activeTab === 'trajectory' ? 'active' : ''}`} onClick={() => setActiveTab('trajectory')}>Trajectory Roadmap</button>
+          <button className={`ep-tab ${activeTab === 'sessions' ? 'active' : ''}`} onClick={() => setActiveTab('sessions')}>1:1 Sessions</button>
+          <button className={`ep-tab ${activeTab === 'reviews' ? 'active' : ''}`} onClick={() => setActiveTab('reviews')}>Candidate Reviews ({expert.reviewsCount})</button>
         </div>
 
-        <div className="ep-tab-content-wrapper">
+        <div className="expert-tab-content-area">
+          <div className="tab-left-col">
           {activeTab === 'about' && (
             <div className="ep-about-grid">
               <div>
@@ -231,7 +246,11 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                   </div>
                   <p className="st-desc">60 min deep dive into your CV, gap analysis against target role, and actionable 90-day roadmap.</p>
                   <div className="st-meta"><span><Clock size={14} /> 60 Mins</span> <span><Video size={14} /> Video Call</span></div>
-                  <button className="btn-shine-gold w-100 mt-3" onClick={() => onOpenBooking(expert.id)}>Book This Session</button>
+                  {isSelf ? (
+                    <button className="btn-shine-gold w-100 mt-3" onClick={() => onNavigate('profile-view')}>Manage Session Details & Pricing</button>
+                  ) : (
+                    <button className="btn-shine-gold w-100 mt-3" onClick={() => onOpenBooking(expert.id)}>Book This Session</button>
+                  )}
                 </div>
                 <div className="st-card">
                   <div className="st-header">
@@ -240,7 +259,11 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                   </div>
                   <p className="st-desc">Real interview simulation using Tier-1 hiring rubric. Successful completion unlocks your Shine Recruiter Shield Badge.</p>
                   <div className="st-meta"><span><Clock size={14} /> 60 Mins</span> <span><Shield size={14} /> Includes Badge</span></div>
-                  <button className="btn-shine-gold w-100 mt-3" onClick={() => onOpenBooking(expert.id)}>Book This Session</button>
+                  {isSelf ? (
+                    <button className="btn-shine-gold w-100 mt-3" onClick={() => onNavigate('profile-view')}>Manage Session Details & Pricing</button>
+                  ) : (
+                    <button className="btn-shine-gold w-100 mt-3" onClick={() => onOpenBooking(expert.id)}>Book This Session</button>
+                  )}
                 </div>
               </div>
             </div>
@@ -280,9 +303,8 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
               </div>
             </div>
           )}
-
+          </div>
         </div>
-
       </div>
     </div>
   );
