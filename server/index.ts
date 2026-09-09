@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import cvRoutes from './routes/cvRoutes';
 import trajectoryRoutes from './routes/trajectoryRoutes';
@@ -18,7 +19,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || process.env.API_PORT || 5001;
+const PORT = Number(process.env.PORT) || Number(process.env.API_PORT) || 5001;
+const HOST = '0.0.0.0';
 
 // Middleware
 app.use(cors());
@@ -57,14 +59,20 @@ app.use('/api/jobs', jobRoutes);
 
 // Serve static frontend build (production)
 const distPath = path.resolve(__dirname, '../dist');
-app.use(express.static(distPath));
+if (fs.existsSync(distPath)) {
+  app.use(express.static(distPath));
+}
 
 // Fallback to index.html for non-API client routing (Express 5 compatible)
 app.use((req: Request, res: Response) => {
   if (req.path.startsWith('/api')) {
     return res.status(404).json({ error: 'API route not found' });
   }
-  res.sendFile(path.join(distPath, 'index.html'));
+  const indexPath = path.join(distPath, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    return res.sendFile(indexPath);
+  }
+  res.status(200).send('Shine Peerpath API Server is running! (Frontend build not found, run npm run build to generate dist)');
 });
 
 // Global Error Handler
@@ -76,10 +84,10 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
   console.log(`====================================================`);
-  console.log(`🚀 Shine Peerpath Backend API Server running on port ${PORT}`);
-  console.log(`🔗 Health Check: http://localhost:${PORT}/api/health`);
+  console.log(`🚀 Shine Peerpath Backend API Server running on port ${PORT} (host: ${HOST})`);
+  console.log(`🔗 Health Check: http://${HOST}:${PORT}/api/health`);
   console.log(`🎯 Underserved Verticals: AI/ML, Semiconductor, Cybersecurity, Full-Stack`);
   console.log(`====================================================`);
 });
