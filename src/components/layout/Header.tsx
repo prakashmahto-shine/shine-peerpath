@@ -172,12 +172,36 @@ export const Header: React.FC<HeaderProps> = ({
             />
           </form>
 
-          <button 
-            className="btn-shine-getapp"
-            onClick={() => alert('Download Shine mobile app from Play Store or App Store!')}
-          >
-            Get App <ArrowUpRight size={13} />
-          </button>
+          {/* ⚡ DIRECT NAVBAR CREATOR STUDIO SWITCH PILL (Only for users with Expert / Mentor Access, e.g. Nisha & Akash) */}
+          {currentUser && isAlreadyMentor && (
+            <button
+              type="button"
+              className={`btn-navbar-creator-pill ${isCreatorMode ? 'creator-active' : 'candidate-active'}`}
+              onClick={() => {
+                const nextMode = !isCreatorMode;
+                setIsCreatorMode(nextMode);
+                showToast(
+                  nextMode ? '⚡ Switched to Creator Studio Mode' : '👤 Switched to Candidate View',
+                  nextMode ? 'Opening Creator Studio dashboard & payouts.' : 'Switched to candidate profile & career roadmap.',
+                  'info'
+                );
+                if (nextMode) {
+                  onNavigate('mentor-dashboard-view');
+                } else {
+                  onNavigate('profile-view');
+                }
+              }}
+              title={isCreatorMode ? "Switch to Candidate View" : "Switch to Creator Studio Mode"}
+            >
+              <span className="btn-nav-creator-pill-icon">{isCreatorMode ? '👤' : '⚡'}</span>
+              <span className="btn-nav-creator-pill-label">
+                {isCreatorMode ? 'Candidate View' : 'Creator Studio'}
+              </span>
+              <span className="btn-nav-creator-pill-tag">
+                {isCreatorMode ? 'Switch' : 'Active'}
+              </span>
+            </button>
+          )}
 
           {/* User Avatar Dropdown OR Login/Register CTA */}
           {currentUser ? (
@@ -210,48 +234,6 @@ export const Header: React.FC<HeaderProps> = ({
                     <strong>{currentUser.name}</strong>
                     <span>{currentUser.email || 'akash.jain@shine.com'}</span>
                   </div>
-
-                  {/* ⚡ CREATOR / CANDIDATE MODE TOGGLE SWITCH (Inside Profile Hover Menu - Only for Registered Mentors!) */}
-                  {isAlreadyMentor && (
-                    <div className="flyout-mode-switcher-row">
-                      <div className="flyout-mode-info">
-                        <span className="flyout-mode-label">
-                          {isCreatorMode ? '⚡ Creator Studio' : '👤 Candidate View'}
-                        </span>
-                        <span className="flyout-mode-status">
-                          {isCreatorMode ? 'Hosting & Payouts ON' : 'Job search & Roadmap'}
-                        </span>
-                      </div>
-                      <button 
-                        type="button"
-                        role="switch"
-                        aria-checked={isCreatorMode}
-                        className={`flyout-mode-switch-btn ${isCreatorMode ? 'switch-active' : ''}`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          const nextMode = !isCreatorMode;
-                          setIsCreatorMode(nextMode);
-                          showToast(
-                            nextMode ? '⚡ Switched to Creator Studio Mode' : '👤 Switched to Candidate View',
-                            nextMode ? 'Opening Creator Studio dashboard & payouts.' : 'Switched to candidate profile & career roadmap.',
-                            'info'
-                          );
-                          setIsUserMenuOpen(false);
-                          if (nextMode) {
-                            onNavigate('mentor-dashboard-view');
-                          } else {
-                            onNavigate('profile-view');
-                          }
-                        }}
-                        title={isCreatorMode ? "Switch to Candidate Mode" : "Switch to Creator Studio"}
-                      >
-                        <span className="flyout-switch-knob">
-                          {isCreatorMode ? '⚡' : '👤'}
-                        </span>
-                      </button>
-                    </div>
-                  )}
 
                   <div className="flyout-divider"></div>
 

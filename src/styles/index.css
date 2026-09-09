@@ -358,6 +358,155 @@ button {
   border-color: #CBD5E1;
 }
 
+/* ⚡ Direct Navbar Creator Studio Switcher Pill */
+.btn-navbar-creator-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  height: 34px;
+  border-radius: var(--radius-full, 9999px);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-navbar-creator-pill.candidate-active {
+  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+  border: 1.5px solid #FCD34D;
+  color: #92400E;
+  box-shadow: 0 1px 3px rgba(245, 158, 11, 0.1);
+}
+
+.btn-navbar-creator-pill.candidate-active:hover {
+  background: #FEF08A;
+  border-color: #F59E0B;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.22);
+}
+
+.btn-navbar-creator-pill.creator-active {
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  border: 1.5px solid #334155;
+  color: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.15);
+}
+
+.btn-navbar-creator-pill.creator-active:hover {
+  background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+  border-color: var(--shine-yellow, #FFC600);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+}
+
+.btn-nav-creator-pill-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.btn-nav-creator-pill-label {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.btn-nav-creator-pill-tag {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: var(--radius-full, 9999px);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.btn-navbar-creator-pill.candidate-active .btn-nav-creator-pill-tag {
+  background: rgba(245, 158, 11, 0.2);
+  color: #B45309;
+}
+
+.btn-navbar-creator-pill.creator-active .btn-nav-creator-pill-tag {
+  background: rgba(255, 198, 0, 0.2);
+  color: var(--shine-yellow, #FFC600);
+}
+
+/* Become a Mentor Navbar Pill for unregistered candidates */
+.btn-navbar-become-mentor-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  height: 34px;
+  border-radius: var(--radius-full, 9999px);
+  font-size: 12px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+  border: 1.5px solid #93C5FD;
+  color: #1E40AF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.1);
+  white-space: nowrap;
+}
+
+.btn-navbar-become-mentor-pill:hover {
+  background: #BFDBFE;
+  border-color: #3B82F6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+/* Dashboard Profile Widget - Creator Studio Switch Button */
+.prod-card-creator-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+  border: 1px solid #FCD34D;
+  color: #92400E;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 6px;
+  margin: 6px 0 2px 0;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow: 0 1px 2px rgba(245, 158, 11, 0.08);
+}
+
+.prod-card-creator-switch-btn:hover {
+  background: #FDE68A;
+  border-color: #F59E0B;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(245, 158, 11, 0.18);
+}
+
+.prod-card-creator-switch-btn.active-mode {
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  border-color: #334155;
+  color: #FFFFFF;
+}
+
+.prod-card-creator-switch-btn.active-mode:hover {
+  border-color: var(--shine-yellow, #FFC600);
+}
+
+.prod-card-creator-switch-btn .pccs-icon {
+  font-size: 12px;
+}
+
+.prod-card-creator-switch-btn .pccs-arrow {
+  color: inherit;
+  transition: transform 0.18s ease;
+}
+
+.prod-card-creator-switch-btn:hover .pccs-arrow {
+  transform: translateX(3px);
+}
+
 .btn-shine-recruiter-icon-circle {
   width: 36px;
   height: 36px;

@@ -265,16 +265,35 @@ export const DashboardView: React.FC = () => {
               <h3 className="prod-card-user-name">{userProfile.name || currentUser?.name || 'Prakash Mahto'}</h3>
               
               {isMentor ? (
-                <p className="prod-card-incomplete-caption">
-                  <span style={{ color: '#059669', fontWeight: 700 }}>🛡️ Verified Mentor</span> •{' '}
+                <>
+                  <p className="prod-card-incomplete-caption">
+                    <span style={{ color: '#059669', fontWeight: 700 }}>🛡️ Verified Mentor</span> •{' '}
+                    <button 
+                      type="button" 
+                      className="prod-update-profile-link" 
+                      onClick={() => navigate('profile-view')}
+                    >
+                      View Profile ➔
+                    </button>
+                  </p>
                   <button 
                     type="button" 
-                    className="prod-update-profile-link" 
-                    onClick={() => navigate('profile-view')}
+                    className={`prod-card-creator-switch-btn ${isCreatorMode ? 'active-mode' : ''}`}
+                    onClick={() => {
+                      const nextMode = !isCreatorMode;
+                      setIsCreatorMode(nextMode);
+                      if (nextMode) {
+                        navigate('mentor-dashboard-view');
+                      } else {
+                        navigate('profile-view');
+                      }
+                    }}
                   >
-                    View Profile ➔
+                    <span className="pccs-icon">{isCreatorMode ? '👤' : '⚡'}</span>
+                    <span className="pccs-label">{isCreatorMode ? 'Switch to Candidate View' : 'Open Creator Studio'}</span>
+                    <ArrowRight size={12} className="pccs-arrow" />
                   </button>
-                </p>
+                </>
               ) : (
                 <p className="prod-card-incomplete-caption">
                   Your Profile is Incomplete{' '}
