@@ -58,6 +58,9 @@ interface AppContextType {
   isCreatorMode: boolean;
   setIsCreatorMode: (enabled: boolean) => void;
   toggleCreatorMode: () => void;
+  creatorActiveTab: 'bookings' | 'availability' | 'profile-settings' | 'teaser' | 'pricing' | 'history';
+  setCreatorActiveTab: (tab: 'bookings' | 'availability' | 'profile-settings' | 'teaser' | 'pricing' | 'history') => void;
+  navigateToCreatorStudio: (tab?: 'bookings' | 'availability' | 'profile-settings' | 'teaser' | 'pricing' | 'history') => void;
 
   // Modals
   isBookingModalOpen: boolean;
@@ -390,6 +393,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const toggleCreatorMode = () => {
     setIsCreatorMode(prev => !prev);
+  };
+
+  const [creatorActiveTab, setCreatorActiveTab] = useState<'bookings' | 'availability' | 'profile-settings' | 'teaser' | 'pricing' | 'history'>('bookings');
+
+  const navigateToCreatorStudio = (tab: 'bookings' | 'availability' | 'profile-settings' | 'teaser' | 'pricing' | 'history' = 'bookings') => {
+    setIsCreatorMode(true);
+    setCreatorActiveTab(tab);
+    navigate('mentor-dashboard-view');
   };
 
   // Mentor Availability
@@ -816,6 +827,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         isCreatorMode,
         setIsCreatorMode,
         toggleCreatorMode,
+        creatorActiveTab,
+        setCreatorActiveTab,
+        navigateToCreatorStudio,
         isBookingModalOpen,
         setIsBookingModalOpen,
         isCreatorWizardOpen,

@@ -13,6 +13,7 @@ export const MySessionsView: React.FC = () => {
     currentUser,
     userProfile, 
     navigate, 
+    navigateToCreatorStudio,
     cancelSession, 
     rescheduleSession, 
     setActiveSession,
@@ -43,12 +44,16 @@ export const MySessionsView: React.FC = () => {
     (s.expert.name.toLowerCase().includes(loggedInFirstName) || s.expert.id === currentUser?.id)
   );
 
+  const displayUpcoming = isMentor ? mentorHostedUpcoming : candidateBookedUpcoming;
+  const displayCompleted = isMentor ? mentorHostedCompleted : candidateBookedCompleted;
+
   const [activeTab, setActiveTab] = useState<'hosted' | 'upcoming' | 'completed'>(
     isMentor ? 'hosted' : 'upcoming'
   );
+  const [cancellingId, setCancellingId] = useState<string | null>(null);
   const [reschedulingId, setReschedulingId] = useState<string | null>(null);
-  const [rescheduleDate, setRescheduleDate] = useState<string>('Tomorrow, 5 Sep');
-  const [rescheduleTime, setRescheduleTime] = useState<string>('02:00 PM - 03:00 PM');
+  const [rescheduleDate, setRescheduleDate] = useState<string>('Tomorrow, 6 Sep');
+  const [rescheduleTime, setRescheduleTime] = useState<string>('06:00 PM - 07:00 PM');
 
   const handleJoinCall = (session: typeof sessions[0]) => {
     setActiveSession(session);
@@ -68,10 +73,10 @@ export const MySessionsView: React.FC = () => {
         <button 
           type="button" 
           className="btn-sessions-back"
-          onClick={() => navigate('profile-view')}
+          onClick={() => isMentor ? navigateToCreatorStudio('bookings') : navigate('profile-view')}
         >
           <ArrowLeft size={16} />
-          <span>Back to Profile</span>
+          <span>{isMentor ? 'Back to Creator Studio' : 'Back to Profile'}</span>
         </button>
 
         <div style={{ display: 'flex', gap: '10px' }}>
@@ -80,18 +85,18 @@ export const MySessionsView: React.FC = () => {
               <button 
                 type="button" 
                 className="btn-ghost-sm"
-                onClick={() => navigate('profile-view')}
+                onClick={() => navigateToCreatorStudio('availability')}
                 style={{ background: '#FFFFFF', border: '1px solid #CBD5E1', color: '#0F172A', fontWeight: 700 }}
               >
-                <Settings size={14} /> Mentorship Settings
+                <Settings size={14} /> Profile & Slot Settings
               </button>
               <button 
                 type="button" 
                 className="btn-sessions-book-new"
-                onClick={() => navigate('experts-view')}
+                onClick={() => navigateToCreatorStudio('bookings')}
               >
-                <Plus size={16} />
-                <span>Book Leadership Mentor</span>
+                <Sparkles size={16} />
+                <span>Creator Studio</span>
               </button>
             </>
           ) : (
@@ -101,7 +106,7 @@ export const MySessionsView: React.FC = () => {
               onClick={() => navigate('experts-view')}
             >
               <Plus size={16} />
-              <span>Book Another Mentor</span>
+              <span>Book a Mentor</span>
             </button>
           )}
         </div>
@@ -251,7 +256,7 @@ export const MySessionsView: React.FC = () => {
               <div className="empty-icon-circle"><AlertCircle size={36} color="#94A3B8" /></div>
               <h3>No candidate bookings scheduled</h3>
               <p>Your availability is active on Peerpath. Candidates will book calls based on your available schedule.</p>
-              <button className="btn-shine-gold" onClick={() => navigate('profile-view')}>
+              <button className="btn-shine-gold" onClick={() => navigateToCreatorStudio('availability')}>
                 <Settings size={16} /> Manage Availability & Pricing
               </button>
             </div>

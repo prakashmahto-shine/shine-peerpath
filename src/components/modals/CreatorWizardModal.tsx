@@ -629,7 +629,7 @@ export const CreatorWizardModal: React.FC = () => {
               <div className="custom-price-adjustment-strip-modern mt-4">
                 <div className="cpa-left">
                   <strong>Custom Price Override:</strong>
-                  <span>Set your own custom rate anytime. 100% transferred directly to your bank account via weekly UPI.</span>
+                  <span>Set your own custom rate anytime. 100% creator payout settled to your linked account with 0% platform commission.</span>
                 </div>
                 <div className="cpa-input-wrap-modern">
                   <span className="cpa-curr">₹</span>

@@ -15,6 +15,8 @@ export const ProfileView: React.FC = () => {
     sessions,
     setActiveSession,
     navigate, 
+    navigateToCreatorStudio,
+    isCreatorMode,
     updateProfileSummary, 
     addSkill, 
     removeSkill, 
@@ -202,6 +204,30 @@ export const ProfileView: React.FC = () => {
   return (
     <div className="content-wrapper shine-official-myprofile-page">
       
+      {isMentor && (
+        <div style={{ background: '#FAF5FF', border: '1px solid #E9D5FF', borderRadius: '14px', padding: '14px 20px', marginBottom: '22px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: '0 2px 8px rgba(124, 58, 237, 0.06)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#EDE9FE', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#7C3AED', flexShrink: 0 }}>
+              <Sparkles size={18} />
+            </div>
+            <div>
+              <strong style={{ fontSize: '14px', color: '#581C87', display: 'block' }}>Verified Mentor Profile Active</strong>
+              <p style={{ margin: 0, fontSize: '12.5px', color: '#6B21A8' }}>
+                You are viewing candidate resume details. Manage your 60-sec teaser video, availability slots, session rates, and candidate calls in Creator Studio.
+              </p>
+            </div>
+          </div>
+          <button 
+            type="button" 
+            className="btn-shine-gold-sm"
+            onClick={() => navigateToCreatorStudio('bookings')}
+            style={{ flexShrink: 0, marginLeft: '16px', display: 'flex', alignItems: 'center', gap: '6px' }}
+          >
+            <span>⚡ Open Creator Studio Hub</span>
+          </button>
+        </div>
+      )}
+
       <div className="myprofile-layout-2col">
         
         {/* Left Column: Floating Profile Card */}

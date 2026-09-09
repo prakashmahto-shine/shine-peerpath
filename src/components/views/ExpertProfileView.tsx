@@ -14,7 +14,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
   onNavigate,
   onOpenBooking,
 }) => {
-  const { previousView, currentUser } = useApp();
+  const { previousView, currentUser, navigateToCreatorStudio } = useApp();
   const isSelf = Boolean(
     currentUser && (
       expert.id === currentUser.id ||
@@ -107,7 +107,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
               <span className="price-unit"> / 60 Min Session</span>
             </div>
             {isSelf ? (
-              <button className="btn-shine-gold-lg" onClick={() => onNavigate('profile-view')}>
+              <button className="btn-shine-gold-lg" onClick={() => navigateToCreatorStudio('teaser')}>
                 <Award size={18} /> Manage Your Listing
               </button>
             ) : (
@@ -247,7 +247,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                   <p className="st-desc">60 min deep dive into your CV, gap analysis against target role, and actionable 90-day roadmap.</p>
                   <div className="st-meta"><span><Clock size={14} /> 60 Mins</span> <span><Video size={14} /> Video Call</span></div>
                   {isSelf ? (
-                    <button className="btn-shine-gold w-100 mt-3" onClick={() => onNavigate('profile-view')}>Manage Session Details & Pricing</button>
+                    <button className="btn-shine-gold w-100 mt-3" onClick={() => navigateToCreatorStudio('pricing')}>Manage Session Details & Pricing</button>
                   ) : (
                     <button className="btn-shine-gold w-100 mt-3" onClick={() => onOpenBooking(expert.id)}>Book This Session</button>
                   )}
@@ -260,7 +260,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                   <p className="st-desc">Real interview simulation using Tier-1 hiring rubric. Successful completion unlocks your Shine Recruiter Shield Badge.</p>
                   <div className="st-meta"><span><Clock size={14} /> 60 Mins</span> <span><Shield size={14} /> Includes Badge</span></div>
                   {isSelf ? (
-                    <button className="btn-shine-gold w-100 mt-3" onClick={() => onNavigate('profile-view')}>Manage Session Details & Pricing</button>
+                    <button className="btn-shine-gold w-100 mt-3" onClick={() => navigateToCreatorStudio('pricing')}>Manage Session Details & Pricing</button>
                   ) : (
                     <button className="btn-shine-gold w-100 mt-3" onClick={() => onOpenBooking(expert.id)}>Book This Session</button>
                   )}

@@ -17,7 +17,7 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
   onOpenBooking,
   onNavigate,
 }) => {
-  const { setIsCreatorWizardOpen, currentUser } = useApp();
+  const { setIsCreatorWizardOpen, currentUser, isCreatorMode, navigateToCreatorStudio } = useApp();
   const isMentor = currentUser?.role === 'mentor';
   const [activeDomain, setActiveDomain] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -51,9 +51,15 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
       const q = searchTerm.toLowerCase();
       const matchName = exp.name.toLowerCase().includes(q);
       const matchRole = exp.role.toLowerCase().includes(q);
-      const matchComp = exp.company.toLowerCase().includes(q);
+      const matchCompany = exp.company.toLowerCase().includes(q);
       const matchSkills = exp.skills.some(s => s.toLowerCase().includes(q));
-      if (!matchName && !matchRole && !matchComp && !matchSkills) return false;
+      if (!matchName && !matchRole && !matchCompany && !matchSkills) return false;
+    }
+    if (expFilter !== 'all') {
+      const expYears = parseInt(exp.experience);
+      if (expFilter === '3-5' && (expYears < 3 || expYears > 5)) return false;
+      if (expFilter === '6-8' && (expYears < 6 || expYears > 8)) return false;
+      if (expFilter === '9+' && expYears < 9) return false;
     }
     return true;
   }).sort((a, b) => {
@@ -77,47 +83,49 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
 
   return (
     <div className="content-wrapper">
-      {/* Peerpath Top Sub-Nav View Switcher + Become Mentor CTA */}
-      <div className="peerpath-top-nav-switcher">
-        <div className="ptn-left-group">
-          <button 
-            type="button"
-            className="ptn-tab-btn"
-            onClick={() => onNavigate('guidance-view')}
-          >
-            <TrendingUp size={15} className="ptn-icon" />
-            <span>Recommended Pathways</span>
-            <span className="ptn-badge-pill">Best Fit</span>
-          </button>
-          
-          <button 
-            type="button"
-            className="ptn-tab-btn active ptn-mentors-highlight"
-            onClick={() => {}}
-          >
-            <div className="ptn-avatars-stack">
-              <img src="/avatars/saheli.jpg" alt="Mentor" className="ptn-av" />
-              <img src="/avatars/akash.jpg" alt="Mentor" className="ptn-av" />
-              <img src="/avatars/ishita.jpg" alt="Mentor" className="ptn-av" />
-              <span className="ptn-live-dot"></span>
-            </div>
-            <span className="ptn-label-main">Explore 500+ Mentors</span>
-            <span className="ptn-count-pill">Live 1:1 Prep</span>
-          </button>
-        </div>
+      {/* Peerpath Top Sub-Nav View Switcher (Candidate Mode Only) */}
+      {!isCreatorMode && (
+        <div className="peerpath-top-nav-switcher">
+          <div className="ptn-left-group">
+            <button 
+              type="button"
+              className="ptn-tab-btn"
+              onClick={() => onNavigate('guidance-view')}
+            >
+              <TrendingUp size={15} className="ptn-icon" />
+              <span>Recommended Pathways</span>
+              <span className="ptn-badge-pill">Best Fit</span>
+            </button>
+            
+            <button 
+              type="button"
+              className="ptn-tab-btn active ptn-mentors-highlight"
+              onClick={() => {}}
+            >
+              <div className="ptn-avatars-stack">
+                <img src="/avatars/saheli.jpg" alt="Mentor" className="ptn-av" />
+                <img src="/avatars/akash.jpg" alt="Mentor" className="ptn-av" />
+                <img src="/avatars/ishita.jpg" alt="Mentor" className="ptn-av" />
+                <span className="ptn-live-dot"></span>
+              </div>
+              <span className="ptn-label-main">Explore 500+ Mentors</span>
+              <span className="ptn-count-pill">Live 1:1 Prep</span>
+            </button>
+          </div>
 
-        {!isMentor && (currentUser?.isMentorEligible ?? false) && (
-          <button 
-            type="button"
-            className="ptn-become-mentor-btn"
-            onClick={() => setIsCreatorWizardOpen(true)}
-          >
-            <Sparkles size={13} className="text-amber-500" />
-            <span>Become a Mentor</span>
-            <span className="ptn-zero-fee-tag">0% Fee</span>
-          </button>
-        )}
-      </div>
+          {!isMentor && (currentUser?.isMentorEligible ?? false) && (
+            <button 
+              type="button"
+              className="ptn-become-mentor-btn"
+              onClick={() => setIsCreatorWizardOpen(true)}
+            >
+              <Sparkles size={13} className="text-amber-500" />
+              <span>Become a Mentor</span>
+              <span className="ptn-zero-fee-tag">0% Fee</span>
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Mentor Acquisition Banner for Candidates in Gallery (Nisha only) */}
       {!isMentor && (currentUser?.isMentorEligible ?? false) && (
@@ -134,24 +142,7 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
         </div>
       )}
 
-      {/* Breadcrumb Navigation Bar */}
-      <div className="view-breadcrumb-bar">
-        <button 
-          type="button"
-          className="btn-back-breadcrumb" 
-          onClick={() => onNavigate('guidance-view')}
-        >
-          <ChevronLeft size={16} />
-          <span>Back</span>
-        </button>
-        <span className="breadcrumb-separator">/</span>
-        <span className="breadcrumb-link" onClick={() => onNavigate('dashboard-view')}>Home</span>
-        <span className="breadcrumb-separator">/</span>
-        <span className="breadcrumb-link" onClick={() => onNavigate('guidance-view')}>Peerpath Guidance</span>
-        <span className="breadcrumb-separator">/</span>
-        <span className="breadcrumb-current">Verified Mentors</span>
-      </div>
-
+      {/* Main Header Block */}
       <div className="gallery-header-block">
         <div className="g-header-text">
           <h1 className="gallery-main-title">Learn from experts</h1>
@@ -313,7 +304,7 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
                       <div className="card-btn-group">
                         <button className="btn-card-action-sm btn-teaser-play" onClick={() => handleCardClick(exp.id)}>Watch Teaser</button>
                         {isSelf ? (
-                          <button className="btn-card-action-sm btn-edit-listing-sm" onClick={() => onNavigate('profile-view')} title="Manage your mentor profile, slots and pricing">Edit Listing</button>
+                          <button className="btn-card-action-sm btn-edit-listing-sm" onClick={() => navigateToCreatorStudio('teaser')} title="Manage your mentor profile, slots and pricing">Edit Listing</button>
                         ) : (
                           <button className="btn-card-action-sm btn-book-sm" onClick={() => onOpenBooking(exp.id)}>Book Session</button>
                         )}

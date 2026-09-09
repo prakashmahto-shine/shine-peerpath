@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Briefcase, Award, Bell, FileText, ChevronDown, Sparkles, 
-  User, Settings, LogOut, Video, Search, ArrowUpRight
+  User, Settings, LogOut, Video, Search, ArrowUpRight, Film, Clock, CreditCard
 } from 'lucide-react';
 import { ViewType } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -28,6 +28,7 @@ export const Header: React.FC<HeaderProps> = ({
     clearPeerpathJobContext,
     isCreatorMode,
     setIsCreatorMode,
+    navigateToCreatorStudio,
     showToast
   } = useApp();
 
@@ -93,13 +94,12 @@ export const Header: React.FC<HeaderProps> = ({
             {isAlreadyMentor && isCreatorMode ? (
               <>
                 <button 
+                  className={`myshine-link ${currentView === 'mentor-dashboard-view' ? 'active' : ''}`}
                   onClick={() => onNavigate('mentor-dashboard-view')} 
-                  className={`myshine-creator-pill ${currentView === 'mentor-dashboard-view' ? 'active-creator-pill' : ''}`}
-                  title="Go to Creator & Mentor Studio Dashboard"
+                  title="Go to Mentor & Studio Dashboard"
                 >
-                  <Sparkles size={14} className="creator-sparkle-icon" />
-                  <span>Creator Studio</span>
-                  <span className="pill-creator-badge">⚡ LIVE</span>
+                  <Sparkles size={15} /> Studio Dashboard
+                  <span className="pill-live-red-badge">LIVE</span>
                 </button>
 
                 <button 
@@ -107,14 +107,7 @@ export const Header: React.FC<HeaderProps> = ({
                   onClick={() => onNavigate('sessions-view')}
                 >
                   <Video size={15} /> Candidate Calls
-                </button>
-
-                <button 
-                  className={`myshine-link ${currentView === 'guidance-view' ? 'active' : ''}`} 
-                  onClick={() => onNavigate('guidance-view')}
-                  title="Browse Candidate Peerpath & Pathways"
-                >
-                  <FileText size={15} /> Candidate Roadmap
+                  {upcomingCount > 0 && <span className="flyout-count-pill" style={{ marginLeft: '4px' }}>{upcomingCount}</span>}
                 </button>
 
                 <button 
@@ -240,11 +233,17 @@ export const Header: React.FC<HeaderProps> = ({
 
                   {isAlreadyMentor && isCreatorMode ? (
                     <>
-                      <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('mentor-dashboard-view'); }}>
-                        <Sparkles size={15} className="text-amber-500" /> <span style={{ fontWeight: 700 }}>Creator Studio Dashboard</span>
+                      <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); navigateToCreatorStudio('bookings'); }}>
+                        <Sparkles size={15} className="text-amber-500" /> <span style={{ fontWeight: 700 }}>Creator Studio Hub</span>
                       </a>
-                      <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('profile-view'); }}>
-                        <User size={15} /> My Profile
+                      <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); navigateToCreatorStudio('teaser'); }}>
+                        <Film size={15} className="text-purple-600" /> Teaser & Profile Listing
+                      </a>
+                      <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); navigateToCreatorStudio('availability'); }}>
+                        <Clock size={15} className="text-blue-600" /> Manage Availability & Slots
+                      </a>
+                      <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); navigateToCreatorStudio('pricing'); }}>
+                        <CreditCard size={15} className="text-emerald-600" /> Session Rates & Payouts
                       </a>
                       <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }}>
                         <Video size={15} className="text-purple-600" /> 
