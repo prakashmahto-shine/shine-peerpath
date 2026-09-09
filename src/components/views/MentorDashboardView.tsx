@@ -4,7 +4,8 @@ import {
   Award, ShieldCheck, UserCheck, Sparkles, FileText, Download,
   RotateCcw, ArrowRight, TrendingUp, Check, Settings, Eye, X, Loader2, BookOpen,
   Play, Film, Plus, Trash2, ExternalLink, Zap, Lock, CreditCard, RefreshCw, AlertCircle,
-  SlidersHorizontal, User, Edit2, Unlock, Upload, UploadCloud, Code
+  SlidersHorizontal, User, Edit2, Unlock, Upload, UploadCloud, Code, Users, MessageSquare,
+  ThumbsUp, Bell, Heart, Share2
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { peerpathApi } from '../../services/api';
@@ -21,6 +22,82 @@ export interface MentorSessionOffering {
   icon: 'video' | 'award' | 'file' | 'code' | 'dollar';
   isEnabled: boolean;
 }
+
+export interface CandidateReviewItem {
+  id: string;
+  candidateName: string;
+  candidateRole: string;
+  candidateAvatar: string;
+  rating: number;
+  date: string;
+  sessionType: string;
+  comment: string;
+  badgeAwarded?: string;
+  isHelpfulCount: number;
+  replyText?: string;
+}
+
+const candidateReviewsList: CandidateReviewItem[] = [
+  {
+    id: 'rev-1',
+    candidateName: 'Prakash Mahto',
+    candidateRole: 'Senior Frontend Engineer (4+ Years)',
+    candidateAvatar: '/avatars/prakash.jpg',
+    rating: 5,
+    date: 'Yesterday, 4:30 PM',
+    sessionType: '1:1 Career Transition & Architecture Teardown',
+    comment: 'Akash completely transformed my approach to career transitions. The framework shared for handling interview objections and system design was invaluable! Received 2 recruiter calls directly after the badge was synced.',
+    badgeAwarded: 'Tier-1 Frontend & UI Architecture Master',
+    isHelpfulCount: 14
+  },
+  {
+    id: 'rev-2',
+    candidateName: 'Sneha Menon',
+    candidateRole: 'Senior SDE-2 @ Fintech Firm',
+    candidateAvatar: '/avatars/saheli.jpg',
+    rating: 5,
+    date: '4 Sep 2026',
+    sessionType: 'Mock Interview & Recruiter Assessment',
+    comment: 'The mock interview was ruthless in a good way. The best part was the verified badge added to my Shine profile — 2 recruiters contacted me directly next week with ₹28L+ packages.',
+    badgeAwarded: 'Distributed Search & System Design Ready',
+    isHelpfulCount: 19
+  },
+  {
+    id: 'rev-3',
+    candidateName: 'Rahul Kapoor',
+    candidateRole: 'Product Engineer @ Healthtech SaaS',
+    candidateAvatar: '/avatars/anirudh.jpg',
+    rating: 5,
+    date: '28 Aug 2026',
+    sessionType: '1:1 Career Transition Call',
+    comment: 'Akash pointed out 3 critical flaws in my pitch that were costing me interviews. Within 3 weeks of implementing his advice, I cleared the final round at Swiggy for a Senior role!',
+    badgeAwarded: 'PRD Scoping & A/B Experimentation',
+    isHelpfulCount: 24
+  },
+  {
+    id: 'rev-4',
+    candidateName: 'Vikramaditya Roy',
+    candidateRole: 'Full Stack Tech Lead',
+    candidateAvatar: '/avatars/prakash.jpg',
+    rating: 5,
+    date: '21 Aug 2026',
+    sessionType: 'Salary Negotiation & Exec Coaching',
+    comment: 'Direct, honest, and high-impact. He guided me on how to frame system design trade-offs and negotiate ₹34 LPA without counter-offers.',
+    isHelpfulCount: 8
+  },
+  {
+    id: 'rev-5',
+    candidateName: 'Neha Sharma',
+    candidateRole: 'Associate Product Manager',
+    candidateAvatar: '/avatars/nisha.jpg',
+    rating: 4.9,
+    date: '15 Aug 2026',
+    sessionType: '1:1 Career Transition Call',
+    comment: 'Clear roadmap for moving from APM to PM-2 in consumer tech. The framework for metrics and North Star definition is top-notch.',
+    badgeAwarded: 'Tier-1 Product Discovery & GTM',
+    isHelpfulCount: 15
+  }
+];
 
 export const MentorDashboardView: React.FC = () => {
   const { 
@@ -41,17 +118,20 @@ export const MentorDashboardView: React.FC = () => {
     showToast
   } = useApp();
 
-  // 3 Primary Clean Tabs: 'bookings' | 'availability' | 'profile-settings'
+  // 4 Primary Clean Tabs: 'bookings' | 'reviews' | 'availability' | 'profile-settings'
   const initialTab = (creatorActiveTab === 'teaser' || creatorActiveTab === 'pricing' || creatorActiveTab === 'profile-settings') 
     ? 'profile-settings' 
-    : (creatorActiveTab === 'availability' ? 'availability' : 'bookings');
+    : (creatorActiveTab === 'reviews' ? 'reviews' : (creatorActiveTab === 'availability' ? 'availability' : 'bookings'));
 
-  const [activeTab, setActiveTab] = useState<'bookings' | 'availability' | 'profile-settings'>(initialTab);
+  const [activeTab, setActiveTab] = useState<'bookings' | 'reviews' | 'availability' | 'profile-settings'>(initialTab);
   
   // Sub-filter for sessions tab: 'upcoming' | 'completed'
   const [sessionSubFilter, setSessionSubFilter] = useState<'upcoming' | 'completed'>(
     creatorActiveTab === 'history' ? 'completed' : 'upcoming'
   );
+
+  // Reviews filter
+  const [reviewFilter, setReviewFilter] = useState<'all' | '5star' | 'badges'>('all');
 
   // 🔒 EXPLICIT EDIT MODE TOGGLES (FREEZE/LOCKED BY DEFAULT UNTIL "EDIT" IS CLICKED)
   const [isEditingAvailability, setIsEditingAvailability] = useState<boolean>(false);
@@ -66,6 +146,8 @@ export const MentorDashboardView: React.FC = () => {
     if (creatorActiveTab) {
       if (creatorActiveTab === 'teaser' || creatorActiveTab === 'pricing' || creatorActiveTab === 'profile-settings') {
         setActiveTab('profile-settings');
+      } else if (creatorActiveTab === 'reviews') {
+        setActiveTab('reviews');
       } else if (creatorActiveTab === 'availability') {
         setActiveTab('availability');
       } else if (creatorActiveTab === 'history') {
@@ -78,7 +160,7 @@ export const MentorDashboardView: React.FC = () => {
     }
   }, [creatorActiveTab]);
 
-  const handleTabChange = (tab: 'bookings' | 'availability' | 'profile-settings') => {
+  const handleTabChange = (tab: 'bookings' | 'reviews' | 'availability' | 'profile-settings') => {
     setActiveTab(tab);
     setCreatorActiveTab(tab);
   };
@@ -551,7 +633,7 @@ export const MentorDashboardView: React.FC = () => {
         style={{ display: 'none' }}
       />
 
-      {/* Creator Studio Hero Card */}
+      {/* Creator Studio Hero Card with TOP TABS */}
       <div className="mentor-hero-card">
         <div className="mentor-hero-top">
           <div className="mentor-profile-group">
@@ -591,14 +673,15 @@ export const MentorDashboardView: React.FC = () => {
               <p className="mentor-hero-role">{headlineInput}</p>
               <div className="mentor-meta-row">
                 <div className="mentor-star-rating">
-                  <Star size={13} className="star-gold" />
+                  <Star size={13} className="star-gold" fill="#F59E0B" />
                   <strong>4.95</strong>
-                  <span>(145 verified candidate reviews)</span>
+                  <span>(145 reviews)</span>
                 </div>
-                <span>•</span>
-                <span>Session Rate: <strong>₹{sessionRate1} / hr</strong></span>
-                <span>•</span>
-                <span className="text-emerald-600 font-semibold">0% Platform Commission</span>
+                <span className="mentor-meta-dot">•</span>
+                <span className="mentor-meta-item">
+                  <span>Session Rate:</span>
+                  <strong>₹{sessionRate1} / hr</strong>
+                </span>
               </div>
             </div>
           </div>
@@ -619,23 +702,32 @@ export const MentorDashboardView: React.FC = () => {
           </div>
         </div>
 
-        {/* 4 Stats Metric Tiles - Powered by Live API */}
-        <div className="mentor-metrics-grid">
+        {/* 4 Core Mentor Metrics inside Hero Card (Earnings, Followers, Badges, Sessions) */}
+        <div className="mentor-metrics-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', marginTop: '20px', paddingTop: '18px', borderTop: '1px solid #F1F5F9' }}>
           <div className="mm-tile">
             <div className="mm-icon-wrap icon-green"><DollarSign size={18} /></div>
             <div>
               <span className="mm-label">Total Earnings</span>
               <strong className="mm-val">₹{totalEarnings.toLocaleString('en-IN')}</strong>
-              <span className="mm-sub">0% Commission • 100% Payout</span>
+              <span className="mm-sub">0% Fee • 100% Direct Payout</span>
             </div>
           </div>
 
           <div className="mm-tile">
-            <div className="mm-icon-wrap icon-purple"><Video size={18} /></div>
+            <div className="mm-icon-wrap icon-purple"><Users size={18} /></div>
             <div>
-              <span className="mm-label">Upcoming Sessions</span>
-              <strong className="mm-val">{upcomingMentorSessions.length}</strong>
-              <span className="mm-sub">Scheduled next 7 days</span>
+              <span className="mm-label">Total Followers</span>
+              <strong className="mm-val">1,840</strong>
+              <span className="mm-sub">+28 new • WhatsApp Alert Reach</span>
+            </div>
+          </div>
+
+          <div className="mm-tile">
+            <div className="mm-icon-wrap icon-indigo"><Award size={18} /></div>
+            <div>
+              <span className="mm-label">Badges Awarded</span>
+              <strong className="mm-val">{badgesIssuedCount}</strong>
+              <span className="mm-sub">Verified skill credentials</span>
             </div>
           </div>
 
@@ -647,21 +739,11 @@ export const MentorDashboardView: React.FC = () => {
               <span className="mm-sub">100% attendance rate</span>
             </div>
           </div>
-
-          <div className="mm-tile">
-            <div className="mm-icon-wrap icon-amber"><Award size={18} /></div>
-            <div>
-              <span className="mm-label">Badges Awarded</span>
-              <strong className="mm-val">{badgesIssuedCount}</strong>
-              <span className="mm-sub">Verified skill credentials</span>
-            </div>
-          </div>
         </div>
+
       </div>
 
-      {/* ========================================================================= */}
-      {/* 🌟 ULTRA-CLEAN 3-TAB SEGMENTED BAR */}
-      {/* ========================================================================= */}
+      {/* 🌟 MAIN NAVIGATION TABS (BELOW HERO CARD) */}
       <div className="clean-studio-nav-bar">
         <div className="clean-tab-segment-group">
           
@@ -676,7 +758,18 @@ export const MentorDashboardView: React.FC = () => {
             <span className="cs-tab-pill">{upcomingMentorSessions.length}</span>
           </button>
 
-          {/* TAB 2: AVAILABILITY & SLOTS */}
+          {/* TAB 2: CANDIDATE REVIEWS & FEEDBACK */}
+          <button 
+            type="button"
+            className={`cs-tab-btn ${activeTab === 'reviews' ? 'active' : ''}`}
+            onClick={() => handleTabChange('reviews')}
+          >
+            <Star size={16} fill="#F59E0B" color="#F59E0B" />
+            <span>Reviews & Ratings</span>
+            <span className="cs-tab-pill-neutral">145 Reviews</span>
+          </button>
+
+          {/* TAB 3: AVAILABILITY & SLOTS */}
           <button 
             type="button"
             className={`cs-tab-btn ${activeTab === 'availability' ? 'active' : ''}`}
@@ -687,7 +780,7 @@ export const MentorDashboardView: React.FC = () => {
             <span className="cs-tab-pill-neutral">{activeSlots.length} Active</span>
           </button>
 
-          {/* TAB 3: PROFILE, TEASER & PRICING */}
+          {/* TAB 4: PROFILE, TEASER & PRICING */}
           <button 
             type="button"
             className={`cs-tab-btn ${activeTab === 'profile-settings' ? 'active' : ''}`}
@@ -701,11 +794,11 @@ export const MentorDashboardView: React.FC = () => {
       </div>
 
       {/* ========================================================================= */}
-      {/* TAB 1: SESSIONS & CALLS (UPCOMING + COMPLETED SUB-SEGMENT) */}
+      {/* TAB 1: SESSIONS & CALLS (DIRECT BOOKINGS & CALLS VIEW) */}
       {/* ========================================================================= */}
       {activeTab === 'bookings' && (
         <div className="mentor-cards-stack">
-          
+
           {/* Clean Sub-Filter Switch: Upcoming vs Completed */}
           <div className="cs-sub-filter-row">
             <div className="cs-sub-filter-group">
@@ -910,7 +1003,194 @@ export const MentorDashboardView: React.FC = () => {
       )}
 
       {/* ========================================================================= */}
-      {/* TAB 2: AVAILABILITY & SLOTS SCHEDULER */}
+      {/* TAB 2: CANDIDATE REVIEWS & RATINGS (FEEDBACK FEED) */}
+      {/* ========================================================================= */}
+      {activeTab === 'reviews' && (
+        <div className="mentor-cards-stack">
+          
+          {/* Top Rating Breakdown & Follower Reach Overview */}
+          <div className="reviews-dashboard-overview-grid">
+            
+            {/* Overall Score Card */}
+            <div className="rdo-card rdo-score-box">
+              <div className="rdo-score-main">
+                <strong className="rdo-score-number">4.95</strong>
+                <div className="rdo-stars-col">
+                  <div className="rdo-stars-row">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <Star key={i} size={18} fill="#F59E0B" color="#F59E0B" />
+                    ))}
+                  </div>
+                  <span className="rdo-review-count">Based on <strong>145 Verified Candidate Reviews</strong></span>
+                </div>
+              </div>
+
+              <div className="rdo-breakdown-bars">
+                <div className="rdo-bar-row">
+                  <span className="rdo-bar-lbl">5 Star</span>
+                  <div className="rdo-track"><div className="rdo-fill" style={{ width: '96%' }}></div></div>
+                  <span className="rdo-bar-pct">96% (139)</span>
+                </div>
+                <div className="rdo-bar-row">
+                  <span className="rdo-bar-lbl">4 Star</span>
+                  <div className="rdo-track"><div className="rdo-fill" style={{ width: '4%' }}></div></div>
+                  <span className="rdo-bar-pct">4% (6)</span>
+                </div>
+                <div className="rdo-bar-row">
+                  <span className="rdo-bar-lbl">3 Star</span>
+                  <div className="rdo-track"><div className="rdo-fill" style={{ width: '0%' }}></div></div>
+                  <span className="rdo-bar-pct">0%</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Social Proof & Follower Reach Card */}
+            <div className="rdo-card rdo-community-box">
+              <div className="rdo-comm-header">
+                <div className="rdo-comm-icon"><Users size={20} /></div>
+                <div>
+                  <h4>1,840 Active Followers</h4>
+                  <span className="rdo-comm-sub">Candidates subscribed to your mentorship alerts</span>
+                </div>
+              </div>
+
+              <div className="rdo-reach-perks">
+                <div className="rdo-perk-item">
+                  <span className="rdo-perk-bullet">⚡</span>
+                  <div>
+                    <strong>Instant Broadcast Reach:</strong>
+                    <p>When you open new slots or host AMAs, all 1,840 followers get instant WhatsApp alerts.</p>
+                  </div>
+                </div>
+
+                <div className="rdo-perk-item">
+                  <span className="rdo-perk-bullet">🏆</span>
+                  <div>
+                    <strong>100% Recommendation Rate:</strong>
+                    <p>94% of reviewed candidates landed interviews within 30 days of your mentorship.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Review Filter Bar */}
+          <div className="cs-sub-filter-row">
+            <div className="cs-sub-filter-group">
+              <button 
+                type="button" 
+                className={`cs-sub-pill ${reviewFilter === 'all' ? 'active' : ''}`}
+                onClick={() => setReviewFilter('all')}
+              >
+                <MessageSquare size={14} />
+                <span>All Candidate Feedback (145)</span>
+              </button>
+
+              <button 
+                type="button" 
+                className={`cs-sub-pill ${reviewFilter === 'badges' ? 'active' : ''}`}
+                onClick={() => setReviewFilter('badges')}
+              >
+                <Award size={14} />
+                <span>With Verified Badges Awarded (28)</span>
+              </button>
+
+              <button 
+                type="button" 
+                className={`cs-sub-pill ${reviewFilter === '5star' ? 'active' : ''}`}
+                onClick={() => setReviewFilter('5star')}
+              >
+                <Star size={14} fill="#F59E0B" color="#F59E0B" />
+                <span>5-Star Testimonials (139)</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Reviews List Stack */}
+          <div className="creator-reviews-feed-stack">
+            {candidateReviewsList
+              .filter(rev => {
+                if (reviewFilter === 'badges') return Boolean(rev.badgeAwarded);
+                if (reviewFilter === '5star') return rev.rating === 5;
+                return true;
+              })
+              .map((rev) => (
+                <div key={rev.id} className="creator-review-card">
+                  <div className="crc-header-row">
+                    <div className="crc-candidate-meta">
+                      <img src={rev.candidateAvatar} alt={rev.candidateName} className="crc-avatar" />
+                      <div>
+                        <div className="crc-name-row">
+                          <strong className="crc-name">{rev.candidateName}</strong>
+                          <span className="crc-verified-student-tag">
+                            <CheckCircle2 size={12} /> Verified Session Candidate
+                          </span>
+                        </div>
+                        <p className="crc-role">{rev.candidateRole}</p>
+                      </div>
+                    </div>
+
+                    <div className="crc-rating-meta">
+                      <div className="crc-stars">
+                        {[1, 2, 3, 4, 5].map((s) => (
+                          <Star key={s} size={14} fill="#F59E0B" color="#F59E0B" />
+                        ))}
+                      </div>
+                      <span className="crc-date">{rev.date}</span>
+                    </div>
+                  </div>
+
+                  <div className="crc-session-tag-row">
+                    <span className="crc-session-pill">
+                      <Video size={12} /> {rev.sessionType}
+                    </span>
+                    {rev.badgeAwarded && (
+                      <span className="crc-badge-pill">
+                        <Award size={12} /> Awarded: <strong>"{rev.badgeAwarded}"</strong>
+                      </span>
+                    )}
+                  </div>
+
+                  <p className="crc-comment-text">
+                    "{rev.comment}"
+                  </p>
+
+                  <div className="crc-footer-actions">
+                    <div className="crc-helpful-tag">
+                      <ThumbsUp size={13} className="text-emerald-600" />
+                      <span>{rev.isHelpfulCount} candidates found this review helpful</span>
+                    </div>
+
+                    <div className="crc-action-buttons">
+                      <button 
+                        type="button" 
+                        className="btn-crc-action"
+                        onClick={() => showToast('💬 Thank You Sent!', `Sent a direct thank you note to ${rev.candidateName}.`, 'success')}
+                      >
+                        <Heart size={13} className="text-rose-500" />
+                        <span>Send Thank You</span>
+                      </button>
+
+                      <button 
+                        type="button" 
+                        className="btn-crc-action"
+                        onClick={() => showToast('⭐ Review Pinned!', `This review is now spotlighted on your public mentor page.`, 'success')}
+                      >
+                        <Star size={13} className="text-amber-500" />
+                        <span>Feature on Profile</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
+
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* TAB 3: AVAILABILITY & SLOTS SCHEDULER */}
       {/* ========================================================================= */}
       {activeTab === 'availability' && (
         <div className="mentor-settings-panel-card">

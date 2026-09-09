@@ -18,6 +18,7 @@ export interface Expert {
   bio: string;
   verifiedEmail: string;
   isVerifiedEmployer?: boolean;
+  followersCount?: number;
   trajectory?: {
     role3YearsAgo: string;
     company3YearsAgo: string;
@@ -76,10 +77,17 @@ export interface PeerVerifiedBadge {
   subtitle: string;
   verifierName: string;
   verifierRole: string;
+  verifierCompany?: string;
   verifierAvatar: string;
   date: string;
   skills: string[];
   status: 'verified' | 'in-progress';
+  credentialId?: string;
+  verificationUrl?: string;
+  qrCodeUrl?: string;
+  badgeLevel?: string;
+  scorePercentile?: string;
+  rubricSummary?: string;
 }
 
 export interface UserProfileData {

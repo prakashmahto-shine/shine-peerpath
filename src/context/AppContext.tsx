@@ -58,9 +58,9 @@ interface AppContextType {
   isCreatorMode: boolean;
   setIsCreatorMode: (enabled: boolean) => void;
   toggleCreatorMode: () => void;
-  creatorActiveTab: 'bookings' | 'availability' | 'profile-settings' | 'teaser' | 'pricing' | 'history';
-  setCreatorActiveTab: (tab: 'bookings' | 'availability' | 'profile-settings' | 'teaser' | 'pricing' | 'history') => void;
-  navigateToCreatorStudio: (tab?: 'bookings' | 'availability' | 'profile-settings' | 'teaser' | 'pricing' | 'history') => void;
+  creatorActiveTab: 'bookings' | 'reviews' | 'availability' | 'profile-settings' | 'teaser' | 'pricing' | 'history';
+  setCreatorActiveTab: (tab: 'bookings' | 'reviews' | 'availability' | 'profile-settings' | 'teaser' | 'pricing' | 'history') => void;
+  navigateToCreatorStudio: (tab?: 'bookings' | 'reviews' | 'availability' | 'profile-settings' | 'teaser' | 'pricing' | 'history') => void;
 
   // Modals
   isBookingModalOpen: boolean;
@@ -91,6 +91,11 @@ interface AppContextType {
   toasts: ToastMessage[];
   showToast: (title: string, description?: string, type?: 'success' | 'info' | 'warning') => void;
   removeToast: (id: string) => void;
+
+  // Mentor Follow System
+  followedMentorIds: string[];
+  toggleFollowMentor: (mentorId: string, mentorName?: string) => void;
+  isFollowingMentor: (mentorId: string) => boolean;
 }
 
 const initialBadges: PeerVerifiedBadge[] = [
@@ -99,22 +104,34 @@ const initialBadges: PeerVerifiedBadge[] = [
     title: 'Tier-1 Frontend & UI Architecture',
     subtitle: 'Verified by Akash Jain • Lead Product Manager @ Shine',
     verifierName: 'Akash Jain',
-    verifierRole: 'Lead Product Manager @ Shine',
+    verifierRole: 'Lead Product Manager',
+    verifierCompany: 'Shine (HT Media)',
     verifierAvatar: '/avatars/akash.jpg',
     date: 'Aug 24, 2026',
     skills: ['React.js 19', 'TypeScript Micro-Frontends', 'UI Performance', 'Design Systems'],
-    status: 'verified'
+    status: 'verified',
+    credentialId: 'SH-PP-84920-ARCH',
+    verificationUrl: 'https://shine.com/verify/SH-PP-84920-ARCH',
+    badgeLevel: 'Level 3: Architecture Master',
+    scorePercentile: 'Top 5% Talent on Shine',
+    rubricSummary: 'Demonstrated mastery in Module Federation, Web Vitals, and complex State Architecture during 1:1 Live Coding & System Assessment.'
   },
   {
     id: 'badge-solr-1',
     title: 'Distributed Search & Lucene Indexing',
     subtitle: 'Verified by Anirudh Sharma • Principal Search Architect @ Shine',
     verifierName: 'Anirudh Sharma',
-    verifierRole: 'Principal Search Architect @ Shine',
+    verifierRole: 'Principal Search Architect',
+    verifierCompany: 'Shine (HT Media)',
     verifierAvatar: '/avatars/anirudh.jpg',
     date: 'Aug 12, 2026',
     skills: ['Solr Query Syntax', 'Inverted Indexing', 'Distributed Sharding', 'FastAPI'],
-    status: 'verified'
+    status: 'verified',
+    credentialId: 'SH-PP-71042-SOLR',
+    verificationUrl: 'https://shine.com/verify/SH-PP-71042-SOLR',
+    badgeLevel: 'Level 2: Production Ready',
+    scorePercentile: 'Top 8% Search Engineers',
+    rubricSummary: 'Verified in distributed sharding, query latency optimization (<15ms), and high-throughput Solr index building.'
   }
 ];
 
@@ -449,9 +466,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setIsCreatorMode(prev => !prev);
   };
 
-  const [creatorActiveTab, setCreatorActiveTab] = useState<'bookings' | 'availability' | 'profile-settings' | 'teaser' | 'pricing' | 'history'>('bookings');
+  const [creatorActiveTab, setCreatorActiveTab] = useState<'bookings' | 'reviews' | 'availability' | 'profile-settings' | 'teaser' | 'pricing' | 'history'>('bookings');
 
-  const navigateToCreatorStudio = (tab: 'bookings' | 'availability' | 'profile-settings' | 'teaser' | 'pricing' | 'history' = 'bookings') => {
+  const navigateToCreatorStudio = (tab: 'bookings' | 'reviews' | 'availability' | 'profile-settings' | 'teaser' | 'pricing' | 'history' = 'bookings') => {
     setIsCreatorMode(true);
     setCreatorActiveTab(tab);
     navigate('mentor-dashboard-view');
@@ -539,6 +556,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const removeToast = (id: string) => {
     setToasts(prev => prev.filter(t => t.id !== id));
+  };
+
+  // Mentor Follow System
+  const [followedMentorIds, setFollowedMentorIds] = useState<string[]>(['saheli']);
+
+  const isFollowingMentor = (mentorId: string) => {
+    return followedMentorIds.includes(mentorId);
+  };
+
+  const toggleFollowMentor = (mentorId: string, mentorName?: string) => {
+    const isCurrentlyFollowing = followedMentorIds.includes(mentorId);
+    if (isCurrentlyFollowing) {
+      setFollowedMentorIds(prev => prev.filter(id => id !== mentorId));
+      showToast('Unfollowed Mentor', `You will no longer receive priority slot alerts for ${mentorName || 'this mentor'}.`, 'info');
+    } else {
+      setFollowedMentorIds(prev => [...prev, mentorId]);
+      showToast(`🔔 Followed ${mentorName || 'Mentor'}!`, `You will get instant WhatsApp alerts whenever new 1:1 mentorship slots or group AMAs open.`, 'success');
+    }
   };
 
   // View Navigation with URL sync & Smooth Scroll
@@ -961,7 +996,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         clearPeerpathJobContext,
         toasts,
         showToast,
-        removeToast
+        removeToast,
+        followedMentorIds,
+        toggleFollowMentor,
+        isFollowingMentor
       }}
     >
       {children}

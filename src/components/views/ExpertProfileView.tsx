@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   ArrowLeft, CheckCircle2, MapPin, Star, Clock, Users, Calendar, 
   PlayCircle, Film, Play, Pause, Zap, Award, Globe, Briefcase, 
-  CircleDot, Shield, Video, ChevronLeft 
+  CircleDot, Shield, Video, ChevronLeft, Bell, UserPlus, UserCheck 
 } from 'lucide-react';
 import { Expert, ViewType } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -18,7 +18,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
   onNavigate,
   onOpenBooking,
 }) => {
-  const { previousView, currentUser, navigateToCreatorStudio } = useApp();
+  const { previousView, currentUser, navigateToCreatorStudio, isFollowingMentor, toggleFollowMentor } = useApp();
 
   const [activeTab, setActiveTab] = useState<'about' | 'trajectory' | 'sessions' | 'reviews'>('about');
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -52,6 +52,10 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
       (currentUser.name && expert.name?.toLowerCase() === currentUser.name.toLowerCase())
     )
   );
+
+  const isFollowing = isFollowingMentor(expert.id);
+  const baseFollowers = expert.followersCount || ((expert.reviewsCount || 10) * 12 + 420);
+  const displayFollowersCount = isFollowing ? baseFollowers + 1 : baseFollowers;
 
   const togglePlay = () => {
     setIsPlaying(!isPlaying);
@@ -102,7 +106,29 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
 
           <div className="profile-meta-info">
             <div className="name-badge-row">
-              <h1 className="ep-name">{expert.name}</h1>
+              <div className="name-follow-group">
+                <h1 className="ep-name">{expert.name}</h1>
+                {!isSelf && (
+                  <button 
+                    type="button" 
+                    className={`btn-ep-follow ${isFollowing ? 'ep-following' : ''}`}
+                    onClick={() => toggleFollowMentor(expert.id, expert.name)}
+                    title={isFollowing ? 'You will receive priority slot notifications' : 'Follow to get instant WhatsApp slot alerts'}
+                  >
+                    {isFollowing ? (
+                      <>
+                        <Bell size={13} className="bell-active" />
+                        <span>Following ({displayFollowersCount})</span>
+                      </>
+                    ) : (
+                      <>
+                        <UserPlus size={13} />
+                        <span>+ Follow ({displayFollowersCount})</span>
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
               <span className="ep-verified-tag"><CheckCircle2 size={13} /> Work Email Verified</span>
             </div>
             <p className="ep-headline">{expert.role} at {expert.company}</p>
@@ -110,8 +136,9 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
             <div className="ep-metrics-bar">
               <span><MapPin size={14} /> {expert.location || 'India'}</span>
               <span><Star size={14} className="star-gold" /> <strong>{expert.rating || 4.9}</strong> ({expert.reviewsCount || 0} Reviews)</span>
+              <span><Users size={14} /> <strong>{displayFollowersCount.toLocaleString()}</strong> Followers</span>
               <span><Clock size={14} /> {expert.experience || '6+ Years'}</span>
-              <span><Users size={14} /> <strong>{expert.sessionsCount || 0}+</strong> Sessions Conducted</span>
+              <span><Award size={14} /> <strong>{expert.sessionsCount || 0}+</strong> Sessions Conducted</span>
             </div>
 
             <div className="ep-skills-chips">

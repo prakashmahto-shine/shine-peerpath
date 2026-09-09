@@ -4,9 +4,11 @@ import {
   Trash2, Star, Upload, ChevronDown, Check, Edit2, Briefcase, 
   Plus, X, Phone, Mail, Calendar, DollarSign, Clock, CheckCircle2,
   GraduationCap, TrendingUp, Zap, User, Video, RotateCcw,
-  ShieldCheck, Award, Film, Play, AlertCircle, Gift, Banknote, Users
+  ShieldCheck, Award, Film, Play, AlertCircle, Gift, Banknote, Users,
+  Share2, ExternalLink, Copy, QrCode
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { PeerVerifiedBadge } from '../../types';
 
 export const ProfileView: React.FC = () => {
   const { 
@@ -25,7 +27,8 @@ export const ProfileView: React.FC = () => {
     updateMentorTeaserVideo,
     setIsCreatorWizardOpen,
     setIsCvSyncModalOpen,
-    removeCandidateResume
+    removeCandidateResume,
+    showToast
   } = useApp();
 
   const loggedInFirstName = (userProfile.name || currentUser?.name || 'Prakash').split(' ')[0].toLowerCase();
@@ -146,6 +149,27 @@ export const ProfileView: React.FC = () => {
       updateMentorTeaserVideo(null);
     }
     setShowEditMentorshipModal(false);
+  };
+
+  const handleAddBadgeToLinkedIn = (badge: PeerVerifiedBadge) => {
+    const today = new Date();
+    const issueYear = today.getFullYear();
+    const issueMonth = today.getMonth() + 1;
+    const certName = encodeURIComponent(`Shine Peer-Verified: ${badge.title}`);
+    const orgName = encodeURIComponent('Shine.com');
+    const certUrl = encodeURIComponent(badge.verificationUrl || `https://shine.com/verify/${badge.credentialId || 'SH-PP-84920'}`);
+    const certId = encodeURIComponent(badge.credentialId || 'SH-PP-84920');
+
+    const linkedInUrl = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${certName}&organizationName=${orgName}&issueYear=${issueYear}&issueMonth=${issueMonth}&certUrl=${certUrl}&certId=${certId}`;
+
+    window.open(linkedInUrl, '_blank', 'noopener,noreferrer');
+    showToast('🚀 Opening LinkedIn Certification...', 'Credential details pre-filled. Add to your LinkedIn Licenses & Certifications!', 'success');
+  };
+
+  const handleCopyBadgeLink = (badge: PeerVerifiedBadge) => {
+    const link = badge.verificationUrl || `https://shine.com/verify/${badge.credentialId || 'SH-PP-84920'}`;
+    navigator.clipboard?.writeText(link);
+    showToast('📋 Credential Link Copied!', 'Attach this link to your CV on Naukri, Indeed or LinkedIn for instant recruiter verification.', 'success');
   };
 
   // Blue circular arc calculation
@@ -763,10 +787,18 @@ export const ProfileView: React.FC = () => {
                       <div className="v-badge-content">
                         <div className="v-badge-header-row">
                           <strong className="v-badge-title">{badge.title}</strong>
-                          <span className="v-badge-status-pill">
-                            <CheckCircle2 size={12} /> Verified
-                          </span>
+                          <div className="v-badge-tags-group">
+                            {badge.scorePercentile && (
+                              <span className="v-badge-percentile-pill">
+                                🏆 {badge.scorePercentile}
+                              </span>
+                            )}
+                            <span className="v-badge-status-pill">
+                              <CheckCircle2 size={12} /> Verified
+                            </span>
+                          </div>
                         </div>
+
                         <div className="v-badge-verifier-row">
                           <img 
                             src={badge.verifierAvatar || '/avatars/akash.jpg'} 
@@ -774,17 +806,53 @@ export const ProfileView: React.FC = () => {
                             className="v-badge-verifier-img" 
                           />
                           <span className="v-badge-verifier-text">
-                            Verified by <strong>{badge.verifierName}</strong> • {badge.verifierRole}
+                            Evaluated by <strong>{badge.verifierName}</strong> • {badge.verifierRole} ({badge.verifierCompany || 'Shine Leader'})
                           </span>
                         </div>
+
+                        {badge.rubricSummary && (
+                          <p className="v-badge-rubric-desc">
+                            "{badge.rubricSummary}"
+                          </p>
+                        )}
+
                         <div className="v-badge-skills-chips">
                           {badge.skills.map((skill, sIdx) => (
                             <span key={sIdx} className="v-badge-skill-chip">{skill}</span>
                           ))}
                         </div>
+
                         <div className="v-badge-footer-meta">
-                          <span className="v-badge-date">Issued: {badge.date}</span>
+                          <div className="v-badge-id-wrap">
+                            <span className="v-badge-date">Issued: {badge.date}</span>
+                            <span className="v-badge-cred-id">Credential ID: <strong>{badge.credentialId || 'SH-PP-84920'}</strong></span>
+                          </div>
                           <span className="v-badge-shine-stamp">✨ Shine PeerPath Verified</span>
+                        </div>
+
+                        {/* 1-Click Action Bar */}
+                        <div className="v-badge-action-bar">
+                          <button 
+                            type="button" 
+                            className="btn-v-linkedin"
+                            onClick={() => handleAddBadgeToLinkedIn(badge)}
+                            title="Add directly to LinkedIn Licenses & Certifications"
+                          >
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.46 1.46 0 1 0 0-2.92 1.46 1.46 0 0 0 0 2.92m1.37 9.74v-8.37H5.09v8.37z"/>
+                            </svg>
+                            <span>Add to LinkedIn</span>
+                          </button>
+
+                          <button 
+                            type="button" 
+                            className="btn-v-copy-link"
+                            onClick={() => handleCopyBadgeLink(badge)}
+                            title="Copy link to attach on Naukri, Indeed, or Resume"
+                          >
+                            <Copy size={13} />
+                            <span>Copy Link for Naukri / CV</span>
+                          </button>
                         </div>
                       </div>
                     </div>
