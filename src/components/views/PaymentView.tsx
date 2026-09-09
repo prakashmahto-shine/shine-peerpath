@@ -3,8 +3,18 @@ import { ArrowLeft, Calendar, ShieldCheck, Check, Building, Wallet, Lock, Loader
 import { useApp } from '../../context/AppContext';
 
 export const PaymentView: React.FC = () => {
-  const { bookingDraft, navigate, bookSession } = useApp();
-  const { expert, date, timeSlot } = bookingDraft;
+  const { bookingDraft, navigate, bookSession, selectedExpert } = useApp();
+  const expert = bookingDraft.expert || selectedExpert || {
+    id: 'akash',
+    name: 'Akash Jain',
+    role: 'Lead Product Manager',
+    company: 'Shine (HT Media)',
+    price: 999,
+    avatar: '/avatars/akash.jpg'
+  };
+
+  const date = bookingDraft.date || 'Tomorrow, 5 Sep';
+  const timeSlot = bookingDraft.timeSlot || '10:00 AM - 11:00 AM';
 
   const [payMethod, setPayMethod] = useState<'upi' | 'card' | 'netbanking' | 'wallet'>('upi');
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
@@ -13,7 +23,7 @@ export const PaymentView: React.FC = () => {
     setIsProcessing(true);
     setTimeout(() => {
       setIsProcessing(false);
-      bookSession(expert, date, timeSlot);
+      bookSession(expert as any, date, timeSlot);
       navigate('confirmed-view');
     }, 800);
   };
@@ -28,7 +38,7 @@ export const PaymentView: React.FC = () => {
         <h2 className="pay-sec-heading">Session Summary</h2>
 
         <div className="pay-expert-card">
-          <img src={expert.avatar} alt={expert.name} className="pay-avatar" />
+          <img src={expert.avatar || '/avatars/akash.jpg'} alt={expert.name} className="pay-avatar" />
           <div>
             <h4>{expert.name}</h4>
             <p>{expert.role} at {expert.company}</p>
@@ -39,7 +49,7 @@ export const PaymentView: React.FC = () => {
         <div className="bill-breakup-card">
           <div className="bill-row">
             <span>Session Fee (60 Mins)</span>
-            <span>₹{expert.price}</span>
+            <span>₹{expert.price || 999}</span>
           </div>
           <div className="bill-row">
             <span>Platform Fee & Trust Insurance</span>
@@ -52,7 +62,7 @@ export const PaymentView: React.FC = () => {
           <div className="bill-divider"></div>
           <div className="bill-row total-row">
             <strong>Total Amount Payable</strong>
-            <strong className="total-amt">₹{expert.price}</strong>
+            <strong className="total-amt">₹{expert.price || 999}</strong>
           </div>
         </div>
 
@@ -134,7 +144,7 @@ export const PaymentView: React.FC = () => {
               </>
             ) : (
               <>
-                <Lock size={16} /> Pay ₹{expert.price} & Confirm Session
+                <Lock size={16} /> Pay ₹{expert.price || 999} & Confirm Session
               </>
             )}
           </button>

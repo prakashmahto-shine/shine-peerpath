@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, CheckCircle2, MapPin, Star, Clock, Users, Calendar, PlayCircle, Film, Play, Pause, Zap, Award, Globe, Briefcase, CircleDot, Shield, Video, ChevronLeft } from 'lucide-react';
+import { 
+  ArrowLeft, CheckCircle2, MapPin, Star, Clock, Users, Calendar, 
+  PlayCircle, Film, Play, Pause, Zap, Award, Globe, Briefcase, 
+  CircleDot, Shield, Video, ChevronLeft 
+} from 'lucide-react';
 import { Expert, ViewType } from '../../types';
 import { useApp } from '../../context/AppContext';
 
@@ -15,13 +19,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
   onOpenBooking,
 }) => {
   const { previousView, currentUser, navigateToCreatorStudio } = useApp();
-  const isSelf = Boolean(
-    currentUser && (
-      expert.id === currentUser.id ||
-      (currentUser.username && expert.id.toLowerCase() === currentUser.username.toLowerCase()) ||
-      (currentUser.name && expert.name.toLowerCase() === currentUser.name.toLowerCase())
-    )
-  );
+
   const [activeTab, setActiveTab] = useState<'about' | 'trajectory' | 'sessions' | 'reviews'>('about');
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [videoProgress, setVideoProgress] = useState<number>(35);
@@ -36,6 +34,25 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
     return () => clearInterval(interval);
   }, [isPlaying]);
 
+  if (!expert) {
+    return (
+      <div className="content-wrapper expert-profile-layout" style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center', padding: '40px' }}>
+          <div className="cv-scan-circle-spinner" style={{ width: '40px', height: '40px', margin: '0 auto 16px', border: '3px solid #EDE9FE', borderTopColor: '#7C3AED', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+          <p style={{ color: '#64748B', fontSize: '15px', fontWeight: 600 }}>Loading Mentor Profile...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const isSelf = Boolean(
+    currentUser && (
+      expert.id === currentUser.id ||
+      (currentUser.username && expert.id?.toLowerCase() === currentUser.username.toLowerCase()) ||
+      (currentUser.name && expert.name?.toLowerCase() === currentUser.name.toLowerCase())
+    )
+  );
+
   const togglePlay = () => {
     setIsPlaying(!isPlaying);
   };
@@ -44,6 +61,9 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
     const target = previousView && previousView !== 'expert-profile-view' ? previousView : 'guidance-view';
     onNavigate(target);
   };
+
+  const skillsList = Array.isArray(expert.skills) ? expert.skills : [];
+  const mentorFirstName = (expert.name || 'Mentor').split(' ')[0];
 
   return (
     <div className="content-wrapper expert-profile-layout">
@@ -74,7 +94,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
         <div className="profile-header-main">
           
           <div className="profile-avatar-wrap">
-            <img src={expert.avatar} alt={expert.name} className="ep-avatar-img" />
+            <img src={expert.avatar || '/avatars/akash.jpg'} alt={expert.name} className="ep-avatar-img" />
             <div className="ep-verified-shield" title="Employment Verified">
               <CheckCircle2 size={16} />
             </div>
@@ -88,14 +108,14 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
             <p className="ep-headline">{expert.role} at {expert.company}</p>
             
             <div className="ep-metrics-bar">
-              <span><MapPin size={14} /> {expert.location}</span>
-              <span><Star size={14} className="star-gold" /> <strong>{expert.rating}</strong> ({expert.reviewsCount} Reviews)</span>
-              <span><Clock size={14} /> {expert.experience}</span>
-              <span><Users size={14} /> <strong>{expert.sessionsCount}+</strong> Sessions Conducted</span>
+              <span><MapPin size={14} /> {expert.location || 'India'}</span>
+              <span><Star size={14} className="star-gold" /> <strong>{expert.rating || 4.9}</strong> ({expert.reviewsCount || 0} Reviews)</span>
+              <span><Clock size={14} /> {expert.experience || '6+ Years'}</span>
+              <span><Users size={14} /> <strong>{expert.sessionsCount || 0}+</strong> Sessions Conducted</span>
             </div>
 
             <div className="ep-skills-chips">
-              {expert.skills.map((s) => (
+              {skillsList.map((s) => (
                 <span key={s} className="card-skill-tag">{s}</span>
               ))}
             </div>
@@ -103,7 +123,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
 
           <div className="ep-action-box">
             <div className="ep-price-tag">
-              <span className="price-val">₹{expert.price}</span>
+              <span className="price-val">₹{expert.price || 999}</span>
               <span className="price-unit"> / 60 Min Session</span>
             </div>
             {isSelf ? (
@@ -125,7 +145,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
         <div className="teaser-video-player-box">
           <div className="video-container-frame" onClick={togglePlay}>
             <div className="video-overlay-tint"></div>
-            <img src={expert.videoPoster} alt="Video Thumbnail" className="video-poster-img" />
+            <img src={expert.videoPoster || expert.avatar || '/avatars/akash.jpg'} alt="Video Thumbnail" className="video-poster-img" />
             
             <div className="video-play-center">
               <div className="play-pulse-circle" style={{ opacity: isPlaying ? 0.3 : 1 }}>
@@ -135,13 +155,13 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
 
             <div className="video-top-bar">
               <span className="video-badge-pill"><Film size={14} /> Trajectory Teaser</span>
-              <span className="video-duration-pill">{expert.duration}</span>
+              <span className="video-duration-pill">{expert.duration || '01:15'}</span>
             </div>
 
             <div className="video-bottom-controls">
               <div className="video-caption-text">
-                <h4>{expert.teaserTitle}</h4>
-                <p>Learn how {expert.name.split(' ')[0]} broke into Tier-1 product engineering and fast-tracked compensation.</p>
+                <h4>{expert.teaserTitle || `Teaser: How I Grew in ${expert.domain || 'Tech'}`}</h4>
+                <p>Learn how {mentorFirstName} broke into Tier-1 product engineering and fast-tracked compensation.</p>
               </div>
             </div>
           </div>
@@ -155,7 +175,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
           <button className={`ep-tab ${activeTab === 'about' ? 'active' : ''}`} onClick={() => setActiveTab('about')}>About Mentor</button>
           <button className={`ep-tab ${activeTab === 'trajectory' ? 'active' : ''}`} onClick={() => setActiveTab('trajectory')}>Trajectory Roadmap</button>
           <button className={`ep-tab ${activeTab === 'sessions' ? 'active' : ''}`} onClick={() => setActiveTab('sessions')}>1:1 Sessions</button>
-          <button className={`ep-tab ${activeTab === 'reviews' ? 'active' : ''}`} onClick={() => setActiveTab('reviews')}>Candidate Reviews ({expert.reviewsCount})</button>
+          <button className={`ep-tab ${activeTab === 'reviews' ? 'active' : ''}`} onClick={() => setActiveTab('reviews')}>Candidate Reviews ({expert.reviewsCount || 0})</button>
         </div>
 
         <div className="expert-tab-content-area">
@@ -164,11 +184,11 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
             <div className="ep-about-grid">
               <div>
                 <h3 className="pane-title">About Me</h3>
-                <p className="pane-body-text">{expert.bio}</p>
+                <p className="pane-body-text">{expert.bio || `Leading mentor at ${expert.company}. Guiding tech talent on career transition, architecture, and interview prep.`}</p>
 
                 <h4 className="pane-subtitle mt-4"><CheckCircle2 size={16} className="text-success" /> My Sessions Help With:</h4>
                 <ul className="ep-checklist">
-                  <li>Career transition roadmap into {expert.domain}</li>
+                  <li>Career transition roadmap into {expert.domain || 'Target Role'}</li>
                   <li>Core skills, metrics, and interview strategies</li>
                   <li>Live mock interview with Tier-1 enterprise rubrics</li>
                   <li>Internal referral review for qualified candidates</li>
@@ -212,22 +232,22 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                   <div className="node-content">
                     <span className="node-year">2022 — Present</span>
                     <h4>{expert.role} — {expert.company}</h4>
-                    <p>Leading enterprise sales and architecting scalable solutions with global teams.</p>
+                    <p>{expert.trajectory?.jumpStory || 'Leading scalable architecture and engineering solutions with global teams.'}</p>
                   </div>
                 </div>
                 <div className="timeline-node">
                   <div className="node-marker"><CircleDot size={12} /></div>
                   <div className="node-content">
                     <span className="node-year">2020 — 2022</span>
-                    <h4>Associate / Account Exec — Mid-Market</h4>
-                    <p>Closed mid-market deals and transitioned from inside sales.</p>
+                    <h4>{expert.trajectory?.role3YearsAgo || 'Senior Engineer'} — {expert.trajectory?.company3YearsAgo || 'Mid-tier Company'}</h4>
+                    <p>Mastered key jump skills: {(expert.trajectory?.keyJumpSkills || skillsList.slice(0, 3)).join(', ')}.</p>
                   </div>
                 </div>
                 <div className="timeline-node">
                   <div className="node-marker"><CircleDot size={12} /></div>
                   <div className="node-content">
                     <span className="node-year">2018 — 2020 (Candidate's Current State)</span>
-                    <h4>Junior Executive — Direct B2B</h4>
+                    <h4>Foundation Role ({expert.trajectory?.salary3YearsAgo || '₹6.5 LPA'})</h4>
                     <p>Started in foundational role with same baseline credentials as your current CV.</p>
                   </div>
                 </div>
@@ -242,7 +262,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                 <div className="st-card">
                   <div className="st-header">
                     <h4>1:1 Career Transition & Skill Gap</h4>
-                    <span className="st-price">₹{expert.price}</span>
+                    <span className="st-price">₹{expert.price || 999}</span>
                   </div>
                   <p className="st-desc">60 min deep dive into your CV, gap analysis against target role, and actionable 90-day roadmap.</p>
                   <div className="st-meta"><span><Clock size={14} /> 60 Mins</span> <span><Video size={14} /> Video Call</span></div>
@@ -255,7 +275,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                 <div className="st-card">
                   <div className="st-header">
                     <h4>Mock Interview & Recruiter Badge Assessment</h4>
-                    <span className="st-price">₹{expert.price + 500}</span>
+                    <span className="st-price">₹{(expert.price || 999) + 500}</span>
                   </div>
                   <p className="st-desc">Real interview simulation using Tier-1 hiring rubric. Successful completion unlocks your Shine Recruiter Shield Badge.</p>
                   <div className="st-meta"><span><Clock size={14} /> 60 Mins</span> <span><Shield size={14} /> Includes Badge</span></div>
@@ -279,7 +299,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                       <div className="rev-avatar">RK</div>
                       <div>
                         <strong>Rahul Kapoor</strong>
-                        <span>Transitioned to Freshworks</span>
+                        <span>Transitioned to Tier-1 Tech</span>
                       </div>
                     </div>
                     <div className="rev-rating"><Star size={14} className="star-gold" /> 5.0</div>
@@ -293,7 +313,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                       <div className="rev-avatar">SM</div>
                       <div>
                         <strong>Sneha Menon</strong>
-                        <span>Senior SDR @ Chargebee</span>
+                        <span>Senior Engineer</span>
                       </div>
                     </div>
                     <div className="rev-rating"><Star size={14} className="star-gold" /> 5.0</div>

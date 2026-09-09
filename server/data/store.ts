@@ -87,7 +87,8 @@ class Store {
   }
 
   public getCreatorById(id: string): Creator | undefined {
-    return this.data.creators.find(c => c.id === id);
+    const clean = (id || '').trim().toLowerCase();
+    return this.data.creators.find(c => c.id.toLowerCase() === clean);
   }
 
   public addCreator(newCreator: Creator): Creator {

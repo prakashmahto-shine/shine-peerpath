@@ -1,11 +1,25 @@
 import React, { useEffect } from 'react';
-import { Check, Calendar, Sparkles, CalendarPlus, Video, ArrowRight } from 'lucide-react';
+import { 
+  Check, Calendar, Sparkles, CalendarPlus, Video, ArrowRight, 
+  FileText, UploadCloud, CheckCircle2, ShieldCheck 
+} from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useApp } from '../../context/AppContext';
 
 export const ConfirmedView: React.FC = () => {
-  const { bookingDraft, navigate, userProfile } = useApp();
-  const { expert, date, timeSlot } = bookingDraft;
+  const { bookingDraft, navigate, userProfile, setIsCvSyncModalOpen, selectedExpert } = useApp();
+  
+  const expert = bookingDraft.expert || selectedExpert || {
+    id: 'akash',
+    name: 'Akash Jain',
+    role: 'Lead Product Manager',
+    company: 'Shine (HT Media)',
+    price: 999,
+    avatar: '/avatars/akash.jpg'
+  };
+
+  const date = bookingDraft.date || 'Tomorrow, 5 Sep';
+  const timeSlot = bookingDraft.timeSlot || '10:00 AM - 11:00 AM';
 
   useEffect(() => {
     try {
@@ -17,6 +31,9 @@ export const ConfirmedView: React.FC = () => {
     } catch (e) {}
   }, []);
 
+  const currentCv = bookingDraft.attachedCvName || userProfile?.resumeFileName || 'Prakash_Mahto_Frontend_Resume.pdf';
+  const isRecentlySynced = (userProfile?.resumeLastUpdated || '').includes('Just now') || (userProfile?.resumeLastUpdated || '').includes('Synced');
+
   return (
     <div className="content-wrapper confirmation-card-wrapper">
       <div className="conf-card">
@@ -26,24 +43,61 @@ export const ConfirmedView: React.FC = () => {
         </div>
 
         <h1 className="conf-title">Session Booked Successfully!</h1>
-        <p className="conf-subtitle">We've sent a calendar invite and video room link to <strong>{userProfile.email}</strong>.</p>
+        <p className="conf-subtitle">We've sent a calendar invite and video room link to <strong>{userProfile?.email || 'prakash.mahto@gmail.com'}</strong>.</p>
 
         <div className="conf-session-info-card">
-          <img src={expert.avatar} alt={expert.name} className="conf-avatar" />
+          <img src={expert.avatar || '/avatars/akash.jpg'} alt={expert.name || 'Mentor'} className="conf-avatar" />
           <div className="conf-meta">
-            <h3>{expert.name}</h3>
-            <p>{expert.role} at {expert.company}</p>
+            <h3>{expert.name || 'Mentor'}</h3>
+            <p>{expert.role || 'Tech Leader'} at {expert.company || 'Tech Company'}</p>
             <div className="conf-timing-badge">
               <Calendar size={13} /> {date} • {timeSlot}
             </div>
           </div>
-          <div className="conf-price-badge">₹{expert.price} Paid</div>
+          <div className="conf-price-badge">₹{expert.price || 999} Paid</div>
+        </div>
+
+        {/* Post-Booking CV Prep Card */}
+        <div className="conf-cv-prep-card">
+          <div className="conf-cv-prep-left">
+            <div className="conf-cv-icon-box">
+              <FileText size={20} className={isRecentlySynced ? "text-emerald-600" : "text-amber-600"} />
+            </div>
+            <div>
+              <div className="conf-cv-title-row">
+                <strong className="conf-cv-title">1:1 Session Dossier: Attached Resume</strong>
+                {isRecentlySynced ? (
+                  <span className="conf-cv-synced-badge">
+                    <CheckCircle2 size={12} /> 2026 CV Synced
+                  </span>
+                ) : (
+                  <span className="conf-cv-old-badge">
+                    ⚠️ Last updated ~1 yr ago
+                  </span>
+                )}
+              </div>
+              <p className="conf-cv-desc">
+                {isRecentlySynced 
+                  ? `Your updated resume (${currentCv}) is loaded into ${expert.name}'s Zero-Prep Dossier.`
+                  : `Currently attached: "${currentCv}". Want ${expert.name} to see your newest projects before the live call?`}
+              </p>
+            </div>
+          </div>
+
+          <button 
+            type="button"
+            className={isRecentlySynced ? "btn-outline-dark btn-sm-prep" : "btn-shine-gold btn-sm-prep"}
+            onClick={() => setIsCvSyncModalOpen(true)}
+          >
+            <UploadCloud size={14} />
+            <span>{isRecentlySynced ? 'Update Resume' : 'Upload Latest CV (1-Click)'}</span>
+          </button>
         </div>
 
         <div className="conf-checklist-box">
           <h4><Sparkles size={16} /> What happens next?</h4>
           <ol>
-            <li>Your Shine CV and Trajectory Gap Report have been automatically pre-loaded for {expert.name}.</li>
+            <li>Your Shine CV and Trajectory Gap Report have been automatically pre-loaded for {expert.name || 'your mentor'}.</li>
             <li>You will receive a WhatsApp reminder 15 minutes before the call starts.</li>
             <li>Post-session, your mentor will review and approve your <strong>Shine Verified Peer Badge</strong>.</li>
           </ol>

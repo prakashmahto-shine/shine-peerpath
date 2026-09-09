@@ -23,7 +23,8 @@ export const ProfileView: React.FC = () => {
     updateJobSearchStatus,
     updateMentorRatesAndAvailability,
     updateMentorTeaserVideo,
-    setIsCreatorWizardOpen
+    setIsCreatorWizardOpen,
+    setIsCvSyncModalOpen
   } = useApp();
 
   const loggedInFirstName = (userProfile.name || currentUser?.name || 'Prakash').split(' ')[0].toLowerCase();
@@ -476,17 +477,21 @@ export const ProfileView: React.FC = () => {
           <div className="myprofile-card prod-resume-card">
             <div className="prod-card-top-row">
               <h3 className="prod-card-title">Resume</h3>
-              <button className="btn-prod-upload-resume" onClick={() => alert('Select resume to upload')}>
-                <Upload size={14} /> Upload
+              <button className="btn-prod-upload-resume" onClick={() => setIsCvSyncModalOpen(true)}>
+                <Upload size={14} /> Upload Latest CV
               </button>
             </div>
 
             <div className="prod-resume-item-row">
               <div className="res-details-left">
-                <strong className="res-file-name">{userProfile.resumeFileName || 'Prakash-Mahto1.pdf'}</strong>
+                <strong className="res-file-name">{userProfile.resumeFileName || 'Prakash_Mahto_Frontend_Resume.pdf'}</strong>
                 <div className="res-sub-meta">
-                  <span>Uploaded: 26/06/2026</span>
-                  <span className="res-default-blue-chip">Default</span>
+                  <span>Uploaded: {userProfile.resumeLastUpdated || 'Almost a year ago'}</span>
+                  {(userProfile.resumeLastUpdated || '').includes('Just now') || (userProfile.resumeLastUpdated || '').includes('Synced') ? (
+                    <span className="res-default-blue-chip" style={{ background: '#ECFDF5', color: '#047857', border: '1px solid #A7F3D0' }}>✨ 2026 AI Synced</span>
+                  ) : (
+                    <span className="res-default-blue-chip">Default (Outdated)</span>
+                  )}
                 </div>
               </div>
 
@@ -497,8 +502,8 @@ export const ProfileView: React.FC = () => {
                 <button className="res-action-circle-btn star-gold-btn" title="Set as default">
                   <Star size={15} fill="#EAB308" color="#EAB308" />
                 </button>
-                <button className="res-action-circle-btn" title="Delete" onClick={() => alert('Cannot delete default resume')}>
-                  <Trash2 size={15} />
+                <button className="res-action-circle-btn" title="AI Sync / Update" onClick={() => setIsCvSyncModalOpen(true)}>
+                  <Sparkles size={15} color="#7C3AED" />
                 </button>
               </div>
             </div>

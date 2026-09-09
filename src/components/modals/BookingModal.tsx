@@ -1,12 +1,16 @@
-import React, { useMemo } from 'react';
-import { X, Video, Clock, ShieldCheck, Info, ArrowRight, Lock, CheckCircle2, Calendar, Star } from 'lucide-react';
+import React, { useMemo, useState, useRef } from 'react';
+import { 
+  X, Video, Clock, ShieldCheck, Info, ArrowRight, Lock, 
+  CheckCircle2, Calendar, Star, FileText, UploadCloud, Sparkles, RefreshCw 
+} from 'lucide-react';
 import { Expert } from '../../types';
+import { useApp } from '../../context/AppContext';
 
 interface BookingModalProps {
-  expert: Expert;
+  expert?: Expert;
   isOpen: boolean;
-  selectedDate: string;
-  selectedTime: string;
+  selectedDate?: string;
+  selectedTime?: string;
   onClose: () => void;
   onSelectDate: (dateStr: string) => void;
   onSelectTime: (timeStr: string) => void;
@@ -14,7 +18,7 @@ interface BookingModalProps {
 }
 
 export const BookingModal: React.FC<BookingModalProps> = ({
-  expert,
+  expert: propExpert,
   isOpen,
   selectedDate,
   selectedTime,
@@ -23,7 +27,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   onSelectTime,
   onProceedToPay,
 }) => {
-  if (!isOpen) return null;
+  const { userProfile, updateCandidateResume, bookingDraft, setBookingDraft, selectedExpert } = useApp();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isScanningCv, setIsScanningCv] = useState<boolean>(false);
+  const [scannedSuccess, setScannedSuccess] = useState<boolean>(false);
 
   // Dynamically calculate next 15 days starting strictly from Today
   const next15Days = useMemo(() => {
@@ -50,23 +57,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     return days;
   }, []);
 
-  // Helper to parse slot start time into 24-hour decimal format
-  const parseSlotStartHour = (slotTimeStr: string): number => {
-    try {
-      const startPart = slotTimeStr.split(' - ')[0].trim();
-      const [time, meridian] = startPart.split(' ');
-      const [hourStr, minStr] = time.split(':');
-      let hour = parseInt(hourStr, 10);
-      const min = parseInt(minStr || '0', 10);
-      if (meridian === 'PM' && hour !== 12) hour += 12;
-      if (meridian === 'AM' && hour === 12) hour = 0;
-      return hour + min / 60;
-    } catch {
-      return 0;
-    }
-  };
-
-  const allSlots = [
+  const allSlots = useMemo(() => [
     { time: '10:00 AM - 11:00 AM', label: '10:00 AM', period: 'Morning' },
     { time: '11:30 AM - 12:30 PM', label: '11:30 AM', period: 'Morning' },
     { time: '02:00 PM - 03:00 PM', label: '02:00 PM', period: 'Afternoon' },
@@ -74,25 +65,129 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     { time: '06:30 PM - 07:30 PM', label: '06:30 PM', period: 'Evening' },
     { time: '08:00 PM - 09:00 PM', label: '08:00 PM', period: 'Evening' },
     { time: '09:00 PM - 10:00 PM', label: '09:00 PM', period: 'Late Evening' }
-  ];
+  ], []);
 
-  // Resolve active date string: if selectedDate is empty or expired, pick tomorrow or today
-  const isSelectedInList = next15Days.some(d => d.fullDateStr === selectedDate);
+  // Helper to parse slot start time safely
+  const parseSlotStartHour = (slotTimeStr: string): number => {
+    try {
+      if (!slotTimeStr || typeof slotTimeStr !== 'string') return 0;
+      const parts = slotTimeStr.split(' - ');
+      if (!parts[0]) return 0;
+      const timeAndMeridian = parts[0].trim().split(' ');
+      if (timeAndMeridian.length < 2) return 0;
+      const time = timeAndMeridian[0];
+      const meridian = timeAndMeridian[1];
+      const timeParts = time.split(':');
+      let hour = parseInt(timeParts[0] || '0', 10);
+      const min = parseInt(timeParts[1] || '0', 10);
+      if (isNaN(hour)) return 0;
+      if (meridian === 'PM' && hour !== 12) hour += 12;
+      if (meridian === 'AM' && hour === 12) hour = 0;
+      return hour + (isNaN(min) ? 0 : min) / 60;
+    } catch {
+      return 0;
+    }
+  };
+
+  const isSelectedInList = Boolean(selectedDate && next15Days.some(d => d.fullDateStr === selectedDate));
   const activeDateStr = isSelectedInList 
-    ? selectedDate 
-    : (next15Days[1]?.fullDateStr || next15Days[0]?.fullDateStr);
+    ? (selectedDate as string)
+    : (next15Days[1]?.fullDateStr || next15Days[0]?.fullDateStr || 'Tomorrow, 5 Sep');
 
-  const isSelectedDayToday = next15Days.find(d => d.fullDateStr === activeDateStr)?.isToday || false;
+  const isSelectedDayToday = Boolean(next15Days.find(d => d.fullDateStr === activeDateStr)?.isToday);
 
-  // Real-time slot filtering: if Today is selected, only show future slots
+  // Real-time slot filtering
   const availableSlots = useMemo(() => {
     if (!isSelectedDayToday) {
       return allSlots;
     }
     const now = new Date();
     const currentDecimalHour = now.getHours() + now.getMinutes() / 60;
-    return allSlots.filter(s => parseSlotStartHour(s.time) > currentDecimalHour + 0.25);
-  }, [isSelectedDayToday]);
+    const filtered = allSlots.filter(s => parseSlotStartHour(s.time) > currentDecimalHour + 0.25);
+    return filtered.length > 0 ? filtered : allSlots;
+  }, [isSelectedDayToday, allSlots]);
+
+  if (!isOpen) return null;
+
+  const expert = propExpert || bookingDraft?.expert || selectedExpert || {
+    id: 'akash',
+    name: 'Akash Jain',
+    role: 'Lead Product Manager',
+    company: 'Shine (HT Media)',
+    domain: 'Product Management',
+    experience: '7+ Years Exp.',
+    rating: 4.95,
+    reviewsCount: 142,
+    sessionsCount: 280,
+    price: 999,
+    location: 'Bengaluru / Hybrid',
+    duration: '01:00',
+    avatar: '/avatars/akash.jpg',
+    videoPoster: '/avatars/akash.jpg',
+    teaserTitle: 'Teaser: Transitioning from SDE-2 to Tier-1 Product Management',
+    skills: ['PRD Writing', 'Product Discovery', 'Growth Metrics', 'A/B Testing'],
+    bio: 'Lead PM at Shine managing Career Multiplier & Peerpath.',
+    verifiedEmail: 'akash.jain@shine.com',
+    isVerifiedEmployer: true
+  };
+
+  const expertName = expert?.name || 'Mentor';
+  const expertAvatar = expert?.avatar || '/avatars/akash.jpg';
+  const expertRole = expert?.role || 'Tech Leader';
+  const expertCompany = expert?.company || 'Top Tier Tech';
+  const expertPrice = expert?.price || 999;
+  const expertRating = expert?.rating || 4.9;
+  const expertReviewsCount = expert?.reviewsCount || 100;
+
+  const currentCvName = bookingDraft?.attachedCvName || userProfile?.resumeFileName || 'Prakash_Mahto_Frontend_Resume.pdf';
+  const isCvRecentlyUpdated = Boolean(
+    (userProfile?.resumeLastUpdated && (userProfile.resumeLastUpdated.includes('Just now') || userProfile.resumeLastUpdated.includes('Synced'))) ||
+    scannedSuccess
+  );
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setIsScanningCv(true);
+      setTimeout(() => {
+        setIsScanningCv(false);
+        setScannedSuccess(true);
+        if (updateCandidateResume) {
+          updateCandidateResume(file.name, ['Next.js 15', 'React 19', 'Micro-Frontends', 'UI Architecture'], '₹24L - ₹30 LPA');
+        }
+        if (setBookingDraft) {
+          setBookingDraft({ ...bookingDraft, expert, attachedCvName: file.name });
+        }
+      }, 1200);
+    }
+  };
+
+  const handleQuickDemoUpload = () => {
+    setIsScanningCv(true);
+    setTimeout(() => {
+      setIsScanningCv(false);
+      setScannedSuccess(true);
+      const demoName = 'Prakash_Mahto_LeadFrontend_2026.pdf';
+      if (updateCandidateResume) {
+        updateCandidateResume(demoName, ['Next.js 15', 'React 19', 'Micro-Frontends', 'UI Architecture'], '₹24L - ₹30 LPA');
+      }
+      if (setBookingDraft) {
+        setBookingDraft({ ...bookingDraft, expert, attachedCvName: demoName });
+      }
+    }, 1100);
+  };
+
+  const handleProceed = () => {
+    if (setBookingDraft) {
+      setBookingDraft({
+        expert,
+        date: activeDateStr,
+        timeSlot: selectedTime || availableSlots[0]?.time || '10:00 AM - 11:00 AM',
+        attachedCvName: currentCvName
+      });
+    }
+    onProceedToPay();
+  };
 
   return (
     <div className="app-modal-backdrop open">
@@ -112,17 +207,17 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             
             <div className="bk-expert-summary-box">
               <div className="bk-avatar-wrap">
-                <img src={expert.avatar} alt={expert.name} className="bk-avatar" />
+                <img src={expertAvatar} alt={expertName} className="bk-avatar" />
                 <span className="bk-avatar-check"><CheckCircle2 size={12} /></span>
               </div>
               <div className="bk-expert-info">
-                <h4>{expert.name}</h4>
-                <p>{expert.role}</p>
-                <span className="bk-company-tag">{expert.company}</span>
+                <h4>{expertName}</h4>
+                <p>{expertRole}</p>
+                <span className="bk-company-tag">{expertCompany}</span>
                 <div className="bk-rating-row">
                   <Star size={12} className="star-gold" />
-                  <strong>{expert.rating}</strong>
-                  <span>({expert.reviewsCount} reviews)</span>
+                  <strong>{expertRating}</strong>
+                  <span>({expertReviewsCount} reviews)</span>
                 </div>
               </div>
             </div>
@@ -162,7 +257,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           {/* Right Date & Slot Picker */}
           <div className="booking-right-picker">
             <div className="bk-step-header">
-              <h3 className="modal-sec-title">Select Date & Time</h3>
+              <h3 className="modal-sec-title">Schedule Mentorship Session</h3>
             </div>
 
             {/* Step 1: 15-Day Date Slider / Grid */}
@@ -199,7 +294,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               {availableSlots.length > 0 ? (
                 <div className="slots-pill-grid">
                   {availableSlots.map((slot) => {
-                    const isSelected = selectedTime === slot.time;
+                    const isSelected = (selectedTime || availableSlots[0]?.time) === slot.time;
                     return (
                       <button
                         type="button"
@@ -224,12 +319,91 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               )}
             </div>
 
+            {/* Step 3: CV Attachment & Auto AI Sync (Option 1: Direct Cause-and-Effect Incentive) */}
+            <div className="bk-cv-attachment-section">
+              <div className="bk-cv-sec-header">
+                <label className="bk-field-label">
+                  <FileText size={14} /> 3. Upload Latest CV
+                </label>
+                <span className="bk-cv-impact-tag">⚡ Latest CV = 2x Better Guidance</span>
+              </div>
+
+              <div className={`bk-cv-box ${isCvRecentlyUpdated ? 'cv-box-updated' : 'cv-box-notice'}`}>
+                <div className="bk-cv-icon-col">
+                  {isScanningCv ? (
+                    <RefreshCw size={22} className="text-purple-600 animate-spin" />
+                  ) : isCvRecentlyUpdated ? (
+                    <CheckCircle2 size={22} className="text-emerald-500" />
+                  ) : (
+                    <FileText size={22} className="text-amber-500" />
+                  )}
+                </div>
+
+                <div className="bk-cv-info-col">
+                  <div className="bk-cv-filename-row">
+                    <strong className="bk-cv-filename">{currentCvName}</strong>
+                    {isCvRecentlyUpdated ? (
+                      <span className="bk-cv-badge-synced">✨ 2026 Latest CV Attached</span>
+                    ) : (
+                      <span className="bk-cv-badge-old">⚠️ 1 yr old (Outdated skills)</span>
+                    )}
+                  </div>
+                  
+                  <p className="bk-cv-subtext">
+                    {isScanningCv ? (
+                      <span className="text-purple-600 font-medium">⚡ AI scanning skills & creating tailored dossier for {expertName}...</span>
+                    ) : isCvRecentlyUpdated ? (
+                      <span className="text-emerald-600 font-medium">✅ Synced! {expertName} will review your latest 2026 skills & projects before the call for maximum value.</span>
+                    ) : (
+                      <span><strong>Why upload?</strong> {expertName} provides <strong>2x better mock interview & salary guidance</strong> with your 2026 CV (Older CV gives generic feedback).</span>
+                    )}
+                  </p>
+                </div>
+
+                <div className="bk-cv-upload-action">
+                  <input 
+                    ref={fileInputRef}
+                    type="file" 
+                    accept=".pdf,.doc,.docx" 
+                    style={{ display: 'none' }}
+                    onChange={handleFileUpload}
+                  />
+                  <button 
+                    type="button" 
+                    className="btn-bk-upload-cv"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isScanningCv}
+                  >
+                    <UploadCloud size={14} />
+                    <span>{isCvRecentlyUpdated ? 'Change' : 'Upload Latest CV'}</span>
+                  </button>
+                  {!isCvRecentlyUpdated && (
+                    <button 
+                      type="button" 
+                      className="btn-bk-fast-sync"
+                      onClick={handleQuickDemoUpload}
+                      title="1-Click AI Demo Resume Upload"
+                    >
+                      <Sparkles size={11} /> Fast Demo
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div className="bk-cv-reassurance-row">
+                <Clock size={12} className="text-amber-600 flex-shrink-0" />
+                <span>
+                  <strong>Don't have your updated CV right now?</strong> No worries — you can book now and upload anytime before the call via your dashboard or WhatsApp reminder.
+                </span>
+              </div>
+            </div>
+
             {/* Modal Footer */}
             <div className="booking-modal-footer">
               <div className="footer-price-col">
                 <span className="f-p-label">Total Payable Amount</span>
                 <div className="f-p-price-row">
-                  <span className="f-p-amount">₹{expert.price}</span>
+                  <span className="f-p-amount">₹{expertPrice}</span>
                   <span className="f-p-tax">Inclusive of all taxes</span>
                 </div>
               </div>
@@ -237,7 +411,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <button 
                 type="button"
                 className="btn-shine-gold-lg bk-pay-btn" 
-                onClick={onProceedToPay}
+                onClick={handleProceed}
               >
                 <span>Continue to Pay</span>
                 <ArrowRight size={16} />

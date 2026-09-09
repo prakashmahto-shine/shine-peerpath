@@ -23,6 +23,7 @@ import { BookingModal } from './components/modals/BookingModal';
 import { CreatorWizardModal } from './components/modals/CreatorWizardModal';
 import { LoginModal } from './components/modals/LoginModal';
 import { MentorAssessmentModal } from './components/modals/MentorAssessmentModal';
+import { CvUploadSyncModal } from './components/modals/CvUploadSyncModal';
 
 import { AppProvider, useApp } from './context/AppContext';
 import { ViewType } from './types';
@@ -88,6 +89,8 @@ const AppMain: React.FC = () => {
     selectExpertById,
     isBookingModalOpen, 
     setIsBookingModalOpen,
+    isCvSyncModalOpen,
+    setIsCvSyncModalOpen,
     bookingDraft,
     setBookingDraft,
     setSearchQuery
@@ -98,7 +101,7 @@ const AppMain: React.FC = () => {
   useEffect(() => {
     const route = pathToView(window.location.pathname);
     if (route.view !== currentView) {
-      navigate(route.view);
+      navigate(route.view, window.location.pathname);
     }
     if (route.expertId) {
       selectExpertById(route.expertId);
@@ -106,7 +109,7 @@ const AppMain: React.FC = () => {
 
     const onPopState = () => {
       const r = pathToView(window.location.pathname);
-      navigate(r.view);
+      navigate(r.view, window.location.pathname);
       if (r.expertId) {
         selectExpertById(r.expertId);
       }
@@ -143,7 +146,7 @@ const AppMain: React.FC = () => {
               <p>Your Profile was last updated <strong>almost a year ago</strong></p>
             </div>
             <div className="notice-right-actions">
-              <button className="btn-purple-notice" onClick={() => navigate('profile-view')}>
+              <button className="btn-purple-notice" onClick={() => setIsCvSyncModalOpen(true)}>
                 Update Profile
               </button>
               <button className="btn-close-notice" onClick={() => setShowTopNotice(false)} title="Dismiss">
@@ -240,13 +243,13 @@ const AppMain: React.FC = () => {
       {currentView !== 'live-call-view' && currentView !== 'login-view' && <Footer />}
 
       <BookingModal
-        expert={bookingDraft.expert || selectedExpert}
+        expert={bookingDraft?.expert || selectedExpert}
         isOpen={isBookingModalOpen}
-        selectedDate={bookingDraft.date}
-        selectedTime={bookingDraft.timeSlot}
+        selectedDate={bookingDraft?.date}
+        selectedTime={bookingDraft?.timeSlot}
         onClose={() => setIsBookingModalOpen(false)}
-        onSelectDate={(d) => setBookingDraft({ ...bookingDraft, date: d })}
-        onSelectTime={(t) => setBookingDraft({ ...bookingDraft, timeSlot: t })}
+        onSelectDate={(d) => setBookingDraft(prev => ({ ...prev, date: d }))}
+        onSelectTime={(t) => setBookingDraft(prev => ({ ...prev, timeSlot: t }))}
         onProceedToPay={() => {
           setIsBookingModalOpen(false);
           navigate('payment-view');
@@ -256,6 +259,7 @@ const AppMain: React.FC = () => {
       <CreatorWizardModal />
       <LoginModal />
       <MentorAssessmentModal />
+      <CvUploadSyncModal />
     </div>
   );
 };

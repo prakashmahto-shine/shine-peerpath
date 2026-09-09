@@ -98,6 +98,7 @@ export interface UserProfileData {
   targetCtc?: string;
   targetRole?: string;
   resumeFileName?: string;
+  resumeLastUpdated?: string;
   educationDegree?: string;
   educationCollege?: string;
   pastCompany?: string;

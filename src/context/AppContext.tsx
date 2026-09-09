@@ -71,10 +71,13 @@ interface AppContextType {
   setIsLoginModalOpen: (open: boolean) => void;
   isAssessmentModalOpen: boolean;
   setIsAssessmentModalOpen: (open: boolean) => void;
+  isCvSyncModalOpen: boolean;
+  setIsCvSyncModalOpen: (open: boolean) => void;
+  updateCandidateResume: (fileName: string, extractedSkills?: string[], targetCtc?: string) => void;
   assessmentDraftSession: MentorshipSession | null;
   setAssessmentDraftSession: (session: MentorshipSession | null) => void;
-  bookingDraft: { expert: Expert; date: string; timeSlot: string };
-  setBookingDraft: (draft: { expert: Expert; date: string; timeSlot: string }) => void;
+  bookingDraft: { expert: Expert; date: string; timeSlot: string; attachedCvName?: string };
+  setBookingDraft: React.Dispatch<React.SetStateAction<{ expert: Expert; date: string; timeSlot: string; attachedCvName?: string }>>;
 
   // Global Search & Toast Notifications
   searchQuery: string;
@@ -125,7 +128,11 @@ const initialUserProfile: UserProfileData = {
   skills: ['React.js', 'TypeScript', 'Next.js', 'JavaScript (ES6+)', 'Redux Toolkit', 'Tailwind CSS / Vanilla CSS', 'REST APIs', 'Webpack / Vite', 'Jest & React Testing Library', 'Git & CI/CD'],
   badges: initialBadges,
   email: 'prakash.mahto@gmail.com',
-  phone: '+91 98765 43210'
+  phone: '+91 98765 43210',
+  resumeFileName: 'Prakash_Mahto_Frontend_Resume.pdf',
+  resumeLastUpdated: 'Almost a year ago',
+  currentCtc: '₹5.5 LPA',
+  targetCtc: '₹18L - 24L'
 };
 
 const DEFAULT_FALLBACK_EXPERT: Expert = {
@@ -293,8 +300,34 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const isLoggedIn = currentUser !== null;
 
+  const getInitialRoute = () => {
+    try {
+      const clean = window.location.pathname.replace(/\/$/, '') || '/';
+      if (clean === '/login' || clean === '/signin' || clean === '/pages/myshine/login') return { view: 'login-view' as ViewType };
+      if (clean === '/profile' || clean === '/my-profile' || clean === '/candidate-profile') return { view: 'profile-view' as ViewType };
+      if (clean === '/peerpath' || clean === '/guidance' || clean === '/career-guidance') return { view: 'guidance-view' as ViewType };
+      if (clean === '/jobs' || clean === '/job-search' || clean === '/matching-jobs') return { view: 'jobs-view' as ViewType };
+      if (clean === '/experts' || clean === '/mentors') return { view: 'experts-view' as ViewType };
+      if (clean.startsWith('/expert/') || clean.startsWith('/mentor/')) {
+        const id = clean.split('/')[2];
+        return { view: 'expert-profile-view' as ViewType, expertId: id };
+      }
+      if (clean === '/expert' || clean === '/expert-profile') return { view: 'expert-profile-view' as ViewType };
+      if (clean === '/payment' || clean === '/checkout') return { view: 'payment-view' as ViewType };
+      if (clean === '/confirmed' || clean === '/success') return { view: 'confirmed-view' as ViewType };
+      if (clean === '/sessions' || clean === '/my-sessions') return { view: 'sessions-view' as ViewType };
+      if (clean === '/live-call' || clean === '/call') return { view: 'live-call-view' as ViewType };
+      if (clean === '/post-session' || clean === '/feedback' || clean === '/review') return { view: 'post-session-view' as ViewType };
+      if (clean === '/recruiter' || clean === '/recruiters') return { view: 'recruiter-view' as ViewType };
+      if (clean === '/mentor-dashboard' || clean === '/mentor' || clean === '/creator-studio') return { view: 'mentor-dashboard-view' as ViewType };
+    } catch {}
+    return null;
+  };
+
   // Navigation
   const [currentView, setCurrentView] = useState<ViewType>(() => {
+    const initRoute = getInitialRoute();
+    if (initRoute) return initRoute.view;
     if (!currentUser) return 'login-view';
     if (currentUser.role === 'mentor') return 'mentor-dashboard-view';
     return 'dashboard-view';
@@ -346,12 +379,32 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Fetch live creators and sessions from backend API on startup
   useEffect(() => {
     let isCurrent = true;
+    const initRoute = getInitialRoute();
+    const targetExpertId = initRoute?.expertId;
+
     peerpathApi.getCreators().then(fetched => {
       if (isCurrent && fetched && fetched.length > 0) {
         setExperts(fetched);
+        if (targetExpertId) {
+          const matched = fetched.find(e => e.id.toLowerCase() === targetExpertId.toLowerCase());
+          if (matched) {
+            setSelectedExpert(matched);
+            setBookingDraft(prev => ({ ...prev, expert: matched }));
+            return;
+          }
+        }
         setSelectedExpert(prev => (prev?.id && prev.id !== 'akash' ? prev : fetched[0]));
       }
     }).catch(err => console.log('[API getCreators]:', err));
+
+    if (targetExpertId) {
+      peerpathApi.getCreatorById(targetExpertId).then(creator => {
+        if (isCurrent && creator) {
+          setSelectedExpert(creator);
+          setBookingDraft(prev => ({ ...prev, expert: creator }));
+        }
+      }).catch(err => console.log('[API getCreatorById]:', err));
+    }
 
     peerpathApi.getSessions('prakash', 'candidate').then(fetchedSessions => {
       if (isCurrent && fetchedSessions && fetchedSessions.length > 0) {
@@ -414,13 +467,40 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isCreatorWizardOpen, setIsCreatorWizardOpen] = useState<boolean>(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
   const [isAssessmentModalOpen, setIsAssessmentModalOpen] = useState<boolean>(false);
+  const [isCvSyncModalOpen, setIsCvSyncModalOpen] = useState<boolean>(false);
   const [assessmentDraftSession, setAssessmentDraftSession] = useState<MentorshipSession | null>(null);
 
-  const [bookingDraft, setBookingDraft] = useState<{ expert: Expert; date: string; timeSlot: string }>({
+  const [bookingDraft, setBookingDraft] = useState<{ expert: Expert; date: string; timeSlot: string; attachedCvName?: string }>({
     expert: DEFAULT_FALLBACK_EXPERT,
     date: 'Tomorrow, 5 Sep',
-    timeSlot: '10:00 AM - 11:00 AM'
+    timeSlot: '10:00 AM - 11:00 AM',
+    attachedCvName: 'Prakash_Mahto_Frontend_Resume.pdf'
   });
+
+  const updateCandidateResume = (fileName: string, extractedSkills?: string[], targetCtc?: string) => {
+    setUserProfiles(prev => {
+      const existing = prev[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.prakash.profile;
+      const updatedSkills = extractedSkills && extractedSkills.length > 0 
+        ? Array.from(new Set([...existing.skills, ...extractedSkills]))
+        : existing.skills;
+      
+      const newScore = Math.min(96, Math.max(existing.profileScore + 22, 88));
+
+      return {
+        ...prev,
+        [activeUsername]: {
+          ...existing,
+          resumeFileName: fileName,
+          resumeLastUpdated: 'Just now (AI Synced)',
+          skills: updatedSkills,
+          profileScore: newScore,
+          targetCtc: targetCtc || existing.targetCtc || '₹24 - ₹30 LPA'
+        }
+      };
+    });
+    setBookingDraft(prev => ({ ...prev, attachedCvName: fileName }));
+    showToast('📄 Resume AI Synced!', `Skills updated & profile boosted to 88%+ recruiter match!`, 'success');
+  };
 
   // Search & Global Toasts & Selected Job Category & Peerpath Context
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -452,7 +532,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const routeMap: Record<ViewType, string> = {
       'guidance-view': '/guidance',
       'experts-view': '/experts',
-      'expert-profile-view': selectedExpert ? `/mentor/${selectedExpert.id}` : '/experts',
+      'expert-profile-view': selectedExpert ? `/expert/${selectedExpert.id}` : '/experts',
       'payment-view': '/checkout',
       'confirmed-view': '/confirmed',
       'sessions-view': '/sessions',
@@ -466,7 +546,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       'mentor-dashboard-view': '/creator-studio'
     };
 
-    const pathToPush = customPath || routeMap[view] || '/guidance';
+    let pathToPush = customPath;
+    if (!pathToPush) {
+      if (view === 'expert-profile-view' && (window.location.pathname.startsWith('/expert/') || window.location.pathname.startsWith('/mentor/'))) {
+        pathToPush = window.location.pathname;
+      } else {
+        pathToPush = routeMap[view] || '/guidance';
+      }
+    }
+
     if (window.location.pathname !== pathToPush) {
       window.history.pushState({}, '', pathToPush);
     }
@@ -569,17 +657,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const selectExpertById = (expertId: string) => {
-    const found = experts.find(e => e.id === expertId);
+    const cleanId = (expertId || '').trim().toLowerCase();
+    const found = experts.find(e => e.id.toLowerCase() === cleanId);
     if (found) {
       setSelectedExpert(found);
       setBookingDraft(prev => ({ ...prev, expert: found }));
     } else {
-      peerpathApi.getCreatorById(expertId).then(creator => {
+      peerpathApi.getCreatorById(cleanId).then(creator => {
         if (creator) {
           setSelectedExpert(creator);
           setBookingDraft(prev => ({ ...prev, expert: creator }));
         }
-      }).catch(() => {});
+      }).catch(err => console.warn('[selectExpertById]:', err));
     }
   };
 
@@ -838,6 +927,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setIsLoginModalOpen,
         isAssessmentModalOpen,
         setIsAssessmentModalOpen,
+        isCvSyncModalOpen,
+        setIsCvSyncModalOpen,
+        updateCandidateResume,
         assessmentDraftSession,
         setAssessmentDraftSession,
         bookingDraft,
