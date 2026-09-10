@@ -837,13 +837,8 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                   className="phb-avatar-showcase-img"
                 />
                 <span className="phb-verified-avatar-badge-large" title="Verified Candidate Profile">
-                  <CheckCircle2 size={20} fill="#10B981" color="#FFFFFF" />
+                  <CheckCircle2 size={17} fill="#10B981" color="#FFFFFF" />
                 </span>
-              </div>
-              <div className="phb-avatar-meta-pill">
-                <span className="phb-pulse-green"></span>
-                <span>Active Goal</span>
-                <span className="phb-meta-growth-tag">{jumpPercentageDisplay}</span>
               </div>
               <button
                 type="button"

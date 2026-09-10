@@ -156,7 +156,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         title: '1:1 Mock Interview & Case Prep',
         duration: '60 Mins',
         price: base,
-        badge: '🔥 Most Popular',
         desc: 'Real technical / case interview simulation with instant feedback & recruiter rating',
         deliverables: [
           { icon: Video, title: '1:1 Live Interview Simulation', desc: 'Target company coding, architecture or PRD case questions' },
