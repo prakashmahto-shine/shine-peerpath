@@ -4,14 +4,14 @@ import {
   Zap, CheckCircle2, ThumbsUp, Check, ArrowRight, TrendingUp,
   Briefcase, Star, Building2, UserCheck, ChevronRight, ChevronDown, Award, Plus, LockOpen, Users,
   ShieldCheck, Loader2, BarChart2, Target, Lightbulb, IndianRupee, Wifi, Filter, Info, Cpu, Code, BookOpen,
-  Calendar, RefreshCw, Layers, ExternalLink, UserPlus
+  Calendar, RefreshCw, Layers, ExternalLink, UserPlus, Search, X, SlidersHorizontal
 } from 'lucide-react';
 import { ViewType, Expert } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { calculateSalaryBenchmark } from '../../utils/salaryBenchmark';
 import { peerpathApi } from '../../services/api';
 
-export type MentorCategoryTab = 'top' | 'ai' | 'semi' | 'cyber' | 'fullstack' | 'others';
+export type MentorCategoryTab = 'top' | 'all' | 'ai' | 'semi' | 'cyber' | 'fullstack' | 'others';
 
 interface TransitionMentor {
   id: string;
@@ -62,7 +62,7 @@ const VERIFIED_TRANSITION_MENTORS: TransitionMentor[] = [
     leapRole: 'Senior Data Scientist',
     jumpTag: 'Services ➔ Product',
     growthPercent: '+480% Growth',
-    jumpMultiplier: '4.8x Leap',
+    jumpMultiplier: '4.8x Growth',
     jumpStory: 'Transitioned from SQL dashboards to building multi-modal LLM search algorithms serving 2M orders daily.',
     skills: ['PyTorch', 'LLMs', 'RAG Systems', 'Vector Search', 'FastAPI']
   },
@@ -85,10 +85,10 @@ const VERIFIED_TRANSITION_MENTORS: TransitionMentor[] = [
     baselineRole: 'Senior ML Engineer',
     leapCompany: 'NVIDIA',
     leapRole: 'Principal AI Architect',
-    jumpTag: 'Architect Leap',
+    jumpTag: 'Architect Switch',
     growthPercent: '+300% Growth',
-    jumpMultiplier: '4.0x Leap',
-    jumpStory: 'Leveled up from standard scikit-learn into GPU-accelerated model serving and CUDA inference at NVIDIA.',
+    jumpMultiplier: '4.0x Growth',
+    jumpStory: 'Transitioned from standard scikit-learn into GPU-accelerated model serving and CUDA inference at NVIDIA.',
     skills: ['CUDA C++', 'TensorRT', 'LLM Inference', 'Distributed Training', 'vLLM']
   },
   {
@@ -112,7 +112,7 @@ const VERIFIED_TRANSITION_MENTORS: TransitionMentor[] = [
     leapRole: 'Staff AI Researcher',
     jumpTag: 'Services ➔ Research',
     growthPercent: '+450% Growth',
-    jumpMultiplier: '5.5x Leap',
+    jumpMultiplier: '5.5x Growth',
     jumpStory: 'Moved from traditional OpenCV image processing to pioneering generative Firefly visual models.',
     skills: ['Diffusion Models', 'Stable Diffusion', 'PyTorch', 'LoRA Fine-Tuning']
   },
@@ -137,7 +137,7 @@ const VERIFIED_TRANSITION_MENTORS: TransitionMentor[] = [
     leapRole: 'Senior ML Engineer',
     jumpTag: 'Backend ➔ ML',
     growthPercent: '+350% Growth',
-    jumpMultiplier: '4.5x Leap',
+    jumpMultiplier: '4.5x Growth',
     jumpStory: 'Transitioned from backend microservices into high-scale real-time recommendation engines at Swiggy & Flipkart.',
     skills: ['Real-time RecSys', 'Feast Store', 'PyTorch', 'High-Scale APIs']
   },
@@ -148,255 +148,255 @@ const VERIFIED_TRANSITION_MENTORS: TransitionMentor[] = [
     name: 'Karthik Nambiar',
     role: 'Lead Silicon Verification Architect',
     company: 'Qualcomm',
-    domain: 'Semiconductor',
+    domain: 'VLSI Design',
     category: 'semi',
-    experience: '8+ Yrs Exp.',
-    rating: 4.9,
-    reviewsCount: 88,
+    experience: '9+ Yrs Exp.',
+    rating: 4.93,
+    reviewsCount: 104,
     followersCount: '3.1k',
-    sessionsCount: 185,
-    price: 1299,
+    sessionsCount: 210,
+    price: 1099,
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80',
     isVerifiedEmployer: true,
-    baselineCompany: 'Wipro VLSI',
-    baselineRole: 'FPGA Engineer',
+    baselineCompany: 'Wipro VLSI Practice',
+    baselineRole: 'RTL Engineer',
     leapCompany: 'Qualcomm',
     leapRole: 'Lead Silicon Architect',
-    jumpTag: 'FPGA ➔ Silicon Lead',
-    growthPercent: '+290% Growth',
-    jumpMultiplier: '3.8x Leap',
-    jumpStory: 'Made the transition from outsourced FPGA board testing to leading tapeout verification for flagship 3nm chipsets.',
-    skills: ['SystemVerilog', 'UVM Methodology', 'PCIe Gen5', 'Formal Verification']
+    jumpTag: 'Services ➔ Product',
+    growthPercent: '+380% Growth',
+    jumpMultiplier: '3.8x Growth',
+    jumpStory: 'Transitioned from outsourced IP block verification into driving full-chip tapeouts for flagship Snapdragon 5G SoCs.',
+    skills: ['UVM Verification', 'SystemVerilog', 'PCIe Gen5', 'Synthesis', 'Low Power Design']
   },
   {
-    id: 'priya',
-    name: 'Priya Raman',
-    role: 'Staff ASIC Physical Design Lead',
+    id: 'ananya',
+    name: 'Ananya Deshmukh',
+    role: 'Staff ASIC Design & Timing Lead',
     company: 'Texas Instruments',
-    domain: 'Semiconductor',
+    domain: 'VLSI Design',
     category: 'semi',
-    experience: '7.5+ Yrs Exp.',
-    rating: 4.88,
-    reviewsCount: 74,
-    followersCount: '1.8k',
-    sessionsCount: 155,
-    price: 1199,
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80',
-    isVerifiedEmployer: true,
-    baselineCompany: 'SmartSoC Services',
-    baselineRole: 'Layout Engineer',
-    leapCompany: 'Texas Instruments',
-    leapRole: 'Staff ASIC Lead',
-    jumpTag: 'Layout ➔ ASIC Lead',
-    growthPercent: '+300% Growth',
-    jumpMultiplier: '4.0x Leap',
-    jumpStory: 'Started in manual layout cleanups; mastered automated P&R flows in ICC2 to lead sub-micron chip tapeouts.',
-    skills: ['ASIC Physical Design', 'Static Timing (STA)', 'Floorplanning', 'Synopsys ICC2']
-  },
-  {
-    id: 'rohan',
-    name: 'Rohan Deshmukh',
-    role: 'Principal VLSI Verification Lead',
-    company: 'Intel',
-    domain: 'Semiconductor',
-    category: 'semi',
-    experience: '10+ Yrs Exp.',
-    rating: 4.93,
-    reviewsCount: 94,
+    experience: '8+ Yrs Exp.',
+    rating: 4.91,
+    reviewsCount: 78,
     followersCount: '2.1k',
-    sessionsCount: 210,
-    price: 1399,
+    sessionsCount: 160,
+    price: 999,
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80',
     isVerifiedEmployer: true,
-    baselineCompany: 'Wipro VLSI Practice',
-    baselineRole: 'FPGA Validator',
+    baselineCompany: 'TCS Semiconductor Hub',
+    baselineRole: 'STA Trainee',
+    leapCompany: 'Texas Instruments',
+    leapRole: 'Staff ASIC Lead',
+    jumpTag: 'Services ➔ Product',
+    growthPercent: '+400% Growth',
+    jumpMultiplier: '4.0x Growth',
+    jumpStory: 'Navigated from legacy static timing analysis into sub-5nm analog/mixed-signal power optimization.',
+    skills: ['Primetime STA', 'Cadence Innovus', 'Clock Tree Synthesis', '5nm FinFET']
+  },
+  {
+    id: 'siddharth',
+    name: 'Siddharth Rao',
+    role: 'Principal Physical Design Lead',
+    company: 'Intel',
+    domain: 'VLSI Design',
+    category: 'semi',
+    experience: '11+ Yrs Exp.',
+    rating: 4.96,
+    reviewsCount: 142,
+    followersCount: '4.8k',
+    sessionsCount: 310,
+    price: 1399,
+    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80',
+    isVerifiedEmployer: true,
+    baselineCompany: 'HCL Technologies',
+    baselineRole: 'Layout Engineer',
     leapCompany: 'Intel',
     leapRole: 'Principal VLSI Lead',
-    jumpTag: 'Services ➔ Principal VLSI',
-    growthPercent: '+360% Growth',
-    jumpMultiplier: '4.6x Leap',
-    jumpStory: 'Shifted from FPGA prototyping to full ASIC verification signoff on server silicon processors at Intel.',
-    skills: ['SystemVerilog', 'UVM', 'Formal Verification', 'ARM Architecture']
+    jumpTag: 'Services ➔ Product',
+    growthPercent: '+460% Growth',
+    jumpMultiplier: '4.6x Growth',
+    jumpStory: 'Transitioned from standard cell layout drafting into leading top-level floorplanning and timing closure for Intel Core microarchitectures.',
+    skills: ['Top Floorplanning', 'DRC/LVS Clean', 'Power Integrity (RedHawk)', 'Synopsys ICC2']
   },
 
-  // 3. CYBER-SECURITY
+  // 3. CYBERSECURITY
   {
-    id: 'devansh',
-    name: 'Devansh Saxena',
-    role: 'Lead Cloud Security & DevSecOps',
+    id: 'vikram',
+    name: 'Vikramaditya Roy',
+    role: 'Lead Cloud Security & DevSecOps Architect',
     company: 'Palo Alto Networks',
     domain: 'Cybersecurity',
     category: 'cyber',
-    experience: '7+ Yrs Exp.',
-    rating: 4.92,
-    reviewsCount: 104,
-    followersCount: '2.6k',
+    experience: '8+ Yrs Exp.',
+    rating: 4.94,
+    reviewsCount: 98,
+    followersCount: '2.9k',
     sessionsCount: 220,
-    price: 1099,
-    avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80',
+    price: 1299,
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&auto=format&fit=crop&q=80',
     isVerifiedEmployer: true,
-    baselineCompany: 'HCL Tech Support',
-    baselineRole: 'Linux Sysadmin',
+    baselineCompany: 'Infosys SOC',
+    baselineRole: 'L1 SOC Analyst',
     leapCompany: 'Palo Alto Networks',
     leapRole: 'Lead CloudSec Architect',
-    jumpTag: 'Sysadmin ➔ CloudSec',
-    growthPercent: '+440% Growth',
-    jumpMultiplier: '5.3x Leap',
-    jumpStory: 'Mastered cloud security posture management (CSPM) and Kubernetes zero-trust to make the jump.',
-    skills: ['Cloud Security', 'K8s Hardening', 'DevSecOps', 'AWS IAM', 'Terraform']
+    jumpTag: 'SOC ➔ Cloud Architect',
+    growthPercent: '+530% Growth',
+    jumpMultiplier: '5.3x Growth',
+    jumpStory: 'Graduated from tier-1 alert monitoring shifts into automated cloud threat prevention and zero-trust Kubernetes architectures.',
+    skills: ['Prisma Cloud', 'Kubernetes Security', 'AWS IAM Hardening', 'Zero Trust', 'Terraform Sec']
   },
   {
     id: 'meera',
-    name: 'Meera Iyer',
-    role: 'Staff SOC & Threat Hunting Architect',
+    name: 'Meera Nambisan',
+    role: 'Staff Threat Hunter & Incident Lead',
     company: 'CrowdStrike',
     domain: 'Cybersecurity',
     category: 'cyber',
-    experience: '8+ Yrs Exp.',
-    rating: 4.89,
-    reviewsCount: 82,
+    experience: '7+ Yrs Exp.',
+    rating: 4.92,
+    reviewsCount: 86,
     followersCount: '2.3k',
     sessionsCount: 175,
-    price: 1199,
-    avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&auto=format&fit=crop&q=80',
+    price: 1099,
+    avatar: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=300&auto=format&fit=crop&q=80',
     isVerifiedEmployer: true,
-    baselineCompany: 'Wipro Managed Security',
+    baselineCompany: 'Wipro Cyber Defense',
     baselineRole: 'SOC Analyst',
     leapCompany: 'CrowdStrike',
     leapRole: 'Staff Threat Hunter',
-    jumpTag: 'SOC ➔ Threat Hunter',
-    growthPercent: '+440% Growth',
-    jumpMultiplier: '5.4x Leap',
-    jumpStory: 'Escaped alert fatigue by building automated threat attribution playbooks. Now hunting APTs at CrowdStrike.',
-    skills: ['Threat Hunting', 'EDR Telemetry', 'Splunk SIEM', 'Incident Response']
+    jumpTag: 'Services ➔ Product',
+    growthPercent: '+540% Growth',
+    jumpMultiplier: '5.4x Growth',
+    jumpStory: 'Shifted from manual log correlation into tracking advanced persistent threat (APT) campaigns and building behavioral detection models.',
+    skills: ['Splunk Phantom', 'MITRE ATT&CK', 'EDR Forensics', 'Threat Hunting', 'Malware Analysis']
   },
   {
-    id: 'neha-sec',
-    name: 'Neha Singhal',
-    role: 'Principal AppSec & Red Team Lead',
+    id: 'rohit',
+    name: 'Rohit Kulkarni',
+    role: 'Principal Application Security Lead',
     company: 'Microsoft',
     domain: 'Cybersecurity',
     category: 'cyber',
-    experience: '9+ Yrs Exp.',
-    rating: 4.92,
-    reviewsCount: 85,
-    followersCount: '3.5k',
-    sessionsCount: 190,
-    price: 1299,
-    avatar: '/avatars/neha.jpg',
+    experience: '10+ Yrs Exp.',
+    rating: 4.97,
+    reviewsCount: 156,
+    followersCount: '4.6k',
+    sessionsCount: 340,
+    price: 1499,
+    avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=300&auto=format&fit=crop&q=80',
     isVerifiedEmployer: true,
-    baselineCompany: 'Infosys Security',
-    baselineRole: 'Vulnerability Analyst',
+    baselineCompany: 'Tech Mahindra',
+    baselineRole: 'QA Automation',
     leapCompany: 'Microsoft',
     leapRole: 'Principal AppSec Lead',
-    jumpTag: 'Services ➔ Principal AppSec',
-    growthPercent: '+540% Growth',
-    jumpMultiplier: '6.4x Leap',
-    jumpStory: 'Leaped from running static scanner reports into discovering zero-days and leading red team exercises for Azure.',
-    skills: ['Application Security', 'Penetration Testing', 'Cloud Red Teaming', 'DevSecOps']
+    jumpTag: 'QA ➔ AppSec Lead',
+    growthPercent: '+640% Growth',
+    jumpMultiplier: '6.4x Growth',
+    jumpStory: 'Transitioned from running static scanner reports into discovering zero-days and leading red team exercises for Azure.',
+    skills: ['Red Teaming', 'Threat Modeling', 'SAST/DAST Triage', 'Cryptographic Protocols', 'Zero-Day Exploit']
   },
 
-  // 4. FULL-STACK
-  {
-    id: 'saheli',
-    name: 'Saheli Kanjilal',
-    role: 'Staff Frontend Architect',
-    company: 'Razorpay',
-    domain: 'Full-Stack',
-    category: 'fullstack',
-    experience: '7+ Yrs Exp.',
-    rating: 4.9,
-    reviewsCount: 178,
-    followersCount: '3.8k',
-    sessionsCount: 360,
-    price: 999,
-    avatar: '/avatars/saheli.jpg',
-    isVerifiedEmployer: true,
-    baselineCompany: 'TCS Services',
-    baselineRole: 'Frontend Dev',
-    leapCompany: 'Razorpay',
-    leapRole: 'Staff UI Architect',
-    jumpTag: 'Services ➔ Staff Architect',
-    growthPercent: '+320% Growth',
-    jumpMultiplier: '4.1x Leap',
-    jumpStory: 'Mastered micro-frontends and SSR architecture to break into Tier-1 product engineering.',
-    skills: ['React.js 19', 'TypeScript', 'Micro-Frontends', 'Module Federation', 'Core Web Vitals']
-  },
-  {
-    id: 'vikram',
-    name: 'Vikram Joshi',
-    role: 'Staff Engineering Manager',
-    company: 'Google',
-    domain: 'Full-Stack',
-    category: 'fullstack',
-    experience: '10+ Yrs Exp.',
-    rating: 4.9,
-    reviewsCount: 190,
-    followersCount: '5.1k',
-    sessionsCount: 420,
-    price: 1499,
-    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Wipro Digital',
-    baselineRole: 'Senior SDE',
-    leapCompany: 'Google',
-    leapRole: 'Staff EM (L6)',
-    jumpTag: 'Services ➔ Google Staff',
-    growthPercent: '+310% Growth',
-    jumpMultiplier: '4.0x Leap',
-    jumpStory: 'Cleared Google L6 loop after systematically leveling up in distributed state consensus and system design.',
-    skills: ['Full-Stack Architecture', 'System Design', 'Cloud Infrastructure', 'Distributed Systems']
-  },
-  {
-    id: 'nisha',
-    name: 'Nisha Kumari',
-    role: 'Staff Frontend Architect & UI Lead',
-    company: 'Flipkart',
-    domain: 'Full-Stack',
-    category: 'fullstack',
-    experience: '6+ Yrs Exp.',
-    rating: 4.91,
-    reviewsCount: 65,
-    followersCount: '2.9k',
-    sessionsCount: 145,
-    price: 1299,
-    avatar: '/avatars/nisha.jpg',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Mid-tier Services',
-    baselineRole: 'Software Engineer',
-    leapCompany: 'Flipkart',
-    leapRole: 'Staff UI Architect',
-    jumpTag: 'Services ➔ Staff Lead',
-    growthPercent: '+350% Growth',
-    jumpMultiplier: '4.5x Leap',
-    jumpStory: 'Bridged core architecture and high-performance system design requirements to land role leading web checkout.',
-    skills: ['React 19', 'Micro-Frontends', 'System Design', 'Web Performance']
-  },
-
-  // 5. OTHERS (Product Management, Search & Solr, SRE & Data Infra, SaaS Sales)
+  // 4. FULL-STACK & SYSTEM ARCHITECTURE
   {
     id: 'akash',
     name: 'Akash Jain',
-    role: 'Lead Product Manager',
+    role: 'Staff UI Platform Architect',
+    company: 'Razorpay',
+    domain: 'Full-stack',
+    category: 'fullstack',
+    experience: '8+ Yrs Exp.',
+    rating: 4.98,
+    reviewsCount: 210,
+    followersCount: '5.4k',
+    sessionsCount: 420,
+    price: 999,
+    avatar: '/avatars/akash.jpg',
+    isVerifiedEmployer: true,
+    baselineCompany: 'TCS Digital',
+    baselineRole: 'Angular Dev',
+    leapCompany: 'Razorpay',
+    leapRole: 'Staff UI Architect',
+    jumpTag: 'Services ➔ Product',
+    growthPercent: '+410% Growth',
+    jumpMultiplier: '4.1x Growth',
+    jumpStory: 'Shifted from monolithic Angular enterprise portals into designing micro-frontend payment checkouts processing $80B+ TPV.',
+    skills: ['Micro-Frontends', 'React 19', 'Design Systems', 'Web Vitals', 'System Design']
+  },
+  {
+    id: 'rahul',
+    name: 'Rahul Sharma',
+    role: 'Staff Engineering Manager (L6)',
+    company: 'Google',
+    domain: 'Full-stack',
+    category: 'fullstack',
+    experience: '12+ Yrs Exp.',
+    rating: 4.95,
+    reviewsCount: 180,
+    followersCount: '6.2k',
+    sessionsCount: 380,
+    price: 1499,
+    avatar: '/avatars/rahul.jpg',
+    isVerifiedEmployer: true,
+    baselineCompany: 'Infosys',
+    baselineRole: 'Java Developer',
+    leapCompany: 'Google',
+    leapRole: 'Staff EM (L6)',
+    jumpTag: 'Services ➔ Tier-1 Tech',
+    growthPercent: '+400% Growth',
+    jumpMultiplier: '4.0x Growth',
+    jumpStory: 'Transformed traditional backend skillset into leading large-scale distributed cloud systems at Google.',
+    skills: ['System Design', 'Distributed Systems', 'Go / Java', 'Engineering Management']
+  },
+  {
+    id: 'nisha',
+    name: 'Nisha Singhania',
+    role: 'Staff UI Architect & Frontend Lead',
+    company: 'Flipkart',
+    domain: 'Full-stack',
+    category: 'fullstack',
+    experience: '8+ Yrs Exp.',
+    rating: 4.96,
+    reviewsCount: 175,
+    followersCount: '4.1k',
+    sessionsCount: 310,
+    price: 899,
+    avatar: '/avatars/nisha.jpg',
+    isVerifiedEmployer: true,
+    baselineCompany: 'Capgemini',
+    baselineRole: 'Frontend Dev',
+    leapCompany: 'Flipkart',
+    leapRole: 'Staff UI Architect',
+    jumpTag: 'Services ➔ Tier-1',
+    growthPercent: '+450% Growth',
+    jumpMultiplier: '4.5x Growth',
+    jumpStory: 'Graduated from outsourced enterprise UI maintenance to leading high-concurrency Big Billion Day checkout experiences.',
+    skills: ['React 19', 'Performance Tuning', 'Design Systems', 'Next.js']
+  },
+
+  // 5. OTHERS (Product Management, SRE, Tech Sales)
+  {
+    id: 'saheli',
+    name: 'Saheli Chatterjee',
+    role: 'Lead Product Manager & Growth Strategist',
     company: 'Shine (HT Media)',
     domain: 'Product Management',
     category: 'others',
     experience: '7+ Yrs Exp.',
-    rating: 4.95,
-    reviewsCount: 142,
-    followersCount: '3.4k',
-    sessionsCount: 310,
+    rating: 4.92,
+    reviewsCount: 145,
+    followersCount: '3.8k',
+    sessionsCount: 320,
     price: 999,
-    avatar: '/avatars/akash.jpg',
+    avatar: '/avatars/saheli.jpg',
     isVerifiedEmployer: true,
-    baselineCompany: 'InfoEdge / Naukri',
-    baselineRole: 'Backend SDE',
+    baselineCompany: 'Accenture Strategy',
+    baselineRole: 'Business Consultant',
     leapCompany: 'Shine (HT Media)',
     leapRole: 'Lead Product Manager',
-    jumpTag: 'SDE ➔ Product Lead',
-    growthPercent: '+225% Growth',
-    jumpMultiplier: '3.2x Leap',
-    jumpStory: 'Spent 4 years writing backend APIs before transitioning into technical product management.',
+    jumpTag: 'Consulting ➔ Tech PM',
+    growthPercent: '+320% Growth',
+    jumpMultiplier: '3.2x Growth',
+    jumpStory: 'Transitioned from management deck presentations into shipping AI-driven matching algorithms for 3.5M+ active users.',
     skills: ['Product Strategy', 'Growth Metrics', 'PRD Discovery', 'A/B Testing']
   },
   {
@@ -420,7 +420,7 @@ const VERIFIED_TRANSITION_MENTORS: TransitionMentor[] = [
     leapRole: 'Director of Growth',
     jumpTag: 'Ops ➔ Growth Director',
     growthPercent: '+330% Growth',
-    jumpMultiplier: '4.3x Leap',
+    jumpMultiplier: '4.3x Growth',
     jumpStory: 'Transformed operational analytics background into rapid-cycle growth engineering.',
     skills: ['Product Growth Loops', 'Retention Optimization', 'Funnel Analytics']
   },
@@ -445,7 +445,7 @@ const VERIFIED_TRANSITION_MENTORS: TransitionMentor[] = [
     leapRole: 'Principal Search Architect',
     jumpTag: 'Java ➔ Search Architect',
     growthPercent: '+350% Growth',
-    jumpMultiplier: '4.5x Leap',
+    jumpMultiplier: '4.5x Growth',
     jumpStory: 'Shifted from enterprise maintenance contracts to designing real-time indexing for 40M+ profiles.',
     skills: ['Apache Solr', 'Search Indexing', 'Database Tuning', 'Distributed DBs']
   },
@@ -470,7 +470,7 @@ const VERIFIED_TRANSITION_MENTORS: TransitionMentor[] = [
     leapRole: 'Principal SRE Architect',
     jumpTag: 'Sysadmin ➔ Principal SRE',
     growthPercent: '+800% Growth',
-    jumpMultiplier: '9.0x Leap',
+    jumpMultiplier: '9.0x Growth',
     jumpStory: 'Self-taught distributed systems from bare-metal server provisioning to orchestrating 50,000+ container nodes.',
     skills: ['Kubernetes Fleet', 'Observability', 'Chaos Engineering', 'Go Microservices']
   },
@@ -495,7 +495,7 @@ const VERIFIED_TRANSITION_MENTORS: TransitionMentor[] = [
     leapRole: 'Senior Sales Director',
     jumpTag: 'IT Sales ➔ Enterprise Director',
     growthPercent: '+520% Growth',
-    jumpMultiplier: '6.2x Leap',
+    jumpMultiplier: '6.2x Growth',
     jumpStory: 'Transitioned from selling basic IT outsourcing into global cloud software contracts.',
     skills: ['Enterprise SaaS Sales', 'MEDDIC Framework', 'Stakeholder Pitching', 'Pipeline Forecasting']
   }
@@ -529,6 +529,9 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<MentorCategoryTab>('top');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedCompany, setSelectedCompany] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<'match' | 'rating' | 'experience' | 'price'>('match');
   const isMentor = currentUser?.role === 'mentor';
 
   // Automatically trigger Unlock/Calibration modal if candidate is not calibrated
@@ -550,7 +553,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
   const userCurrentCompany = userProfile.currentCompany || 'Tech Services';
 
   // Calculate dynamic match scores & Top 5 Recommended
-  const { topRecommendedMentors, domainCounts } = useMemo(() => {
+  const { scoredAllMentors, topRecommendedMentors, domainCounts } = useMemo(() => {
     const targetRoleLower = userTargetRole.toLowerCase();
     const dreamCompanyLower = userDreamCompany.toLowerCase();
 
@@ -607,26 +610,73 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
     // Count per category
     const counts: Record<MentorCategoryTab, number> = {
       top: 5,
-      ai: VERIFIED_TRANSITION_MENTORS.filter(m => m.category === 'ai').length,
-      semi: VERIFIED_TRANSITION_MENTORS.filter(m => m.category === 'semi').length,
-      cyber: VERIFIED_TRANSITION_MENTORS.filter(m => m.category === 'cyber').length,
-      fullstack: VERIFIED_TRANSITION_MENTORS.filter(m => m.category === 'fullstack').length,
-      others: VERIFIED_TRANSITION_MENTORS.filter(m => m.category === 'others').length
+      all: scoredMentors.length,
+      ai: scoredMentors.filter(m => m.category === 'ai').length,
+      semi: scoredMentors.filter(m => m.category === 'semi').length,
+      cyber: scoredMentors.filter(m => m.category === 'cyber').length,
+      fullstack: scoredMentors.filter(m => m.category === 'fullstack').length,
+      others: scoredMentors.filter(m => m.category === 'others').length
     };
 
     return {
+      scoredAllMentors: sorted,
       topRecommendedMentors: top5,
       domainCounts: counts
     };
   }, [userTargetRole, userDreamCompany]);
 
-  // Displayed mentors for current active tab
+  // Displayed mentors with search, category tab, company filter, and sorting
   const displayedMentors = useMemo(() => {
+    let list: (TransitionMentor & { matchScore?: number })[] = [];
+
     if (activeTab === 'top') {
-      return topRecommendedMentors;
+      list = [...topRecommendedMentors];
+    } else if (activeTab === 'all') {
+      list = [...scoredAllMentors];
+    } else {
+      list = scoredAllMentors.filter(m => m.category === activeTab);
     }
-    return VERIFIED_TRANSITION_MENTORS.filter(m => m.category === activeTab);
-  }, [activeTab, topRecommendedMentors]);
+
+    // Company filter
+    if (selectedCompany !== 'all') {
+      list = list.filter(m => 
+        m.company.toLowerCase().includes(selectedCompany.toLowerCase()) ||
+        m.leapCompany.toLowerCase().includes(selectedCompany.toLowerCase())
+      );
+    }
+
+    // Search query filter
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      list = list.filter(m => 
+        m.name.toLowerCase().includes(q) ||
+        m.role.toLowerCase().includes(q) ||
+        m.company.toLowerCase().includes(q) ||
+        m.domain.toLowerCase().includes(q) ||
+        m.skills.some(s => s.toLowerCase().includes(q)) ||
+        m.jumpStory.toLowerCase().includes(q)
+      );
+    }
+
+    // Sorting
+    return list.sort((a, b) => {
+      if (sortBy === 'match') {
+        return (b.matchScore || 0) - (a.matchScore || 0);
+      }
+      if (sortBy === 'rating') {
+        return b.rating - a.rating;
+      }
+      if (sortBy === 'experience') {
+        const expA = parseFloat(a.experience) || 0;
+        const expB = parseFloat(b.experience) || 0;
+        return expB - expA;
+      }
+      if (sortBy === 'price') {
+        return a.price - b.price;
+      }
+      return 0;
+    });
+  }, [activeTab, topRecommendedMentors, scoredAllMentors, selectedCompany, searchQuery, sortBy]);
 
   // Action: Book 1:1 Session with Mentor -> opens booking modal popup
   const handleBook1on1 = (mentor: TransitionMentor) => {
@@ -645,7 +695,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
       duration: '01:00',
       avatar: mentor.avatar,
       videoPoster: mentor.avatar,
-      teaserTitle: `Teaser: 1:1 Career Leap into ${mentor.role} @ ${mentor.company}`,
+      teaserTitle: `Teaser: 1:1 Career Switch into ${mentor.role} @ ${mentor.company}`,
       skills: mentor.skills,
       bio: mentor.jumpStory,
       verifiedEmail: `${mentor.id}@${mentor.company.toLowerCase().replace(/[^a-z]/g, '')}.com`,
@@ -761,6 +811,12 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
         {/* 1. Official Shine Peerpath Hero Banner (Clean Full Width) */}
         <div className="peerpath-hero-banner-card">
           <div className="phb-left">
+            {/* Ecosystem Trust Badge (Zomato/Blinkit Trust model) */}
+            <div className="peerpath-ecosystem-trust-badge">
+              <span className="petb-dot"></span>
+              <span><strong>Peerpath by shine.com</strong> • India's 1st Verified 1:1 Tech Transition Platform • Backed by 3.5Cr+ Recruiter Network</span>
+            </div>
+
             {/* Main Heading & Candidate Subtitle */}
             <h1 className="phb-title">
               Targeted Mentors for {userProfile.name || 'Prakash Mahto'}
@@ -791,8 +847,8 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                   <TrendingUp size={16} />
                 </div>
                 <div className="phb-stat-info">
-                  <span className="phb-stat-label">Career Leap</span>
-                  <strong className="phb-stat-val val-green">Services ➔ Tier-1</strong>
+                  <span className="phb-stat-label">Career Switch</span>
+                  <strong className="phb-stat-val val-green">Services ➔ Product</strong>
                 </div>
               </div>
 
@@ -820,340 +876,342 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                   <ShieldCheck size={13} className="text-emerald-600" /> 100% VERIFIED PEER MENTORS
                 </span>
               </div>
-              <h2 className="pms-heading">Verified Mentors for Your Career Leap</h2>
+              <h2 className="pms-heading">Verified Mentors for Your Career Transition</h2>
               <p className="pms-subheading">
                 Connect 1:1 with industry leaders from Swiggy, Qualcomm, Razorpay, NVIDIA, Google, and Microsoft who made the exact career jump.
               </p>
             </div>
           </div>
 
-          {/* Segmented Category Tabs Bar */}
-          <div className="peerpath-mentor-tabs-bar">
-            <button
-              type="button"
-              className={`pm-tab-btn ${activeTab === 'top' ? 'active' : ''}`}
-              onClick={() => setActiveTab('top')}
-            >
-              <Target size={14} className="pm-tab-icon" />
-              <span>🎯 Top 5 Recommended</span>
-              <span className="pm-tab-count">{domainCounts.top}</span>
-            </button>
+          {/* MODERN DOMAIN EXPLORER & DISCOVERY CONTROLS */}
+          <div className="peerpath-domain-explorer-wrap">
+            
+            {/* 1. Primary Category Segmented Tab Bar */}
+            <div className="peerpath-domain-tabs-nav">
+              <button
+                type="button"
+                className={`pm-domain-tab-btn ${activeTab === 'top' ? 'active' : ''}`}
+                onClick={() => setActiveTab('top')}
+              >
+                <Sparkles size={15} className="pm-dtab-ico text-amber-500" />
+                <span className="pm-dtab-title">Top Recommended</span>
+                <span className="pm-dtab-count">{domainCounts.top}</span>
+              </button>
 
-            <button
-              type="button"
-              className={`pm-tab-btn ${activeTab === 'ai' ? 'active' : ''}`}
-              onClick={() => setActiveTab('ai')}
-            >
-              <Sparkles size={14} className="pm-tab-icon text-teal-600" />
-              <span>🤖 AI / ML</span>
-              <span className="pm-tab-count">{domainCounts.ai}</span>
-            </button>
+              <button
+                type="button"
+                className={`pm-domain-tab-btn ${activeTab === 'ai' ? 'active' : ''}`}
+                onClick={() => setActiveTab('ai')}
+              >
+                <Cpu size={15} className="pm-dtab-ico text-purple-600" />
+                <span className="pm-dtab-title">AI & Data Science</span>
+                <span className="pm-dtab-count">{domainCounts.ai}</span>
+              </button>
 
-            <button
-              type="button"
-              className={`pm-tab-btn ${activeTab === 'semi' ? 'active' : ''}`}
-              onClick={() => setActiveTab('semi')}
-            >
-              <Cpu size={14} className="pm-tab-icon text-indigo-600" />
-              <span>⚡ Semi-conductor</span>
-              <span className="pm-tab-count">{domainCounts.semi}</span>
-            </button>
+              <button
+                type="button"
+                className={`pm-domain-tab-btn ${activeTab === 'semi' ? 'active' : ''}`}
+                onClick={() => setActiveTab('semi')}
+              >
+                <Zap size={15} className="pm-dtab-ico text-amber-600" />
+                <span className="pm-dtab-title">Semiconductor & VLSI</span>
+                <span className="pm-dtab-count">{domainCounts.semi}</span>
+              </button>
 
-            <button
-              type="button"
-              className={`pm-tab-btn ${activeTab === 'cyber' ? 'active' : ''}`}
-              onClick={() => setActiveTab('cyber')}
-            >
-              <ShieldCheck size={14} className="pm-tab-icon text-blue-600" />
-              <span>🛡️ Cyber-security</span>
-              <span className="pm-tab-count">{domainCounts.cyber}</span>
-            </button>
+              <button
+                type="button"
+                className={`pm-domain-tab-btn ${activeTab === 'cyber' ? 'active' : ''}`}
+                onClick={() => setActiveTab('cyber')}
+              >
+                <ShieldCheck size={15} className="pm-dtab-ico text-blue-600" />
+                <span className="pm-dtab-title">Cybersecurity & Cloud</span>
+                <span className="pm-dtab-count">{domainCounts.cyber}</span>
+              </button>
 
-            <button
-              type="button"
-              className={`pm-tab-btn ${activeTab === 'fullstack' ? 'active' : ''}`}
-              onClick={() => setActiveTab('fullstack')}
-            >
-              <Code size={14} className="pm-tab-icon text-purple-600" />
-              <span>💻 Full-stack</span>
-              <span className="pm-tab-count">{domainCounts.fullstack}</span>
-            </button>
+              <button
+                type="button"
+                className={`pm-domain-tab-btn ${activeTab === 'fullstack' ? 'active' : ''}`}
+                onClick={() => setActiveTab('fullstack')}
+              >
+                <Code size={15} className="pm-dtab-ico text-emerald-600" />
+                <span className="pm-dtab-title">Full-Stack & Systems</span>
+                <span className="pm-dtab-count">{domainCounts.fullstack}</span>
+              </button>
 
-            <button
-              type="button"
-              className={`pm-tab-btn ${activeTab === 'others' ? 'active' : ''}`}
-              onClick={() => setActiveTab('others')}
-            >
-              <Layers size={14} className="pm-tab-icon text-amber-600" />
-              <span>✨ Others / Custom</span>
-              <span className="pm-tab-count">{domainCounts.others}</span>
-            </button>
-          </div>
+              <button
+                type="button"
+                className={`pm-domain-tab-btn ${activeTab === 'others' ? 'active' : ''}`}
+                onClick={() => setActiveTab('others')}
+              >
+                <Compass size={15} className="pm-dtab-ico text-indigo-600" />
+                <span className="pm-dtab-title">Product & Leadership</span>
+                <span className="pm-dtab-count">{domainCounts.others}</span>
+              </button>
 
-          {/* Mentors Grid Cards */}
-          <div className="peerpath-mentors-grid">
-            {displayedMentors.map((mentor) => {
-              const matchScore = (mentor as any).matchScore || 92;
-              const isFollowing = isFollowingMentor(mentor.id);
-              return (
-                <div key={mentor.id} className="pm-mentor-card">
-                  
-                  {/* Row 1: Top Status & Verification Badges */}
-                  <div className="pm-card-top-badges">
-                    <div className="pm-badge-left">
-                      <span className="pm-verified-employer-pill">
-                        <CheckCircle2 size={11} className="text-emerald-600" />
-                        <span>Verified @ {mentor.company.split(' ')[0]}</span>
+              <button
+                type="button"
+                className={`pm-domain-tab-btn ${activeTab === 'all' ? 'active' : ''}`}
+                onClick={() => setActiveTab('all')}
+              >
+                <Layers size={15} className="pm-dtab-ico text-slate-600" />
+                <span className="pm-dtab-title">All Mentors</span>
+                <span className="pm-dtab-count">{domainCounts.all}</span>
+              </button>
+            </div>
+
+            {/* 2. Search, Company Filter Chips & Sort Controls Toolbar */}
+            <div className="peerpath-filter-toolbar">
+              <div className="pm-filter-left-controls">
+                
+                {/* Live Search Input */}
+                <div className="pm-search-box-wrap">
+                  <Search size={15} className="pm-search-ico" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search by mentor name, skill (PyTorch, VLSI, React) or company..."
+                    className="pm-search-text-input"
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      className="pm-search-clear-action"
+                      onClick={() => setSearchQuery('')}
+                      title="Clear search"
+                    >
+                      <X size={13} />
+                    </button>
+                  )}
+                </div>
+
+                {/* Company Filter Chips */}
+                <div className="pm-company-chips-scroll">
+                  <span className="pm-company-label">
+                    <Building2 size={13} /> Target Companies:
+                  </span>
+                  {['all', 'Swiggy', 'Qualcomm', 'Razorpay', 'NVIDIA', 'Google', 'Flipkart', 'Zepto'].map((comp) => (
+                    <button
+                      key={comp}
+                      type="button"
+                      className={`pm-company-chip ${selectedCompany === comp ? 'active' : ''}`}
+                      onClick={() => setSelectedCompany(comp)}
+                    >
+                      {comp === 'all' ? 'All Companies' : comp}
+                    </button>
+                  ))}
+                </div>
+
+              </div>
+
+              {/* Sort Selector Dropdown */}
+              <div className="pm-filter-right-controls">
+                <div className="pm-sort-dropdown-wrap">
+                  <SlidersHorizontal size={13} className="pm-sort-ico" />
+                  <span className="pm-sort-title">Sort:</span>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as any)}
+                    className="pm-sort-native-select"
+                  >
+                    <option value="match">⚡ Highest Match %</option>
+                    <option value="rating">⭐ Top Rated (4.9+)</option>
+                    <option value="experience">💼 Years of Exp</option>
+                    <option value="price">💸 Fee: Low to High</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* 3. Results Summary & Active Filters Pill Bar */}
+            <div className="peerpath-results-status-bar">
+              <div className="pm-status-left">
+                <span className="pm-results-badge">
+                  Showing <strong>{displayedMentors.length}</strong> verified mentor{displayedMentors.length !== 1 ? 's' : ''}
+                </span>
+                {(searchQuery || selectedCompany !== 'all' || activeTab !== 'top') && (
+                  <div className="pm-active-filters-list">
+                    {activeTab !== 'top' && (
+                      <span className="pm-active-tag">
+                        Domain: {activeTab === 'all' ? 'All' : activeTab.toUpperCase()}
                       </span>
-                      <span className="pm-domain-chip">
-                        {mentor.domain}
+                    )}
+                    {selectedCompany !== 'all' && (
+                      <span className="pm-active-tag">
+                        Company: {selectedCompany}
                       </span>
-                    </div>
-                    <span className="pm-match-score-tag">
-                      <Zap size={11} fill="#7C3AED" color="#7C3AED" /> {matchScore}% Match
-                    </span>
-                  </div>
-
-                  {/* Row 2: Profile & Current Role Info */}
-                  <div className="pm-profile-row">
-                    <div className="pm-avatar-container">
-                      <img src={mentor.avatar} alt={mentor.name} className="pm-avatar-img" />
-                      <span className="pm-online-dot" title="Available for 1:1 Booking"></span>
-                    </div>
-
-                    <div className="pm-profile-meta">
-                      {/* Name & Social Signals Line (Rating + Followers + Follow Action) */}
-                      <div className="pm-name-line">
-                        <strong className="pm-mentor-name">{mentor.name}</strong>
-
-                        <div className="pm-social-badges-group">
-                          {/* Rating Badge */}
-                          <div className="pm-rating-badge" title={`${mentor.rating} rating (${mentor.reviewsCount} reviews)`}>
-                            <Star size={10.5} fill="#F59E0B" color="#F59E0B" />
-                            <span>{mentor.rating} ({mentor.reviewsCount})</span>
-                          </div>
-
-                          {/* Followers Badge */}
-                          <div className="pm-followers-badge" title={`${mentor.followersCount} followers`}>
-                            <Users size={10.5} className="text-blue-600" />
-                            <span>{mentor.followersCount}</span>
-                          </div>
-
-                          {/* Follow Button */}
-                          <button
-                            type="button"
-                            className={`pm-follow-pill-btn ${isFollowing ? 'following' : ''}`}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toggleFollowMentor(mentor.id, mentor.name);
-                            }}
-                            title={isFollowing ? 'Following mentor' : 'Follow mentor'}
-                          >
-                            {isFollowing ? (
-                              <>
-                                <Check size={9.5} strokeWidth={3} />
-                                <span>Following</span>
-                              </>
-                            ) : (
-                              <>
-                                <Plus size={9.5} strokeWidth={3} />
-                                <span>Follow</span>
-                              </>
-                            )}
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="pm-role-company-line">
-                        <span className="pm-current-role">{mentor.role}</span>
-                        <span className="pm-at-company">@ {mentor.company}</span>
-                        <span className="pm-exp-pill">• {mentor.experience}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Row 3: High-Credibility Transition Pathway Box */}
-                  <div className="pm-trajectory-box">
-                    <div className="pm-trajectory-header">
-                      <div className="pm-trajectory-title">
-                        <TrendingUp size={11} className="text-emerald-600" />
-                        <span>TRANSITION PATH</span>
-                        {mentor.jumpTag && (
-                          <span className="pm-trajectory-tag">{mentor.jumpTag}</span>
-                        )}
-                      </div>
-                      <div className="pm-growth-pill">
-                        <span className="pm-growth-val">{mentor.growthPercent}</span>
-                        <span className="pm-growth-mult">({mentor.jumpMultiplier})</span>
-                      </div>
-                    </div>
-
-                    <div className="pm-trajectory-stepper">
-                      <div className="pm-step-node from">
-                        <span className="pm-node-tag">STARTED AT</span>
-                        <strong className="pm-node-role">{mentor.baselineRole}</strong>
-                        <span className="pm-node-company">{mentor.baselineCompany}</span>
-                      </div>
-
-                      <div className="pm-stepper-divider">
-                        <div className="pm-stepper-arrow-circle">
-                          <ArrowRight size={10} strokeWidth={2.5} />
-                        </div>
-                      </div>
-
-                      <div className="pm-step-node to">
-                        <span className="pm-node-tag leap">CAREER LEAP</span>
-                        <strong className="pm-node-role">{mentor.leapRole}</strong>
-                        <span className="pm-node-company">@{mentor.leapCompany}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Row 4: Skills Pills */}
-                  <div className="pm-skills-tags-row">
-                    {mentor.skills.slice(0, 4).map((skill, sIdx) => (
-                      <span key={sIdx} className="pm-skill-tag">
-                        {skill}
+                    )}
+                    {searchQuery && (
+                      <span className="pm-active-tag">
+                        Query: "{searchQuery}"
                       </span>
-                    ))}
-                    {mentor.skills.length > 4 && (
-                      <span className="pm-skill-more">+{mentor.skills.length - 4} more</span>
                     )}
                   </div>
+                )}
+              </div>
 
-                  {/* Row 5: 2 Clear CTA Buttons (Profile & Book Session) */}
-                  <div className="pm-card-actions-row">
-                    <button
-                      type="button"
-                      className="btn-pm-profile-view"
-                      onClick={() => handleViewMentorProfile(mentor.id)}
-                      title="View mentor profile & full trajectory"
-                    >
-                      <User size={13} />
-                      <span>View Profile</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      className="btn-pm-book-session"
-                      onClick={() => handleBook1on1(mentor)}
-                      title="Book 1:1 Mentorship Session"
-                    >
-                      <Video size={13} />
-                      <span>Book 1:1 Session</span>
-                      <ArrowRight size={13} />
-                    </button>
-                  </div>
-
-                </div>
-              );
-            })}
-          </div>
-
-        </div>
-
-        {/* 3. Special Transition Campaigns & 1-Time Live Sprints Section */}
-        <div className="bootcamp-bridge-container" id="bootcampBridgeSection">
-          <div className="bootcamp-bridge-header">
-            <div className="bbh-tag-row">
-              <span className="bbh-tag-pill">🚀 SPECIAL TRANSITION SPRINTS</span>
-              <span className="bbh-sub-tag">1-Time Free Live Interactive Sprints • Max 100 Seats</span>
+              {(searchQuery || selectedCompany !== 'all' || activeTab !== 'top') && (
+                <button
+                  type="button"
+                  className="pm-btn-reset-filters"
+                  onClick={() => {
+                    setSearchQuery('');
+                    setSelectedCompany('all');
+                    setActiveTab('top');
+                    setSortBy('match');
+                  }}
+                >
+                  <RefreshCw size={12} />
+                  <span>Reset All Filters</span>
+                </button>
+              )}
             </div>
-            <h2 className="bbh-title">Join a 1-Time Live Career Transition Sprint</h2>
-            <p className="bbh-desc">
-              Experience a high-impact, 1-time live transition sprint curated with verified Tier-1 mentors. Get immediate interview blueprints, real-world system design teardowns, and referral fast-tracks. <strong>(Strictly 1 free sprint claim per candidate).</strong>
-            </p>
+
           </div>
 
-          <div className="bootcamp-grid">
-            {bootcamps.map((bootcamp) => {
-              const isRegistered = registeredBootcampIds.includes(bootcamp.id);
-              const hasUsedFreeSprintOnOther = registeredBootcampIds.length >= 1 && !isRegistered;
-              const seatsRemaining = Math.max(0, bootcamp.maxCapacity - (bootcamp.registeredCount + (isRegistered ? 1 : 0)));
-
-              return (
-                <div key={bootcamp.id} className="bootcamp-card">
-                  <div className="bc-top">
-                    <div className="bc-mentor-chip">
-                      <img src={bootcamp.mentorAvatar} alt={bootcamp.mentorName} className="bc-avatar" />
-                      <div>
-                        <strong className="bc-name">{bootcamp.mentorName}</strong>
-                        <span className="bc-role">{bootcamp.mentorRole} @ {bootcamp.mentorCompany} {bootcamp.mentorExCompany && `(${bootcamp.mentorExCompany})`}</span>
-                      </div>
+          {/* Mentors Horizontal List or Empty State */}
+          {displayedMentors.length === 0 ? (
+            <div className="peerpath-mentors-empty-state">
+              <div className="pm-empty-icon-wrap">
+                <Search size={28} className="text-indigo-600" />
+              </div>
+              <h3>No verified mentors match your current filter</h3>
+              <p>Try searching for different skills (e.g. PyTorch, VLSI, React) or reset your active company and domain filters.</p>
+              <button
+                type="button"
+                className="btn-pm-empty-reset"
+                onClick={() => {
+                  setSearchQuery('');
+                  setSelectedCompany('all');
+                  setActiveTab('top');
+                  setSortBy('match');
+                }}
+              >
+                <RefreshCw size={14} />
+                <span>View All Top Recommended Mentors</span>
+              </button>
+            </div>
+          ) : (
+            <div className="peerpath-mentors-grid">
+              {displayedMentors.map((mentor) => {
+                const matchScore = (mentor as any).matchScore || 95;
+                return (
+                  <div key={mentor.id} className="pm-mentor-card-h">
+                  
+                  {/* Left Column: Avatar + Identity + Rating + Skills */}
+                  <div className="pm-h-col-left">
+                    <div className="pm-avatar-container">
+                      <img src={mentor.avatar} alt={mentor.name} className="pm-avatar-img" />
+                      <span className="pm-online-dot" title="Available for 1:1 Sessions"></span>
                     </div>
-                    <span className="bc-free-tag">1-Time Free Pass</span>
-                  </div>
 
-                  <h3 className="bc-title">{bootcamp.title}</h3>
-
-                  <div className="bc-schedule-row">
-                    <span className="bc-sched-item"><Calendar size={13} /> {bootcamp.date}</span>
-                    <span className="bc-sched-item"><Clock size={13} /> {bootcamp.time}</span>
-                    <span className="bc-sched-item bc-sched-dur"><Sparkles size={13} /> {bootcamp.duration}</span>
-                  </div>
-
-                  <div className="bc-topics-box">
-                    <span className="bc-section-lbl">Sprint Milestones & Agenda:</span>
-                    <ul className="bc-topics-list">
-                      {bootcamp.topics.map((t, i) => (
-                        <li key={i}><CheckCircle2 size={12} className="text-purple-600 flex-shrink-0" /> <span>{t}</span></li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="bc-takeaways-box">
-                    <span className="bc-section-lbl">Sprint Toolkits Included:</span>
-                    <div className="bc-takeaways-chips">
-                      {bootcamp.takeaways.map((tw, i) => (
-                        <span key={i} className="bc-takeaway-chip">🎁 {tw}</span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="bc-footer">
-                    <div className="bc-seats-info">
-                      <div className="bc-seats-header-line" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span className="bc-seats-count">
-                          <strong>{bootcamp.registeredCount + (isRegistered ? 1 : 0)}</strong> / {bootcamp.maxCapacity} seats filled
-                        </span>
-                        <span style={{ fontSize: '11px', fontWeight: 800, color: '#DC2626' }}>
-                          🔥 Only {seatsRemaining} seats left!
+                    <div className="pm-h-profile-details">
+                      <div className="pm-h-name-row">
+                        <h4 className="pm-mentor-name">{mentor.name}</h4>
+                        <span className="pm-match-badge">
+                          <Zap size={10} fill="currentColor" /> {matchScore}% Match
                         </span>
                       </div>
 
-                      <div className="bc-progress-bar">
-                        <div 
-                          className="bc-progress-fill" 
-                          style={{ width: `${Math.min(100, Math.round(((bootcamp.registeredCount + (isRegistered ? 1 : 0)) / bootcamp.maxCapacity) * 100))}%` }} 
-                        />
+                      <p className="pm-role-company">
+                        <span className="pm-role-name">{mentor.role}</span>
+                        <span className="pm-company-name">@{mentor.company}</span>
+                      </p>
+
+                      <div className="pm-meta-row">
+                        <span className="pm-rating-text">
+                          <Star size={10.5} fill="#F59E0B" color="#F59E0B" />
+                          <strong>{mentor.rating}</strong> ({mentor.reviewsCount})
+                        </span>
+                        <span className="pm-meta-sep">•</span>
+                        <span className="pm-exp-text">{mentor.experience}</span>
+                        <span className="pm-meta-sep">•</span>
+                        <span className="pm-verified-text">
+                          <CheckCircle2 size={10.5} className="text-emerald-600" />
+                          Verified
+                        </span>
                       </div>
-                      <span className="bc-slots-note">🔒 1-Time Lifetime Benefit: 1 Free Sprint per Verified Candidate</span>
+
+                      {/* Skills Chips */}
+                      <div className="pm-skills-row mt-1">
+                        {mentor.skills.slice(0, 3).map((skill, sIdx) => (
+                          <span key={sIdx} className="pm-skill-chip">{skill}</span>
+                        ))}
+                        {mentor.skills.length > 3 && (
+                          <span className="pm-skill-chip-more">+{mentor.skills.length - 3}</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Middle Column: Career Transition Box */}
+                  <div className="pm-h-col-center">
+                    <div className="pm-h-transition-card">
+                      <div className="pm-h-transition-header">
+                        <span className="pm-h-trans-title">
+                          <TrendingUp size={11} className="text-emerald-600" />
+                          CAREER TRANSITION JOURNEY
+                        </span>
+                        <span className="pm-leap-pill">{mentor.growthPercent} ({mentor.jumpMultiplier})</span>
+                      </div>
+
+                      <div className="pm-h-stepper-row">
+                        <div className="pm-h-node from">
+                          <span className="pm-h-node-label">Started At</span>
+                          <strong className="pm-h-node-val">{mentor.baselineRole}</strong>
+                          <span className="pm-h-node-sub">{mentor.baselineCompany.split(' ')[0]}</span>
+                        </div>
+
+                        <div className="pm-h-node-arrow">
+                          <ArrowRight size={13} strokeWidth={2.5} />
+                        </div>
+
+                        <div className="pm-h-node to">
+                          <span className="pm-h-node-label leap">Switched To</span>
+                          <strong className="pm-h-node-val">{mentor.leapRole}</strong>
+                          <span className="pm-h-node-sub">@{mentor.leapCompany}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Pricing & Quick Actions */}
+                  <div className="pm-h-col-right">
+                    <div className="pm-h-price-wrap">
+                      <span className="pm-h-price-num">₹{mentor.price || 899}</span>
+                      <span className="pm-h-price-lbl">/ 60-min service</span>
                     </div>
 
-                    <button
-                      type="button"
-                      className={`btn-bootcamp-reg ${isRegistered ? 'registered' : ''} ${hasUsedFreeSprintOnOther ? 'disabled-limit' : ''}`}
-                      onClick={() => registerForBootcamp(bootcamp.id)}
-                    >
-                      {isRegistered ? (
-                        <>
-                          <CheckCircle2 size={15} className="text-emerald-600" />
-                          <span>Sprint Pass Confirmed ✓</span>
-                        </>
-                      ) : hasUsedFreeSprintOnOther ? (
-                        <span>1-Time Free Limit Claimed</span>
-                      ) : (
-                        <>
-                          <span>Claim Free Sprint Pass (1-Time)</span>
-                          <ArrowRight size={15} />
-                        </>
-                      )}
-                    </button>
+                    <div className="pm-h-actions-group">
+                      <button
+                        type="button"
+                        className="btn-pm-book-session"
+                        onClick={() => handleBook1on1(mentor)}
+                        title="Book 1:1 Mentorship Session"
+                      >
+                        <Calendar size={12} />
+                        <span>Book 1:1 Session</span>
+                        <ArrowRight size={12} />
+                      </button>
+
+                      <button
+                        type="button"
+                        className="btn-pm-profile-view"
+                        onClick={() => handleViewMentorProfile(mentor.id)}
+                        title="View mentor profile & full trajectory"
+                      >
+                        <User size={12} />
+                        <span>View Profile</span>
+                      </button>
+                    </div>
                   </div>
+
                 </div>
               );
             })}
           </div>
+          )}
+
         </div>
 
       </div>

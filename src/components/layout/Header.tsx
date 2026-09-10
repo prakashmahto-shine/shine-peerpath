@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Briefcase, Award, Bell, FileText, ChevronDown, Sparkles, 
-  User, Settings, LogOut, Video, Search, ArrowUpRight, Film, Clock, CreditCard
+  User, Settings, LogOut, Video, Search, ArrowUpRight, Film, Clock, CreditCard,
+  Compass, TrendingUp, ShieldCheck
 } from 'lucide-react';
 import { ViewType } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -32,13 +33,26 @@ export const Header: React.FC<HeaderProps> = ({
     showToast
   } = useApp();
 
+  // Determine whether current view is in Peerpath Mentorship platform or Shine Jobs portal
+  const isPeerpathView = [
+    'guidance-view',
+    'experts-view',
+    'expert-profile-view',
+    'mentor-dashboard-view',
+    'sessions-view',
+    'payment-view',
+    'confirmed-view',
+    'live-call-view',
+    'post-session-view',
+    'recruiter-view'
+  ].includes(currentView);
+
   const isAlreadyMentor = Boolean(
     currentUser?.role === 'mentor' || 
     userProfile?.isMentor || 
     currentUser?.id === 'akash' ||
     (currentUser?.username && currentUser.username.toLowerCase() === 'akash')
   );
-  const isMentor = isAlreadyMentor;
 
   const loggedInFirstName = (currentUser?.name || '').split(' ')[0].toLowerCase();
   const upcomingCount = isCreatorMode
@@ -73,52 +87,109 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="myshine-top-header-prod myshine-navbar">
+    <header className={`myshine-top-header-prod myshine-navbar ${isPeerpathView ? 'peerpath-ecosystem-header' : 'shine-jobs-header'}`}>
       <div className="myshine-nav-container">
         
-        {/* Left Side: Shine Logo + Nav Links */}
+        {/* Left Side: Brand Logo + Contextual Navigation Links */}
         <div className="myshine-nav-left">
-          <div 
-            onClick={() => onNavigate(currentUser ? (isAlreadyMentor && isCreatorMode ? 'mentor-dashboard-view' : 'dashboard-view') : 'login-view')} 
-            className="shine-logo-wrap" 
-            style={{ cursor: 'pointer' }}
-          >
-            <img 
-              src="https://staticcand.shine.com/c/s1/images/candidate/nova/home/shine-logo.svg" 
-              alt="Shine Logo" 
-              className="shine-official-svg-logo"
-            />
-          </div>
+          {isPeerpathView ? (
+            /* Standalone Peerpath Brand Identity (Zomato / Blinkit model) */
+            <div 
+              onClick={() => onNavigate(isAlreadyMentor && isCreatorMode ? 'mentor-dashboard-view' : 'guidance-view')} 
+              className="peerpath-brand-logo-wrap" 
+              style={{ cursor: 'pointer' }}
+              title="Peerpath by Shine • Verified 1:1 Mentorship"
+            >
+              <div className="peerpath-brand-symbol">
+                <Compass size={20} className="peerpath-symbol-icon" />
+              </div>
+              <div className="peerpath-brand-text-col">
+                <span className="peerpath-brand-title">PEERPATH</span>
+                <span className="peerpath-brand-sub">by <strong className="shine-mark">shine.com</strong></span>
+              </div>
+            </div>
+          ) : (
+            /* Shine Official Job Board Logo */
+            <div 
+              onClick={() => onNavigate(currentUser ? 'dashboard-view' : 'login-view')} 
+              className="shine-logo-wrap" 
+              style={{ cursor: 'pointer' }}
+              title="Shine.com Job Search"
+            >
+              <img 
+                src="https://staticcand.shine.com/c/s1/images/candidate/nova/home/shine-logo.svg" 
+                alt="Shine Logo" 
+                className="shine-official-svg-logo"
+              />
+            </div>
+          )}
 
+          {/* Contextual Navigation Links */}
           <nav className="myshine-nav-links">
-            {isAlreadyMentor && isCreatorMode ? (
-              <>
-                <button 
-                  className={`myshine-link ${currentView === 'mentor-dashboard-view' ? 'active' : ''}`}
-                  onClick={() => onNavigate('mentor-dashboard-view')} 
-                  title="Go to Mentor & Studio Dashboard"
-                >
-                  <Sparkles size={15} /> Studio Dashboard
-                  <span className="pill-live-red-badge">LIVE</span>
-                </button>
+            {isPeerpathView ? (
+              /* Peerpath Platform Navigation */
+              isAlreadyMentor && isCreatorMode ? (
+                <>
+                  <button 
+                    className={`myshine-link ${currentView === 'mentor-dashboard-view' ? 'active' : ''}`}
+                    onClick={() => onNavigate('mentor-dashboard-view')} 
+                    title="Go to Mentor & Studio Dashboard"
+                  >
+                    <Sparkles size={15} /> Studio Dashboard
+                    <span className="pill-live-red-badge">LIVE</span>
+                  </button>
 
-                <button 
-                  className={`myshine-link ${currentView === 'sessions-view' ? 'active' : ''}`} 
-                  onClick={() => onNavigate('sessions-view')}
-                >
-                  <Video size={15} /> Candidate Calls
-                  {upcomingCount > 0 && <span className="flyout-count-pill" style={{ marginLeft: '4px' }}>{upcomingCount}</span>}
-                </button>
+                  <button 
+                    className={`myshine-link ${currentView === 'sessions-view' ? 'active' : ''}`} 
+                    onClick={() => onNavigate('sessions-view')}
+                  >
+                    <Video size={15} /> Candidate Calls
+                    {upcomingCount > 0 && <span className="flyout-count-pill" style={{ marginLeft: '4px' }}>{upcomingCount}</span>}
+                  </button>
 
-                <button 
-                  className={`myshine-link ${currentView === 'experts-view' ? 'active' : ''}`} 
-                  onClick={() => onNavigate('experts-view')}
-                  title="Browse All 500+ Mentors"
-                >
-                  <Award size={15} /> Mentors Gallery
-                </button>
-              </>
+                  <button 
+                    className={`myshine-link ${currentView === 'experts-view' ? 'active' : ''}`} 
+                    onClick={() => onNavigate('experts-view')}
+                    title="Browse All Mentors"
+                  >
+                    <Award size={15} /> Mentors Directory
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button 
+                    className={`myshine-link ${currentView === 'experts-view' || currentView === 'expert-profile-view' ? 'active' : ''}`} 
+                    onClick={() => onNavigate('experts-view')}
+                  >
+                    <Compass size={15} /> Explore Mentors
+                  </button>
+
+                  <button 
+                    className={`myshine-link ${currentView === 'guidance-view' ? 'active' : ''}`} 
+                    onClick={() => onNavigate('guidance-view')}
+                  >
+                    <TrendingUp size={15} /> Domain Roadmaps
+                  </button>
+                  
+                  <button 
+                    className={`myshine-link ${currentView === 'sessions-view' ? 'active' : ''}`} 
+                    onClick={() => onNavigate('sessions-view')}
+                  >
+                    <Video size={15} /> My Bookings
+                    {upcomingCount > 0 && <span className="flyout-count-pill" style={{ marginLeft: '4px' }}>{upcomingCount}</span>}
+                  </button>
+
+                  <button 
+                    className={`myshine-link ${currentView === 'recruiter-view' ? 'active' : ''}`} 
+                    onClick={() => onNavigate('recruiter-view')}
+                    title="Recruiter Fast-Track Scorecard"
+                  >
+                    <ShieldCheck size={15} className="text-emerald-500" /> Recruiter Moat
+                  </button>
+                </>
+              )
             ) : (
+              /* Shine Jobs Portal Navigation */
               <>
                 <button 
                   className={`myshine-link ${currentView === 'jobs-view' ? 'active' : ''}`} 
@@ -127,46 +198,73 @@ export const Header: React.FC<HeaderProps> = ({
                   <Briefcase size={15} /> My Jobs
                 </button>
                 
-                <button className="myshine-link" onClick={() => onNavigate('experts-view')}>
-                  <Award size={15} /> Explore Mentors
-                </button>
-                
                 <button className="myshine-link">
                   <Bell size={15} /> Job Alerts
                 </button>
                 
                 <button className="myshine-link">
-                  <FileText size={15} /> Blogs
+                  <FileText size={15} /> Blogs & Prep
                 </button>
 
                 <button 
-                  onClick={() => onNavigate('guidance-view')} 
-                  className={`myshine-guidance-pill ${currentView === 'guidance-view' ? 'active-pill' : ''}`}
+                  className={`myshine-link ${currentView === 'profile-view' ? 'active' : ''}`} 
+                  onClick={() => onNavigate('profile-view')}
                 >
-                  <Sparkles size={14} className="sparkle-icon" />
-                  <span>Peerpath</span>
-                  <span className="pill-new-badge">NEW</span>
+                  <User size={15} /> My Profile
                 </button>
               </>
             )}
           </nav>
         </div>
 
-        {/* Right Side: Search + Get App + User Dropdown / Login Button */}
+        {/* Right Side: Search + Cross-App Switcher + User Dropdown / Login */}
         <div className="myshine-nav-right-prod">
           <form className="prod-nav-search-bar" onSubmit={handleSearchSubmit}>
             <Search size={14} className="prod-search-icon" />
             <input 
               type="text" 
-              placeholder={isCreatorMode ? "Search Candidates or Mentees" : "Search Jobs or Mentors"} 
+              placeholder={
+                isPeerpathView
+                  ? (isCreatorMode ? "Search Candidates or Mentees" : "Search tech mentors, skills, companies...")
+                  : "Search jobs, skills, companies..."
+              } 
               value={searchQuery} 
               onChange={(e) => setSearchQuery(e.target.value)}
               className="prod-search-input"
             />
           </form>
 
-          {/* ⚡ DIRECT NAVBAR CREATOR STUDIO TOGGLE SWITCH (Only for users with Expert / Mentor Access, e.g. Nisha & Akash) */}
-          {currentUser && isAlreadyMentor && (
+          {/* Cross-App Ecosystem Switchers (Zomato <-> Blinkit model) */}
+          {isPeerpathView ? (
+            /* On Peerpath: Switch back to Shine Jobs */
+            <button 
+              type="button"
+              className="btn-app-switcher-shine"
+              onClick={handleGoToMyJobs}
+              title="Return to shine.com Job Search"
+            >
+              <Briefcase size={14} />
+              <span>Back to shine.com</span>
+              <ArrowUpRight size={13} className="switcher-arrow" />
+            </button>
+          ) : (
+            /* On Shine Jobs: Launch Peerpath Mentorship */
+            <button 
+              type="button"
+              className="btn-app-switcher-peerpath glow-pulse-subtle"
+              onClick={() => onNavigate('guidance-view')}
+              title="Switch to Peerpath by shine.com: 1:1 Tech Transition Mentorship"
+            >
+              <Sparkles size={14} className="sparkle-icon-spin text-amber-300" />
+              <div className="asp-text-wrap">
+                <span className="asp-main-title">Peerpath</span>
+                <span className="asp-sub-badge">1:1 Mentorship ↗</span>
+              </div>
+            </button>
+          )}
+
+          {/* ⚡ DIRECT NAVBAR CREATOR STUDIO TOGGLE SWITCH (For users with Mentor Access, e.g. Akash & Nisha) */}
+          {currentUser && isAlreadyMentor && isPeerpathView && (
             <div
               className={`navbar-creator-toggle-control ${isCreatorMode ? 'is-on' : 'is-off'}`}
               onClick={() => {
@@ -180,7 +278,7 @@ export const Header: React.FC<HeaderProps> = ({
                 if (nextMode) {
                   onNavigate('mentor-dashboard-view');
                 } else {
-                  onNavigate('profile-view');
+                  onNavigate('guidance-view');
                 }
               }}
               role="switch"
@@ -258,25 +356,21 @@ export const Header: React.FC<HeaderProps> = ({
                   ) : (
                     <>
                       <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('profile-view'); }}>
-                        <User size={15} /> My Profile
+                        <User size={15} /> My Shine Profile
                       </a>
-                      {upcomingCount > 0 && (
-                        <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }}>
-                          <Video size={15} className="text-purple-600" /> 
-                          <span style={{ fontWeight: 700, color: '#0F172A' }}>
-                            My Mentorship Sessions
-                          </span>
+                      <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('guidance-view'); }}>
+                        <Sparkles size={15} className="text-purple-600" /> Peerpath Career Roadmap
+                      </a>
+                      <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }}>
+                        <Video size={15} className="text-purple-600" /> 
+                        <span style={{ fontWeight: 700, color: '#0F172A' }}>
+                          My Bookings
+                        </span>
+                        {upcomingCount > 0 && (
                           <span className="flyout-count-pill">{upcomingCount}</span>
-                        </a>
-                      )}
+                        )}
+                      </a>
                     </>
-                  )}
-
-                  {/* Only visible when in Candidate Mode */}
-                  {!isCreatorMode && (
-                    <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('guidance-view'); }}>
-                      <Sparkles size={15} className="text-amber-500" /> Career Roadmap (Peerpath)
-                    </a>
                   )}
 
                   {!isAlreadyMentor && (currentUser?.isMentorEligible || userProfile?.isMentorEligible) && (
@@ -331,3 +425,4 @@ export const Header: React.FC<HeaderProps> = ({
     </header>
   );
 };
+

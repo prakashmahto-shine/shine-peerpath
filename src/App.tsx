@@ -139,7 +139,10 @@ const AppMain: React.FC = () => {
     <div className="app-root-container">
       <ToastContainer />
 
-      {showTopNotice && currentView !== 'live-call-view' && currentView !== 'login-view' && currentUser?.role === 'candidate' && (
+      {/* Shine Jobs Top Notice Bar (ONLY ON SHINE JOBS PORTAL - NEVER ON PEERPATH) */}
+      {showTopNotice && 
+       ['dashboard-view', 'jobs-view', 'profile-view'].includes(currentView) && 
+       currentUser?.role === 'candidate' && (
         <div className="myshine-top-notice-bar">
           <div className="notice-inner-flex">
             <div className="notice-left-text">

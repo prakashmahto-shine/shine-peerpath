@@ -21,7 +21,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
 }) => {
   const { previousView, currentUser, navigateToCreatorStudio, isFollowingMentor, toggleFollowMentor } = useApp();
 
-  const [activeTab, setActiveTab] = useState<'about' | 'trajectory' | 'sessions' | 'reviews'>('about');
+  const [activeTab, setActiveTab] = useState<'sessions' | 'about' | 'trajectory' | 'reviews'>('sessions');
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [videoProgress, setVideoProgress] = useState<number>(35);
 
@@ -58,8 +58,15 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
   const baseFollowers = expert.followersCount || ((expert.reviewsCount || 10) * 12 + 420);
   const displayFollowersCount = isFollowing ? baseFollowers + 1 : baseFollowers;
 
-  const togglePlay = () => {
-    setIsPlaying(!isPlaying);
+  const handleToggleTeaser = () => {
+    const next = !isPlaying;
+    setIsPlaying(next);
+    if (next) {
+      const playerEl = document.getElementById('teaser-video-player');
+      if (playerEl) {
+        playerEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
   };
 
   const handleBack = () => {
@@ -98,40 +105,43 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
       <div className="expert-full-profile-card">
         <div className="profile-header-main">
           
-          <div className="profile-avatar-wrap">
+          <div className="ep-avatar-container">
             <img src={expert.avatar || '/avatars/akash.jpg'} alt={expert.name} className="ep-avatar-img" />
-            <div className="ep-verified-shield" title="Employment Verified">
-              <CheckCircle2 size={16} />
+            <div className="ep-avatar-company-badge">
+              <img src={(expert as any).companyLogo || '/logos/swiggy.png'} alt={expert.company} />
             </div>
           </div>
 
-          <div className="profile-meta-info">
-            <div className="name-badge-row">
-              <div className="name-follow-group">
-                <h1 className="ep-name">{expert.name}</h1>
-                <span className="ep-cohort-badge">⭐ Cohort 1 Founding Host</span>
-                {!isSelf && (
-                  <button 
-                    type="button" 
-                    className={`btn-ep-follow ${isFollowing ? 'ep-following' : ''}`}
-                    onClick={() => toggleFollowMentor(expert.id, expert.name)}
-                    title={isFollowing ? 'You will receive priority slot notifications' : 'Follow to get instant WhatsApp slot alerts'}
-                  >
-                    {isFollowing ? (
-                      <>
-                        <Bell size={13} className="bell-active" />
-                        <span>Following ({displayFollowersCount})</span>
-                      </>
-                    ) : (
-                      <>
-                        <UserPlus size={13} />
-                        <span>+ Follow ({displayFollowersCount})</span>
-                      </>
-                    )}
-                  </button>
-                )}
-              </div>
-              <span className="ep-verified-tag"><CheckCircle2 size={13} /> Work Email Verified</span>
+          <div className="ep-main-details">
+            <div className="ep-title-row">
+              <h2>{expert.name}</h2>
+              <span className="ep-verified-tag"><CheckCircle2 size={14} /> Verified Practitioner</span>
+              
+              {/* Creator Mode / Self Indicator or Follow Button */}
+              {isSelf ? (
+                <div className="self-mentor-pill">
+                  <Sparkles size={13} className="text-amber-500" />
+                  <span>Your Public Listing</span>
+                </div>
+              ) : (
+                <button 
+                  type="button" 
+                  className={`btn-follow-mentor ${isFollowing ? 'is-following' : ''}`}
+                  onClick={() => toggleFollowMentor(expert.id, expert.name)}
+                >
+                  {isFollowing ? (
+                    <>
+                      <UserCheck size={14} />
+                      <span>Following</span>
+                    </>
+                  ) : (
+                    <>
+                      <UserPlus size={14} />
+                      <span>Follow Updates</span>
+                    </>
+                  )}
+                </button>
+              )}
             </div>
             <p className="ep-headline">{expert.role} at {expert.company}</p>
             
@@ -140,7 +150,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
               <span><Star size={14} className="star-gold" /> <strong>{expert.rating || 4.9}</strong> ({expert.reviewsCount || 0} Reviews)</span>
               <span><Users size={14} /> <strong>{displayFollowersCount.toLocaleString()}</strong> Followers</span>
               <span><Clock size={14} /> {expert.experience || '6+ Years'}</span>
-              <span><Award size={14} /> <strong>{expert.sessionsCount || 0}+</strong> Sessions Conducted</span>
+              <span><Award size={14} /> <strong>{expert.sessionsCount || 0}+</strong> Services Delivered</span>
             </div>
 
             <div className="ep-skills-chips">
@@ -153,7 +163,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
           <div className="ep-action-box">
             <div className="ep-price-tag">
               <span className="price-val">₹{expert.price || 999}</span>
-              <span className="price-unit"> / 60 Min Session</span>
+              <span className="price-unit"> / 60 Min Service</span>
             </div>
             {isSelf ? (
               <button className="btn-shine-gold-lg" onClick={() => navigateToCreatorStudio('teaser')}>
@@ -161,31 +171,43 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
               </button>
             ) : (
               <button className="btn-shine-gold-lg" onClick={() => onOpenBooking(expert.id)}>
-                <Calendar size={18} /> Book a Session
+                <Calendar size={18} /> Book a Service
               </button>
             )}
-            <button className="btn-white-outline" onClick={togglePlay}>
-              <PlayCircle size={18} /> Watch Teaser Video
+            <button 
+              type="button" 
+              className={`btn-teaser-action ${isPlaying ? 'is-playing' : ''}`} 
+              onClick={handleToggleTeaser}
+              title={isPlaying ? 'Pause video teaser' : 'Watch video teaser'}
+            >
+              <span className="teaser-btn-icon-wrap">
+                {isPlaying ? <Pause size={14} /> : <Play size={14} fill="currentColor" />}
+              </span>
+              <span className="teaser-btn-text">
+                {isPlaying ? 'Pause Teaser Video' : 'Watch Teaser Video'}
+              </span>
+              <span className="teaser-btn-duration">{expert.duration || '01:15'}</span>
             </button>
           </div>
 
         </div>
 
-        <div className="teaser-video-player-box">
-          <div className="video-container-frame" onClick={togglePlay}>
+        <div className="teaser-video-player-box" id="teaser-video-player">
+          <div className="video-container-frame" onClick={handleToggleTeaser}>
             <div className="video-overlay-tint"></div>
             <img src={expert.videoPoster || expert.avatar || '/avatars/akash.jpg'} alt="Video Thumbnail" className="video-poster-img" />
             
             <div className="video-play-center">
-              <div className="play-pulse-circle" style={{ opacity: isPlaying ? 0.3 : 1 }}>
-                {isPlaying ? <Pause size={32} fill="#0f172a" /> : <Play size={32} fill="#0f172a" />}
+              <div className={`play-pulse-circle ${isPlaying ? 'playing' : ''}`} style={{ opacity: isPlaying ? 0.35 : 1 }}>
+                {isPlaying ? <Pause size={30} fill="#0f172a" /> : <Play size={30} fill="#0f172a" style={{ marginLeft: '4px' }} />}
               </div>
             </div>
 
             <div className="video-top-bar">
               <span className="video-badge-pill"><Film size={14} /> Trajectory Teaser</span>
               <span className="video-duration-pill">{expert.duration || '01:15'}</span>
-            </div><div className="video-bottom-controls">
+            </div>
+            <div className="video-bottom-controls">
               <div className="video-caption-text">
                 <h4>{expert.teaserTitle || `Teaser: How I Grew in ${expert.domain || 'Tech'}`}</h4>
                 <p>Learn how {mentorFirstName} transitioned into top product engineering and fast-tracked compensation.</p>
@@ -193,71 +215,28 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
             </div>
           </div>
           
-          <div className="video-custom-seekbar">
+          <div 
+            className="video-custom-seekbar" 
+            title="Video progress"
+            onClick={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const clickPos = (e.clientX - rect.left) / rect.width;
+              setVideoProgress(Math.min(100, Math.max(0, Math.round(clickPos * 100))));
+            }}
+          >
             <div className="seek-fill" style={{ width: `${videoProgress}%` }}></div>
           </div>
         </div>
 
         <div className="expert-tabs-bar">
+          <button className={`ep-tab ${activeTab === 'sessions' ? 'active' : ''}`} onClick={() => setActiveTab('sessions')}>Services</button>
           <button className={`ep-tab ${activeTab === 'about' ? 'active' : ''}`} onClick={() => setActiveTab('about')}>About Mentor</button>
           <button className={`ep-tab ${activeTab === 'trajectory' ? 'active' : ''}`} onClick={() => setActiveTab('trajectory')}>Trajectory Roadmap</button>
-          <button className={`ep-tab ${activeTab === 'sessions' ? 'active' : ''}`} onClick={() => setActiveTab('sessions')}>1:1 Sessions</button>
           <button className={`ep-tab ${activeTab === 'reviews' ? 'active' : ''}`} onClick={() => setActiveTab('reviews')}>Candidate Reviews ({expert.reviewsCount || 0})</button>
         </div>
 
         <div className="expert-tab-content-area">
           <div className="tab-left-col">
-          {activeTab === 'about' && (
-            <div className="ep-about-grid">
-              <div className="ep-about-main-content">
-                <h3 className="pane-title">About Me</h3>
-                <p className="pane-body-text">{expert.bio || `Leading mentor at ${expert.company}. Guiding tech talent on career transition, architecture, and interview prep.`}</p>
-
-                <h4 className="pane-subtitle mt-4"><CheckCircle2 size={16} className="text-success" /> My Sessions Help With:</h4>
-                <ul className="ep-checklist">
-                  <li>Career transition roadmap into {expert.domain || 'Target Role'}</li>
-                  <li>Core skills, metrics, and interview strategies</li>
-                  <li>Live mock interview with production-grade rubrics</li>
-                  <li>Internal referral review for qualified candidates</li>
-                </ul>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'trajectory' && (
-            <div>
-              <h3 className="pane-title">Verified Career Trajectory Roadmap</h3>
-              <p className="pane-body-text">See how this mentor achieved a 3x compensation leap and the specific skills mastered along the way.</p>
-              
-              <div className="career-trajectory-timeline mt-4">
-                <div className="timeline-node active">
-                  <div className="node-marker"><CircleDot size={12} /></div>
-                  <div className="node-content">
-                    <span className="node-year">2022 — Present</span>
-                    <h4>{expert.role} — {expert.company}</h4>
-                    <p>{expert.trajectory?.jumpStory || 'Leading scalable architecture and engineering solutions with global teams.'}</p>
-                  </div>
-                </div>
-                <div className="timeline-node">
-                  <div className="node-marker"><CircleDot size={12} /></div>
-                  <div className="node-content">
-                    <span className="node-year">2020 — 2022</span>
-                    <h4>{expert.trajectory?.role3YearsAgo || 'Senior Engineer'} — {expert.trajectory?.company3YearsAgo || 'Growth Tech Firm'}</h4>
-                    <p>Mastered key jump skills: {(expert.trajectory?.keyJumpSkills || skillsList.slice(0, 3)).join(', ')}.</p>
-                  </div>
-                </div>
-                <div className="timeline-node">
-                  <div className="node-marker"><CircleDot size={12} /></div>
-                  <div className="node-content">
-                    <span className="node-year">2018 — 2020 (Candidate's Current State)</span>
-                    <h4>Foundation Role ({expert.trajectory?.salary3YearsAgo || '₹6.5 LPA'})</h4>
-                    <p>Started in foundational role with same baseline credentials as your current CV.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
           {activeTab === 'sessions' && (() => {
             const basePrice = expert.price || 999;
             const mentorSessions = [
@@ -323,41 +302,8 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
               <div>
                 <div className="sessions-tab-header">
                   <div>
-                    <h3 className="pane-title">Available 1:1 Sessions ({mentorSessions.length})</h3>
+                    <h3 className="pane-title">Available Services ({mentorSessions.length})</h3>
                     <p className="pane-subtitle">Book personalized 1:1 mentorship, live mock interviews, CV audit or direct referral evaluation with {expert.name}.</p>
-                  </div>
-                </div>
-
-                {/* Free Community Session / Masterclass Teaser */}
-                <div className="ep-free-community-session-card">
-                  <div className="efc-left">
-                    <div className="efc-icon-wrap">
-                      <Video size={20} className="text-purple-600" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                          🎙️ Free Community Session
-                        </span>
-                        <span className="text-xs font-semibold text-purple-700 dark:text-purple-300">Assess Before 1:1 Booking</span>
-                      </div>
-                      <h4 className="text-sm font-bold text-slate-900 dark:text-white">
-                        {expert.teaserTitle || `Masterclass: Breaking into ${expert.company} & System Architecture`}
-                      </h4>
-                      <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                        Watch {mentorFirstName}'s free masterclass teaser to assess framework depth and communication style before scheduling a 1:1 session.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="efc-right">
-                    <button 
-                      type="button" 
-                      className="btn-efc-watch"
-                      onClick={() => setActiveTab('about')}
-                    >
-                      <Play size={13} fill="currentColor" />
-                      <span>Watch Teaser</span>
-                    </button>
                   </div>
                 </div>
 
@@ -388,11 +334,11 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
 
                       {isSelf ? (
                         <button className="btn-shine-gold w-100 mt-2" onClick={() => navigateToCreatorStudio('pricing')}>
-                          Manage Session Details & Pricing
+                          Manage Service Details & Pricing
                         </button>
                       ) : (
                         <button className="btn-shine-gold w-100 mt-2" onClick={() => onOpenBooking(expert.id)}>
-                          Book This Session
+                          Book This Service
                         </button>
                       )}
                     </div>
@@ -401,6 +347,88 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
               </div>
             );
           })()}
+
+          {activeTab === 'about' && (
+            <div className="ep-about-grid">
+              <div className="ep-about-main-content">
+                <h3 className="pane-title">About Me</h3>
+                <p className="pane-body-text">{expert.bio || `Leading mentor at ${expert.company}. Guiding tech talent on career transition, architecture, and interview prep.`}</p>
+
+                <h4 className="pane-subtitle mt-4"><CheckCircle2 size={16} className="text-success" /> My Services Help With:</h4>
+                <ul className="ep-checklist">
+                  <li>Career transition roadmap into {expert.domain || 'Target Role'}</li>
+                  <li>Core skills, metrics, and interview strategies</li>
+                  <li>Live mock interview with production-grade rubrics</li>
+                  <li>Internal referral review for qualified candidates</li>
+                </ul>
+
+                <div className="ep-tab-cta-banner">
+                  <div className="ep-tab-cta-content">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="cta-slot-badge">⚡ Instant Slot Booking</span>
+                      <span className="text-xs text-slate-500 font-medium">100% Verified Practitioner</span>
+                    </div>
+                    <h4>Ready to fast-track your career transition?</h4>
+                    <p>Book a tailored service with {mentorFirstName} like 1:1 Mentorship, CV Audit & Mock Interviews.</p>
+                  </div>
+                  <div className="ep-tab-cta-actions">
+                    <button className="btn-shine-gold" onClick={() => onOpenBooking(expert.id)}>
+                      <Calendar size={15} /> Book Service (₹{expert.price || 999})
+                    </button>
+                    <button className="btn-secondary-link" onClick={() => setActiveTab('sessions')}>
+                      View All 4 Services →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'trajectory' && (
+            <div>
+              <h3 className="pane-title">Verified Career Trajectory Roadmap</h3>
+              <p className="pane-body-text">See how this mentor achieved 3x salary growth and the specific skills mastered along the way.</p>
+              
+              <div className="career-trajectory-timeline mt-4">
+                <div className="timeline-node active">
+                  <div className="node-marker"><CircleDot size={12} /></div>
+                  <div className="node-content">
+                    <span className="node-year">2022 — Present</span>
+                    <h4>{expert.role} — {expert.company}</h4>
+                    <p>{expert.trajectory?.jumpStory || 'Leading scalable architecture and engineering solutions with global teams.'}</p>
+                  </div>
+                </div>
+                <div className="timeline-node">
+                  <div className="node-marker"><CircleDot size={12} /></div>
+                  <div className="node-content">
+                    <span className="node-year">2020 — 2022</span>
+                    <h4>{expert.trajectory?.role3YearsAgo || 'Senior Engineer'} — {expert.trajectory?.company3YearsAgo || 'Growth Tech Firm'}</h4>
+                    <p>Mastered key jump skills: {(expert.trajectory?.keyJumpSkills || skillsList.slice(0, 3)).join(', ')}.</p>
+                  </div>
+                </div>
+                <div className="timeline-node">
+                  <div className="node-marker"><CircleDot size={12} /></div>
+                  <div className="node-content">
+                    <span className="node-year">2018 — 2020 (Candidate's Current State)</span>
+                    <h4>Foundation Role ({expert.trajectory?.salary3YearsAgo || '₹6.5 LPA'})</h4>
+                    <p>Started in foundational role with same baseline credentials as your current CV.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="ep-tab-cta-banner">
+                <div className="ep-tab-cta-content">
+                  <h4>Want a tailored transition roadmap like this?</h4>
+                  <p>Discuss your background with {mentorFirstName} and get an actionable execution plan to transition into high-growth roles.</p>
+                </div>
+                <div className="ep-tab-cta-actions">
+                  <button className="btn-shine-gold" onClick={() => onOpenBooking(expert.id)}>
+                    <Calendar size={15} /> Schedule Roadmap Call
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {activeTab === 'reviews' && (
             <div>
@@ -432,6 +460,18 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                     <div className="rev-rating"><Star size={14} className="star-gold" /> 5.0</div>
                   </div>
                   <p className="rev-comment">"The mock interview was ruthless in a good way. The best part was the verified badge added to my Shine profile — 2 recruiters contacted me directly next week."</p>
+                </div>
+              </div>
+
+              <div className="ep-tab-cta-banner">
+                <div className="ep-tab-cta-content">
+                  <h4>Join 96+ candidates who accelerated their offers</h4>
+                  <p>Get evaluated with real production rubrics and receive your official Shine Skill Scorecard.</p>
+                </div>
+                <div className="ep-tab-cta-actions">
+                  <button className="btn-shine-gold" onClick={() => onOpenBooking(expert.id)}>
+                    <Calendar size={15} /> Book a Service
+                  </button>
                 </div>
               </div>
             </div>
