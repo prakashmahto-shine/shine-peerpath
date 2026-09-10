@@ -120,13 +120,13 @@ export const LoginModal: React.FC = () => {
         <form onSubmit={handleSubmit} className="login-form-stack">
           <div className="login-field-group">
             <label className="login-label">
-              <User size={14} /> Username / ID (prakash or akash)
+              <User size={14} /> Username / ID / Email (prakash, akash, or any candidate id)
             </label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter prakash or akash"
+              placeholder="e.g. prakash, or a candidate id like anjali-chauhan"
               className="login-input"
               required
             />

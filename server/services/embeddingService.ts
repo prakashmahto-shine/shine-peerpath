@@ -60,7 +60,7 @@ function fallbackEmbedding(text: string): number[] {
     for (let j = 0; j < token.length; j++) {
       hash = (hash * 31 + token.charCodeAt(j)) & 0xffffffff;
     }
-    const idx = Math.abs(hash) % 384;
+    const idx = (hash >>> 0) % 384;
     vector[idx] += 1;
 
     // Add character n-grams for semantic fuzzy token match
@@ -70,7 +70,7 @@ function fallbackEmbedding(text: string): number[] {
       for (let m = 0; m < tri.length; m++) {
         triHash = (triHash * 33 + tri.charCodeAt(m)) & 0xffffffff;
       }
-      const triIdx = Math.abs(triHash) % 384;
+      const triIdx = (triHash >>> 0) % 384;
       vector[triIdx] += 0.5;
     }
   }

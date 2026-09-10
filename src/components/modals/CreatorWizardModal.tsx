@@ -30,7 +30,7 @@ export const CreatorWizardModal: React.FC = () => {
   const [fullName, setFullName] = useState<string>(currentUser?.name || userProfile.name || 'Nisha Kumari');
   const [headline, setHeadline] = useState<string>(currentUser?.headline || userProfile.headline || 'Staff Frontend Architect & UI Lead @ Flipkart');
   const [company, setCompany] = useState<string>(currentUser?.company || userProfile.pastCompany || 'Flipkart');
-  const [domain, setDomain] = useState<string>('Frontend & Web UI');
+  const [domain, setDomain] = useState<string>('Full-Stack');
   const [bio, setBio] = useState<string>(
     userProfile.summary || 
     'Staff Frontend Architect with 6.8+ years of experience leading UI infrastructure and micro-frontends at Flipkart and Swiggy. Passionate about web performance, React 19 architecture, and mentoring engineers.'
@@ -463,12 +463,12 @@ export const CreatorWizardModal: React.FC = () => {
                     value={domain} 
                     onChange={(e) => setDomain(e.target.value)}
                   >
-                    <option value="Frontend & Web UI">Frontend & Web UI (React, Next.js, Micro-Frontends)</option>
-                    <option value="System Design & Backend">System Design & Backend Architecture</option>
-                    <option value="Product Management">Product Management & Growth Strategy</option>
-                    <option value="AI/ML & Data Engineering">AI/ML & Distributed Data Systems</option>
-                    <option value="Engineering Leadership">Engineering Leadership & EM / Director Track</option>
-                    <option value="SaaS Sales & GTM">SaaS Enterprise Sales & GTM</option>
+                    <option value="Full-Stack">Full-Stack (React, Next.js, System Design, Backend)</option>
+                    <option value="AI/ML">AI/ML (GenAI, LLMs, Data Science, MLOps)</option>
+                    <option value="Semiconductor">Semiconductor (VLSI, RTL, Physical Design)</option>
+                    <option value="Cybersecurity">Cybersecurity (AppSec, Cloud Security, SOC)</option>
+                    <option value="SaaS Sales">SaaS Sales & Enterprise GTM</option>
+                    <option value="Marketing">Marketing (Growth, Brand, Performance)</option>
                   </select>
                 </div>
 

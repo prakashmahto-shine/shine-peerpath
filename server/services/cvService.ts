@@ -1,6 +1,6 @@
 import { DomainVertical, GapAnalysisResult } from '../types';
 import { trajectoryService } from './trajectoryService';
-import { createEmbedding, cosineSimilarity } from './embeddingService';
+import { createEmbedding, cosineSimilarity, semanticSkillMatch } from './embeddingService';
 
 interface DomainJDTemplate {
   domain: DomainVertical;
@@ -119,7 +119,9 @@ export class CvService {
     domainKey: string = 'full-stack', 
     candidateSkills: string[] = [],
     candidateRole: string = 'Senior Frontend Engineer',
-    currentCtc: string = '₹7.5 LPA'
+    currentCtc: string = '₹7.5 LPA',
+    currentCompany?: string,
+    targetCompany?: string
   ): Promise<GapAnalysisResult> {
     const key = domainKey.toLowerCase().replace(/[^a-z0-9]/g, '');
     let matchedTemplate = DOMAIN_TEMPLATES['full-stack'];
@@ -138,37 +140,70 @@ export class CvService {
 
     const candSkillsLower = candidateSkills.map(s => s.toLowerCase());
 
-    // Skills on candidate CV that match this domain
-    let matchedSkills = matchedTemplate.expectedSkills.filter(es => {
+    // Skills on candidate CV that match this domain (string match + semantic embedding skill match)
+    const matchedSkills: string[] = [];
+    for (const es of matchedTemplate.expectedSkills) {
       const eLower = es.toLowerCase();
-      return candSkillsLower.some(cs => 
+      let matched = candSkillsLower.some(cs => 
         cs.includes(eLower) || 
         eLower.includes(cs) || 
         cs.replace(/[^a-z0-9]/g, '') === eLower.replace(/[^a-z0-9]/g, '')
       );
-    });
+      if (!matched && candidateSkills.length > 0) {
+        for (const cs of candidateSkills) {
+          if (await semanticSkillMatch(cs, es, 0.70)) {
+            matched = true;
+            break;
+          }
+        }
+      }
+      if (matched) {
+        matchedSkills.push(es);
+      }
+    }
 
     if (matchedSkills.length === 0) {
       if (candidateSkills.length > 0) {
-        matchedSkills = candidateSkills.slice(0, 4);
+        matchedSkills.push(...candidateSkills.slice(0, 4));
       } else {
-        matchedSkills = matchedTemplate.expectedSkills.slice(0, 3);
+        matchedSkills.push(...matchedTemplate.expectedSkills.slice(0, 3));
       }
     }
 
     // High leverage booster skills missing from candidate's profile
-    let missingBoosterSkills = matchedTemplate.highLeverageBoosterSkills.filter(bs => {
+    const missingBoosterSkills: string[] = [];
+    for (const bs of matchedTemplate.highLeverageBoosterSkills) {
       const bLower = bs.toLowerCase();
-      return !candSkillsLower.some(cs => 
+      let hasSkill = candSkillsLower.some(cs => 
         cs.includes(bLower) || 
         bLower.includes(cs) || 
         cs.replace(/[^a-z0-9]/g, '') === bLower.replace(/[^a-z0-9]/g, '')
       );
-    });
+      if (!hasSkill && candidateSkills.length > 0) {
+        for (const cs of candidateSkills) {
+          if (await semanticSkillMatch(cs, bs, 0.75)) {
+            hasSkill = true;
+            break;
+          }
+        }
+      }
+      if (!hasSkill) {
+        missingBoosterSkills.push(bs);
+      }
+    }
 
     if (missingBoosterSkills.length === 0) {
-      missingBoosterSkills = matchedTemplate.highLeverageBoosterSkills.slice(0, 2);
+      missingBoosterSkills.push(...matchedTemplate.highLeverageBoosterSkills.slice(0, 2));
     }
+
+    // Dense vector semantic fit between candidate profile and target template
+    const candidateText = `${candidateRole} ${candidateSkills.join(', ')}`;
+    const targetText = `${matchedTemplate.defaultTargetRole} ${matchedTemplate.domain} ${matchedTemplate.expectedSkills.join(' ')}`;
+    const [candVec, targetVec] = await Promise.all([
+      createEmbedding(candidateText),
+      createEmbedding(targetText)
+    ]);
+    const semanticFit = Math.max(0, cosineSimilarity(candVec, targetVec));
 
     // Dynamic progression as candidate adds booster skills
     const addedBoostersCount = matchedTemplate.highLeverageBoosterSkills.length - missingBoosterSkills.length;
@@ -193,10 +228,10 @@ export class CvService {
     }
 
     const targetScore = 96;
-    // Dynamic base score calculated from real CV match (scales from 42% up to 85% based on actual CV)
+    // Dynamic base score calculated from real CV match and dense vector semantic fit
     const baseScore = Math.min(
-      85,
-      Math.max(42, Math.round(42 + (matchRatio * 35) + roleBonus))
+      88,
+      Math.max(45, Math.round(40 + (matchRatio * 25) + (semanticFit * 22) + roleBonus))
     );
 
     const currentScore = Math.min(
@@ -207,10 +242,12 @@ export class CvService {
     // Run trajectory matching to get top 3 verified creators who made this jump
     const allMatches = await trajectoryService.matchTrajectories({
       currentRole: candidateRole,
+      currentCompany,
       currentExperience: '4 Years',
       currentSalary: currentCtc,
       targetRole: matchedTemplate.defaultTargetRole,
       targetPackage: matchedTemplate.targetPackage,
+      targetCompany,
       domain: matchedTemplate.domain,
       skills: candidateSkills
     });

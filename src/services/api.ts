@@ -1,4 +1,4 @@
-import { Expert, MentorshipSession, PeerVerifiedBadge, TrajectoryMatch, ZeroPrepDossier, GapAnalysisResult, ShineJob } from '../types';
+import { Expert, MentorshipSession, PeerVerifiedBadge, TrajectoryMatch, ZeroPrepDossier, GapAnalysisResult, ShineJob, UserProfileData } from '../types';
 
 const API_BASE = '/api';
 
@@ -40,22 +40,60 @@ export const peerpathApi = {
     return json.data;
   },
 
+  // Candidate Profile
+  async getCandidateProfile(id: string): Promise<UserProfileData> {
+    const res = await fetch(`${API_BASE}/candidates/${id}`);
+    if (!res.ok) throw new Error(`Failed fetching candidate ${id}`);
+    const json = await res.json();
+    return json.data;
+  },
+
+  async updateCandidateProfile(id: string, updates: Partial<UserProfileData>): Promise<UserProfileData> {
+    const res = await fetch(`${API_BASE}/candidates/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updates)
+    });
+    if (!res.ok) throw new Error(`Failed updating candidate ${id}`);
+    const json = await res.json();
+    return json.data;
+  },
+
   // Trajectory Matching
   async matchTrajectories(params: {
     currentRole: string;
+    currentCompany?: string;
     currentExperience?: string;
     currentSalary?: string;
     targetRole?: string;
     targetPackage?: string;
+    targetCompany?: string;
     domain?: string;
     skills: string[];
-  }): Promise<TrajectoryMatch[]> {
+  }): Promise<{ matches: TrajectoryMatch[]; supportedDomain: boolean; message?: string }> {
     const res = await fetch(`${API_BASE}/trajectory/match`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(params)
     });
     if (!res.ok) throw new Error(`Failed matching trajectories`);
+    const json = await res.json();
+    return { matches: json.data, supportedDomain: json.supportedDomain !== false, message: json.message };
+  },
+
+  // CV Parsing
+  async parseCv(cvText: string, metadata?: Record<string, any>): Promise<{
+    parsedSkills: string[];
+    estimatedExperience: string;
+    rawLength: number;
+    extractedHighlights: string[];
+  }> {
+    const res = await fetch(`${API_BASE}/cv/parse`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cvText, metadata })
+    });
+    if (!res.ok) throw new Error(`Failed parsing CV`);
     const json = await res.json();
     return json.data;
   },
@@ -66,6 +104,8 @@ export const peerpathApi = {
     skills?: string[];
     currentRole?: string;
     currentCtc?: string;
+    currentCompany?: string;
+    targetCompany?: string;
   }): Promise<GapAnalysisResult> {
     const res = await fetch(`${API_BASE}/cv/gap-analysis`, {
       method: 'POST',
@@ -82,6 +122,8 @@ export const peerpathApi = {
     skills?: string[];
     currentRole?: string;
     currentCtc?: string;
+    currentCompany?: string;
+    targetCompany?: string;
   }): Promise<Record<string, GapAnalysisResult>> {
     const res = await fetch(`${API_BASE}/cv/pathways-analysis`, {
       method: 'POST',

@@ -107,6 +107,7 @@ export interface UserProfileData {
   currentCtc?: string;
   targetCtc?: string;
   targetRole?: string;
+  targetCompany?: string;
   resumeFileName?: string;
   resumeLastUpdated?: string;
   educationDegree?: string;
@@ -208,6 +209,8 @@ export interface TrajectoryMatch {
   matchReasons: string[];
   criticalBoosterSkills: string[];
   suggestedSessionGoal: string;
+  isExactMatch: boolean;
+  matchType: 'exact-dream' | 'exact-company' | 'exact-role' | 'aligned';
 }
 
 export interface GapAnalysisResult {

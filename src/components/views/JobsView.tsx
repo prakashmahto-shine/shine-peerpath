@@ -140,23 +140,38 @@ const FALLBACK_JOBS: ShineJob[] = [
   }
 ];
 
-// Infer domain from job title & skills
+// Infer domain from job title & skills. Peerpath only has mentors for AI/ML, Semiconductor,
+// Cybersecurity and Full-Stack — anything else (Sales, Marketing, Product, HR, etc.) is
+// tagged 'Others' rather than silently guessed into one of those 4, which used to happen
+// here (everything unrecognized fell through to 'Full-Stack').
 const inferDomainFromJob = (job: ShineJob): string => {
   if (job.domain) return job.domain;
   const combined = (job.title + ' ' + job.requiredSkills.join(' ')).toLowerCase();
-  if (combined.includes('solr') || combined.includes('search') || combined.includes('lucene') || combined.includes('data infra')) {
-    return 'Search & Data Infra';
-  }
-  if (combined.includes('product') || combined.includes('pm')) {
+  if (combined.includes('product manager') || combined.includes('product management') || combined.includes('prd') || combined.includes('apm') || combined.includes('gpm')) {
     return 'Product Management';
   }
-  if (combined.includes('ai') || combined.includes('ml') || combined.includes('genai') || combined.includes('llm')) {
-    return 'AI/ML';
+  if (combined.includes('search') || combined.includes('solr') || combined.includes('lucene') || combined.includes('data infra')) {
+    return 'Search & Data Infra';
   }
-  if (combined.includes('silicon') || combined.includes('semiconductor') || combined.includes('vlsi')) {
+  if (combined.includes('sales') || combined.includes('bdr') || combined.includes('sdr') || combined.includes('revenue') || combined.includes('gtm')) {
+    return 'SaaS Sales';
+  }
+  if (combined.includes('marketing') || combined.includes('growth marketer') || combined.includes('seo') || combined.includes('sem')) {
+    return 'Marketing';
+  }
+  if (combined.includes('security') || combined.includes('cyber') || combined.includes('pentest') || combined.includes('threat') || combined.includes('soc analyst') || combined.includes('vulnerability')) {
+    return 'Cybersecurity';
+  }
+  if (combined.includes('silicon') || combined.includes('semiconductor') || combined.includes('vlsi') || combined.includes('asic') || combined.includes('fpga') || combined.includes('chip')) {
     return 'Semiconductor';
   }
-  return 'Full-Stack';
+  if (combined.includes('ai') || combined.includes('ml') || combined.includes('genai') || combined.includes('llm') || combined.includes('machine learning') || combined.includes('data scien')) {
+    return 'AI/ML';
+  }
+  if (combined.includes('frontend') || combined.includes('backend') || combined.includes('full stack') || combined.includes('full-stack') || combined.includes('developer') || combined.includes('software engineer') || combined.includes('sde')) {
+    return 'Full-Stack';
+  }
+  return 'Others';
 };
 
 interface JobsViewProps {
@@ -323,24 +338,34 @@ export const JobsView: React.FC<JobsViewProps> = ({
         ? userProfile.headline.split('|')[0].split('•')[0].split('@')[0].trim() 
         : 'Senior Frontend Developer';
 
-      const matches = await peerpathApi.matchTrajectories({
+      const { matches, supportedDomain, message } = await peerpathApi.matchTrajectories({
         currentRole: activeRole,
+        currentCompany: userProfile.currentCompany || userProfile.pastCompany,
         currentExperience: job.exp || userProfile.experienceYears || '4 Years',
         currentSalary: userProfile.currentCtc || '₹7.5 LPA',
         targetRole: job.title,
         targetPackage: job.salary,
+        targetCompany: job.company,
         domain: domain,
         skills: job.requiredSkills
       });
 
-      if (matches && matches.length > 0) {
+      if (!supportedDomain) {
+        showToast(
+          `No mentors for "${domain}" yet`,
+          message || `Peerpath doesn't cover this guild yet — check back soon!`,
+          'info'
+        );
+      } else if (matches && matches.length > 0) {
         const top = matches[0];
         selectExpertById(top.creator.id);
         if (onSelectExpert) onSelectExpert(top.creator.id);
 
         showToast(
-          `⚡ Found ${matches.length} Verified Twins!`,
-          `Top Match: ${top.creator.name} (${top.creator.role}) with ${top.trajectorySimilarityScore}% AI match.`,
+          top.isExactMatch ? `🎯 Found an Exact Trajectory Match!` : `⚡ Found ${matches.length} Verified Twins!`,
+          top.isExactMatch
+            ? `${top.creator.name} is currently ${top.creator.role} at ${top.creator.company} — exactly your target.`
+            : `Top Match: ${top.creator.name} (${top.creator.role}) with ${top.trajectorySimilarityScore}% AI match.`,
           'success'
         );
         setIsBookingModalOpen(true);

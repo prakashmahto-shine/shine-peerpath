@@ -18,7 +18,7 @@ interface AppContextType {
   // Authentication & Dual Roles (Prakash ⇄ Akash ⇄ Nisha)
   currentUser: UserAccount | null;
   isLoggedIn: boolean;
-  login: (username: string, password: string) => boolean;
+  login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
   switchUser: (username: string) => void;
   resetDemoData: (targetUser?: string) => void;
@@ -664,31 +664,48 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     currentCtc?: string;
     targetCtc?: string;
   }) => {
+    let syncPayload: Partial<UserProfileData> = {};
     setUserProfiles(prev => {
       const existing = prev[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.prakash.profile;
-      const updatedSkills = data.skills && data.skills.length > 0 
+      const updatedSkills = data.skills && data.skills.length > 0
         ? Array.from(new Set([...existing.skills, ...data.skills]))
         : existing.skills;
+      const headline = `${data.currentRole} @ ${data.currentCompany} ➔ Aspiring ${data.targetRole} @ ${data.dreamCompany}`;
+      const resumeLastUpdated = data.resumeFileName ? 'Calibrated & Synced just now' : existing.resumeLastUpdated;
+      const currentCtc = data.currentCtc || existing.currentCtc;
+      const targetCtc = data.targetCtc || existing.targetCtc;
+      const profileScore = Math.max(existing.profileScore, 92);
+
+      // Mirror onto the canonical backend field names (pastCompany/pastCompanyRole/targetCompany)
+      // as well as the newer currentCompany/dreamCompany ones, so both read paths stay in sync
+      // and the persisted db.json record actually reflects the calibrated trajectory.
+      syncPayload = {
+        headline,
+        pastCompany: data.currentCompany,
+        pastCompanyRole: data.currentRole,
+        currentCompany: data.currentCompany,
+        targetCompany: data.dreamCompany,
+        dreamCompany: data.dreamCompany,
+        targetRole: data.targetRole,
+        skills: updatedSkills,
+        resumeFileName: data.resumeFileName || existing.resumeFileName,
+        currentCtc,
+        targetCtc,
+        profileScore
+      };
 
       return {
         ...prev,
         [activeUsername]: {
           ...existing,
-          headline: `${data.currentRole} @ ${data.currentCompany} ➔ Aspiring ${data.targetRole} @ ${data.dreamCompany}`,
-          currentCompany: data.currentCompany,
-          dreamCompany: data.dreamCompany,
-          targetRole: data.targetRole,
+          ...syncPayload,
           isCalibrated: true,
           calibratedAt: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
-          skills: updatedSkills,
-          resumeFileName: data.resumeFileName || existing.resumeFileName,
-          resumeLastUpdated: data.resumeFileName ? 'Calibrated & Synced just now' : existing.resumeLastUpdated,
-          currentCtc: data.currentCtc || existing.currentCtc,
-          targetCtc: data.targetCtc || existing.targetCtc,
-          profileScore: Math.max(existing.profileScore, 92)
+          resumeLastUpdated
         }
       };
     });
+    syncCandidateProfile(activeUsername, syncPayload);
     setIsCalibrationModalOpen(false);
     showToast('🎯 Trajectory Calibrated!', `Matching you with verified mentors who transitioned from ${data.currentCompany} to ${data.dreamCompany}!`, 'success');
   };
@@ -813,37 +830,108 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   // Authentication methods
-  const login = (usernameInput: string, passwordInput: string): boolean => {
+  // Completes login once we have a resolved { account, profile } pair, regardless of
+  // whether it came from the hardcoded DEFAULT_ACCOUNTS or a fetched backend candidate.
+  const completeLogin = (cleanUser: string, account: UserAccount, profile: UserProfileData) => {
+    setCurrentUser(account);
+    setUserProfiles(prev => ({
+      ...prev,
+      [cleanUser]: { ...profile, ...(prev[cleanUser] || {}) }
+    }));
+    setIsLoginModalOpen(false);
+    const isMentorRole = account.role === 'mentor' || Boolean(profile.isMentor);
+    setIsCreatorMode(isMentorRole);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectParam = urlParams.get('redirect');
+    const utmSource = urlParams.get('utm_source');
+    const campaign = urlParams.get('campaign') || urlParams.get('utm_campaign');
+
+    if (redirectParam) {
+      navigate('guidance-view', redirectParam);
+    } else if (isMentorRole && !utmSource && !campaign) {
+      navigate('mentor-dashboard-view', '/creator-studio');
+    } else {
+      // Always redirect candidate logins and campaign traffic (WhatsApp/Email) directly to Peerpath!
+      navigate('guidance-view', '/peerpath');
+    }
+
+    const campaignLabel = utmSource ? ` [${utmSource.toUpperCase()} Campaign]` : '';
+    showToast(`👋 Welcome, ${account.name}!`, `Logged in successfully • Redirected to Shine Peerpath${campaignLabel}.`);
+  };
+
+  // Any of the 50 seeded candidates (across AI/ML, Semiconductor, Cybersecurity, Full-Stack)
+  // can sign in with this shared demo password + their candidate id/email from db.json —
+  // there's no per-candidate password since these are demo records, not real accounts.
+  const SHARED_DEMO_PASSWORD = 'shine@123';
+
+  const buildAccountFromBackendCandidate = (raw: any): { account: UserAccount; profile: UserProfileData } => {
+    const account: UserAccount = {
+      id: raw.id,
+      username: raw.id,
+      name: raw.name,
+      role: 'candidate',
+      avatar: `https://i.pravatar.cc/150?u=${raw.id}`,
+      email: raw.email,
+      headline: raw.headline,
+      company: raw.pastCompany,
+      experienceYears: raw.experienceYears,
+      location: raw.location,
+      hasExpertBadge: false,
+      isMentorEligible: false
+    };
+    const profile: UserProfileData = {
+      name: raw.name,
+      headline: raw.headline,
+      experienceYears: raw.experienceYears,
+      location: raw.location,
+      profileScore: raw.profileScore,
+      jobSearchStatus: raw.jobSearchStatus,
+      summary: raw.summary,
+      skills: raw.skills || [],
+      badges: raw.badges || [],
+      email: raw.email,
+      phone: raw.phone,
+      currentCtc: raw.currentCtc,
+      targetCtc: raw.targetCtc,
+      targetRole: raw.targetRole,
+      targetCompany: raw.targetCompany,
+      educationDegree: raw.educationDegree,
+      educationCollege: raw.educationCollege,
+      pastCompany: raw.pastCompany,
+      pastCompanyRole: raw.pastCompanyRole,
+      currentCompany: raw.pastCompany,
+      dreamCompany: raw.targetCompany,
+      isCalibrated: true
+    };
+    return { account, profile };
+  };
+
+  const login = async (usernameInput: string, passwordInput: string): Promise<boolean> => {
     const cleanUser = usernameInput.trim().toLowerCase();
+    const cleanPassword = passwordInput.trim();
     const entry = DEFAULT_ACCOUNTS[cleanUser];
-    if (entry && entry.password === passwordInput.trim()) {
-      setCurrentUser(entry.account);
-      setUserProfiles(prev => ({
-        ...prev,
-        [cleanUser]: { ...entry.profile, ...(prev[cleanUser] || {}) }
-      }));
-      setIsLoginModalOpen(false);
-      const isMentorRole = entry.account.role === 'mentor' || Boolean(entry.profile.isMentor);
-      setIsCreatorMode(isMentorRole);
-      
-      const urlParams = new URLSearchParams(window.location.search);
-      const redirectParam = urlParams.get('redirect');
-      const utmSource = urlParams.get('utm_source');
-      const campaign = urlParams.get('campaign') || urlParams.get('utm_campaign');
 
-      if (redirectParam) {
-        navigate('guidance-view', redirectParam);
-      } else if (isMentorRole && !utmSource && !campaign) {
-        navigate('mentor-dashboard-view', '/creator-studio');
-      } else {
-        // Always redirect candidate logins and campaign traffic (WhatsApp/Email) directly to Peerpath!
-        navigate('guidance-view', '/peerpath');
-      }
-
-      const campaignLabel = utmSource ? ` [${utmSource.toUpperCase()} Campaign]` : '';
-      showToast(`👋 Welcome, ${entry.account.name}!`, `Logged in successfully • Redirected to Shine Peerpath${campaignLabel}.`);
+    if (entry && entry.password === cleanPassword) {
+      completeLogin(cleanUser, entry.account, entry.profile);
       return true;
     }
+
+    // Fall back to any of the 50 seeded candidates in db.json (id or email), all sharing
+    // the same demo password since these are dummy records rather than real signups.
+    if (!entry && cleanPassword === SHARED_DEMO_PASSWORD && cleanUser) {
+      try {
+        const raw = await peerpathApi.getCandidateProfile(cleanUser);
+        if (raw && (raw as any).id) {
+          const { account, profile } = buildAccountFromBackendCandidate(raw);
+          completeLogin(cleanUser, account, profile);
+          return true;
+        }
+      } catch (err) {
+        // Not a known candidate id — fall through to the invalid-credentials toast below.
+      }
+    }
+
     showToast('Invalid Credentials', 'Please check username or password (shine@123)', 'warning');
     return false;
   };
@@ -1024,6 +1112,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showToast('🎉 Assessment Complete!', 'Skill badge and feedback updated on your profile.');
   };
 
+  // Fire-and-forget: persists candidate edits to server/data/db.json via PUT /api/candidates/:id.
+  // Swallows errors (e.g. mentor-only accounts with no backend candidate record) so the
+  // optimistic local UI update above never blocks on this.
+  const syncCandidateProfile = (candidateId: string, updates: Partial<UserProfileData>) => {
+    peerpathApi.updateCandidateProfile(candidateId, updates).catch(err => console.warn('[API updateCandidateProfile]:', err));
+  };
+
   const updateUserProfile = (updates: Partial<UserProfileData>) => {
     setUserProfiles(prev => {
       const existing = prev[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.prakash.profile;
@@ -1032,69 +1127,86 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         [activeUsername]: { ...existing, ...updates }
       };
     });
+    syncCandidateProfile(activeUsername, updates);
     showToast('Profile Updated', 'Your profile details have been saved.');
   };
 
   const updateProfileSummary = (summary: string) => {
+    let nextProfileScore = 0;
     setUserProfiles(prev => {
       const existing = prev[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.prakash.profile;
+      nextProfileScore = Math.min(100, existing.profileScore + 5);
       return {
         ...prev,
         [activeUsername]: {
           ...existing,
           summary,
-          profileScore: Math.min(100, existing.profileScore + 5)
+          profileScore: nextProfileScore
         }
       };
     });
+    syncCandidateProfile(activeUsername, { summary, profileScore: nextProfileScore });
     showToast('Summary Boosted (+5%)', 'Your profile strength is now higher for recruiters!');
   };
 
   const addSkill = (skill: string) => {
+    let nextSkills: string[] | null = null;
+    let nextProfileScore = 0;
     setUserProfiles(prev => {
       const existing = prev[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.prakash.profile;
       if (!existing.skills.includes(skill)) {
+        nextSkills = [...existing.skills, skill];
+        nextProfileScore = Math.min(100, existing.profileScore + 2);
         return {
           ...prev,
           [activeUsername]: {
             ...existing,
-            skills: [...existing.skills, skill],
-            profileScore: Math.min(100, existing.profileScore + 2)
+            skills: nextSkills,
+            profileScore: nextProfileScore
           }
         };
       }
       return prev;
     });
+    if (nextSkills) syncCandidateProfile(activeUsername, { skills: nextSkills, profileScore: nextProfileScore });
     showToast('Skill Added', `${skill} added to your verified profile.`);
   };
 
   const removeSkill = (skill: string) => {
+    let nextSkills: string[] = [];
     setUserProfiles(prev => {
       const existing = prev[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.prakash.profile;
+      nextSkills = existing.skills.filter(s => s !== skill);
       return {
         ...prev,
         [activeUsername]: {
           ...existing,
-          skills: existing.skills.filter(s => s !== skill)
+          skills: nextSkills
         }
       };
     });
+    syncCandidateProfile(activeUsername, { skills: nextSkills });
     showToast('Skill Removed', `${skill} removed from profile.`, 'info');
   };
 
   const awardBadge = (newBadge: PeerVerifiedBadge) => {
+    let nextBadges: PeerVerifiedBadge[] = [];
+    let nextProfileScore = 0;
+    const targetUser = 'prakash';
     setUserProfiles(prev => {
-      const targetUser = 'prakash';
       const existing = prev[targetUser] || DEFAULT_ACCOUNTS.prakash.profile;
+      nextBadges = [newBadge, ...existing.badges.filter(b => b.title !== newBadge.title)];
+      nextProfileScore = Math.min(100, existing.profileScore + 8);
       return {
         ...prev,
         [targetUser]: {
           ...existing,
-          badges: [newBadge, ...existing.badges.filter(b => b.title !== newBadge.title)],
-          profileScore: Math.min(100, existing.profileScore + 8)
+          badges: nextBadges,
+          profileScore: nextProfileScore
         }
       };
     });
+    syncCandidateProfile(targetUser, { badges: nextBadges, profileScore: nextProfileScore });
   };
 
   const updateJobSearchStatus = (status: string) => {
@@ -1108,6 +1220,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
       };
     });
+    syncCandidateProfile(activeUsername, { jobSearchStatus: status });
     showToast('Job Status Updated', `Status changed to "${status}".`);
   };
 

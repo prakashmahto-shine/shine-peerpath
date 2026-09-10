@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import cvRoutes from './routes/cvRoutes';
 import trajectoryRoutes from './routes/trajectoryRoutes';
 import creatorRoutes from './routes/creatorRoutes';
+import candidateRoutes from './routes/candidateRoutes';
 import bookingRoutes from './routes/bookingRoutes';
 import assessmentRoutes from './routes/assessmentRoutes';
 import recruiterRoutes from './routes/recruiterRoutes';
@@ -39,7 +40,7 @@ app.get('/api/health', (_req: Request, res: Response) => {
     service: 'shine-peerpath-backend-api',
     uptimeSeconds: Math.round(process.uptime()),
     timestamp: new Date().toISOString(),
-    domainsSupported: ['AI/ML', 'Semiconductor', 'Cybersecurity', 'Full-Stack'],
+    domainsSupported: ['AI/ML', 'Semiconductor', 'Cybersecurity', 'Full-Stack', 'SaaS Sales', 'Marketing'],
     version: '1.0.0'
   });
 });
@@ -48,6 +49,7 @@ app.get('/api/health', (_req: Request, res: Response) => {
 app.use('/api/cv', cvRoutes);
 app.use('/api/trajectory', trajectoryRoutes);
 app.use('/api/creators', creatorRoutes);
+app.use('/api/candidates', candidateRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/payments', bookingRoutes);
 app.use('/api/creator', assessmentRoutes);

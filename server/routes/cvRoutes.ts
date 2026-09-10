@@ -20,12 +20,14 @@ router.post('/parse', (req: Request, res: Response) => {
 // POST /api/cv/gap-analysis - Analyze gap against target domain JD
 router.post('/gap-analysis', async (req: Request, res: Response) => {
   try {
-    const { domain, skills, currentRole, currentCtc } = req.body;
+    const { domain, skills, currentRole, currentCtc, currentCompany, targetCompany, dreamCompany } = req.body;
     const result = await cvService.performGapAnalysis(
       domain || 'full-stack',
       skills || [],
       currentRole || 'Senior Frontend Engineer',
-      currentCtc || '₹7.5 LPA'
+      currentCtc || '₹7.5 LPA',
+      currentCompany,
+      targetCompany || dreamCompany
     );
     return res.json({ success: true, data: result });
   } catch (error: any) {
@@ -42,6 +44,8 @@ const handlePathwaysAnalysis = async (req: Request, res: Response) => {
       : (typeof rawSkills === 'string' ? rawSkills.split(',').map(s => s.trim()) : ['React.js', 'TypeScript', 'JavaScript']);
     const currentRole = req.body?.currentRole || (req.query.currentRole as string) || 'Senior Frontend Engineer';
     const currentCtc = req.body?.currentCtc || (req.query.currentCtc as string) || '₹7.5 LPA';
+    const currentCompany = req.body?.currentCompany || (req.query.currentCompany as string);
+    const targetCompany = req.body?.targetCompany || req.body?.dreamCompany || (req.query.targetCompany as string) || (req.query.dreamCompany as string);
 
     const tracks = ['arch', 'pm', 'search', 'ai', 'semi'];
     const results: Record<string, any> = {};
@@ -52,7 +56,9 @@ const handlePathwaysAnalysis = async (req: Request, res: Response) => {
           trackKey,
           skills,
           currentRole,
-          currentCtc
+          currentCtc,
+          currentCompany,
+          targetCompany
         );
       })
     );

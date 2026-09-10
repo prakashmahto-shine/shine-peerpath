@@ -1,4 +1,4 @@
-export type DomainVertical = 'AI/ML' | 'Semiconductor' | 'Cybersecurity' | 'Full-Stack' | 'Product Management' | 'Search & Data Infra' | 'SaaS Sales';
+export type DomainVertical = 'AI/ML' | 'Semiconductor' | 'Cybersecurity' | 'Full-Stack' | 'SaaS Sales' | 'Marketing' | 'Product Management' | 'Search & Data Infra' | 'Others';
 
 export interface CreatorTrajectory {
   role3YearsAgo: string;
@@ -50,10 +50,12 @@ export interface CandidateProfile {
   currentCtc?: string;
   targetCtc?: string;
   targetRole?: string;
+  targetCompany?: string;
   pastCompany?: string;
   pastCompanyRole?: string;
   educationDegree?: string;
   educationCollege?: string;
+  domain?: DomainVertical;
   badges: PeerVerifiedBadge[];
   recruiterSearchMultiplier?: number;
 }
@@ -101,6 +103,8 @@ export interface TrajectoryMatch {
   matchReasons: string[];
   criticalBoosterSkills: string[];
   suggestedSessionGoal: string;
+  isExactMatch: boolean;
+  matchType: 'exact-dream' | 'exact-company' | 'exact-role' | 'aligned';
 }
 
 export interface GapAnalysisResult {

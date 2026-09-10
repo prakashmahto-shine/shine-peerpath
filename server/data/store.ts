@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { Creator, CandidateProfile, MentorshipSession, PeerVerifiedBadge } from '../types';
 import { SEED_CREATORS, SEED_CANDIDATES, INITIAL_SESSIONS } from './seedData';
+import { normalizeDomain } from '../services/mentorMatchTaxonomy';
 
 interface DbSchema {
   creators: Creator[];
@@ -72,7 +73,11 @@ class Store {
   public getCreators(domain?: string, query?: string): Creator[] {
     let list = this.data.creators;
     if (domain && domain !== 'all') {
-      list = list.filter(c => c.domain.toLowerCase() === domain.toLowerCase());
+      const targetNorm = normalizeDomain(domain) || domain.toLowerCase();
+      list = list.filter(c => {
+        const cNorm = normalizeDomain(c.domain) || c.domain.toLowerCase();
+        return cNorm.toLowerCase() === targetNorm.toLowerCase() || c.domain.toLowerCase() === domain.toLowerCase();
+      });
     }
     if (query && query.trim()) {
       const q = query.toLowerCase().trim();
@@ -146,7 +151,13 @@ class Store {
 
   // Candidates & Profile Updates
   public getCandidate(id: string): CandidateProfile | undefined {
-    return this.data.candidates.find(c => c.id === id || (id === 'prakash' && c.id === 'prakash-mahto') || (id === 'prakash-mahto' && c.id === 'prakash'));
+    const lookup = id.toLowerCase();
+    return this.data.candidates.find(c =>
+      c.id === id ||
+      c.email?.toLowerCase() === lookup ||
+      (id === 'prakash' && c.id === 'prakash-mahto') ||
+      (id === 'prakash-mahto' && c.id === 'prakash')
+    );
   }
 
   public getCandidates(domain?: string, peerVerifiedOnly: boolean = false): CandidateProfile[] {
@@ -198,7 +209,7 @@ class Store {
       upcomingSessionsCount: this.data.sessions.filter(s => s.status === 'upcoming').length,
       completedSessionsCount: this.data.sessions.filter(s => s.status === 'completed').length,
       totalBadgesIssued: this.data.badges.length,
-      domainsCovered: ['Full-Stack', 'AI/ML', 'Semiconductor', 'Cybersecurity', 'Search & Data Infra', 'Product Management', 'SaaS Sales'],
+      domainsCovered: ['Full-Stack', 'AI/ML', 'Semiconductor', 'Cybersecurity', 'SaaS Sales', 'Marketing'],
       growthStats: {
         profileUpdateRateGain: '+68% vs baseline jobs platform',
         passiveRegistrationsInUnderservedDomains: '42% from Topmate/LinkedIn referral',

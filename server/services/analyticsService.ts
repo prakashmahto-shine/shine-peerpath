@@ -10,9 +10,8 @@ export class AnalyticsService {
       'Semiconductor': creators.filter(c => c.domain === 'Semiconductor').length,
       'Cybersecurity': creators.filter(c => c.domain === 'Cybersecurity').length,
       'Full-Stack': creators.filter(c => c.domain === 'Full-Stack').length,
-      'Product Management': creators.filter(c => c.domain === 'Product Management').length,
-      'Search & Data Infra': creators.filter(c => c.domain === 'Search & Data Infra').length,
-      'SaaS Sales': creators.filter(c => c.domain === 'SaaS Sales').length
+      'SaaS Sales': creators.filter(c => c.domain === 'SaaS Sales').length,
+      'Marketing': creators.filter(c => c.domain === 'Marketing').length
     };
 
     return {
@@ -35,9 +34,9 @@ export class AnalyticsService {
           whyItMatters: 'Core marketplace velocity and transaction pulse.'
         },
         {
-          metric: 'Verified Creators Live Across 4 Verticals',
+          metric: 'Verified Creators Live Across 6 Verticals',
           value: `${raw.verifiedCreatorsCount}`,
-          whyItMatters: 'Supply-side liquidity health check across AI/ML, Semiconductor, Cybersecurity, and Full-Stack.'
+          whyItMatters: 'Supply-side liquidity health check across AI/ML, Semiconductor, Cybersecurity, Full-Stack, SaaS Sales, and Marketing.'
         }
       ],
       verticalLiquidity: domainBreakdown,

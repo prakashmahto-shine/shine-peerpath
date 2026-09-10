@@ -17,7 +17,7 @@ export const LoginView: React.FC = () => {
   const utmSource = urlParams.get('utm_source');
   const campaign = urlParams.get('campaign') || urlParams.get('utm_campaign');
 
-  const handlePasswordSubmit = (e: React.FormEvent) => {
+  const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage('');
     if (!identifier.trim()) {
@@ -29,9 +29,9 @@ export const LoginView: React.FC = () => {
       return;
     }
 
-    const success = login(identifier.trim(), password);
+    const success = await login(identifier.trim(), password);
     if (!success) {
-      setErrorMessage('Invalid credentials. Hint: use "prakash" or "akash" with password "shine@123"');
+      setErrorMessage('Invalid credentials. Hint: use "prakash"/"akash", or any candidate id/email from db.json, with password "shine@123"');
     }
   };
 

@@ -17,7 +17,7 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
   onOpenBooking,
   onNavigate,
 }) => {
-  const { setIsCreatorWizardOpen, currentUser, isCreatorMode, navigateToCreatorStudio } = useApp();
+  const { setIsCreatorWizardOpen, currentUser, isCreatorMode, navigateToCreatorStudio, userProfile } = useApp();
   const isMentor = currentUser?.role === 'mentor';
   const [activeDomain, setActiveDomain] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -65,6 +65,22 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
   }).sort((a, b) => {
     if (sortOrder === 'rating') return b.rating - a.rating;
     if (sortOrder === 'sessions') return b.sessionsCount - a.sessionsCount;
+    if (sortOrder === 'trajectory') {
+      const getScore = (e: Expert) => {
+        let score = 0;
+        const targetRoleLower = (userProfile?.targetRole || userProfile?.headline || '').toLowerCase();
+        const dreamCompanyLower = (userProfile?.dreamCompany || userProfile?.targetCompany || '').toLowerCase();
+        const curCompanyLower = (userProfile?.currentCompany || userProfile?.pastCompany || '').toLowerCase();
+        
+        if (dreamCompanyLower && e.company.toLowerCase().includes(dreamCompanyLower)) score += 40;
+        if (targetRoleLower && e.role.toLowerCase().includes(targetRoleLower)) score += 30;
+        if (curCompanyLower && e.trajectory?.company3YearsAgo?.toLowerCase().includes(curCompanyLower)) score += 20;
+        const sharedSkills = e.skills.filter(s => (userProfile?.skills || []).some(us => us.toLowerCase().includes(s.toLowerCase())));
+        score += Math.min(10, sharedSkills.length * 2);
+        return score;
+      };
+      return getScore(b) - getScore(a);
+    }
     return 0;
   });
 
@@ -195,7 +211,7 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
           <div className="filter-section">
             <label className="filter-section-title">Career / Domain</label>
             <div className="checkbox-list">
-              {['Full-Stack', 'AI/ML', 'Semiconductor', 'Cybersecurity', 'Search & Data Infra', 'Product Management', 'SaaS Sales'].map((dom) => (
+              {['Full-Stack', 'AI/ML', 'Semiconductor', 'Cybersecurity', 'SaaS Sales', 'Marketing'].map((dom) => (
                 <label key={dom} className="custom-checkbox">
                   <input 
                     type="checkbox" 
