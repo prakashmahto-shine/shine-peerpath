@@ -93,12 +93,12 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
               onClick={() => onNavigate('guidance-view')}
             >
               <TrendingUp size={15} className="ptn-icon" />
-              <span>Recommended Pathways</span>
+              <span>Matched Mentors</span>
               <span className="ptn-badge-pill">Best Fit</span>
             </button>
             
             <button 
-              type="button"
+              type="button" 
               className="ptn-tab-btn active ptn-mentors-highlight"
               onClick={() => {}}
             >
@@ -109,7 +109,6 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
                 <span className="ptn-live-dot"></span>
               </div>
               <span className="ptn-label-main">Explore 500+ Mentors</span>
-              <span className="ptn-count-pill">Live 1:1 Prep</span>
             </button>
           </div>
 

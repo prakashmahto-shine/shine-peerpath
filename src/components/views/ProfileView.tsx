@@ -5,7 +5,7 @@ import {
   Plus, X, Phone, Mail, Calendar, DollarSign, Clock, CheckCircle2,
   GraduationCap, TrendingUp, Zap, User, Video, RotateCcw,
   ShieldCheck, Award, Film, Play, AlertCircle, Gift, Banknote, Users,
-  Share2, ExternalLink, Copy, QrCode
+  Share2, ExternalLink, Copy, QrCode, Building2, MapPin
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { PeerVerifiedBadge } from '../../types';
@@ -653,8 +653,8 @@ export const ProfileView: React.FC = () => {
               </div>
 
               <div className="wp-item-row">
-                <Clock size={16} className="wp-icon" />
-                <span>{userProfile.experienceYears || '3 yrs 6 Months'}</span>
+                <Building2 size={16} className="wp-icon text-indigo-600" />
+                <span>{userProfile.currentCompany || userProfile.pastCompany || 'Tech Services'}</span>
               </div>
 
               <div className="wp-item-row">
@@ -669,8 +669,8 @@ export const ProfileView: React.FC = () => {
               </div>
 
               <div className="wp-item-row">
-                <Calendar size={16} className="wp-icon" />
-                <span>{userProfile.experienceYears || '3 yrs 6 Months'}</span>
+                <MapPin size={16} className="wp-icon text-slate-500" />
+                <span>{userProfile.location || 'Bengaluru, India'}</span>
               </div>
 
               <div className="wp-item-row">

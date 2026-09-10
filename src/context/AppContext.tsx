@@ -180,7 +180,7 @@ const initialUserProfile: UserProfileData = {
 const initialBootcamps: BootcampMasterclass[] = [
   {
     id: 'bootcamp-ml-101',
-    title: 'From Services / SDE to ML & High-Scale Systems in 90 Days',
+    title: 'Services / SDE to ML & High-Scale Systems Transition Sprint',
     domain: 'AI/ML',
     mentorName: 'Neha Sharma',
     mentorRole: 'Senior ML Engineer',
@@ -189,19 +189,19 @@ const initialBootcamps: BootcampMasterclass[] = [
     mentorAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80',
     date: 'Saturday, 12 Sep 2026',
     time: '05:00 PM - 07:00 PM IST',
-    duration: '2 Hours Live Masterclass',
-    registeredCount: 342,
-    maxCapacity: 500,
+    duration: '1-Time Live Interactive Sprint',
+    registeredCount: 88,
+    maxCapacity: 100,
     topics: [
-      'Deconstructing the Swiggy/Flipkart ML Interview Bar: What they actually test',
-      'Real-world MLOps vs Kaggle: Feature Stores, Real-time Inference & Model Drift',
-      'The 3 System Design patterns you need to clear the ML Senior Bar',
-      'Live Q&A + Announcement of 5 Exclusive 1:1 Mentorship Slots'
+      'Deconstructing the Swiggy/Flipkart ML Interview Bar: What hiring managers test',
+      'Real-world MLOps Blueprint: Feature Stores, Real-time Inference & Model Drift',
+      'Production System Design Patterns to crack the Senior ML bar',
+      'Referral Pool Activation + 5 Exclusive 1:1 Mentorship Fast-Tracks'
     ],
     takeaways: [
-      'Downloadable ML Transition Roadmap (90-Day Study Plan)',
+      'Verified ML Transition Roadmap (Step-by-Step Blueprint)',
       'Production System Design Template for RecSys & Real-time Ranking',
-      'Priority Access voucher for 1:1 Mock Interview & CV Review'
+      'Fast-track Referral Eligibility Voucher for Tier-1 Product Companies'
     ],
     isFree: true,
     expertId: 'ishita',
@@ -209,7 +209,7 @@ const initialBootcamps: BootcampMasterclass[] = [
   },
   {
     id: 'bootcamp-arch-201',
-    title: 'Breaking the Staff Engineer Ceiling: Micro-Frontends & System Performance',
+    title: 'Breaking the Staff Engineer Ceiling: Micro-Frontends & System Performance Sprint',
     domain: 'Full-Stack',
     mentorName: 'Saheli Kanjilal',
     mentorRole: 'Staff Frontend Architect',
@@ -218,19 +218,19 @@ const initialBootcamps: BootcampMasterclass[] = [
     mentorAvatar: '/avatars/saheli.jpg',
     date: 'Sunday, 13 Sep 2026',
     time: '06:00 PM - 08:00 PM IST',
-    duration: '2 Hours Live Masterclass',
-    registeredCount: 418,
-    maxCapacity: 500,
+    duration: '1-Time Live Interactive Sprint',
+    registeredCount: 92,
+    maxCapacity: 100,
     topics: [
       'Architecting Module Federation at Razorpay scale (10M+ daily transactions)',
       'Cracking L5/L6 Staff Engineer Frontend System Design rounds',
-      'How to jump from ₹6L services to ₹26L+ Tier-1 product tech salary',
-      'Live Assessment Rubric Teaser & Opening 1:1 Slots'
+      'Strategy playbook to jump from services to ₹26L+ Tier-1 product tech salary',
+      'Candidate Portfolio Teardown & Opening 1:1 Fast-Track Review Slots'
     ],
     takeaways: [
-      'Razorpay Core Web Vitals optimization checklist',
-      'L5/L6 Frontend System Design cheatsheet',
-      'Voucher for 1:1 Resume & Architecture Review'
+      'Razorpay Core Web Vitals production optimization checklist',
+      'L5/L6 Frontend & Micro-Frontend System Design cheatsheet',
+      'Fast-track 1:1 Architecture & Resume Review Voucher'
     ],
     isFree: true,
     expertId: 'saheli',
@@ -705,17 +705,32 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   const registerForBootcamp = (bootcampId: string) => {
-    if (!registeredBootcampIds.includes(bootcampId)) {
-      const updated = [...registeredBootcampIds, bootcampId];
-      setRegisteredBootcampIds(updated);
-      try {
-        localStorage.setItem('shine_peerpath_registered_bootcamps', JSON.stringify(updated));
-      } catch {}
-      const bootcamp = bootcamps.find(b => b.id === bootcampId);
-      showToast(`🎟️ Free Pass Confirmed!`, `Registered for "${bootcamp?.title || 'Bootcamp'}". Live stream link and calendar invite sent to your email.`, 'success');
-    } else {
-      showToast('Already Registered', 'You already have a confirmed seat for this live masterclass.', 'info');
+    if (registeredBootcampIds.includes(bootcampId)) {
+      showToast('Already Enrolled', 'You already have a confirmed seat for this live transition sprint.', 'info');
+      return;
     }
+
+    // Strict 1-Time Free Sprint Limit per Candidate Profile
+    if (registeredBootcampIds.length >= 1) {
+      showToast(
+        '⚠️ 1-Time Free Sprint Limit Reached',
+        'Each candidate is entitled to 1 free transition campaign sprint. For continuous 1:1 mentorship and mock interviews, please book a 1:1 session.',
+        'info'
+      );
+      return;
+    }
+
+    const updated = [...registeredBootcampIds, bootcampId];
+    setRegisteredBootcampIds(updated);
+    try {
+      localStorage.setItem('shine_peerpath_registered_bootcamps', JSON.stringify(updated));
+    } catch {}
+    const bootcamp = bootcamps.find(b => b.id === bootcampId);
+    showToast(
+      `🎟️ 1-Time Free Pass Claimed!`,
+      `Enrolled in "${bootcamp?.title || 'Transition Sprint'}". Live access link & blueprint sent to your email. (1-Time Free Benefit Used)`,
+      'success'
+    );
   };
 
   const [namedExpertInvite] = useState<NamedExpertInvite>(defaultNamedExpertInvite);

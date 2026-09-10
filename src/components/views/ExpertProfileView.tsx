@@ -209,7 +209,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
           <div className="tab-left-col">
           {activeTab === 'about' && (
             <div className="ep-about-grid">
-              <div>
+              <div className="ep-about-main-content">
                 <h3 className="pane-title">About Me</h3>
                 <p className="pane-body-text">{expert.bio || `Leading mentor at ${expert.company}. Guiding tech talent on career transition, architecture, and interview prep.`}</p>
 
@@ -220,30 +220,6 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                   <li>Live mock interview with production-grade rubrics</li>
                   <li>Internal referral review for qualified candidates</li>
                 </ul>
-              </div>
-
-              <div className="ep-sidebar-highlights">
-                <div className="highlight-info-card">
-                  <div className="h-card-icon"><Zap size={20} /></div>
-                  <div>
-                    <strong>Average Response Time</strong>
-                    <p>Within 12 Hours</p>
-                  </div>
-                </div>
-                <div className="highlight-info-card">
-                  <div className="h-card-icon"><Award size={20} /></div>
-                  <div>
-                    <strong>Rating & Reviews</strong>
-                    <p>{expert.rating || '4.9'} ({expert.reviewsCount || 0} reviews)</p>
-                  </div>
-                </div>
-                <div className="highlight-info-card">
-                  <div className="h-card-icon"><Globe size={20} /></div>
-                  <div>
-                    <strong>Languages</strong>
-                    <p>English, Hindi</p>
-                  </div>
-                </div>
               </div>
             </div>
           )}

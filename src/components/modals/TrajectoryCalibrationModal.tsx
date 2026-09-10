@@ -1,5 +1,5 @@
-import React, { useState, useRef, useMemo } from 'react';
-import { X, ArrowRight, Check, Sparkles, FileText, UploadCloud, Loader2, RefreshCw, ChevronDown } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { X, ArrowRight, ChevronDown } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const TrajectoryCalibrationModal: React.FC = () => {
@@ -11,19 +11,13 @@ export const TrajectoryCalibrationModal: React.FC = () => {
     showToast
   } = useApp();
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Clean initial states (No hardcoded dummy prefill at start)
+  // Clean initial states
   const [currentRole, setCurrentRole] = useState<string>('');
   const [currentCompany, setCurrentCompany] = useState<string>('');
   const [dreamCompany, setDreamCompany] = useState<string>('');
   const [targetTrack, setTargetTrack] = useState<string>('AI/ML');
   const [customTargetRole, setCustomTargetRole] = useState<string>('');
   const [currentCtc, setCurrentCtc] = useState<string>(userProfile?.currentCtc || '₹5.5 LPA');
-  
-  const [isScanningCv, setIsScanningCv] = useState<boolean>(false);
-  const [cvSynced, setCvSynced] = useState<boolean>(false);
-  const [uploadedCvName, setUploadedCvName] = useState<string>('');
 
   // Dynamic salary leap benchmark based on selected dream track
   const dynamicSalaryData = useMemo(() => {
@@ -44,28 +38,6 @@ export const TrajectoryCalibrationModal: React.FC = () => {
 
   if (!isCalibrationModalOpen) return null;
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setUploadedCvName(file.name);
-      setIsScanningCv(true);
-
-      setTimeout(() => {
-        setIsScanningCv(false);
-        setCvSynced(true);
-        setCurrentRole('Senior Frontend Engineer');
-        setCurrentCompany('Tech Services (TCS / Infosys)');
-        showToast('📄 Resume Auto-Filled!', `Extracted current role & company from "${file.name}".`, 'success');
-      }, 1000);
-    }
-  };
-
-  const handleTriggerFileInput = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const finalTargetRole = targetTrack === 'Others' 
@@ -79,7 +51,7 @@ export const TrajectoryCalibrationModal: React.FC = () => {
       targetRole: finalTargetRole,
       currentCtc,
       targetCtc: dynamicSalaryData.targetCtc,
-      resumeFileName: uploadedCvName || userProfile?.resumeFileName
+      resumeFileName: userProfile?.resumeFileName
     });
   };
 
@@ -89,15 +61,6 @@ export const TrajectoryCalibrationModal: React.FC = () => {
         className="tcm-modal-card"
         onClick={e => e.stopPropagation()}
       >
-        {/* Hidden File Input */}
-        <input 
-          type="file" 
-          ref={fileInputRef} 
-          onChange={handleFileUpload} 
-          accept=".pdf,.docx,.doc" 
-          style={{ display: 'none' }} 
-        />
-
         {/* Modal Header */}
         <div className="tcm-header">
           <button
@@ -107,61 +70,21 @@ export const TrajectoryCalibrationModal: React.FC = () => {
           >
             <X size={16} />
           </button>
-          <div className="tcm-tag-row">
-            <span className="tcm-tag-badge">
-              ⚡ 10s Calibration
-            </span>
-            <span className="tcm-tag-sub">Personalized Career Trajectory</span>
-          </div>
           <h2 className="tcm-title">
             Unlock Your Matched Peerpath
           </h2>
           <p className="tcm-desc">
-            Reveal verified salary leap benchmarks &amp; 1:1 mentors from <strong>your company</strong> to <strong>your dream target</strong>.
+            Connect with verified mentors and explore proven career transitions from your company.
           </p>
         </div>
 
         {/* Modal Body Form */}
         <form onSubmit={handleSubmit} className="tcm-form">
-          
-          {/* Optional Resume Upload to Auto-Fill Strip */}
-          <div className={`tcm-upload-strip-compact ${cvSynced ? 'synced' : ''}`}>
-            <div className="tcm-usc-left">
-              <FileText size={15} className={cvSynced ? "text-emerald-600" : "text-purple-600"} />
-              <span className="tcm-usc-text">
-                {cvSynced ? `✅ Synced: ${uploadedCvName || 'Resume.pdf'}` : 'Have your CV? Auto-fill in 1 second'}
-              </span>
-            </div>
-
-            <button
-              type="button"
-              onClick={handleTriggerFileInput}
-              disabled={isScanningCv}
-              className="tcm-usc-btn"
-            >
-              {isScanningCv ? (
-                <>
-                  <Loader2 size={12} className="animate-spin" />
-                  <span>Parsing...</span>
-                </>
-              ) : cvSynced ? (
-                <>
-                  <RefreshCw size={11} />
-                  <span>Re-upload</span>
-                </>
-              ) : (
-                <>
-                  <UploadCloud size={12} />
-                  <span>Upload CV</span>
-                </>
-              )}
-            </button>
-          </div>
 
           {/* Section 1: Target Track Dropdown */}
           <div className="tcm-field-compact">
             <label className="tcm-group-label">
-              <span>🎯 Target Leap Track *</span>
+              <span>🎯 Target Role / Domain *</span>
             </label>
             <div className="tcm-select-wrapper">
               <select
@@ -238,10 +161,10 @@ export const TrajectoryCalibrationModal: React.FC = () => {
               </div>
             </div>
 
-            {/* Dream Company Target (Full width or paired) */}
+            {/* Target Company (Full width or paired) */}
             <div className="tcm-field-compact" style={{ gridColumn: 'span 2' }}>
               <label className="tcm-group-label">
-                <span>🚀 Dream Target Company</span>
+                <span>🎯 Target Company</span>
               </label>
               <input
                 type="text"
@@ -274,13 +197,6 @@ export const TrajectoryCalibrationModal: React.FC = () => {
             >
               <span>🚀 Unlock My Peerpath &amp; Matched Mentors</span>
               <ArrowRight size={15} />
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsCalibrationModalOpen(false)}
-              className="btn-tcm-subtle-skip"
-            >
-              Skip calibration for now
             </button>
           </div>
 

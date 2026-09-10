@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Briefcase, MapPin, Clock, Share2, Bookmark, ArrowRight, Check, 
   Edit3, Filter, ArrowUpDown, ChevronDown, Search, X,
-  Compass, Sparkles, UserCheck, Loader2, Award
+  Compass, Sparkles, UserCheck, Loader2, Award, CheckCircle2
 } from 'lucide-react';
 import { ViewType, ShineJob, GapAnalysisResult, PathwayTrackKey } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -649,150 +649,177 @@ export const JobsView: React.FC<JobsViewProps> = ({
             <p style={{ color: '#64748B', fontSize: '13px' }}>Try resetting your location or keyword search.</p>
           </div>
         ) : (
-          filteredJobs.map((job) => {
+          filteredJobs.map((job, idx) => {
             const isApplied = Boolean(appliedJobIds[job.id]);
             const isSaved = Boolean(savedJobIds[job.id]);
 
             return (
-              <div key={job.id} className="srp-job-card-official">
-                
-                {/* Top Row: Company Logo Badge + Company Name + Posted Date + Status Badges */}
-                <div className="sjc-top-row">
-                  <div className="sjc-company-info">
-                    {job.companyInitials && (
-                      <div 
-                        className="sjc-initials-badge" 
-                        style={{ backgroundColor: job.companyColor || '#7C3AED' }}
-                      >
-                        {job.companyInitials}
-                      </div>
-                    )}
-                    <span className="sjc-company-name">{job.company}</span>
-                    <span className="sjc-dot-sep">•</span>
-                    <span className="sjc-posted-time">{job.postedTime}</span>
-                  </div>
+              <React.Fragment key={job.id}>
+                <div className="srp-job-card-official">
+                  
+                  {/* Top Row: Company Logo Badge + Company Name + Posted Date + Status Badges */}
+                  <div className="sjc-top-row">
+                    <div className="sjc-company-info">
+                      {job.companyInitials && (
+                        <div 
+                          className="sjc-initials-badge" 
+                          style={{ backgroundColor: job.companyColor || '#7C3AED' }}
+                        >
+                          {job.companyInitials}
+                        </div>
+                      )}
+                      <span className="sjc-company-name">{job.company}</span>
+                      <span className="sjc-dot-sep">•</span>
+                      <span className="sjc-posted-time">{job.postedTime}</span>
+                    </div>
 
-                  <div className="sjc-badges-wrap">
-                    {job.isActivelyHiring && (
-                      <span className="sjc-badge-actively-hiring">Actively Hiring</span>
-                    )}
-                    {job.isEarlyApplicant && (
-                      <span className="sjc-badge-early-applicant">Be An Early Applicant</span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Row 2: Big Bold Job Title */}
-                <h2 className="sjc-title">
-                  {job.title}
-                </h2>
-
-                {/* Row 3: Metadata (Exp • Salary • Location) */}
-                <div className="sjc-meta-row">
-                  <div className="sjc-meta-item">
-                    <Briefcase size={14} className="sjc-icon" />
-                    <span>{job.exp}</span>
-                  </div>
-                  <span className="sjc-dot-sep">•</span>
-                  <div className="sjc-meta-item">
-                    <Clock size={14} className="sjc-icon" />
-                    <span>{job.salary}</span>
-                  </div>
-                  <span className="sjc-dot-sep">•</span>
-                  <div className="sjc-meta-item">
-                    <MapPin size={14} className="sjc-icon" />
-                    <span>{job.loc}</span>
-                  </div>
-                </div>
-
-                {/* Row 4: Required Skills (Left) + Action Buttons (Right) */}
-                <div className="sjc-bottom-row">
-                  <div className="sjc-skills-block">
-                    <span className="sjc-required-text">Required:</span>
-                    <div className="sjc-skills-tags">
-                      {job.requiredSkills.map((skill, idx) => {
-                        const isBoosterMatch = peerpathJobContext?.isFromPeerpath && 
-                          requiredBoosterSkills.some(bs => bs.toLowerCase().includes(skill.toLowerCase()) || skill.toLowerCase().includes(bs.toLowerCase()));
-                        
-                        return (
-                          <React.Fragment key={idx}>
-                            <strong className={`sjc-skill-name ${isBoosterMatch ? 'sjc-skill-booster-highlight' : ''}`}>
-                              {skill}
-                            </strong>
-                            {idx < job.requiredSkills.length - 1 && (
-                              <span className="sjc-skill-bullet">•</span>
-                            )}
-                          </React.Fragment>
-                        );
-                      })}
+                    <div className="sjc-badges-wrap">
+                      {job.isActivelyHiring && (
+                        <span className="sjc-badge-actively-hiring">Actively Hiring</span>
+                      )}
+                      {job.isEarlyApplicant && (
+                        <span className="sjc-badge-early-applicant">Be An Early Applicant</span>
+                      )}
                     </div>
                   </div>
 
-                  <div className="sjc-actions-block">
-                    {/* Share Icon */}
-                    <button 
-                      type="button" 
-                      className="sjc-btn-icon" 
-                      onClick={() => handleShare(job)}
-                      title="Share Job"
-                    >
-                      <Share2 size={16} />
-                    </button>
+                  {/* Row 2: Big Bold Job Title */}
+                  <h2 className="sjc-title">
+                    {job.title}
+                  </h2>
 
-                    {/* Bookmark Icon */}
-                    <button 
-                      type="button" 
-                      className={`sjc-btn-icon ${isSaved ? 'is-saved' : ''}`} 
-                      onClick={() => handleSave(job)}
-                      title={isSaved ? "Saved" : "Save Job"}
-                    >
-                      <Bookmark size={16} className={isSaved ? "fill-blue-600 text-blue-600" : ""} />
-                    </button>
-
-                    {/* Peerpath Twin Prep Button (Live API Trajectory Twin Match) */}
-                    <button 
-                      type="button" 
-                      className="sjc-btn-peerpath-prep"
-                      onClick={() => handlePrepareWithPeer(job)}
-                      disabled={loadingTwinsForJob[job.id]}
-                      title={`Match with verified mentors who landed ${job.title}`}
-                    >
-                      {loadingTwinsForJob[job.id] ? (
-                        <>
-                          <Loader2 size={13} className="animate-spin" />
-                          <span>Matching...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Compass size={13} className="sjc-prep-icon" />
-                          <span>Prep with Peer</span>
-                        </>
-                      )}
-                    </button>
-
-                    {/* Main Apply Button */}
-                    <button 
-                      type="button" 
-                      className={`sjc-btn-apply ${isApplied ? 'is-applied' : ''}`}
-                      onClick={() => handleApply(job)}
-                      disabled={isApplied}
-                    >
-                      {isApplied ? (
-                        <>
-                          <Check size={14} strokeWidth={3} />
-                          <span>Applied</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>Apply</span>
-                          <ArrowRight size={14} />
-                        </>
-                      )}
-                    </button>
+                  {/* Row 3: Metadata (Exp • Salary • Location) */}
+                  <div className="sjc-meta-row">
+                    <div className="sjc-meta-item">
+                      <Briefcase size={14} className="sjc-icon" />
+                      <span>{job.exp}</span>
+                    </div>
+                    <span className="sjc-dot-sep">•</span>
+                    <div className="sjc-meta-item">
+                      <Clock size={14} className="sjc-icon" />
+                      <span>{job.salary}</span>
+                    </div>
+                    <span className="sjc-dot-sep">•</span>
+                    <div className="sjc-meta-item">
+                      <MapPin size={14} className="sjc-icon" />
+                      <span>{job.loc}</span>
+                    </div>
                   </div>
+
+                  {/* Row 4: Required Skills (Left) + Action Buttons (Right) */}
+                  <div className="sjc-bottom-row">
+                    <div className="sjc-skills-block">
+                      <span className="sjc-required-text">Required:</span>
+                      <div className="sjc-skills-tags">
+                        {job.requiredSkills.map((skill, sIdx) => {
+                          const isBoosterMatch = peerpathJobContext?.isFromPeerpath && 
+                            requiredBoosterSkills.some(bs => bs.toLowerCase().includes(skill.toLowerCase()) || skill.toLowerCase().includes(bs.toLowerCase()));
+                          
+                          return (
+                            <React.Fragment key={sIdx}>
+                              <strong className={`sjc-skill-name ${isBoosterMatch ? 'sjc-skill-booster-highlight' : ''}`}>
+                                {skill}
+                              </strong>
+                              {sIdx < job.requiredSkills.length - 1 && (
+                                <span className="sjc-skill-bullet">•</span>
+                              )}
+                            </React.Fragment>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="sjc-actions-block">
+                      {/* Share Icon */}
+                      <button 
+                        type="button" 
+                        className="sjc-btn-icon" 
+                        onClick={() => handleShare(job)}
+                        title="Share Job"
+                      >
+                        <Share2 size={16} />
+                      </button>
+
+                      {/* Bookmark Icon */}
+                      <button 
+                        type="button" 
+                        className={`sjc-btn-icon ${isSaved ? 'is-saved' : ''}`} 
+                        onClick={() => handleSave(job)}
+                        title={isSaved ? "Saved" : "Save Job"}
+                      >
+                        <Bookmark size={16} className={isSaved ? "fill-blue-600 text-blue-600" : ""} />
+                      </button>
+
+                      {/* Peerpath Twin Prep Button (Live API Trajectory Twin Match) */}
+                      <button 
+                        type="button" 
+                        className="sjc-btn-peerpath-prep"
+                        onClick={() => handlePrepareWithPeer(job)}
+                        disabled={loadingTwinsForJob[job.id]}
+                        title={`Match with verified mentors who landed ${job.title}`}
+                      >
+                        {loadingTwinsForJob[job.id] ? (
+                          <>
+                            <Loader2 size={13} className="animate-spin" />
+                            <span>Matching...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Compass size={13} className="sjc-prep-icon" />
+                            <span>Prep with Peer</span>
+                          </>
+                        )}
+                      </button>
+
+                      {/* Main Apply Button */}
+                      <button 
+                        type="button" 
+                        className={`sjc-btn-apply ${isApplied ? 'is-applied' : ''}`}
+                        onClick={() => handleApply(job)}
+                        disabled={isApplied}
+                      >
+                        {isApplied ? (
+                          <>
+                            <Check size={14} strokeWidth={3} />
+                            <span>Applied</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Apply</span>
+                            <ArrowRight size={14} />
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
                 </div>
 
-              </div>
+                {/* Mid-Feed Mentorship & Direct Referral Strip inserted between job cards */}
+                {idx === 1 && (
+                  <div className="peerpath-mid-feed-banner" style={{ margin: '14px 0 18px 0' }}>
+                    <div className="pmf-left">
+                      <div className="pmf-avatars-row">
+                        <img src="/avatars/saheli.jpg" alt="Saheli" className="pmf-avatar" />
+                        <img src="/avatars/akash.jpg" alt="Akash" className="pmf-avatar" />
+                        <img src="/avatars/ishita.jpg" alt="Ishita" className="pmf-avatar" />
+                        <span className="pmf-online-dot"></span>
+                      </div>
+                      <div className="pmf-text-block">
+                        <h3 className="pmf-title">Want 1:1 Interview Prep &amp; Direct Referrals?</h3>
+                        <div className="pmf-benefits-row">
+                          <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Resume Review</span>
+                          <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Mock Interview</span>
+                          <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Direct Referrals</span>
+                        </div>
+                      </div>
+                    </div>
+                    <button className="btn-shine-gold-lg pmf-cta-btn" onClick={() => onNavigate('experts-view')}>
+                      Explore Mentors <ArrowRight size={16} />
+                    </button>
+                  </div>
+                )}
+              </React.Fragment>
             );
           })
         )}

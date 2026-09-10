@@ -486,30 +486,22 @@ export const DashboardView: React.FC = () => {
                 <div className="dctb-top-row">
                   <span className="dctb-badge">
                     <Sparkles size={12} className="text-purple-600" />
-                    <span>Career Multiplier</span>
+                    <span>Peer Mentorship</span>
                   </span>
                   <h2 className="dctb-title">
-                    {userProfile.name?.split(' ')[0] || 'Prakash'}, Fast-Track Your Career to <span className="dctb-salary-highlight">{userProfile.targetCtc || '₹18L – ₹24L'}</span>
+                    {userProfile.name?.split(' ')[0] || 'Prakash'}, Connect with Verified Mentors for {userProfile.targetRole || 'Your Target Role'}
                   </h2>
-                  <span className="dctb-growth-tag">
-                    <TrendingUp size={11} /> +320% Growth
-                  </span>
                 </div>
 
                 <div className="dctb-meta-row">
                   <span className="dctb-meta-item">
                     <ShieldCheck size={12} className="text-purple-600" />
-                    <span>1:1 Mentors from Google & Swiggy</span>
+                    <span>1:1 Mentors from Google, Swiggy & Qualcomm</span>
                   </span>
                   <span className="dctb-dot">•</span>
                   <span className="dctb-meta-item">
                     <Briefcase size={12} className="text-blue-600" />
-                    <span>2,850+ Direct Jobs on Shine</span>
-                  </span>
-                  <span className="dctb-dot">•</span>
-                  <span className="dctb-meta-item">
-                    <Zap size={12} className="text-amber-500" />
-                    <span>Live Mock Interviews & Code Prep</span>
+                    <span>Verified Career Transition Roadmaps</span>
                   </span>
                 </div>
               </div>
@@ -523,7 +515,7 @@ export const DashboardView: React.FC = () => {
                     navigate('guidance-view');
                   }}
                 >
-                  <span>Explore Pathways</span>
+                  <span>Explore Mentors</span>
                   <ArrowRight size={14} />
                 </button>
               </div>
