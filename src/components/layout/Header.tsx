@@ -158,8 +158,9 @@ export const Header: React.FC<HeaderProps> = ({
               ) : (
                 <>
                   <button 
-                    className={`myshine-link ${currentView === 'guidance-view' || currentView === 'experts-view' || currentView === 'expert-profile-view' ? 'active' : ''}`} 
-                    onClick={() => onNavigate('guidance-view')}
+                    className={`myshine-link ${currentView === 'experts-view' ? 'active' : ''}`} 
+                    onClick={() => onNavigate('experts-view')}
+                    title="Explore 500+ Mentors Directory"
                   >
                     <Compass size={15} /> Find Mentors
                   </button>

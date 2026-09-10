@@ -134,7 +134,7 @@ export const Footer: React.FC = () => {
                   <span className="ftbs-divider-dot">•</span>
                   <div className="ftbs-trust-endorsement">
                     <ShieldCheck size={16} className="text-emerald-400" />
-                    <span>India's 1st Verified 1:1 Tech Transition Platform</span>
+                    <span>Trusted 1:1 Tech Transition Platform</span>
                   </div>
                 </div>
               ) : (

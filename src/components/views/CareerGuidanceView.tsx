@@ -807,7 +807,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               {/* Ecosystem Trust Badge (Zomato/Blinkit Trust model) */}
               <div className="peerpath-ecosystem-trust-badge">
                 <span className="petb-dot"></span>
-                <span><strong>Peerpath by shine.com</strong> • India's 1st Verified 1:1 Tech Transition Platform • Backed by 3.5Cr+ Recruiter Network</span>
+                <span><strong>Peerpath by shine.com</strong> • Trusted 1:1 Tech Transition Platform • Backed by 3.5Cr+ Candidate Network</span>
               </div>
 
               {/* Main Heading & Candidate Subtitle */}
@@ -824,41 +824,8 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
 
               {/* Description */}
               <p className="phb-desc">
-                Connect directly with verified tech leaders & engineers from Swiggy, Qualcomm, Razorpay, and Google who made the exact career jump.
+                Connect directly with verified tech leaders & engineers who made the exact career jump.
               </p>
-
-              {/* 3 Metric Cards Row */}
-              <div className="phb-stats-row">
-                <div className="phb-stat-card">
-                  <div className="phb-stat-icon-wrap icon-purple">
-                    <Users size={16} />
-                  </div>
-                  <div className="phb-stat-info">
-                    <span className="phb-stat-label">Verified Mentors</span>
-                    <strong className="phb-stat-val val-purple">500+ Active</strong>
-                  </div>
-                </div>
-
-                <div className="phb-stat-card">
-                  <div className="phb-stat-icon-wrap icon-green">
-                    <TrendingUp size={16} />
-                  </div>
-                  <div className="phb-stat-info">
-                    <span className="phb-stat-label">Career Switch</span>
-                    <strong className="phb-stat-val val-green">Services ➔ Product</strong>
-                  </div>
-                </div>
-
-                <div className="phb-stat-card">
-                  <div className="phb-stat-icon-wrap icon-blue">
-                    <Video size={16} />
-                  </div>
-                  <div className="phb-stat-info">
-                    <span className="phb-stat-label">1:1 Live Guidance</span>
-                    <strong className="phb-stat-val val-blue">100% Verified</strong>
-                  </div>
-                </div>
-              </div>
             </div>
 
             {/* Right Column: Clean, Minimalist Profile Avatar Showcase */}
@@ -1125,14 +1092,14 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                           <TrendingUp size={11} className="text-emerald-600" />
                           CAREER TRANSITION JOURNEY
                         </span>
-                        <span className="pm-leap-pill">{mentor.growthPercent} ({mentor.jumpMultiplier})</span>
+                        <span className="pm-leap-pill">{mentor.jumpTag || 'Services ➔ Product'}</span>
                       </div>
 
                       <div className="pm-h-stepper-row">
                         <div className="pm-h-node from">
                           <span className="pm-h-node-label">Started At</span>
                           <strong className="pm-h-node-val">{mentor.baselineRole}</strong>
-                          <span className="pm-h-node-sub">{mentor.baselineCompany.split(' ')[0]}</span>
+                          <span className="pm-h-node-sub">{mentor.baselineCompany.replace(/\s+Services$/, '')}</span>
                         </div>
 
                         <div className="pm-h-node-arrow">
