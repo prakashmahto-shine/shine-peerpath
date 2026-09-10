@@ -4,8 +4,6 @@ import { useApp } from '../../context/AppContext';
 
 export const Footer: React.FC = () => {
   const { navigate, currentView } = useApp();
-  const [activeTab, setActiveTab] = useState<string>('skills');
-  const [isExploreOpen, setIsExploreOpen] = useState<boolean>(true);
   const [isBlogsOpen, setIsBlogsOpen] = useState<boolean>(false);
   const [isJobsOpen, setIsJobsOpen] = useState<boolean>(false);
 
@@ -21,15 +19,9 @@ export const Footer: React.FC = () => {
     'confirmed-view',
     'live-call-view',
     'post-session-view',
-    'recruiter-view'
+    'recruiter-view',
+    'profile-view'
   ].includes(currentView);
-
-  const jobsBySkills = [
-    ['Accounting Jobs', 'Data Analysis Jobs', 'Digital Marketing Jobs', 'React Native Jobs'],
-    ['Banking Jobs', 'Typing Jobs', 'Java Jobs', 'Enterprise Sales Jobs'],
-    ['Civil Engineering Jobs', 'Data Analytics Jobs', 'Data Science Jobs', '.NET Jobs'],
-    ['C++ Jobs', 'Content Marketing Jobs', 'Python Jobs', 'View All']
-  ];
 
   const partners = [
     { name: 'Shine.com', label: 'Jobs & Recruitment Portal', src: 'https://staticcand.shine.com/c/s1/images/candidate/nova/home/shine-logo.svg', isShine: true },
@@ -43,76 +35,7 @@ export const Footer: React.FC = () => {
   return (
     <footer className={`shine-official-footer-wrapper ${isPeerpathView ? 'peerpath-standalone-footer' : 'shine-jobs-footer'}`}>
       
-      {/* 1. Jobs Taxonomy Section (ONLY ON SHINE JOBS - REMOVED FROM PEERPATH) */}
-      {!isPeerpathView && (
-        <div className="footer-explore-section">
-          <div className="content-wrapper" style={{ paddingBottom: '24px' }}>
-            
-            <div className="explore-header" onClick={() => setIsExploreOpen(!isExploreOpen)}>
-              <h3>Explore Jobs by Skills, Location, Companies & More</h3>
-              <button className="btn-collapse-toggle">
-                {isExploreOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-              </button>
-            </div>
 
-            {isExploreOpen && (
-              <div className="explore-content">
-                <div className="explore-pills-row">
-                  <button 
-                    className={`exp-pill ${activeTab === 'skills' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('skills')}
-                  >
-                    Jobs by Skills
-                  </button>
-                  <button 
-                    className={`exp-pill ${activeTab === 'designation' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('designation')}
-                  >
-                    Jobs by Designation
-                  </button>
-                  <button 
-                    className={`exp-pill ${activeTab === 'city' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('city')}
-                  >
-                    Jobs by City
-                  </button>
-                  <button 
-                    className={`exp-pill ${activeTab === 'company' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('company')}
-                  >
-                    Jobs By Company
-                  </button>
-                  <button 
-                    className={`exp-pill ${activeTab === 'industry' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('industry')}
-                  >
-                    Jobs by Industry
-                  </button>
-                  <button 
-                    className={`exp-pill ${activeTab === 'popular' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('popular')}
-                  >
-                    Popular Jobs
-                  </button>
-                </div>
-
-                <div className="explore-links-grid">
-                  {jobsBySkills.map((col, cIdx) => (
-                    <ul key={cIdx} className="explore-col-list">
-                      {col.map((item, rIdx) => (
-                        <li key={rIdx}>
-                          <a href="#!" onClick={(e) => { e.preventDefault(); navigate('jobs-view'); }}>{item}</a>
-                        </li>
-                      ))}
-                    </ul>
-                  ))}
-                </div>
-              </div>
-            )}
-
-          </div>
-        </div>
-      )}
 
       {/* 2. Main Footer Body */}
       <div className="footer-main-navy-section">

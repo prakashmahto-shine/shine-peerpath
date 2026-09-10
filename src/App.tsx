@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { ToastContainer } from './components/common/ToastContainer';
@@ -101,8 +100,6 @@ const AppMain: React.FC = () => {
     setSearchQuery
   } = useApp();
 
-  const [showTopNotice, setShowTopNotice] = useState<boolean>(true);
-
   useEffect(() => {
     const route = pathToView(window.location.pathname);
     if (route.view !== currentView) {
@@ -143,27 +140,6 @@ const AppMain: React.FC = () => {
     <div className="app-root-container">
       <ToastContainer />
 
-      {/* Shine Jobs Top Notice Bar (ONLY ON SHINE JOBS PORTAL - NEVER ON PEERPATH) */}
-      {showTopNotice && 
-       ['dashboard-view', 'jobs-view', 'profile-view'].includes(currentView) && 
-       currentUser?.role === 'candidate' && (
-        <div className="myshine-top-notice-bar">
-          <div className="notice-inner-flex">
-            <div className="notice-left-text">
-              <span className="notice-doc-icon">📄</span>
-              <p>Your Profile was last updated <strong>almost a year ago</strong></p>
-            </div>
-            <div className="notice-right-actions">
-              <button className="btn-purple-notice" onClick={() => setIsCvSyncModalOpen(true)}>
-                Update Profile
-              </button>
-              <button className="btn-close-notice" onClick={() => setShowTopNotice(false)} title="Dismiss">
-                <X size={16} />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {currentView !== 'login-view' && (
         <Header

@@ -49,7 +49,8 @@ export const Header: React.FC<HeaderProps> = ({
     'confirmed-view',
     'live-call-view',
     'post-session-view',
-    'recruiter-view'
+    'recruiter-view',
+    'profile-view'
   ].includes(currentView);
 
   const isAlreadyMentor = Boolean(
