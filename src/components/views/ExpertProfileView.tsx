@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { 
   ArrowLeft, CheckCircle2, MapPin, Star, Clock, Users, Calendar, 
   PlayCircle, Film, Play, Pause, Zap, Award, Globe, Briefcase, 
-  CircleDot, Shield, Video, ChevronLeft, Bell, UserPlus, UserCheck 
+  CircleDot, Shield, Video, ChevronLeft, Bell, UserPlus, UserCheck,
+  FileText, Sparkles, TrendingUp 
 } from 'lucide-react';
 import { Expert, ViewType } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -280,39 +281,116 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
             </div>
           )}
 
-          {activeTab === 'sessions' && (
-            <div>
-              <h3 className="pane-title">Available 1:1 Sessions</h3>
-              <div className="session-types-grid">
-                <div className="st-card">
-                  <div className="st-header">
-                    <h4>1:1 Career Transition & Skill Gap</h4>
-                    <span className="st-price">₹{expert.price || 999}</span>
+          {activeTab === 'sessions' && (() => {
+            const basePrice = expert.price || 999;
+            const mentorSessions = [
+              {
+                id: 'mock-interview',
+                title: '1:1 Mock Interview & Case Prep',
+                price: basePrice,
+                duration: '60 Mins',
+                badge: '🔥 Most Popular',
+                badgeClass: 'st-badge-hot',
+                desc: 'Real technical / case interview simulation with live rubric evaluation, instant feedback, and verified recruiter badge.',
+                meta: [
+                  { icon: Clock, label: '60 Mins' },
+                  { icon: Video, label: '1:1 Live Video' },
+                  { icon: Shield, label: 'Official Shine Scorecard' }
+                ]
+              },
+              {
+                id: 'resume-audit',
+                title: 'Resume & Portfolio Deep-Dive',
+                price: Math.max(499, Math.round((basePrice * 0.65) / 50) * 50 - 1),
+                duration: '30 Mins',
+                badge: '⚡ Quick Audit',
+                badgeClass: 'st-badge-amber',
+                desc: 'Line-by-line ATS resume audit, project showcase tuning & keyword boost to increase recruiter shortlist rate by 22%.',
+                meta: [
+                  { icon: Clock, label: '30 Mins' },
+                  { icon: FileText, label: 'ATS CV Teardown' },
+                  { icon: Sparkles, label: '+22% Search Visibility' }
+                ]
+              },
+              {
+                id: 'career-strategy',
+                title: '1:1 Career Jump & CTC Strategy',
+                price: Math.max(699, Math.round((basePrice * 0.85) / 50) * 50 - 1),
+                duration: '45 Mins',
+                badge: '🚀 High ROI',
+                badgeClass: 'st-badge-blue',
+                desc: 'Step-by-step roadmap to switch domains, compare competing offers, and negotiate higher CTC compensation packages.',
+                meta: [
+                  { icon: Clock, label: '45 Mins' },
+                  { icon: TrendingUp, label: 'CTC Benchmarking' },
+                  { icon: Video, label: 'Domain Transition' }
+                ]
+              },
+              {
+                id: 'referral-prep',
+                title: 'Target Referral & Fast-Track',
+                price: Math.max(899, Math.round((basePrice * 1.15) / 50) * 50 - 1),
+                duration: '45 Mins',
+                badge: '⭐ Direct Intro',
+                badgeClass: 'st-badge-purple',
+                desc: 'Internal referral fitment check for active openings at top product firms, interview loop secrets & direct mentor endorsement.',
+                meta: [
+                  { icon: Clock, label: '45 Mins' },
+                  { icon: Award, label: 'Referral Evaluation' },
+                  { icon: Sparkles, label: 'Mentor Endorsement' }
+                ]
+              }
+            ];
+
+            return (
+              <div>
+                <div className="sessions-tab-header">
+                  <div>
+                    <h3 className="pane-title">Available 1:1 Sessions ({mentorSessions.length})</h3>
+                    <p className="pane-subtitle">Book personalized 1:1 mentorship, live mock interviews, CV audit or direct referral evaluation with {expert.name}.</p>
                   </div>
-                  <p className="st-desc">60 min deep dive into your CV, gap analysis against target role, and actionable 90-day roadmap.</p>
-                  <div className="st-meta"><span><Clock size={14} /> 60 Mins</span> <span><Video size={14} /> Video Call</span></div>
-                  {isSelf ? (
-                    <button className="btn-shine-gold w-100 mt-3" onClick={() => navigateToCreatorStudio('pricing')}>Manage Session Details & Pricing</button>
-                  ) : (
-                    <button className="btn-shine-gold w-100 mt-3" onClick={() => onOpenBooking(expert.id)}>Book This Session</button>
-                  )}
                 </div>
-                <div className="st-card">
-                  <div className="st-header">
-                    <h4>Mock Interview & Recruiter Badge Assessment</h4>
-                    <span className="st-price">₹{(expert.price || 999) + 500}</span>
-                  </div>
-                  <p className="st-desc">Real interview simulation using production-grade hiring rubric. Successful completion unlocks your Shine Recruiter Shield Badge.</p>
-                  <div className="st-meta"><span><Clock size={14} /> 60 Mins</span> <span><Shield size={14} /> Includes Badge</span></div>
-                  {isSelf ? (
-                    <button className="btn-shine-gold w-100 mt-3" onClick={() => navigateToCreatorStudio('pricing')}>Manage Session Details & Pricing</button>
-                  ) : (
-                    <button className="btn-shine-gold w-100 mt-3" onClick={() => onOpenBooking(expert.id)}>Book This Session</button>
-                  )}
+
+                <div className="session-types-grid">
+                  {mentorSessions.map((session) => (
+                    <div key={session.id} className="st-card">
+                      {session.badge && (
+                        <span className={`st-badge ${session.badgeClass || ''}`}>{session.badge}</span>
+                      )}
+                      <div>
+                        <div className="st-header">
+                          <h4>{session.title}</h4>
+                          <span className="st-price">₹{session.price}</span>
+                        </div>
+                        <p className="st-desc">{session.desc}</p>
+                        
+                        <div className="st-meta">
+                          {session.meta.map((m, idx) => {
+                            const IconComp = m.icon;
+                            return (
+                              <span key={idx}>
+                                <IconComp size={13} /> {m.label}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {isSelf ? (
+                        <button className="btn-shine-gold w-100 mt-2" onClick={() => navigateToCreatorStudio('pricing')}>
+                          Manage Session Details & Pricing
+                        </button>
+                      ) : (
+                        <button className="btn-shine-gold w-100 mt-2" onClick={() => onOpenBooking(expert.id)}>
+                          Book This Session
+                        </button>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
 
           {activeTab === 'reviews' && (
             <div>

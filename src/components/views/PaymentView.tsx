@@ -15,6 +15,9 @@ export const PaymentView: React.FC = () => {
 
   const date = bookingDraft.date || 'Tomorrow, 5 Sep';
   const timeSlot = bookingDraft.timeSlot || '10:00 AM - 11:00 AM';
+  const sessionType = bookingDraft.sessionType || '1:1 Mock Interview & Case Prep';
+  const sessionDuration = bookingDraft.duration || '60 Mins';
+  const payableAmount = bookingDraft.amount || expert.price || 999;
 
   const [payMethod, setPayMethod] = useState<'upi' | 'card' | 'netbanking' | 'wallet'>('upi');
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
@@ -41,15 +44,15 @@ export const PaymentView: React.FC = () => {
           <img src={expert.avatar || '/avatars/akash.jpg'} alt={expert.name} className="pay-avatar" />
           <div>
             <h4>{expert.name}</h4>
-            <p>{expert.role} at {expert.company}</p>
+            <p>{expert.role} at {expert.company} • <strong>{sessionType}</strong></p>
             <div className="pay-chip"><Calendar size={13} /> {date} • {timeSlot}</div>
           </div>
         </div>
 
         <div className="bill-breakup-card">
           <div className="bill-row">
-            <span>Session Fee (60 Mins)</span>
-            <span>₹{expert.price || 999}</span>
+            <span>{sessionType} ({sessionDuration})</span>
+            <span>₹{payableAmount}</span>
           </div>
           <div className="bill-row">
             <span>Platform Fee & Trust Insurance</span>
@@ -62,7 +65,7 @@ export const PaymentView: React.FC = () => {
           <div className="bill-divider"></div>
           <div className="bill-row total-row">
             <strong>Total Amount Payable</strong>
-            <strong className="total-amt">₹{expert.price || 999}</strong>
+            <strong className="total-amt">₹{payableAmount}</strong>
           </div>
         </div>
 

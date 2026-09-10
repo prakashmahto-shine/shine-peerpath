@@ -53,6 +53,8 @@ export interface BookingDetails {
   date: string;
   timeSlot: string;
   price: number;
+  sessionType?: string;
+  duration?: string;
 }
 
 export interface MentorshipSession {

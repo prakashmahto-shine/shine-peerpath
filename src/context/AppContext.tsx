@@ -77,8 +77,8 @@ interface AppContextType {
   removeCandidateResume: () => void;
   assessmentDraftSession: MentorshipSession | null;
   setAssessmentDraftSession: (session: MentorshipSession | null) => void;
-  bookingDraft: { expert: Expert; date: string; timeSlot: string; attachedCvName?: string };
-  setBookingDraft: React.Dispatch<React.SetStateAction<{ expert: Expert; date: string; timeSlot: string; attachedCvName?: string }>>;
+  bookingDraft: { expert: Expert; date: string; timeSlot: string; attachedCvName?: string; sessionType?: string; amount?: number; duration?: string };
+  setBookingDraft: React.Dispatch<React.SetStateAction<{ expert: Expert; date: string; timeSlot: string; attachedCvName?: string; sessionType?: string; amount?: number; duration?: string }>>;
 
   // Global Search & Toast Notifications
   searchQuery: string;
@@ -488,11 +488,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isCvSyncModalOpen, setIsCvSyncModalOpen] = useState<boolean>(false);
   const [assessmentDraftSession, setAssessmentDraftSession] = useState<MentorshipSession | null>(null);
 
-  const [bookingDraft, setBookingDraft] = useState<{ expert: Expert; date: string; timeSlot: string; attachedCvName?: string }>({
+  const [bookingDraft, setBookingDraft] = useState<{ expert: Expert; date: string; timeSlot: string; attachedCvName?: string; sessionType?: string; amount?: number; duration?: string }>({
     expert: DEFAULT_FALLBACK_EXPERT,
     date: 'Tomorrow, 5 Sep',
     timeSlot: '10:00 AM - 11:00 AM',
-    attachedCvName: 'Prakash_Mahto_Frontend_Resume.pdf'
+    attachedCvName: 'Prakash_Mahto_Frontend_Resume.pdf',
+    sessionType: '1:1 Mock Interview & Case Prep',
+    amount: DEFAULT_FALLBACK_EXPERT.price,
+    duration: '60 Mins'
   });
 
   const updateCandidateResume = (fileName: string, extractedSkills?: string[], targetCtc?: string) => {

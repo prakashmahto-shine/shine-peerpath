@@ -20,6 +20,8 @@ export const ConfirmedView: React.FC = () => {
 
   const date = bookingDraft.date || 'Tomorrow, 5 Sep';
   const timeSlot = bookingDraft.timeSlot || '10:00 AM - 11:00 AM';
+  const sessionType = bookingDraft.sessionType || '1:1 Mock Interview & Case Prep';
+  const paidAmount = bookingDraft.amount || expert.price || 999;
 
   useEffect(() => {
     try {
@@ -48,13 +50,13 @@ export const ConfirmedView: React.FC = () => {
         <div className="conf-session-info-card">
           <img src={expert.avatar || '/avatars/akash.jpg'} alt={expert.name || 'Mentor'} className="conf-avatar" />
           <div className="conf-meta">
-            <h3>{expert.name || 'Mentor'}</h3>
+            <h3>{expert.name || 'Mentor'} • <span className="text-blue-600 font-semibold">{sessionType}</span></h3>
             <p>{expert.role || 'Tech Leader'} at {expert.company || 'Tech Company'}</p>
             <div className="conf-timing-badge">
               <Calendar size={13} /> {date} • {timeSlot}
             </div>
           </div>
-          <div className="conf-price-badge">₹{expert.price || 999} Paid</div>
+          <div className="conf-price-badge">₹{paidAmount} Paid</div>
         </div>
 
         {/* Post-Booking CV Prep Card */}
