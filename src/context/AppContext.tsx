@@ -321,6 +321,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const getInitialRoute = () => {
     try {
       const clean = window.location.pathname.replace(/\/$/, '') || '/';
+      const search = window.location.search;
+      const urlParams = new URLSearchParams(search);
+      const utmSource = urlParams.get('utm_source');
+      const campaign = urlParams.get('campaign') || urlParams.get('utm_campaign');
+
       if (clean === '/login' || clean === '/signin' || clean === '/pages/myshine/login') return { view: 'login-view' as ViewType };
       if (clean === '/profile' || clean === '/my-profile' || clean === '/candidate-profile') return { view: 'profile-view' as ViewType };
       if (clean === '/peerpath' || clean === '/guidance' || clean === '/career-guidance') return { view: 'guidance-view' as ViewType };
@@ -338,6 +343,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       if (clean === '/post-session' || clean === '/feedback' || clean === '/review') return { view: 'post-session-view' as ViewType };
       if (clean === '/recruiter' || clean === '/recruiters') return { view: 'recruiter-view' as ViewType };
       if (clean === '/mentor-dashboard' || clean === '/mentor' || clean === '/creator-studio') return { view: 'mentor-dashboard-view' as ViewType };
+
+      // If landing via Email / WhatsApp / Peerpath campaign link
+      if (utmSource || campaign) {
+        return { view: 'guidance-view' as ViewType };
+      }
     } catch {}
     return null;
   };
@@ -348,7 +358,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (initRoute) return initRoute.view;
     if (!currentUser) return 'login-view';
     if (currentUser.role === 'mentor') return 'mentor-dashboard-view';
-    return 'dashboard-view';
+    return 'guidance-view';
   });
   const [previousView, setPreviousView] = useState<ViewType>('guidance-view');
   
@@ -585,7 +595,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setCurrentView(view);
 
     const routeMap: Record<ViewType, string> = {
-      'guidance-view': '/guidance',
+      'guidance-view': '/peerpath',
       'experts-view': '/experts',
       'expert-profile-view': selectedExpert ? `/expert/${selectedExpert.id}` : '/experts',
       'payment-view': '/checkout',
@@ -606,7 +616,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       if (view === 'expert-profile-view' && (window.location.pathname.startsWith('/expert/') || window.location.pathname.startsWith('/mentor/'))) {
         pathToPush = window.location.pathname;
       } else {
-        pathToPush = routeMap[view] || '/guidance';
+        pathToPush = routeMap[view] || '/peerpath';
       }
     }
 
@@ -629,12 +639,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setIsLoginModalOpen(false);
       const isMentorRole = entry.account.role === 'mentor' || Boolean(entry.profile.isMentor);
       setIsCreatorMode(isMentorRole);
-      if (isMentorRole) {
-        navigate('mentor-dashboard-view');
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirectParam = urlParams.get('redirect');
+      const utmSource = urlParams.get('utm_source');
+      const campaign = urlParams.get('campaign') || urlParams.get('utm_campaign');
+
+      if (redirectParam) {
+        navigate('guidance-view', redirectParam);
+      } else if (isMentorRole && !utmSource && !campaign) {
+        navigate('mentor-dashboard-view', '/creator-studio');
       } else {
-        navigate('dashboard-view');
+        // Always redirect candidate logins and campaign traffic (WhatsApp/Email) directly to Peerpath!
+        navigate('guidance-view', '/peerpath');
       }
-      showToast(`👋 Welcome back, ${entry.account.name}!`, `Logged in as ${isMentorRole ? 'Lead Mentor' : 'Candidate'}.`);
+
+      const campaignLabel = utmSource ? ` [${utmSource.toUpperCase()} Campaign]` : '';
+      showToast(`👋 Welcome, ${entry.account.name}!`, `Logged in successfully • Redirected to Shine Peerpath${campaignLabel}.`);
       return true;
     }
     showToast('Invalid Credentials', 'Please check username or password (shine@123)', 'warning');
@@ -652,12 +673,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }));
       const isMentorRole = entry.account.role === 'mentor' || Boolean(entry.profile.isMentor);
       setIsCreatorMode(isMentorRole);
-      if (isMentorRole) {
-        navigate('mentor-dashboard-view');
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirectParam = urlParams.get('redirect');
+
+      if (redirectParam) {
+        navigate('guidance-view', redirectParam);
+      } else if (isMentorRole) {
+        navigate('mentor-dashboard-view', '/creator-studio');
       } else {
-        navigate('dashboard-view');
+        // Redirect directly to Peerpath page
+        navigate('guidance-view', '/peerpath');
       }
-      showToast(`⚡ Logged in as ${entry.account.name}`, `Switched to ${isMentorRole ? 'Creator Studio' : 'Candidate Dashboard'}.`);
+      showToast(`⚡ Logged in as ${entry.account.name}`, `Redirected to Shine Peerpath.`);
     }
   };
 

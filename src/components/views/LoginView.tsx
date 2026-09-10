@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Eye, EyeOff, ShieldCheck, User, Sparkles, RotateCcw } from 'lucide-react';
+import { Eye, EyeOff, ShieldCheck, User, Sparkles, RotateCcw, MessageSquare, Mail, ArrowRight } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const LoginView: React.FC = () => {
@@ -12,6 +12,10 @@ export const LoginView: React.FC = () => {
   const [otpSent, setOtpSent] = useState<boolean>(false);
   const [otpCode, setOtpCode] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const utmSource = urlParams.get('utm_source');
+  const campaign = urlParams.get('campaign') || urlParams.get('utm_campaign');
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -127,6 +131,24 @@ export const LoginView: React.FC = () => {
         <div className="shine-login-right-canvas">
           <div className="shine-login-card-wrapper">
             
+            {/* Campaign Awareness Banner */}
+            {utmSource === 'whatsapp' ? (
+              <div className="shine-campaign-header-pill whatsapp-pill">
+                <MessageSquare size={14} className="text-emerald-500 flex-shrink-0" />
+                <span><strong>WhatsApp Campaign Invite:</strong> Log in to access 1:1 Peerpath Mentors</span>
+              </div>
+            ) : utmSource === 'email' ? (
+              <div className="shine-campaign-header-pill email-pill">
+                <Mail size={14} className="text-blue-500 flex-shrink-0" />
+                <span><strong>Email Campaign Invite:</strong> Log in to access 1:1 Peerpath Mentors</span>
+              </div>
+            ) : campaign ? (
+              <div className="shine-campaign-header-pill campaign-pill">
+                <Sparkles size={14} className="text-amber-500 flex-shrink-0" />
+                <span><strong>Shine Peerpath Campaign:</strong> Fast-track 1:1 career mentorship</span>
+              </div>
+            ) : null}
+
             {/* Login Header */}
             <div className="shine-login-header-group">
               <span className="shine-login-eyebrow">LOG IN TO</span>
