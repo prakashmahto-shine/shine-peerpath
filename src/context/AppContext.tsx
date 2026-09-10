@@ -357,7 +357,39 @@ If you are preparing for backend system design rounds this month, drop your arch
         likesCount: 3,
         likedByCurrentUser: false
       }
-    ]
+    ],
+    analytics: {
+      impressions: 3420,
+      reach: 2180,
+      engagements: 142,
+      engagementRate: '4.8%',
+      reactionsBreakdown: { likes: 44, hearts: 6, insightful: 2 },
+      commentsCount: 3,
+      repliesCount: 1,
+      sharesCount: 12,
+      profileClicks: 64,
+      bookingsGenerated: 4,
+      revenueGenerated: 3596,
+      topAudienceTitles: [
+        { title: 'Senior Software Engineer', percentage: 42 },
+        { title: 'Backend / Cloud Engineer', percentage: 28 },
+        { title: 'Tech Lead & Architect', percentage: 18 },
+        { title: 'Data Scientist / ML Engineer', percentage: 12 }
+      ],
+      topAudienceCompanies: [
+        { company: 'Amazon', percentage: 22 },
+        { company: 'Swiggy', percentage: 18 },
+        { company: 'Razorpay', percentage: 16 },
+        { company: 'TCS', percentage: 14 },
+        { company: 'Microsoft', percentage: 12 }
+      ],
+      topLocations: [
+        { city: 'Bengaluru', percentage: 48 },
+        { city: 'Hyderabad', percentage: 24 },
+        { city: 'Pune', percentage: 16 },
+        { city: 'Delhi NCR', percentage: 12 }
+      ]
+    }
   },
   {
     id: 'post-2',
@@ -408,7 +440,37 @@ I'll be hosting a 1:1 roadmap teardown for candidates aiming for Tier-1 product 
         likesCount: 11,
         likedByCurrentUser: false
       }
-    ]
+    ],
+    analytics: {
+      impressions: 4890,
+      reach: 3120,
+      engagements: 216,
+      engagementRate: '5.2%',
+      reactionsBreakdown: { likes: 72, hearts: 9, insightful: 3 },
+      commentsCount: 2,
+      repliesCount: 1,
+      sharesCount: 18,
+      profileClicks: 92,
+      bookingsGenerated: 6,
+      revenueGenerated: 5394,
+      topAudienceTitles: [
+        { title: 'Senior Frontend Engineer', percentage: 46 },
+        { title: 'Fullstack Architect', percentage: 26 },
+        { title: 'UI Lead & Design Systems', percentage: 18 },
+        { title: 'Product Engineer', percentage: 10 }
+      ],
+      topAudienceCompanies: [
+        { company: 'Swiggy', percentage: 24 },
+        { company: 'Flipkart', percentage: 20 },
+        { company: 'Uber', percentage: 16 },
+        { company: 'Infosys', percentage: 12 }
+      ],
+      topLocations: [
+        { city: 'Bengaluru', percentage: 52 },
+        { city: 'Delhi NCR', percentage: 20 },
+        { city: 'Hyderabad', percentage: 16 }
+      ]
+    }
   },
   {
     id: 'post-3',
@@ -458,7 +520,37 @@ Engineers moving into Applied AI & LLM Systems: What architectures are you build
         likesCount: 5,
         likedByCurrentUser: false
       }
-    ]
+    ],
+    analytics: {
+      impressions: 6240,
+      reach: 4350,
+      engagements: 340,
+      engagementRate: '6.1%',
+      reactionsBreakdown: { likes: 98, hearts: 10, insightful: 4 },
+      commentsCount: 2,
+      repliesCount: 0,
+      sharesCount: 34,
+      profileClicks: 148,
+      bookingsGenerated: 9,
+      revenueGenerated: 14391,
+      topAudienceTitles: [
+        { title: 'AI / ML Engineer', percentage: 48 },
+        { title: 'Data Scientist', percentage: 28 },
+        { title: 'Principal Researcher', percentage: 14 },
+        { title: 'Software Engineer', percentage: 10 }
+      ],
+      topAudienceCompanies: [
+        { company: 'Qualcomm', percentage: 26 },
+        { company: 'NVIDIA', percentage: 22 },
+        { company: 'Google', percentage: 18 },
+        { company: 'Fractal', percentage: 14 }
+      ],
+      topLocations: [
+        { city: 'Bengaluru', percentage: 46 },
+        { city: 'Hyderabad', percentage: 32 },
+        { city: 'Chennai', percentage: 12 }
+      ]
+    }
   },
   {
     id: 'post-4',
@@ -496,7 +588,38 @@ Comment your current tech stack or career stage, and I will share recommended PM
         likesCount: 7,
         likedByCurrentUser: false
       }
-    ]
+    ],
+    analytics: {
+      impressions: 5120,
+      reach: 3480,
+      engagements: 278,
+      engagementRate: '5.8%',
+      reactionsBreakdown: { likes: 66, hearts: 7, insightful: 3 },
+      commentsCount: 1,
+      repliesCount: 0,
+      sharesCount: 15,
+      profileClicks: 84,
+      bookingsGenerated: 5,
+      revenueGenerated: 4495,
+      topAudienceTitles: [
+        { title: 'Senior Software Engineer (Transitioning to PM)', percentage: 44 },
+        { title: 'Associate Product Manager', percentage: 28 },
+        { title: 'Engineering Manager', percentage: 16 },
+        { title: 'Technical Lead', percentage: 12 }
+      ],
+      topAudienceCompanies: [
+        { company: 'Shine (HT Media)', percentage: 20 },
+        { company: 'Paytm', percentage: 18 },
+        { company: 'Flipkart', percentage: 16 },
+        { company: 'Wipro', percentage: 14 },
+        { company: 'TCS', percentage: 12 }
+      ],
+      topLocations: [
+        { city: 'Bengaluru', percentage: 44 },
+        { city: 'Delhi NCR', percentage: 28 },
+        { city: 'Mumbai', percentage: 18 }
+      ]
+    }
   }
 ];
 
@@ -1088,9 +1211,35 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       tags: postData.tags.length > 0 ? postData.tags : ['Career Guidance', 'Tech Transition'],
       createdAt: 'Just now',
       likesCount: 0,
-      likedByCurrentUser: false,
       commentsCount: 0,
-      comments: []
+      comments: [],
+      analytics: {
+        impressions: 48,
+        reach: 36,
+        engagements: 2,
+        engagementRate: '4.2%',
+        reactionsBreakdown: { likes: 0, hearts: 0, insightful: 0 },
+        commentsCount: 0,
+        repliesCount: 0,
+        sharesCount: 0,
+        profileClicks: 4,
+        bookingsGenerated: 0,
+        revenueGenerated: 0,
+        topAudienceTitles: [
+          { title: 'Senior Software Engineer', percentage: 50 },
+          { title: 'Product Manager', percentage: 30 },
+          { title: 'Tech Lead', percentage: 20 }
+        ],
+        topAudienceCompanies: [
+          { company: 'Swiggy', percentage: 40 },
+          { company: 'Amazon', percentage: 35 },
+          { company: 'Razorpay', percentage: 25 }
+        ],
+        topLocations: [
+          { city: 'Bengaluru', percentage: 65 },
+          { city: 'Delhi NCR', percentage: 35 }
+        ]
+      }
     };
 
     setCommunityPosts(prev => [newPost, ...prev]);

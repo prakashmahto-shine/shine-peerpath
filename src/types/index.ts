@@ -289,6 +289,27 @@ export interface CommunityComment {
   likedByCurrentUser?: boolean;
 }
 
+export interface PostAnalytics {
+  impressions: number;
+  reach: number;
+  engagements: number;
+  engagementRate: string;
+  reactionsBreakdown: {
+    likes: number;
+    hearts: number;
+    insightful: number;
+  };
+  commentsCount: number;
+  repliesCount: number;
+  sharesCount: number;
+  profileClicks: number;
+  bookingsGenerated: number;
+  revenueGenerated: number;
+  topAudienceTitles: { title: string; percentage: number }[];
+  topAudienceCompanies: { company: string; percentage: number }[];
+  topLocations: { city: string; percentage: number }[];
+}
+
 export interface CommunityPost {
   id: string;
   mentorId: string;
@@ -304,6 +325,7 @@ export interface CommunityPost {
   likedByCurrentUser?: boolean;
   commentsCount: number;
   comments: CommunityComment[];
+  analytics?: PostAnalytics;
 }
 
 export interface CommunityNotification {
