@@ -47,7 +47,7 @@ const candidateReviewsList: CandidateReviewItem[] = [
     date: 'Yesterday, 4:30 PM',
     sessionType: '1:1 Career Transition & Architecture Teardown',
     comment: 'Akash completely transformed my approach to career transitions. The framework shared for handling interview objections and system design was invaluable! Received 2 recruiter calls directly after the badge was synced.',
-    badgeAwarded: 'Tier-1 Frontend & UI Architecture Master',
+    badgeAwarded: 'Advanced Frontend & UI Architecture Master',
     isHelpfulCount: 14
   },
   {
@@ -94,7 +94,7 @@ const candidateReviewsList: CandidateReviewItem[] = [
     date: '15 Aug 2026',
     sessionType: '1:1 Career Transition Call',
     comment: 'Clear roadmap for moving from APM to PM-2 in consumer tech. The framework for metrics and North Star definition is top-notch.',
-    badgeAwarded: 'Tier-1 Product Discovery & GTM',
+    badgeAwarded: 'Advanced Product Discovery & GTM',
     isHelpfulCount: 15
   }
 ];
@@ -198,13 +198,13 @@ export const MentorDashboardView: React.FC = () => {
   const videoFileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [teaserTitle, setTeaserTitle] = useState<string>(
-    userProfile.mentorTeaserVideo?.title || 'How I Help Candidates Transition to Tier-1 Product & Architecture Roles (₹30L+ Target)'
+    userProfile.mentorTeaserVideo?.title || 'How I Help Candidates Transition to Top Product & Architecture Roles (₹30L+ Target)'
   );
   const [headlineInput, setHeadlineInput] = useState<string>(
     userProfile.headline || currentUser?.headline || 'Lead Product Manager @ Shine (HT Media) • Ex-Paytm, Flipkart'
   );
   const [bioInput, setBioInput] = useState<string>(
-    userProfile.summary || 'Lead Product Manager at Shine (HT Media) heading Career Multiplier and Peerpath mentorship initiatives. Previously senior PM at Paytm and Flipkart. I mentor high-potential engineers and product thinkers targeting 3x compensation jumps and Tier-1 leadership transitions.'
+    userProfile.summary || 'Lead Product Manager at Shine (HT Media) heading Career Multiplier and Peerpath mentorship initiatives. Previously senior PM at Paytm and Flipkart. I mentor high-potential engineers and product thinkers targeting 3x compensation jumps and leadership transitions.'
   );
   const [skillsList, setSkillsList] = useState<string[]>(
     userProfile.skills && userProfile.skills.length > 0 
@@ -221,7 +221,7 @@ export const MentorDashboardView: React.FC = () => {
       title: '1:1 Career Transition Call',
       duration: '60 Mins',
       tag: 'Deep CV Audit',
-      description: 'In-depth CV teardown, career transition roadmap for 3x jumps, and target tier-1 role gap audit.',
+      description: 'In-depth CV teardown, career transition roadmap for 3x jumps, and target role gap audit.',
       price: userProfile.mentorRate || 999,
       icon: 'video',
       isEnabled: true
@@ -232,7 +232,7 @@ export const MentorDashboardView: React.FC = () => {
       title: 'Mock Interview & Badge',
       duration: '60 Mins',
       tag: 'Skill Assessment',
-      description: 'Rigorous Tier-1 interview simulation. Unlock and issue Shine Verified Recruiter Skill Badge.',
+      description: 'Rigorous technical interview simulation. Unlock and issue Shine Verified Recruiter Skill Badge.',
       price: 1499,
       icon: 'award',
       isEnabled: true
@@ -342,9 +342,9 @@ export const MentorDashboardView: React.FC = () => {
           experienceYears: '4+ Years',
           currentCtc: '₹7.5 LPA',
           targetCtc: '₹22L - ₹34L',
-          targetRole: 'Tier-1 High Growth Tech Lead',
+          targetRole: 'High-Growth Tech Lead',
           skills: ['React.js', 'TypeScript', 'Node.js', 'Redux', 'System Architecture'],
-          summary: `${session.candidateName} is preparing for a transition to Tier-1 product companies. Goal: ${session.candidateGoal || 'CV review & system design mock'}.`
+          summary: `${session.candidateName} is preparing for a transition to top product companies. Goal: ${session.candidateGoal || 'CV review & system design mock'}.`
         },
         gapReport: {
           missingSkills: ['Micro-Frontend Architecture', 'System Scalability', 'Executive Tech Scoping'],
@@ -471,8 +471,8 @@ export const MentorDashboardView: React.FC = () => {
   };
 
   const availableSessionCategories = [
-    { name: '1:1 Career Transition Call', icon: 'video' as const, defaultDuration: '60 Mins', defaultTag: 'Career Strategy', defaultDesc: 'In-depth CV teardown, career transition roadmap for 3x jumps, and target tier-1 role gap audit.' },
-    { name: 'Mock Interview & Badge', icon: 'award' as const, defaultDuration: '60 Mins', defaultTag: 'Skill Assessment', defaultDesc: 'Rigorous Tier-1 interview simulation. Unlock and issue Shine Verified Recruiter Skill Badge.' },
+    { name: '1:1 Career Transition Call', icon: 'video' as const, defaultDuration: '60 Mins', defaultTag: 'Career Strategy', defaultDesc: 'In-depth CV teardown, career transition roadmap for 3x jumps, and target role gap audit.' },
+    { name: 'Mock Interview & Badge', icon: 'award' as const, defaultDuration: '60 Mins', defaultTag: 'Skill Assessment', defaultDesc: 'Rigorous technical interview simulation. Unlock and issue Shine Verified Recruiter Skill Badge.' },
     { name: 'Quick 30-min Resume Audit', icon: 'file' as const, defaultDuration: '30 Mins', defaultTag: 'ATS & Keywords', defaultDesc: 'Rapid review of resume formatting, ATS keywords, and LinkedIn inbound optimization.' },
     { name: 'System Design & Architecture Mock', icon: 'code' as const, defaultDuration: '60 Mins', defaultTag: 'High Scalability', defaultDesc: 'Live system architecture whiteboard teardown, micro-frontend scoping, and concurrency review.' },
     { name: 'Salary Negotiation & Exec Coaching', icon: 'dollar' as const, defaultDuration: '45 Mins', defaultTag: '3x Compensation Jump', defaultDesc: 'Offer letter benchmarking, counter-offer strategy, ESOP evaluation, and executive level negotiation.' },
@@ -573,7 +573,7 @@ export const MentorDashboardView: React.FC = () => {
   const handleCancelProfile = () => {
     setHasTeaserVideo(Boolean(userProfile.mentorTeaserVideo?.url || initialTeaserUrl));
     setTeaserVideoUrl(userProfile.mentorTeaserVideo?.url || initialTeaserUrl);
-    setTeaserTitle(userProfile.mentorTeaserVideo?.title || 'How I Help Candidates Transition to Tier-1 Product & Architecture Roles (₹30L+ Target)');
+    setTeaserTitle(userProfile.mentorTeaserVideo?.title || 'How I Help Candidates Transition to Top Product & Architecture Roles (₹30L+ Target)');
     setHeadlineInput(userProfile.headline || currentUser?.headline || 'Lead Product Manager @ Shine (HT Media) • Ex-Paytm, Flipkart');
     setBioInput(userProfile.summary || 'Lead Product Manager at Shine (HT Media)...');
     setSkillsList(userProfile.skills && userProfile.skills.length > 0 ? userProfile.skills : ['Product Strategy', 'System Architecture', 'Career Fast-Track', 'Mock Interviews', 'PRD Discovery']);
@@ -607,7 +607,7 @@ export const MentorDashboardView: React.FC = () => {
     {
       name: 'Product Leadership Pitch',
       url: 'https://assets.mixkit.co/videos/preview/mixkit-man-working-on-his-laptop-308-large.mp4',
-      title: 'How I Help Candidates Transition to Tier-1 Product & Architecture Roles (₹30L+ Target)'
+      title: 'How I Help Candidates Transition to Top Product & Architecture Roles (₹30L+ Target)'
     },
     {
       name: 'System Architecture Teardown',
@@ -617,7 +617,7 @@ export const MentorDashboardView: React.FC = () => {
     {
       name: '3x Compensation Multiplier',
       url: 'https://assets.mixkit.co/videos/preview/mixkit-young-man-giving-a-speech-at-an-event-42354-large.mp4',
-      title: 'Breaking the Mid-Tier Ceiling: Step-by-Step Salary & Promotion Multiplier'
+      title: 'Breaking the Career Ceiling: Step-by-Step Salary & Promotion Multiplier'
     }
   ];
 
@@ -962,7 +962,7 @@ export const MentorDashboardView: React.FC = () => {
                     <Award size={24} className="text-amber-500" />
                   </div>
                   <div>
-                    <h4 className="sc-outcome-title">Badge Awarded: "Tier-1 Frontend & UI Architecture"</h4>
+                    <h4 className="sc-outcome-title">Badge Awarded: "Advanced Frontend & UI Architecture"</h4>
                     <p className="sc-outcome-notes">
                       "Prakash demonstrated deep understanding of Next.js hydration, Web Vitals profiling, and state caching. Verified for Senior Frontend roles."
                     </p>
@@ -991,7 +991,7 @@ export const MentorDashboardView: React.FC = () => {
                   <div>
                     <h4 className="sc-outcome-title">Badge Awarded: "PRD Scoping & A/B Experimentation"</h4>
                     <p className="sc-outcome-notes">
-                      "Simulated a Tier-1 product mock interview. Clear hypothesis formulation and metric trade-off justification."
+                      "Simulated a top product engineering mock interview. Clear hypothesis formulation and metric trade-off justification."
                     </p>
                   </div>
                 </div>
@@ -1628,7 +1628,7 @@ export const MentorDashboardView: React.FC = () => {
                           className="msp-input-text" 
                           value={teaserTitle}
                           onChange={(e) => setTeaserTitle(e.target.value)}
-                          placeholder="e.g. How I Help Candidates Transition to Tier-1 Product & Architecture Roles (₹30L+ Target)"
+                          placeholder="e.g. How I Help Candidates Transition to Top Product & Architecture Roles (₹30L+ Target)"
                         />
                       </div>
                     </>
@@ -1741,7 +1741,7 @@ export const MentorDashboardView: React.FC = () => {
                   rows={3}
                   value={bioInput}
                   onChange={(e) => setBioInput(e.target.value)}
-                  placeholder="Explain how you guide candidates, evaluate CVs, and prepare them for Tier-1 interviews..."
+                  placeholder="Explain how you guide candidates, evaluate CVs, and prepare them for top product company interviews..."
                 />
               ) : (
                 <div className="msp-readonly-field-box">

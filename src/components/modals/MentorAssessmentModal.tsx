@@ -12,7 +12,7 @@ export const MentorAssessmentModal: React.FC = () => {
   } = useApp();
 
   const [rating, setRating] = useState<number>(5);
-  const [badgeTitle, setBadgeTitle] = useState<string>('Tier-1 UI Architecture & Performance');
+  const [badgeTitle, setBadgeTitle] = useState<string>('Advanced UI Architecture & Performance');
   const [feedbackNotes, setFeedbackNotes] = useState<string>(
     'Prakash demonstrated strong technical clarity in Next.js architecture, component lifecycle optimization, and clean state design. Highly recommended for Senior Frontend roles at top product companies.'
   );

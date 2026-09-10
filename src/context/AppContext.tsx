@@ -101,7 +101,7 @@ interface AppContextType {
 const initialBadges: PeerVerifiedBadge[] = [
   {
     id: 'badge-pm-1',
-    title: 'Tier-1 Frontend & UI Architecture',
+    title: 'Advanced Frontend & UI Architecture',
     subtitle: 'Verified by Akash Jain • Lead Product Manager @ Shine',
     verifierName: 'Akash Jain',
     verifierRole: 'Lead Product Manager',
@@ -168,7 +168,7 @@ const DEFAULT_FALLBACK_EXPERT: Expert = {
   duration: '01:00',
   avatar: '/avatars/akash.jpg',
   videoPoster: '/avatars/akash.jpg',
-  teaserTitle: 'Teaser: Transitioning from SDE-2 to Tier-1 Product Management',
+  teaserTitle: 'Teaser: Transitioning from SDE-2 to High-Impact Product Management',
   skills: ['PRD Writing', 'Product Discovery', 'Growth Metrics', 'A/B Testing'],
   bio: 'Lead PM at Shine managing Career Multiplier & Peerpath.',
   verifiedEmail: 'akash.jain@shine.com',
@@ -272,7 +272,7 @@ const DEFAULT_ACCOUNTS: Record<string, { password: string; account: UserAccount;
       skills: ['React 19', 'Micro-Frontends', 'System Design', 'Module Federation', 'Web Performance'],
       educationDegree: 'B.Tech Computer Science',
       educationCollege: 'NIT Trichy',
-      pastCompany: 'Mid-tier Technology Firm',
+      pastCompany: 'Leading Services Tech Firm',
       pastCompanyRole: 'Senior Software Engineer',
       badges: [],
       isMentor: true,
@@ -289,7 +289,7 @@ const initialSessions: MentorshipSession[] = [
     candidateName: 'Prakash Mahto',
     candidateRole: 'Senior Frontend Engineer',
     candidateAvatar: '/avatars/prakash.jpg',
-    candidateGoal: 'Transition to Top Tier-1 Tech / ₹18L–₹24L target & Mock Interview',
+    candidateGoal: 'Transition to High-Growth Product Roles / ₹18L–₹24L target & Mock Interview',
     date: 'Saturday, 5 Sep 2026',
     timeSlot: '07:00 PM - 08:00 PM',
     status: 'upcoming',
@@ -798,7 +798,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     // Post rubric & badge to backend assessment API
     peerpathApi.submitAssessment(sessionId, {
-      badgeTitle: badgeTitle || 'Tier-1 Peer Verified',
+      badgeTitle: badgeTitle || 'Peer-Verified Skill Badge',
       feedbackNotes: notes,
       rating,
       skillsVerified: ['System Architecture', 'Problem Solving']

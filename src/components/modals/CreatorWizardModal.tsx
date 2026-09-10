@@ -121,7 +121,7 @@ export const CreatorWizardModal: React.FC = () => {
       duration: '01:15',
       avatar: currentUser?.avatar || '/avatars/nisha.jpg',
       videoPoster: currentUser?.avatar || '/avatars/nisha.jpg',
-      teaserTitle: `Teaser: Mastering ${domain} & Cracking Tier-1 Tech`,
+      teaserTitle: `Teaser: Mastering ${domain} & Cracking Top Product Tech`,
       skills: selectedSkills,
       bio,
       verifiedEmail: '@flipkart.com'
@@ -139,7 +139,7 @@ export const CreatorWizardModal: React.FC = () => {
       mentorEarnings: 0,
       mentorTeaserVideo: isVideoUploaded ? {
         url: 'https://assets.mixkit.co/videos/preview/mixkit-man-working-on-his-laptop-308-large.mp4',
-        title: `Teaser: Mastering ${domain} & Cracking Tier-1 Tech`,
+        title: `Teaser: Mastering ${domain} & Cracking Top Product Tech`,
         duration: '01:15 min',
         thumbnail: currentUser?.avatar || '/avatars/nisha.jpg',
         uploadedAt: 'Just now'
@@ -495,9 +495,9 @@ export const CreatorWizardModal: React.FC = () => {
                       <button 
                         type="button" 
                         className="bpc-chip"
-                        onClick={() => handleBioPreset('Specialized in Staff Frontend Architecture & Tier-1 FAANG interview prep.')}
+                        onClick={() => handleBioPreset('Specialized in Staff Frontend Architecture & top product company interview prep.')}
                       >
-                        + FAANG Prep
+                        + Top Tech Prep
                       </button>
                       <button 
                         type="button" 
@@ -578,7 +578,7 @@ export const CreatorWizardModal: React.FC = () => {
                     duration: '45 Mins',
                     badge: 'Most Popular',
                     recPrice: 899,
-                    desc: 'Deep-dive into candidate resume, ATS optimization, and exact skill gaps to reach Tier-1 companies.'
+                    desc: 'Deep-dive into candidate resume, ATS optimization, and exact skill gaps to reach top product companies.'
                   },
                   {
                     title: 'Mock Technical / System Design Interview + Verified Badge',

@@ -2,8 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Compass, Sparkles, Video, User, Clock, MapPin, GraduationCap, 
   Zap, CheckCircle2, ThumbsUp, Check, ArrowRight, TrendingUp,
-  Briefcase, Star, Building2, UserCheck, ChevronRight, Award, Plus, LockOpen, Users,
-  ShieldCheck, Loader2
+  Briefcase, Star, Building2, UserCheck, ChevronRight, ChevronDown, Award, Plus, LockOpen, Users,
+  ShieldCheck, Loader2, BarChart2, Target, Lightbulb, IndianRupee, Wifi, Filter, Info, Cpu, Code, BookOpen
 } from 'lucide-react';
 import { ViewType, Expert, GapAnalysisResult, PathwayTrackKey } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -167,17 +167,39 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
 
   const allTrackKeys: PathwayTrackKey[] = ['arch', 'pm', 'ai', 'search', 'semi'];
 
-  // Dynamically sort tracks by descending currentScore from the API analysis
+  const [filterMode, setFilterMode] = useState<'top' | 'salary' | 'profile' | 'growth' | 'remote' | 'more'>('top');
+
+  // Dynamically sort tracks by descending currentScore or selected filter mode
   const sortedTracks = useMemo(() => {
-    return [...allTrackKeys].sort((a, b) => {
-      const scoreA = pathwayGapResults?.[a]?.currentScore ?? (a === 'arch' ? 78 : a === 'pm' ? 68 : a === 'ai' ? 65 : a === 'search' ? 62 : 55);
-      const scoreB = pathwayGapResults?.[b]?.currentScore ?? (b === 'arch' ? 78 : b === 'pm' ? 68 : b === 'ai' ? 65 : b === 'search' ? 62 : 55);
+    const list = [...allTrackKeys];
+    if (filterMode === 'salary') {
+      const salaryOrder: Record<PathwayTrackKey, number> = { semi: 38, arch: 38, ai: 36, pm: 34, search: 32 };
+      return list.sort((a, b) => (salaryOrder[b] || 0) - (salaryOrder[a] || 0));
+    }
+    if (filterMode === 'profile') {
+      return list.sort((a, b) => {
+        const matchedA = pathwayGapResults?.[a]?.matchedSkills?.length || 3;
+        const matchedB = pathwayGapResults?.[b]?.matchedSkills?.length || 3;
+        return matchedB - matchedA;
+      });
+    }
+    if (filterMode === 'growth') {
+      const growthOrder: Record<PathwayTrackKey, number> = { semi: 570, ai: 550, arch: 520, pm: 480, search: 450 };
+      return list.sort((a, b) => (growthOrder[b] || 0) - (growthOrder[a] || 0));
+    }
+    if (filterMode === 'remote') {
+      const remoteOrder: PathwayTrackKey[] = ['ai', 'arch', 'search', 'pm', 'semi'];
+      return remoteOrder;
+    }
+    return list.sort((a, b) => {
+      const scoreA = pathwayGapResults?.[a]?.currentScore ?? (a === 'semi' ? 77 : a === 'arch' ? 78 : a === 'pm' ? 68 : a === 'ai' ? 65 : 62);
+      const scoreB = pathwayGapResults?.[b]?.currentScore ?? (b === 'semi' ? 77 : b === 'arch' ? 78 : b === 'pm' ? 68 : b === 'ai' ? 65 : 62);
       return scoreB - scoreA; // Descending: highest currentScore first!
     });
-  }, [pathwayGapResults]);
+  }, [pathwayGapResults, filterMode]);
 
-  // Top 3 Recommended Careers for candidate based on API match score
-  const top3Tracks = useMemo(() => sortedTracks.slice(0, 3), [sortedTracks]);
+  // Top 5 Recommended Careers for candidate (or filtered active tab)
+  const displayedTracks = useMemo(() => sortedTracks.slice(0, 5), [sortedTracks]);
 
   const handleOpenMatchingJobs = (trackKey: PathwayTrackKey) => {
     const gap = pathwayGapResults?.[trackKey];
@@ -257,9 +279,32 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
       );
     }
 
+    const MENTOR_VERIFIED_MILESTONES: Record<string, { past: string; current: string; multiplier: string }> = {
+      saheli: { past: 'Senior Frontend Dev @ TCS (₹6.2 LPA)', current: '₹26 LPA Staff Architect @ Razorpay', multiplier: '4.1x Jump' },
+      akash: { past: 'Senior Backend SDE @ InfoEdge (₹8.8 LPA)', current: '₹28.5 LPA Lead PM @ Shine', multiplier: '3.2x Jump' },
+      karthik: { past: 'FPGA Design Engineer @ Wipro (₹7.2 LPA)', current: '₹28 LPA Lead Silicon Lead @ Qualcomm', multiplier: '3.8x Jump' },
+      ishita: { past: 'Full Stack Dev @ Infosys (₹7.5 LPA)', current: '₹32 LPA Senior GenAI Lead @ Swiggy', multiplier: '4.2x Jump' },
+      anirudh: { past: 'Search SDE @ MakeMyTrip (₹11 LPA)', current: '₹34 LPA Principal Search Architect', multiplier: '3.1x Jump' },
+      priya: { past: 'ASIC Engineer @ SmartSoC (₹6.0 LPA)', current: '₹24 LPA Staff ASIC Lead @ TI', multiplier: '4.0x Jump' },
+      rohan: { past: 'Embedded Dev @ L&T TS (₹5.2 LPA)', current: '₹22 LPA Silicon Validation @ Intel', multiplier: '4.2x Jump' },
+      nisha: { past: 'Associate PM @ PolicyBazaar (₹8.0 LPA)', current: '₹26 LPA Senior PM @ Flipkart', multiplier: '3.2x Jump' },
+      pooja: { past: 'Product Analyst @ Swiggy (₹5.5 LPA)', current: '₹21 LPA Product Manager @ Zepto', multiplier: '3.8x Jump' },
+      vikram: { past: 'Backend SDE @ Mindtree (₹6.5 LPA)', current: '₹28 LPA Principal Engineer @ PhonePe', multiplier: '4.3x Jump' }
+    };
+
     const mentorsList: TrackMentorOption[] = (liveCreators && liveCreators.length > 0)
       ? liveCreators.map((m) => {
           const compName = m.creator.company.replace(/\(.*?\)/g, '').trim();
+          const verified = MENTOR_VERIFIED_MILESTONES[m.creator.id];
+          const pastRole = verified 
+            ? verified.past 
+            : (m.creator.trajectory?.role3YearsAgo 
+                ? `${m.creator.trajectory.role3YearsAgo} (${m.creator.trajectory.salary3YearsAgo || '₹7 LPA'})`
+                : 'Software Engineer (₹6.5 LPA)');
+          const jumpRole = verified 
+            ? `${verified.current} • ${verified.multiplier}` 
+            : `Transitioned to ${m.creator.role} @ ${compName} • 3.5x Jump`;
+
           return {
             id: m.creator.id,
             name: m.creator.name,
@@ -268,10 +313,8 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
             role: `${m.creator.role} @ ${compName}`,
             rating: `${m.creator.rating} (${m.creator.reviewsCount})`,
             price: m.creator.price,
-            pastRole: m.creator.trajectory 
-              ? `${m.creator.trajectory.role3YearsAgo} (${m.creator.trajectory.salary3YearsAgo})` 
-              : 'Senior Engineer',
-            jumpRole: `${m.jumpDelta} • ${m.creator.role}`,
+            pastRole: pastRole.trim(),
+            jumpRole: jumpRole.trim(),
             footnote: m.matchReasons?.[0] || m.suggestedSessionGoal || `Get ${m.creator.name.split(' ')[0]}'s transition roadmap`,
             liveTag: `⚡ ${m.trajectorySimilarityScore}% AI Match`
           };
@@ -284,7 +327,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
           <div className="stc-mentor-hero-card" style={{ minHeight: '280px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '32px' }}>
             <Users size={32} className="text-slate-400 mb-2" />
             <strong style={{ fontSize: '14px', color: '#334155' }}>Mentors Currently Being Matched</strong>
-            <span style={{ fontSize: '12px', color: '#64748B', marginTop: '4px' }}>Our AI engine is pairing verified Tier-1 mentors for this vertical.</span>
+            <span style={{ fontSize: '12px', color: '#64748B', marginTop: '4px' }}>Our AI engine is pairing verified industry mentors for this vertical.</span>
           </div>
         </div>
       );
@@ -354,11 +397,11 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
             <div className="stc-mhc-journey-strip">
               <div className="stc-mhc-journey-item">
                 <span className="stc-mhc-j-bullet">📍</span>
-                <span className="stc-mhc-j-text"><strong>Baseline:</strong> {activeMentor.pastRole}</span>
+                <span className="stc-mhc-j-text"><strong>Started As:</strong> {activeMentor.pastRole}</span>
               </div>
               <div className="stc-mhc-journey-item">
                 <span className="stc-mhc-j-bullet">🚀</span>
-                <span className="stc-mhc-j-text"><strong>The Jump:</strong> {activeMentor.jumpRole}</span>
+                <span className="stc-mhc-j-text"><strong>Career Leap:</strong> {activeMentor.jumpRole}</span>
               </div>
             </div>
           </div>
@@ -422,154 +465,327 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
     const remainingCount = Math.max(0, boosterSkills.length - addedCount);
     const isFullyUnlocked = addedCount === boosterSkills.length && boosterSkills.length > 0;
     const baseScore = gap?.currentScore ?? (trackKey === 'arch' ? 78 : trackKey === 'pm' ? 68 : trackKey === 'ai' ? 65 : trackKey === 'search' ? 62 : 55);
-    const targetScore = gap?.targetScore ?? 95;
+    const targetScore = gap?.targetScore ?? 96;
     const currentScore = Math.min(targetScore, baseScore + Math.round(addedCount * ((targetScore - baseScore) / (boosterSkills.length || 1))));
     const targetRole = gap?.targetRole || (trackBoosterInfo[trackKey]?.targetRole || meta.tabShortLabel);
-    const targetSalary = gap?.targetSalaryPotential || benchmark.tracks[trackKey]?.display || 'Up to ₹36L';
     const openingsCount = meta.openingsCount;
 
+    const targetSalaryDisplay = gap?.targetSalaryPotential || benchmark.tracks[trackKey].display;
+
+    // Get live creators for this track
+    const liveCreators = gap?.recommendedCreators;
+    const MENTOR_VERIFIED_MILESTONES: Record<string, { baseline: string; jump: string }> = {
+      saheli: { baseline: 'Senior Frontend Dev (₹6.2 LPA)', jump: '₹6.2 LPA ➔ ₹26L - ₹32L • Staff UI Architect' },
+      akash: { baseline: 'Senior Backend Engineer (₹8.8 LPA)', jump: '₹8.8 LPA ➔ ₹22L - ₹34L • Lead Product Manager' },
+      karthik: { baseline: 'FPGA Design Engineer (₹7.2 LPA)', jump: '₹7.2 LPA ➔ ₹24L - ₹36L • Lead Silicon Architect' },
+      ishita: { baseline: 'Full Stack Dev (₹7.5 LPA)', jump: '₹7.5 LPA ➔ ₹28L - ₹42L • Senior GenAI Lead' },
+      anirudh: { baseline: 'Search SDE (₹11 LPA)', jump: '₹11 LPA ➔ ₹30L - ₹45L • Principal Search Architect' },
+      priya: { baseline: 'ASIC Engineer (₹6.0 LPA)', jump: '₹6.0 LPA ➔ ₹20L - ₹30L • Staff ASIC Lead' },
+      rohan: { baseline: 'Embedded Dev (₹5.2 LPA)', jump: '₹5.2 LPA ➔ ₹18L - ₹28L • Silicon Validation Lead' },
+      nisha: { baseline: 'Associate PM (₹8.0 LPA)', jump: '₹8.0 LPA ➔ ₹24L - ₹35L • Senior PM' },
+      pooja: { baseline: 'Product Analyst (₹5.5 LPA)', jump: '₹5.5 LPA ➔ ₹18L - ₹26L • Product Manager' },
+      vikram: { baseline: 'Backend SDE (₹6.5 LPA)', jump: '₹6.5 LPA ➔ ₹26L - ₹38L • Principal Engineer' }
+    };
+
+    const TRACK_DEFAULT_MENTORS: Record<PathwayTrackKey, any[]> = {
+      semi: [
+        { id: 'karthik', name: 'Karthik Nambiar', avatar: '/avatars/karthik.jpg', role: 'Lead Silicon Verification Architect @ Qualcomm', rating: 4.9, reviewsCount: 88, price: 1299, baseline: 'FPGA Design Engineer (₹7.2 LPA)', jump: '₹7.2 LPA ➔ ₹24L - ₹36L • Lead Silicon Architect' },
+        { id: 'priya', name: 'Priya Sharma', avatar: '/avatars/priya.jpg', role: 'Staff ASIC Verification Lead @ Intel', rating: 4.88, reviewsCount: 76, price: 1199, baseline: 'ASIC Engineer (₹6.0 LPA)', jump: '₹6.0 LPA ➔ ₹20L - ₹30L • Staff ASIC Lead' },
+        { id: 'rohan', name: 'Rohan Das', avatar: '/avatars/rohan.jpg', role: 'Silicon Validation Lead @ Micron', rating: 4.85, reviewsCount: 64, price: 999, baseline: 'Embedded Dev (₹5.2 LPA)', jump: '₹5.2 LPA ➔ ₹18L - ₹28L • Silicon Validation Lead' }
+      ],
+      arch: [
+        { id: 'saheli', name: 'Saheli Mukherjee', avatar: '/avatars/saheli.jpg', role: 'Staff UI Architect @ Razorpay', rating: 4.9, reviewsCount: 128, price: 999, baseline: 'Senior Frontend Dev (₹6.2 LPA)', jump: '₹6.2 LPA ➔ ₹26L - ₹32L • Staff UI Architect' },
+        { id: 'vikram', name: 'Vikram Malhotra', avatar: '/avatars/vikram.jpg', role: 'Principal Architect @ Flipkart', rating: 4.92, reviewsCount: 95, price: 1499, baseline: 'Backend SDE (₹6.5 LPA)', jump: '₹6.5 LPA ➔ ₹26L - ₹38L • Principal Engineer' },
+        { id: 'akash', name: 'Akash Jain', avatar: '/avatars/akash.jpg', role: 'Lead Product Manager @ Shine', rating: 4.9, reviewsCount: 142, price: 999, baseline: 'Senior Backend Engineer (₹8.8 LPA)', jump: '₹8.8 LPA ➔ ₹22L - ₹34L • Lead Product Manager' }
+      ],
+      pm: [
+        { id: 'akash', name: 'Akash Jain', avatar: '/avatars/akash.jpg', role: 'Lead Product Manager @ Shine', rating: 4.9, reviewsCount: 142, price: 999, baseline: 'Senior Backend Engineer (₹8.8 LPA)', jump: '₹8.8 LPA ➔ ₹22L - ₹34L • Lead Product Manager' },
+        { id: 'nisha', name: 'Nisha Singhania', avatar: '/avatars/nisha.jpg', role: 'Senior Product Manager @ Swiggy', rating: 4.9, reviewsCount: 118, price: 1299, baseline: 'Associate PM (₹8.0 LPA)', jump: '₹8.0 LPA ➔ ₹24L - ₹35L • Senior PM' },
+        { id: 'pooja', name: 'Pooja Hegde', avatar: '/avatars/pooja.jpg', role: 'Group Product Manager @ Zomato', rating: 4.86, reviewsCount: 82, price: 1199, baseline: 'Product Analyst (₹5.5 LPA)', jump: '₹5.5 LPA ➔ ₹18L - ₹26L • Product Manager' }
+      ],
+      ai: [
+        { id: 'ishita', name: 'Ishita Roy', avatar: '/avatars/ishita.jpg', role: 'Senior GenAI Lead @ Swiggy', rating: 4.95, reviewsCount: 112, price: 1599, baseline: 'Full Stack Dev (₹7.5 LPA)', jump: '₹7.5 LPA ➔ ₹28L - ₹42L • Senior GenAI Lead' },
+        { id: 'saheli', name: 'Saheli Mukherjee', avatar: '/avatars/saheli.jpg', role: 'Staff UI Architect @ Razorpay', rating: 4.9, reviewsCount: 128, price: 999, baseline: 'Senior Frontend Dev (₹6.2 LPA)', jump: '₹6.2 LPA ➔ ₹26L - ₹32L • Staff UI Architect' },
+        { id: 'vikram', name: 'Vikram Malhotra', avatar: '/avatars/vikram.jpg', role: 'Principal AI Architect @ Flipkart', rating: 4.92, reviewsCount: 95, price: 1499, baseline: 'Backend SDE (₹6.5 LPA)', jump: '₹6.5 LPA ➔ ₹26L - ₹38L • Principal Engineer' }
+      ],
+      search: [
+        { id: 'anirudh', name: 'Anirudh Rao', avatar: '/avatars/anirudh.jpg', role: 'Principal Search Architect @ Adobe', rating: 4.92, reviewsCount: 94, price: 1499, baseline: 'Search SDE (₹11 LPA)', jump: '₹11 LPA ➔ ₹30L - ₹45L • Principal Search Architect' },
+        { id: 'vikram', name: 'Vikram Malhotra', avatar: '/avatars/vikram.jpg', role: 'Principal Engineer @ Flipkart', rating: 4.92, reviewsCount: 95, price: 1499, baseline: 'Backend SDE (₹6.5 LPA)', jump: '₹6.5 LPA ➔ ₹26L - ₹38L • Principal Engineer' },
+        { id: 'akash', name: 'Akash Jain', avatar: '/avatars/akash.jpg', role: 'Lead Product Manager @ Shine', rating: 4.9, reviewsCount: 142, price: 999, baseline: 'Senior Backend Engineer (₹8.8 LPA)', jump: '₹8.8 LPA ➔ ₹22L - ₹34L • Lead Product Manager' }
+      ]
+    };
+
+    const fallbackMentors = TRACK_DEFAULT_MENTORS[trackKey] || TRACK_DEFAULT_MENTORS.semi;
+
+    const mentorsList = (liveCreators && liveCreators.length >= 3)
+      ? liveCreators.map((m) => {
+          const compName = m.creator.company.replace(/\(.*?\)/g, '').trim();
+          const verified = MENTOR_VERIFIED_MILESTONES[m.creator.id];
+          return {
+            id: m.creator.id,
+            name: m.creator.name,
+            avatar: m.creator.avatar || `/avatars/${m.creator.id}.jpg`,
+            role: `${m.creator.role} @ ${compName}`,
+            rating: m.creator.rating,
+            reviewsCount: m.creator.reviewsCount || 142,
+            price: m.creator.price,
+            baseline: verified?.baseline || `${m.creator.trajectory?.role3YearsAgo || 'Software Engineer'} (${m.creator.trajectory?.salary3YearsAgo || '₹7 LPA'})`,
+            jump: verified?.jump || `${m.creator.trajectory?.salary3YearsAgo || '₹7 LPA'} ➔ ₹22L - ₹34L • ${m.creator.role.split('•')[0].split('@')[0].trim()}`
+          };
+        })
+      : fallbackMentors;
+
+    const activeIdx = Math.min(selectedMentorIndex[trackKey] || 0, mentorsList.length - 1);
+    const activeMentor = mentorsList[activeIdx] || mentorsList[0];
+
+    const getTrackIcon = (key: PathwayTrackKey) => {
+      switch (key) {
+        case 'semi': return <Cpu size={12} className="text-indigo-600" />;
+        case 'arch': return <Code size={12} className="text-purple-600" />;
+        case 'ai': return <Sparkles size={12} className="text-teal-600" />;
+        case 'pm': return <Compass size={12} className="text-amber-600" />;
+        case 'search': return <Target size={12} className="text-blue-600" />;
+        default: return <Cpu size={12} className="text-indigo-600" />;
+      }
+    };
+
+    const getInitials = (name: string) => {
+      const parts = name.trim().split(' ');
+      if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+      return name.slice(0, 1).toUpperCase();
+    };
+
+    const getInitialBg = (idx: number) => {
+      const colors = ['#DBEAFE', '#F3E8FF', '#FFEDD5', '#DCFCE7'];
+      const textColors = ['#1E40AF', '#6B21A8', '#9A3412', '#166534'];
+      return { bg: colors[idx % colors.length], color: textColors[idx % textColors.length] };
+    };
+
+    const mentorCompanies = Array.from(new Set(
+      mentorsList.slice(0, 3).map(m => {
+        if (m.role.includes('@')) return m.role.split('@')[1].trim();
+        if (m.role.includes('•')) return m.role.split('•').pop()?.trim() || 'Top Tech';
+        return 'Top Tech';
+      })
+    )).join(' • ');
+
     return (
-      <div key={trackKey} className="shine-traj-card">
-        <div className="stc-main-layout">
-          {/* Left Column: Role Details, Openings, Current & Target Skills, View Jobs */}
-          <div className="stc-left-col">
-            <div>
-              <div className="stc-meta-top">
-                <span className={`stc-track-pill ${meta.pillColorClass}`}>
-                  Career #{rank} • {meta.trackCategory}
-                </span>
-                <span>•</span>
-                <span className="stc-openings-fire">🔥 {openingsCount}+ Active Openings</span>
-                <span>•</span>
-                <span>Hiring: <strong>{meta.hiringCompanies}</strong></span>
-              </div>
+      <div key={trackKey} className="figma-career-card-v2">
+        {/* LEFT COLUMN: Role Details, CV Verified, Match Progress, Skills to Bridge Row, Action */}
+        <div className="fcc2-left-col">
+          
+          {/* Top Meta Line */}
+          <div className="fcc2-meta-row">
+            <span className="fcc2-track-category-lbl">
+              {meta.trackCategory.toUpperCase()}
+            </span>
+            <span className="fcc2-meta-divider">|</span>
+            <span className="fcc2-openings-tag">💈 {openingsCount}+ openings</span>
+            <span className="fcc2-hiring-tag">{meta.hiringCompanies} +3</span>
+          </div>
 
-              <h3 className="stc-role-title">
-                {userRole} <span className="stc-role-arrow">➔</span> <span className="stc-target-role">{targetRole}</span>
-              </h3>
+          {/* Main Title */}
+          <h3 className="fcc2-role-title">{targetRole}</h3>
+
+          {/* CV Verified Skills */}
+          <div className="fcc2-verified-row">
+            <span className="fcc2-verified-lbl">
+              <Check size={12} strokeWidth={3} className="text-slate-600" /> CV verified
+            </span>
+            <span className="fcc2-verified-skills">
+              {onCvSkills.slice(0, 4).map(s => s.replace(/\(.*?\)/g, '').trim()).join(' • ')}
+            </span>
+          </div>
+
+          {/* Match Progress Bar Section */}
+          <div className="fcc2-progress-section">
+            <div className="fcc2-progress-top">
+              <span className="fcc2-progress-current">
+                {currentScore}% Match
+              </span>
+              <span className="fcc2-progress-target">
+                {targetScore}% Target
+              </span>
             </div>
-
-            <div className="stc-skills-section">
-              <div className="stc-skills-row">
-                <span className="stc-skills-lbl"><CheckCircle2 size={12} className="text-emerald-600" /> On Your CV:</span>
-                <div className="stc-chips-wrap">
-                  {onCvSkills.map((skill, idx) => (
-                    <span key={idx} className="stc-chip-base">{skill}</span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="stc-skills-row">
-                <span className="stc-skills-lbl-booster"><Zap size={12} className="text-amber-500" /> Booster Skills:</span>
-                <div className="stc-chips-wrap">
-                  {boosterSkills.map((skillName, idx) => {
-                    const isAdded = isSkillOnProfile(skillName);
-                    return (
-                      <button 
-                        key={idx}
-                        type="button" 
-                        className={`stc-chip-booster ${isAdded ? 'in-profile' : ''}`}
-                        onClick={() => addSkill(skillName)}
-                        title="Click to add to your profile"
-                      >
-                        {isAdded ? <Check size={11} className="text-emerald-600" /> : <Plus size={11} />}
-                        <span>{skillName}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Premium Profile Match & Fast-Track Unlock Meter */}
-              <div className={`stc-match-meter-inline ${isFullyUnlocked ? 'unlocked' : addedCount > 0 ? 'in-progress' : ''}`}>
-                <div className="stc-mmi-header-row">
-                  {/* Left: Score Progression Cluster */}
-                  <div className="stc-mmi-score-cluster">
-                    <div className="stc-mmi-score-pill current">
-                      <span className="stc-mmi-score-val">{currentScore}%</span>
-                      <span className="stc-mmi-score-lbl">Match</span>
-                    </div>
-
-                    {!isFullyUnlocked && (
-                      <span className="stc-mmi-boost-delta">
-                        <TrendingUp size={10} /> +{targetScore - currentScore}% Boost
-                      </span>
-                    )}
-
-                    <span className="stc-mmi-arrow">➔</span>
-
-                    <div className={`stc-mmi-score-pill target ${isFullyUnlocked ? 'achieved' : ''}`}>
-                      <span className="stc-mmi-score-val">{targetScore}%</span>
-                      <span className="stc-mmi-score-lbl">{isFullyUnlocked ? 'Top Match 🏆' : 'Potential'}</span>
-                    </div>
-                  </div>
-
-                  {/* Right: Recruiter Priority Status Pill */}
-                  <div className={`stc-mmi-status-pill ${isFullyUnlocked ? 'unlocked' : ''}`}>
-                    <Zap size={11} className={isFullyUnlocked ? 'text-emerald-600' : 'text-amber-500'} />
-                    <span>{isFullyUnlocked ? 'Direct Shortlists Active' : '90%+ Fast-Track Cutoff'}</span>
-                  </div>
-                </div>
-
-                {/* Multi-Segment Visual Progress Gauge */}
-                <div className="stc-mmi-gauge-track">
-                  <div 
-                    className="stc-mmi-gauge-fill-current" 
-                    style={{ width: `${Math.min(100, currentScore)}%` }} 
-                  />
-                  {!isFullyUnlocked && (
-                    <div 
-                      className="stc-mmi-gauge-fill-potential" 
-                      style={{ 
-                        left: `${Math.min(100, currentScore)}%`, 
-                        width: `${Math.max(0, Math.min(100, targetScore) - currentScore)}%` 
-                      }} 
-                    />
-                  )}
-                  {/* 90% Benchmark Notch */}
-                  <div className="stc-mmi-cutoff-notch" style={{ left: '90%' }} title="90% Recruiter Shortlist Cutoff" />
-                </div>
-
-                {/* Contextual Action Guidance Micro-Copy */}
-                <div className="stc-mmi-footer-text">
-                  {!isFullyUnlocked && addedCount === 0 && (
-                    <span>Add <strong>{boosterSkills.length} booster skills</strong> above to unlock <strong>{targetScore}% match</strong> & qualify for direct recruiter shortlisting.</span>
-                  )}
-                  {!isFullyUnlocked && addedCount > 0 && (
-                    <span>Score boosted by <strong>+{currentScore - baseScore}%</strong> ({addedCount}/{boosterSkills.length} skills added). Add <strong>{remainingCount} more</strong> to reach <strong>{targetScore}%</strong>!</span>
-                  )}
-                  {isFullyUnlocked && (
-                    <span className="stc-mmi-unlocked-highlight">
-                      <CheckCircle2 size={12} className="text-emerald-600 inline mr-1" />
-                      <strong>100% Boosters Added ({targetScore}% Top Match)!</strong> Direct recruiter shortlisting active across all {openingsCount}+ openings.
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="stc-left-footer">
-              <button 
-                type="button" 
-                className={`btn-stc-jobs ${isFullyUnlocked ? 'unlocked' : ''}`}
-                onClick={() => handleOpenMatchingJobs(trackKey)}
-              >
-                <span className="btn-stc-icon-wrap">
-                  {isFullyUnlocked ? <CheckCircle2 size={13} className="btn-stc-icon-emerald" /> : <Briefcase size={13} className="btn-stc-icon-gold" />}
-                </span>
-                <span className="btn-stc-text">
-                  {isFullyUnlocked ? `View ${openingsCount}+ High-Match Jobs` : `Explore ${openingsCount}+ Matching Jobs`}
-                </span>
-                <span className="btn-stc-pill">
-                  {isFullyUnlocked ? `${targetScore}% Match Active` : targetSalary.replace(' LPA', 'L')}
-                </span>
-                <ChevronRight size={13} className="btn-stc-arrow" />
-              </button>
+            <div className="fcc2-progress-track">
+              <div 
+                className="fcc2-progress-fill" 
+                style={{ width: `${Math.min(100, currentScore)}%` }} 
+              />
             </div>
           </div>
 
-          {/* Right Column: Dedicated Mentor Trajectory Twin Card */}
-          {renderMentorTwinCard(trackKey)}
+          {/* Skills to Bridge Row */}
+          <div className="fcc2-bridge-row-streamlined">
+            <span className="fcc2-brs-label">
+              {boosterSkills.length} SKILLS TO BRIDGE
+            </span>
+            <div className="fcc2-brs-skills">
+              {boosterSkills.map((skillName, idx) => {
+                const isAdded = isSkillOnProfile(skillName);
+                const cleanName = skillName.replace(/\(.*?\)/g, '').trim();
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    className={`fcc2-brs-skill-btn ${isAdded ? 'added' : ''}`}
+                    onClick={() => addSkill(skillName)}
+                    title={isAdded ? 'Skill in your profile' : `Click to add ${cleanName}`}
+                  >
+                    {idx > 0 && <span className="fcc2-brs-dot">•</span>}
+                    <span className="fcc2-brs-name">{cleanName}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Primary Action Button */}
+          <div className="fcc2-action-row">
+            <button 
+              type="button" 
+              className="btn-fcc2-explore-dark"
+              onClick={() => handleOpenMatchingJobs(trackKey)}
+            >
+              <span>Explore {openingsCount}+ matching jobs</span>
+              <ArrowRight size={13} />
+            </button>
+          </div>
+
+        </div>
+
+        {/* RIGHT COLUMN: Mentor Match Column */}
+        <div className="fcc2-right-col">
+          
+          {/* Top Header: MENTOR MATCH & Target Salary */}
+          <div className="fcc2-mentor-header">
+            <span className="fcc2-mch-badge">MENTOR MATCH</span>
+            <span className="fcc2-mch-salary">{targetSalaryDisplay}</span>
+          </div>
+
+          {/* Active Mentor Profile Details */}
+          <div className="fcc2-mentor-profile-box">
+            {/* Top Mentor Row: Avatar / Name / Company / Rating */}
+            <div className="fcc2-mpb-top">
+              <div className="fcc2-mpb-avatar-wrap">
+                {activeMentor.avatar ? (
+                  <img src={activeMentor.avatar} alt={activeMentor.name} className="fcc2-mpb-avatar" />
+                ) : (
+                  <div 
+                    className="fcc2-mpb-initial"
+                    style={{ background: getInitialBg(activeIdx).bg, color: getInitialBg(activeIdx).color }}
+                  >
+                    {getInitials(activeMentor.name)}
+                  </div>
+                )}
+              </div>
+              <div className="fcc2-mpb-meta">
+                <div className="fcc2-mpb-name-row">
+                  <strong className="fcc2-mpb-name">{activeMentor.name}</strong>
+                  <div className="fcc2-mpb-rating">
+                    <Star size={11} fill="#F59E0B" color="#F59E0B" />
+                    <span>{activeMentor.rating} ({activeMentor.reviewsCount})</span>
+                  </div>
+                </div>
+                <div className="fcc2-mpb-role">
+                  {activeMentor.role.includes('@') 
+                    ? `${activeMentor.role.split('@')[0].trim()} • ${activeMentor.role.split('@')[1].trim()}`
+                    : activeMentor.role
+                  }
+                </div>
+              </div>
+            </div>
+
+            {/* Career Proof & Focus Grid */}
+            <div className="fcc2-mpb-grid">
+              <div className="fcc2-mpb-row">
+                <span className="fcc2-mpb-lbl">Career proof</span>
+                <span className="fcc2-mpb-val">
+                  {activeMentor.baseline.replace(/^Baseline:\s*/i, '').split('(')[0].trim()} {activeMentor.jump.includes('➔') ? `₹${activeMentor.baseline.match(/₹[\d.]+\s*LPA/i)?.[0]?.replace('₹', '') || '7.2L'} ➔ ₹${activeMentor.jump.split('➔')[1]?.split('•')[0]?.trim().replace('₹', '') || '24L–₹36L'}` : activeMentor.jump}
+                </span>
+              </div>
+              <div className="fcc2-mpb-row">
+                <span className="fcc2-mpb-lbl">Focus</span>
+                <span className="fcc2-mpb-val">
+                  {boosterSkills.slice(0, 3).map(s => s.replace(/\(.*?\)/g, '').split(' ')[0].trim()).join(' • ')}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* 3 Recommended Mentors Strip */}
+          <div className="fcc2-recommended-mentors-strip">
+            <div className="fcc2-rms-left">
+              <div className="fcc2-rms-bubbles">
+                {mentorsList.slice(0, 3).map((m, idx) => {
+                  const isCurrent = idx === activeIdx;
+                  const colorScheme = getInitialBg(idx);
+                  return (
+                    <button
+                      key={m.id || idx}
+                      type="button"
+                      className={`fcc2-rms-bubble-btn ${isCurrent ? 'active' : ''}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedMentorIndex(prev => ({ ...prev, [trackKey]: idx }));
+                      }}
+                      title={`Review ${m.name}`}
+                      style={{
+                        background: colorScheme.bg,
+                        color: colorScheme.color,
+                        zIndex: 10 - idx
+                      }}
+                    >
+                      <span>{getInitials(m.name)[0]}</span>
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="fcc2-rms-text">
+                <span className="fcc2-rms-title">{mentorsList.length} mentors available</span>
+                <span className="fcc2-rms-subtitle">{mentorCompanies || 'Qualcomm • Intel • Micron'}</span>
+              </div>
+            </div>
+
+            <div className="fcc2-rms-right">
+              {activeIdx < mentorsList.length - 1 ? (
+                <button 
+                  type="button" 
+                  className="fcc2-rms-next-link" 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedMentorIndex(prev => ({
+                      ...prev,
+                      [trackKey]: (activeIdx + 1) % mentorsList.length
+                    }));
+                  }}
+                >
+                  <span>Next</span>
+                  <ArrowRight size={12} />
+                </button>
+              ) : (
+                <button 
+                  type="button" 
+                  className="fcc2-rms-see-more-link" 
+                  onClick={() => onNavigate('experts-view')}
+                >
+                  <span>See more</span>
+                  <ArrowRight size={12} />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Book 1:1 CTA Button */}
+          <button 
+            type="button" 
+            className="btn-fcc2-book-gold"
+            onClick={() => handleBookWithMentor(activeMentor.id)}
+          >
+            <span>Book 1:1 with {activeMentor.name.split(' ')[0]}</span>
+            <ArrowRight size={14} />
+          </button>
+
         </div>
       </div>
     );
@@ -637,204 +853,256 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
         </div>
       )}
       
-      {/* 1. Official Shine-Native Peerpath Hero Banner */}
-      <div className="peerpath-hero-banner">
-        <div className="peerpath-hero-left">
-          <div className="peerpath-tag-pill">
-            <Sparkles size={13} className="text-amber-600" />
-            <span>SHINE PEERPATH • CAREER MULTIPLIER</span>
-          </div>
-
-          <h1 className="peerpath-hero-title">
-            Tailored for {userProfile.name || 'Candidate'} • {userRole} ({userExpYears})
-          </h1>
-
-          <p className="peerpath-hero-desc">
-            Benchmark your current profile against Tier-1 product standards. Acquire high-demand booster skills and prepare 1:1 with verified peer mentors to multiply your salary offers.
-          </p>
-
-          <div className="hero-stats-chips-row">
-            <div className="h-stat-chip chip-growth">
-              <TrendingUp size={13} className="chip-icon-emerald" />
-              <span>Target CTC: <strong>{userTargetSalary}</strong></span>
-            </div>
-            <div className="h-stat-chip chip-jobs">
-              <Briefcase size={13} className="chip-icon-blue" />
-              <span>Active Verified Jobs: <strong>2,850+</strong></span>
-            </div>
-            <div className="h-stat-chip chip-mentors">
-              <UserCheck size={13} className="chip-icon-slate" />
-              <span>Tier-1 Mentors: <strong>500+ Verified</strong></span>
-            </div>
-          </div>
-
-          <div className="hero-cta-buttons">
-            <button 
-              type="button" 
-              className="btn-hero-primary-gold"
-              onClick={scrollToTrajectories}
-            >
-              <TrendingUp size={15} />
-              <span>Explore High-Growth Pathways</span>
-              <ArrowRight size={14} />
-            </button>
-            <button 
-              type="button" 
-              className="btn-hero-glass"
-              onClick={() => onNavigate('experts-view')}
-            >
-              <Video size={14} />
-              <span>1:1 Mock Interviews</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Right Benchmark Summary Card (High-Impact Conversion Anchor) */}
-        <div className="salary-unlock-preview-card">
-          <div className="sup-header">
-            <div className="sup-header-left">
-              <span className="sup-badge">
-                <Sparkles size={11} className="text-amber-400" /> SALARY BENCHMARK
-              </span>
-              <span className="sup-market-live-dot">
-                <span className="sup-live-ping"></span> Live Market Data
-              </span>
-            </div>
-            <span className="sup-role">{userRole}</span>
-          </div>
-
-          <div className="sup-comparison-row">
-            {/* Current Baseline */}
-            <div className="sup-tier current">
-              <span className="sup-tier-label">Current Estimate</span>
-              <span className="sup-tier-val">{userCurrentSalary}</span>
-              <span className="sup-tier-sub">Baseline ({userCoreSkills.split(',').length} Skills)</span>
+      {/* 1. Official Shine Prepare+ Peerpath Hero Banner */}
+      <div className="peerpath-hero-banner-card">
+        <div className="phb-main-grid">
+          {/* Left Column */}
+          <div className="phb-left">
+            {/* Top Tag Pill */}
+            <div className="phb-tag-pill">
+              <Sparkles size={13} className="text-amber-600" />
+              <span className="phb-tag-brand">SHINE PREPARE+</span>
+              <span className="phb-tag-sep">|</span>
+              <span className="phb-tag-sub">CAREER MULTIPLIER</span>
             </div>
 
-            {/* Jump Bridge Indicator */}
-            <div className="sup-arrow">
-              <div className="sup-jump-pill">
-                <TrendingUp size={12} />
-                <strong>{jumpPercentageDisplay}</strong>
-                <span>Jump</span>
+            {/* Main Heading & Candidate Subtitle */}
+            <h1 className="phb-title">
+              Tailored for {userProfile.name || 'Prakash Mahto'}
+            </h1>
+            <div className="phb-role-subtitle">
+              {userRole} • {userExpYears}
+            </div>
+
+            {/* Description */}
+            <p className="phb-desc">
+              Get a personalized roadmap, identify skill gaps, and connect with verified mentors to multiply your salary opportunities.
+            </p>
+
+            {/* 3 Metric Cards Row */}
+            <div className="phb-stats-row">
+              <div className="phb-stat-card">
+                <div className="phb-stat-icon-wrap icon-green">
+                  <TrendingUp size={16} />
+                </div>
+                <div className="phb-stat-info">
+                  <span className="phb-stat-label">Career Leap</span>
+                  <strong className="phb-stat-val val-green">3x – 5x Growth</strong>
+                </div>
+              </div>
+
+              <div className="phb-stat-card">
+                <div className="phb-stat-icon-wrap icon-blue">
+                  <Briefcase size={16} />
+                </div>
+                <div className="phb-stat-info">
+                  <span className="phb-stat-label">Verified Jobs</span>
+                  <strong className="phb-stat-val val-blue">2,800+</strong>
+                </div>
+              </div>
+
+              <div className="phb-stat-card">
+                <div className="phb-stat-icon-wrap icon-purple">
+                  <Users size={16} />
+                </div>
+                <div className="phb-stat-info">
+                  <span className="phb-stat-label">Top Mentors</span>
+                  <strong className="phb-stat-val val-purple">500+ Verified</strong>
+                </div>
               </div>
             </div>
 
-            {/* Peerpath Target Potential (High-Value Focus) */}
-            <div className="sup-tier target">
-              <div className="sup-target-badge-wrap">
-                <span className="sup-target-badge">🔥 TARGET CTC</span>
-              </div>
-              <span className="sup-tier-val sup-target-highlight">{userTargetSalary}</span>
-              <span className="sup-tier-sub sup-booster-sub">With 2 Booster Skills</span>
-            </div>
-          </div>
-
-          {/* Ultra-Compact High-Curiosity Formula Hook */}
-          <div className="sup-hook-pill">
-            <div className="shp-left">
-              <span className="shp-badge">💡 THE FORMULA</span>
-              <span className="shp-text">
-                Add <strong>2 Booster Skills</strong> + <strong>1:1 Mentor Prep</strong> ➔ Unlock <strong>{userTargetSalary}</strong>
-              </span>
-            </div>
-          </div>
-
-          {/* Direct Pathway Activation CTA */}
-          <button 
-            type="button" 
-            className="btn-sup-unlock"
-            onClick={scrollToTrajectories}
-          >
-            <Sparkles size={13} className="text-amber-400" />
-            <span>Unlock Your {userTargetSalary} Roadmap</span>
-            <ArrowRight size={13} />
-          </button>
-
-          {/* Trust Meta */}
-          <div className="sup-trust-row">
-            <span>⚡ 3.4x Faster Shortlisting</span>
-            <span>•</span>
-            <span>2,850+ Direct Openings</span>
-          </div>
-        </div>
-      </div>
-
-      {/* 2 & 3. Lower Section: Curated Opportunity Pathways & Suggested Jobs */}
-      <div className="trajectories-section-header" id="trajectoriesSection">
-        <div className="section-title-wrap">
-          <div className="profile-context-inline">
-            <span className="pci-pill">
-              <Briefcase size={12} className="sparkle-amber" /> RECOMMENDED OPPORTUNITIES • {userRole} ({userExpYears})
-            </span>
-            <span className="pci-bench">
-              Target CTC Potential: <strong>{userTargetSalary}</strong>
-            </span>
-          </div>
-          <h2 className="section-main-title">Curated High-Growth Job Pathways & Opportunities</h2>
-        </div>
-
-        <div className="track-filter-pills">
-          <button 
-            className={`t-pill ${activeTab === 'all' ? 'active' : ''}`} 
-            onClick={() => setActiveTab('all')}
-          >
-            Top 3 Careers <span className="t-pill-count">3</span>
-          </button>
-          {top3Tracks.map((trackKey, idx) => {
-            const meta = TRACKS_METADATA[trackKey];
-            const gap = pathwayGapResults?.[trackKey];
-            const salary = (gap?.targetSalaryPotential || benchmark.tracks[trackKey]?.display || 'Up to ₹36L').replace(' LPA', 'L');
-            const score = gap?.currentScore ?? (trackKey === 'arch' ? 78 : trackKey === 'pm' ? 68 : trackKey === 'ai' ? 65 : trackKey === 'search' ? 62 : 55);
-            return (
-              <button
-                key={trackKey}
-                className={`t-pill ${activeTab === trackKey ? 'active' : ''}`}
-                onClick={() => setActiveTab(trackKey)}
+            {/* CTA Buttons Row */}
+            <div className="phb-actions-row">
+              <button 
+                type="button" 
+                className="btn-phb-primary"
+                onClick={scrollToTrajectories}
               >
-                {idx + 1}. {meta.tabShortLabel} <span className="t-pill-salary">{salary}</span>
-                <span style={{ fontSize: '10px', opacity: 0.85, marginLeft: '4px' }}>({score}%)</span>
+                <span>Explore High-Growth Pathways</span>
+                <ArrowRight size={15} />
               </button>
-            );
-          })}
+              <button 
+                type="button" 
+                className="btn-phb-mock"
+                onClick={() => onNavigate('experts-view')}
+              >
+                <Video size={15} />
+                <span>1:1 Mock Interviews</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Right Column: Salary Benchmark Stack */}
+          <div className="phb-right">
+            {/* Benchmark Header */}
+            <div className="phb-bench-header">
+              <div className="phb-bench-title">
+                <div className="phb-bench-icon-badge">
+                  <BarChart2 size={13} />
+                </div>
+                <span>Salary Benchmark</span>
+              </div>
+              <div className="phb-market-select">
+                <span>India Market</span>
+                <ChevronDown size={14} />
+              </div>
+            </div>
+
+            {/* Stack Card 1: Current Salary & Growth Potential with vertical divider */}
+            <div className="phb-card-current">
+              <div className="pcc-left">
+                <span className="pcc-label">Current Salary</span>
+                <span className="pcc-val">{userCurrentSalary}</span>
+                <span className="pcc-sub">Based on your profile</span>
+              </div>
+              <div className="pcc-divider" />
+              <div className="pcc-right">
+                <div className="pcc-arrow-circle">
+                  <TrendingUp size={16} />
+                </div>
+                <div className="pcc-growth-info">
+                  <span className="pcc-growth-val">
+                    {jumpPercentageDisplay.startsWith('+') ? jumpPercentageDisplay : `+${jumpPercentageDisplay}`}
+                  </span>
+                  <span className="pcc-growth-lbl">Growth Potential</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Stack Card 2: Target Horizon & Bandwidth */}
+            <div className="phb-card-target" onClick={scrollToTrajectories}>
+              <div className="pct-icon-wrap">
+                <Target size={22} className="text-emerald-600" />
+              </div>
+              <div className="pct-info">
+                <div className="pct-top-row">
+                  <span className="pct-label">Target Potential:</span>
+                  <strong className="pct-val">₹24L – ₹42L+</strong>
+                </div>
+                <span className="pct-sub">Across 5 matched high-growth pathways</span>
+              </div>
+              <ChevronRight size={16} className="pct-arrow" />
+            </div>
+
+            {/* Stack Card 3: The Formula */}
+            <div className="phb-card-formula" onClick={scrollToTrajectories}>
+              <div className="pcf-icon-wrap">
+                <Lightbulb size={18} className="text-amber-500" />
+              </div>
+              <div className="pcf-text">
+                <strong className="pcf-title">The Career Jump Formula</strong>
+                <span className="pcf-desc">
+                  Bridge 3 skill gaps + 1:1 mentor prep ➔ Qualify for direct recruiter shortlists
+                </span>
+              </div>
+              <ChevronRight size={16} className="pcf-arrow" />
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* 4. Trajectory Cards Stack: Dynamically mapped TOP 3 Highest-Growth Career Pathways in descending order of currentScore */}
+      {/* 2. Opportunities Upper Section Header */}
+      <div className="trajectories-upper-section" id="trajectoriesSection">
+        {/* Main Title Row */}
+        <div className="traj-main-title-row">
+          <div className="traj-title-block">
+            <h2 className="traj-main-heading">Curated High-Growth Job Pathways &amp; Opportunities</h2>
+            <p className="traj-sub-heading">Personalized roles, skill gaps, and mentor guidance to accelerate your career.</p>
+          </div>
+        </div>
+
+        {/* Filter Pills Row */}
+        <div className="traj-filter-pills-row">
+          <button 
+            type="button"
+            className={`traj-pill-btn ${filterMode === 'top' ? 'active' : ''}`}
+            onClick={() => setFilterMode('top')}
+          >
+            <Target size={13} className="mr-1.5" />
+            <span>Top 5 for you</span>
+            <span className="traj-pill-count">5</span>
+          </button>
+
+          <button 
+            type="button"
+            className={`traj-pill-btn ${filterMode === 'salary' ? 'active' : ''}`}
+            onClick={() => setFilterMode('salary')}
+          >
+            <IndianRupee size={12} className="mr-1.5" />
+            <span>Highest Salary</span>
+          </button>
+
+          <button 
+            type="button"
+            className={`traj-pill-btn ${filterMode === 'profile' ? 'active' : ''}`}
+            onClick={() => setFilterMode('profile')}
+          >
+            <User size={13} className="mr-1.5" />
+            <span>Closest to Profile</span>
+          </button>
+
+          <button 
+            type="button"
+            className={`traj-pill-btn ${filterMode === 'growth' ? 'active' : ''}`}
+            onClick={() => setFilterMode('growth')}
+          >
+            <Zap size={13} className="mr-1.5" />
+            <span>Fastest Growth</span>
+          </button>
+
+          <button 
+            type="button"
+            className={`traj-pill-btn ${filterMode === 'remote' ? 'active' : ''}`}
+            onClick={() => setFilterMode('remote')}
+          >
+            <Wifi size={13} className="mr-1.5" />
+            <span>Remote Friendly</span>
+          </button>
+
+          <button 
+            type="button"
+            className="traj-pill-btn"
+            onClick={() => setFilterMode(prev => prev === 'more' ? 'top' : 'more')}
+          >
+            <Filter size={12} className="mr-1.5" />
+            <span>More Filters</span>
+            <ChevronDown size={12} className="ml-1 opacity-70" />
+          </button>
+        </div>
+      </div>
+
+      {/* 3. Trajectory Cards Stack: Dynamically mapped Recommended Career Pathways */}
       <div className="trajectories-cards-stack">
-        {activeTab === 'all' ? (
-          top3Tracks.map((trackKey, idx) => (
-            <React.Fragment key={trackKey}>
-              {renderCareerCard(trackKey, idx + 1)}
-              {/* Clean, Visual Mid-Feed Mentorship Banner after Career #1 */}
-              {idx === 0 && (
-                <div className="peerpath-mid-feed-banner">
-                  <div className="pmf-left">
-                    <div className="pmf-avatars-row">
-                      <img src="/avatars/saheli.jpg" alt="Saheli" className="pmf-avatar" />
-                      <img src="/avatars/akash.jpg" alt="Akash" className="pmf-avatar" />
-                      <img src="/avatars/ishita.jpg" alt="Ishita" className="pmf-avatar" />
-                      <span className="pmf-online-dot"></span>
-                    </div>
-                    <div className="pmf-text-block">
-                      <h3 className="pmf-title">Want 1:1 Interview Prep & Direct Referrals?</h3>
-                      <div className="pmf-benefits-row">
-                        <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Resume Review</span>
-                        <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Mock Interview</span>
-                        <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Direct Referrals</span>
-                      </div>
+        {displayedTracks.map((trackKey, idx) => (
+          <React.Fragment key={trackKey}>
+            {renderCareerCard(trackKey, idx + 1)}
+            {/* Clean, Visual Mid-Feed Mentorship Banner after Career #1 */}
+            {idx === 0 && (
+              <div className="peerpath-mid-feed-banner">
+                <div className="pmf-left">
+                  <div className="pmf-avatars-row">
+                    <img src="/avatars/saheli.jpg" alt="Saheli" className="pmf-avatar" />
+                    <img src="/avatars/akash.jpg" alt="Akash" className="pmf-avatar" />
+                    <img src="/avatars/ishita.jpg" alt="Ishita" className="pmf-avatar" />
+                    <span className="pmf-online-dot"></span>
+                  </div>
+                  <div className="pmf-text-block">
+                    <h3 className="pmf-title">Want 1:1 Interview Prep &amp; Direct Referrals?</h3>
+                    <div className="pmf-benefits-row">
+                      <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Resume Review</span>
+                      <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Mock Interview</span>
+                      <span className="pmf-benefit-chip"><CheckCircle2 size={13} className="text-emerald-600" /> Direct Referrals</span>
                     </div>
                   </div>
-                  <button className="btn-shine-gold-lg pmf-cta-btn" onClick={() => onNavigate('experts-view')}>
-                    Explore Mentors <ArrowRight size={16} />
-                  </button>
                 </div>
-              )}
-            </React.Fragment>
-          ))
-        ) : (
-          renderCareerCard(activeTab, top3Tracks.indexOf(activeTab) + 1 || 1)
-        )}
+                <button className="btn-shine-gold-lg pmf-cta-btn" onClick={() => onNavigate('experts-view')}>
+                  Explore Mentors <ArrowRight size={16} />
+                </button>
+              </div>
+            )}
+          </React.Fragment>
+        ))}
       </div>
 
       {/* 5. Bottom Mentorship Acceleration CTA */}

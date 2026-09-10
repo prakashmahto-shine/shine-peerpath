@@ -77,7 +77,7 @@ export class TrajectoryService {
       return {
         creator,
         trajectorySimilarityScore: normalizedScore,
-        jumpDelta: `${creator.trajectory.salary3YearsAgo} ➔ ${creator.price ? '₹22L - ₹34L' : '₹26L'}`,
+        jumpDelta: `Transitioned to ${creator.role} @ ${creator.company.replace(/\(.*?\)/g, '').trim()}`,
         matchReasons,
         criticalBoosterSkills: missingBridgeSkills.length > 0 ? missingBridgeSkills : creator.skills.slice(0, 3),
         suggestedSessionGoal: `1:1 CV Teardown & Transition Strategy into ${creator.role} at ${creator.company}`

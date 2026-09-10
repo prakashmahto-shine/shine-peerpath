@@ -515,10 +515,10 @@ export const JobsView: React.FC<JobsViewProps> = ({
               <div className="spe-body">
                 <div className="spe-main-content">
                   <h3 className="spe-title">
-                    ⚡ Fast-Track Recruiter Shortlist: Boost Your Match from 42% to 95%
+                    ⚡ Fast-Track Recruiter Shortlist: Bridge Your Skill Gaps to Reach 95% Match
                   </h3>
                   <div className="spe-missing-chips">
-                    <span className="spe-req-label">Priority Booster Skills:</span>
+                    <span className="spe-req-label">Identified Skill Gaps for this Role:</span>
                     {missingBoosterSkills.map((skillName, idx) => (
                       <span key={idx} className="spe-missing-chip">
                         + {skillName}
@@ -526,7 +526,7 @@ export const JobsView: React.FC<JobsViewProps> = ({
                     ))}
                   </div>
                   <p className="spe-desc">
-                    All openings below are active and open. Top hiring teams at Swiggy, Razorpay & PhonePe prioritize applicants with these {missingBoosterSkills.length} booster skills. Add them to skip standard ATS queues and unlock 1-click recruiter shortlisting.
+                    All openings below are active and open. Top hiring teams at Swiggy, Razorpay & PhonePe prioritize applicants who bridge these {missingBoosterSkills.length} identified skill gaps. Complete them with verified mentors to skip standard ATS queues and unlock 1-click recruiter shortlisting.
                   </p>
                 </div>
 
@@ -536,7 +536,7 @@ export const JobsView: React.FC<JobsViewProps> = ({
                     className="btn-spe-add-now"
                     onClick={handleQuickAddSkills}
                   >
-                    <span>+ Add {missingBoosterSkills.length} Skills for Fast-Track Shortlist</span>
+                    <span>+ Bridge {missingBoosterSkills.length} Skill Gaps for Fast-Track Shortlist</span>
                   </button>
 
                   <button 

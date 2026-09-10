@@ -124,7 +124,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     duration: '01:00',
     avatar: '/avatars/akash.jpg',
     videoPoster: '/avatars/akash.jpg',
-    teaserTitle: 'Teaser: Transitioning from SDE-2 to Tier-1 Product Management',
+    teaserTitle: 'Teaser: Transitioning from SDE-2 to High-Impact Product Management',
     skills: ['PRD Writing', 'Product Discovery', 'Growth Metrics', 'A/B Testing'],
     bio: 'Lead PM at Shine managing Career Multiplier & Peerpath.',
     verifiedEmail: 'akash.jain@shine.com',
@@ -134,7 +134,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const expertName = expert?.name || 'Mentor';
   const expertAvatar = expert?.avatar || '/avatars/akash.jpg';
   const expertRole = expert?.role || 'Tech Leader';
-  const expertCompany = expert?.company || 'Top Tier Tech';
+  const expertCompany = expert?.company || 'Top Tech Product Firm';
   const expertPrice = expert?.price || 999;
   const expertRating = expert?.rating || 4.9;
   const expertReviewsCount = expert?.reviewsCount || 100;

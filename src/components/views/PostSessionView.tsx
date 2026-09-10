@@ -44,7 +44,7 @@ export const PostSessionView: React.FC = () => {
   const handleCopyLink = () => {
     navigator.clipboard?.writeText(verificationUrl);
     setCopiedLink(true);
-    showToast('📋 Credential Link Copied!', 'Attach this link to your CV on Naukri, Indeed or LinkedIn for instant recruiter verification.', 'success');
+    showToast('📋 Credential Link Copied!', 'Attach this link to your Resume, CV, or LinkedIn for instant recruiter verification.', 'success');
     setTimeout(() => setCopiedLink(false), 3000);
   };
 
@@ -168,10 +168,10 @@ export const PostSessionView: React.FC = () => {
                 type="button" 
                 className="btn-cert-copy-link" 
                 onClick={handleCopyLink}
-                title="Copy verifiable URL to paste on Naukri/CV"
+                title="Copy verifiable credential link for your Resume or CV"
               >
                 {copiedLink ? <CheckCircle2 size={14} className="text-emerald-500" /> : <Copy size={14} />}
-                <span>{copiedLink ? 'Link Copied!' : 'Copy for Naukri / CV'}</span>
+                <span>{copiedLink ? 'Link Copied!' : 'Copy Link for Resume / CV'}</span>
               </button>
 
               <button 

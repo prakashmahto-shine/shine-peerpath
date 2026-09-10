@@ -183,12 +183,10 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
             <div className="video-top-bar">
               <span className="video-badge-pill"><Film size={14} /> Trajectory Teaser</span>
               <span className="video-duration-pill">{expert.duration || '01:15'}</span>
-            </div>
-
-            <div className="video-bottom-controls">
+            </div><div className="video-bottom-controls">
               <div className="video-caption-text">
                 <h4>{expert.teaserTitle || `Teaser: How I Grew in ${expert.domain || 'Tech'}`}</h4>
-                <p>Learn how {mentorFirstName} broke into Tier-1 product engineering and fast-tracked compensation.</p>
+                <p>Learn how {mentorFirstName} transitioned into top product engineering and fast-tracked compensation.</p>
               </div>
             </div>
           </div>
@@ -217,7 +215,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                 <ul className="ep-checklist">
                   <li>Career transition roadmap into {expert.domain || 'Target Role'}</li>
                   <li>Core skills, metrics, and interview strategies</li>
-                  <li>Live mock interview with Tier-1 enterprise rubrics</li>
+                  <li>Live mock interview with production-grade rubrics</li>
                   <li>Internal referral review for qualified candidates</li>
                 </ul>
               </div>
@@ -233,8 +231,8 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                 <div className="highlight-info-card">
                   <div className="h-card-icon"><Award size={20} /></div>
                   <div>
-                    <strong>Verified Credential</strong>
-                    <p>Issues Shine Recruiter Peer Badge</p>
+                    <strong>Rating & Reviews</strong>
+                    <p>{expert.rating || '4.9'} ({expert.reviewsCount || 0} reviews)</p>
                   </div>
                 </div>
                 <div className="highlight-info-card">
@@ -250,12 +248,12 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
 
           {activeTab === 'trajectory' && (
             <div>
-              <h3 className="pane-title">Verified Career Trajectory</h3>
-              <p className="pane-body-text">This trajectory is verified against Shine's employment database and work-domain records.</p>
+              <h3 className="pane-title">Verified Career Trajectory Roadmap</h3>
+              <p className="pane-body-text">See how this mentor achieved a 3x compensation leap and the specific skills mastered along the way.</p>
               
-              <div className="timeline-stepper">
-                <div className="timeline-node current">
-                  <div className="node-marker"><Briefcase size={12} /></div>
+              <div className="career-trajectory-timeline mt-4">
+                <div className="timeline-node active">
+                  <div className="node-marker"><CircleDot size={12} /></div>
                   <div className="node-content">
                     <span className="node-year">2022 — Present</span>
                     <h4>{expert.role} — {expert.company}</h4>
@@ -266,7 +264,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                   <div className="node-marker"><CircleDot size={12} /></div>
                   <div className="node-content">
                     <span className="node-year">2020 — 2022</span>
-                    <h4>{expert.trajectory?.role3YearsAgo || 'Senior Engineer'} — {expert.trajectory?.company3YearsAgo || 'Mid-tier Company'}</h4>
+                    <h4>{expert.trajectory?.role3YearsAgo || 'Senior Engineer'} — {expert.trajectory?.company3YearsAgo || 'Growth Tech Firm'}</h4>
                     <p>Mastered key jump skills: {(expert.trajectory?.keyJumpSkills || skillsList.slice(0, 3)).join(', ')}.</p>
                   </div>
                 </div>
@@ -304,7 +302,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                     <h4>Mock Interview & Recruiter Badge Assessment</h4>
                     <span className="st-price">₹{(expert.price || 999) + 500}</span>
                   </div>
-                  <p className="st-desc">Real interview simulation using Tier-1 hiring rubric. Successful completion unlocks your Shine Recruiter Shield Badge.</p>
+                  <p className="st-desc">Real interview simulation using production-grade hiring rubric. Successful completion unlocks your Shine Recruiter Shield Badge.</p>
                   <div className="st-meta"><span><Clock size={14} /> 60 Mins</span> <span><Shield size={14} /> Includes Badge</span></div>
                   {isSelf ? (
                     <button className="btn-shine-gold w-100 mt-3" onClick={() => navigateToCreatorStudio('pricing')}>Manage Session Details & Pricing</button>
@@ -326,7 +324,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                       <div className="rev-avatar">RK</div>
                       <div>
                         <strong>Rahul Kapoor</strong>
-                        <span>Transitioned to Tier-1 Tech</span>
+                        <span>Transitioned to Top Product Tech</span>
                       </div>
                     </div>
                     <div className="rev-rating"><Star size={14} className="star-gold" /> 5.0</div>

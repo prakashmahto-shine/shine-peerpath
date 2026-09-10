@@ -169,7 +169,7 @@ export const ProfileView: React.FC = () => {
   const handleCopyBadgeLink = (badge: PeerVerifiedBadge) => {
     const link = badge.verificationUrl || `https://shine.com/verify/${badge.credentialId || 'SH-PP-84920'}`;
     navigator.clipboard?.writeText(link);
-    showToast('📋 Credential Link Copied!', 'Attach this link to your CV on Naukri, Indeed or LinkedIn for instant recruiter verification.', 'success');
+    showToast('📋 Credential Link Copied!', 'Attach this link to your Resume, CV, or LinkedIn for instant recruiter verification.', 'success');
   };
 
   // Blue circular arc calculation
@@ -308,7 +308,7 @@ export const ProfileView: React.FC = () => {
                   <span className="psu-tag-chip">
                     <TrendingUp size={12} /> SALARY TARGET
                   </span>
-                  <span className="psu-growth-badge">{userProfile.isMentor ? 'Leadership Tier' : '3x Growth'}</span>
+                  <span className="psu-growth-badge">{userProfile.isMentor ? 'Executive Leadership' : '3x Growth'}</span>
                 </div>
 
                 <div className="psu-salary-compare-row">
@@ -329,7 +329,7 @@ export const ProfileView: React.FC = () => {
 
                 <p className="psu-simple-desc">
                   {(userProfile.isMentor || currentUser?.isMentorEligible || userProfile.isMentorEligible)
-                    ? 'Executive Leadership Tier • Mentoring peer talent boosts your recruiter spotlight for ₹50L+ VP & Director roles.'
+                    ? 'Executive Leadership Network • Mentoring peer talent boosts your recruiter spotlight for ₹50L+ VP & Director roles.'
                     : 'Learn 1–2 trending skills to reach your target salary.'}
                 </p>
 
@@ -848,10 +848,10 @@ export const ProfileView: React.FC = () => {
                             type="button" 
                             className="btn-v-copy-link"
                             onClick={() => handleCopyBadgeLink(badge)}
-                            title="Copy link to attach on Naukri, Indeed, or Resume"
+                            title="Copy verifiable link to attach on your Resume, CV, or Portfolio"
                           >
                             <Copy size={13} />
-                            <span>Copy Link for Naukri / CV</span>
+                            <span>Copy Link for Resume / CV</span>
                           </button>
                         </div>
                       </div>
