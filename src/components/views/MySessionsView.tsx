@@ -102,7 +102,7 @@ export const MySessionsView: React.FC = () => {
                 onClick={() => navigateToCreatorStudio('bookings')}
               >
                 <Sparkles size={16} />
-                <span>Creator Studio</span>
+                <span>Mentor Studio</span>
               </button>
             </>
           ) : (

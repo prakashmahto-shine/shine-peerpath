@@ -117,7 +117,7 @@ export const ProfileView: React.FC = () => {
               </div>
               <div>
                 <strong>Verified Mentor Profile Active</strong>
-                <p>You are viewing candidate details. Manage your teaser video, availability slots, session rates, and 1:1 calls in Creator Studio.</p>
+                <p>You are viewing candidate details. Manage your teaser video, availability slots, session rates, and 1:1 calls in Mentor Studio.</p>
               </div>
             </div>
             <button 
@@ -125,7 +125,7 @@ export const ProfileView: React.FC = () => {
               className="btn-mab-studio"
               onClick={() => navigateToCreatorStudio('bookings')}
             >
-              <span>⚡ Open Creator Studio Hub</span>
+              <span>⚡ Open Mentor Studio Hub</span>
             </button>
           </div>
         )}

@@ -112,7 +112,7 @@ export const Footer: React.FC = () => {
                   <h4>For Mentors & Creators</h4>
                   <ul className="footer-links-list">
                     <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('guidance-view'); }}>Become a Mentor (0% Fee)</a></li>
-                    <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('mentor-dashboard-view'); }}>Creator Studio Portal</a></li>
+                    <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('mentor-dashboard-view'); }}>Mentor Studio Portal</a></li>
                     <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('sessions-view'); }}>Manage Availability & Calls</a></li>
                     <li><a href="#!">Earnings & Payout Direct Bank Sync</a></li>
                   </ul>

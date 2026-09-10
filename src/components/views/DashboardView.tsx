@@ -290,7 +290,7 @@ export const DashboardView: React.FC = () => {
                     }}
                   >
                     <span className="pccs-icon">{isCreatorMode ? '👤' : '⚡'}</span>
-                    <span className="pccs-label">{isCreatorMode ? 'Switch to Candidate View' : 'Open Creator Studio'}</span>
+                    <span className="pccs-label">{isCreatorMode ? 'Switch to Candidate View' : 'Open Mentor Studio'}</span>
                     <ArrowRight size={12} className="pccs-arrow" />
                   </button>
                 </>
@@ -403,14 +403,14 @@ export const DashboardView: React.FC = () => {
               className="dashboard-mentor-alert-strip paused-creator-strip" 
               onClick={() => {
                 setIsCreatorMode(true);
-                showToast('⚡ Creator Studio Active!', 'Switched back to your Mentor Creator Studio.', 'success');
+                showToast('⚡ Mentor Studio Active!', 'Switched back to your Mentor Studio.', 'success');
                 navigate('mentor-dashboard-view');
               }}
             >
               <div className="dmas-left">
                 <div className="dmas-badge paused-badge">
                   <Zap size={12} className="text-amber-500" />
-                  <span>CREATOR STUDIO • PAUSED</span>
+                  <span>MENTOR STUDIO • PAUSED</span>
                 </div>
                 <div className="dmas-text">
                   <strong>{userProfile.name?.split(' ')[0] || 'Akash'}, your mentor profile is in candidate view:</strong> Mentees can still book your active 1:1 sessions.
@@ -424,11 +424,11 @@ export const DashboardView: React.FC = () => {
                   onClick={(e) => {
                     e.stopPropagation();
                     setIsCreatorMode(true);
-                    showToast('⚡ Creator Studio Active!', 'Switched back to your Mentor Creator Studio.', 'success');
+                    showToast('⚡ Mentor Studio Active!', 'Switched back to your Mentor Studio.', 'success');
                     navigate('mentor-dashboard-view');
                   }}
                 >
-                  <Zap size={13} /> Turn ON Creator Studio <ArrowRight size={13} />
+                  <Zap size={13} /> Turn ON Mentor Studio <ArrowRight size={13} />
                 </button>
               </div>
             </section>

@@ -19,6 +19,28 @@ export const TrajectoryCalibrationModal: React.FC = () => {
   const [customTargetRole, setCustomTargetRole] = useState<string>('');
   const [currentCtc, setCurrentCtc] = useState<string>(userProfile?.currentCtc || '₹5.5 LPA');
 
+  // Pre-fill fields whenever the calibration modal opens
+  React.useEffect(() => {
+    if (isCalibrationModalOpen && userProfile) {
+      if (userProfile.pastCompanyRole) setCurrentRole(userProfile.pastCompanyRole);
+      else if (userProfile.headline) setCurrentRole(userProfile.headline.split('|')[0]?.trim() || '');
+      if (userProfile.currentCompany || userProfile.pastCompany) setCurrentCompany(userProfile.currentCompany || userProfile.pastCompany || '');
+      if (userProfile.dreamCompany || userProfile.targetCompany) setDreamCompany(userProfile.dreamCompany || userProfile.targetCompany || '');
+      if (userProfile.currentCtc) setCurrentCtc(userProfile.currentCtc);
+      if (userProfile.targetRole) {
+        const tr = userProfile.targetRole.toLowerCase();
+        if (tr.includes('ai') || tr.includes('ml')) setTargetTrack('AI/ML');
+        else if (tr.includes('semi') || tr.includes('vlsi')) setTargetTrack('Semi-conductor');
+        else if (tr.includes('cyber') || tr.includes('sec')) setTargetTrack('Cyber-security');
+        else if (tr.includes('full') || tr.includes('front')) setTargetTrack('Full-stack');
+        else {
+          setTargetTrack('Others');
+          setCustomTargetRole(userProfile.targetRole);
+        }
+      }
+    }
+  }, [isCalibrationModalOpen, userProfile]);
+
   // Dynamic salary leap benchmark based on selected dream track
   const dynamicSalaryData = useMemo(() => {
     switch (targetTrack) {

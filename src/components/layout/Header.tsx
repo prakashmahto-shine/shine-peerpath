@@ -245,7 +245,7 @@ export const Header: React.FC<HeaderProps> = ({
             </form>
           )}
 
-          {/* ⚡ DIRECT NAVBAR CREATOR STUDIO TOGGLE SWITCH (For users with Mentor Access, e.g. Akash & Nisha) */}
+          {/* ⚡ DIRECT NAVBAR MENTOR STUDIO TOGGLE SWITCH (For users with Mentor Access, e.g. Akash & Nisha) */}
           {currentUser && isAlreadyMentor && isPeerpathView && (
             <div
               className={`navbar-creator-toggle-control ${isCreatorMode ? 'is-on' : 'is-off'}`}
@@ -253,8 +253,8 @@ export const Header: React.FC<HeaderProps> = ({
                 const nextMode = !isCreatorMode;
                 setIsCreatorMode(nextMode);
                 showToast(
-                  nextMode ? '⚡ Creator Studio Mode Activated' : '👤 Switched to Candidate View',
-                  nextMode ? 'Opening Creator Studio dashboard & payouts.' : 'Switched to candidate profile & career roadmap.',
+                  nextMode ? '⚡ Mentor Studio Mode Activated' : '👤 Switched to Candidate View',
+                  nextMode ? 'Opening Mentor Studio dashboard & bookings.' : 'Switched to candidate profile & career roadmap.',
                   'info'
                 );
                 if (nextMode) {
@@ -265,11 +265,11 @@ export const Header: React.FC<HeaderProps> = ({
               }}
               role="switch"
               aria-checked={isCreatorMode}
-              title={isCreatorMode ? "Creator Studio is ON (Click to turn OFF)" : "Creator Studio is OFF (Click to turn ON)"}
+              title={isCreatorMode ? "Mentor Studio is ON (Click to turn OFF)" : "Mentor Studio is OFF (Click to turn ON)"}
             >
               <div className="nct-text-wrap">
                 <span className="nct-icon">⚡</span>
-                <span className="nct-label">Creator Studio</span>
+                <span className="nct-label">Mentor Studio</span>
               </div>
               <div className={`nct-toggle-track ${isCreatorMode ? 'track-on' : 'track-off'}`}>
                 <div className="nct-toggle-knob" />
@@ -409,7 +409,7 @@ export const Header: React.FC<HeaderProps> = ({
                   {isAlreadyMentor && isCreatorMode ? (
                     <>
                       <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); navigateToCreatorStudio('bookings'); }}>
-                        <Sparkles size={15} className="text-amber-500" /> <span style={{ fontWeight: 700 }}>Creator Studio Hub</span>
+                        <Sparkles size={15} className="text-amber-500" /> <span style={{ fontWeight: 700 }}>Mentor Studio Hub</span>
                       </a>
                       <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); navigateToCreatorStudio('teaser'); }}>
                         <Film size={15} className="text-purple-600" /> Teaser & Profile Listing

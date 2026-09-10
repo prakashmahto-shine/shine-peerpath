@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Compass, Sparkles, Video, User, Clock, MapPin, GraduationCap, 
   Zap, CheckCircle2, ThumbsUp, Check, ArrowRight, TrendingUp,
-  Briefcase, Star, Building2, UserCheck, ChevronRight, ChevronDown, Award, Plus, LockOpen, Users,
+  Briefcase, Star, Building2, UserCheck, ChevronRight, ChevronDown, Award, Plus, Lock, LockOpen, Users,
   ShieldCheck, Loader2, BarChart2, Target, Lightbulb, IndianRupee, Wifi, Filter, Info, Cpu, Code, BookOpen,
   Calendar, RefreshCw, Layers, ExternalLink, UserPlus, Search, X, SlidersHorizontal
 } from 'lucide-react';
@@ -537,10 +537,10 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
 
   // Automatically trigger Unlock/Calibration modal if candidate is not calibrated
   useEffect(() => {
-    if (!userProfile.isCalibrated && !isCreatorMode && currentUser?.role === 'candidate') {
+    if (!userProfile.isCalibrated && !isCreatorMode) {
       setIsCalibrationModalOpen(true);
     }
-  }, [userProfile.isCalibrated, isCreatorMode, currentUser?.role]);
+  }, [userProfile.isCalibrated, isCreatorMode]);
 
   // Dynamic salary benchmark
   const benchmark = calculateSalaryBenchmark(userProfile.currentCtc, userProfile.targetCtc);
@@ -745,11 +745,47 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
   return (
     <div className="content-wrapper peerpath-guidance-page">
 
+      {/* Sticky Campaign Unlock Banner when Peerpath is Locked */}
+      {!userProfile.isCalibrated && !isCreatorMode && (
+        <div 
+          className="peerpath-locked-unlock-banner"
+          onClick={() => setIsCalibrationModalOpen(true)}
+          title="Click to calibrate your dream career trajectory"
+        >
+          <div className="plub-left">
+            <div className="plub-icon-wrap">
+              <Lock size={26} className="text-amber" />
+            </div>
+            <div className="plub-text-col">
+              <div className="plub-badge-row">
+                <span className="plub-tag">Locked Peerpath</span>
+                <span className="plub-sub-tag">Shine Peerpath Transition Engine</span>
+              </div>
+              <h3 className="plub-title">Calibrate Your Target Career Trajectory</h3>
+              <p className="plub-desc">
+                Unlock verified transition roadmaps, recruiter shortlisting, and 1:1 mentorship from engineers who made your exact career jump.
+              </p>
+            </div>
+          </div>
+
+          <button 
+            type="button" 
+            className="btn-plub-unlock"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsCalibrationModalOpen(true);
+            }}
+          >
+            <Sparkles size={16} /> Unlock Peerpath
+          </button>
+        </div>
+      )}
+
       {/* Main Peerpath Content Flow */}
       <div 
-        className={`peerpath-main-content-flow ${!userProfile.isCalibrated ? 'peerpath-locked-blur' : ''}`}
+        className={`peerpath-main-content-flow ${!userProfile.isCalibrated && !isCreatorMode ? 'peerpath-locked-blur' : ''}`}
         onClick={() => {
-          if (!userProfile.isCalibrated) {
+          if (!userProfile.isCalibrated && !isCreatorMode) {
             setIsCalibrationModalOpen(true);
           }
         }}

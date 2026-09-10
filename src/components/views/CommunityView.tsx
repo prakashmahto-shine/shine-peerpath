@@ -362,7 +362,7 @@ export const CommunityView: React.FC = () => {
               <div className="mentor-posts-analytics-hero">
                 <div className="mpah-top-row">
                   <div className="mpah-title-group">
-                    <span className="mpah-badge"><Sparkles size={11} /> Creator Studio Analytics</span>
+                    <span className="mpah-badge"><Sparkles size={11} /> Mentor Studio Analytics</span>
                     <h3>Your Community Content Reach</h3>
                     <p>Track how your technical insights drive candidate discussions and convert into paid 1:1 bookings.</p>
                   </div>

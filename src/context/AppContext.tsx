@@ -192,7 +192,7 @@ const initialUserProfile: UserProfileData = {
   currentCompany: 'TCS',
   dreamCompany: 'Flipkart',
   targetRole: 'AI/ML (Generative AI & LLMs)',
-  isCalibrated: true
+  isCalibrated: false
 };
 
 const initialBootcamps: BootcampMasterclass[] = [
@@ -720,6 +720,7 @@ const DEFAULT_ACCOUNTS: Record<string, { password: string; account: UserAccount;
       pastCompanyRole: 'Senior Product Manager',
       badges: [],
       isMentor: true,
+      isCalibrated: false,
       email: 'akash.jain@shine.com',
       phone: '+91 98111 22334'
     }
@@ -1529,14 +1530,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       localStorage.removeItem('shine_peerpath_experts');
       localStorage.removeItem('shine_peerpath_sessions');
       localStorage.removeItem('shine_peerpath_profiles_db');
+      localStorage.removeItem('shine_peerpath_creator_mode');
     } catch (e) {
       console.warn('LocalStorage clear error', e);
     }
 
     const freshProfiles: Record<string, UserProfileData> = {
-      prakash: JSON.parse(JSON.stringify(DEFAULT_ACCOUNTS.prakash.profile)),
-      akash: JSON.parse(JSON.stringify(DEFAULT_ACCOUNTS.akash.profile)),
-      nisha: JSON.parse(JSON.stringify(DEFAULT_ACCOUNTS.nisha.profile))
+      prakash: { ...JSON.parse(JSON.stringify(DEFAULT_ACCOUNTS.prakash.profile)), isCalibrated: false },
+      akash: { ...JSON.parse(JSON.stringify(DEFAULT_ACCOUNTS.akash.profile)), isCalibrated: false },
+      nisha: { ...JSON.parse(JSON.stringify(DEFAULT_ACCOUNTS.nisha.profile)), isCalibrated: false }
     };
 
     const freshSessions = JSON.parse(JSON.stringify(initialSessions));
@@ -1551,6 +1553,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const target = targetUsername || currentUser?.username || 'prakash';
     const userToSet = DEFAULT_ACCOUNTS[target]?.account || DEFAULT_ACCOUNTS.prakash.account;
     setCurrentUser(userToSet);
+    setIsCreatorMode(userToSet.role === 'mentor');
 
     try {
       localStorage.setItem('shine_peerpath_current_user', JSON.stringify(userToSet));
