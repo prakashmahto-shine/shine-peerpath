@@ -168,7 +168,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         title: 'Resume & Portfolio Deep-Dive',
         duration: '30 Mins',
         price: Math.max(499, Math.round((base * 0.65) / 50) * 50 - 1),
-        badge: '⚡ Quick Audit',
         desc: 'Line-by-line ATS resume audit, project showcase tuning & keyword boost',
         deliverables: [
           { icon: FileText, title: 'Line-by-Line CV Teardown', desc: 'ATS formatting audit, high-impact bullet points & metrics phrasing' },
@@ -181,7 +180,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         title: '1:1 Career Jump & CTC Strategy',
         duration: '45 Mins',
         price: Math.max(699, Math.round((base * 0.85) / 50) * 50 - 1),
-        badge: '🚀 High ROI',
         desc: 'Step-by-step roadmap to switch domains & negotiate higher CTC offers',
         deliverables: [
           { icon: TrendingUp, title: 'Domain Transition Roadmap', desc: 'Personalized 30-60-90 day skill bridge & interview readiness plan' },
@@ -194,7 +192,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         title: 'Target Referral & Fast-Track',
         duration: '45 Mins',
         price: Math.max(899, Math.round((base * 1.15) / 50) * 50 - 1),
-        badge: '⭐ Direct Intro',
         desc: 'Internal referral prep, hiring round secrets & direct profile endorsement',
         deliverables: [
           { icon: ShieldCheck, title: 'Internal Referral Evaluation', desc: 'Review fitment for active openings at top product firms' },
@@ -309,49 +306,81 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         
         <div className="booking-modal-grid">
           
-          {/* Left Summary Box */}
+          {/* Left Summary Box: Full-Height Mentor Profile Spotlight */}
           <div className="booking-left-summary">
             <div className="bk-sec-header">
-              <h3 className="modal-sec-title">Session Details</h3>
+              <h3 className="modal-sec-title">Mentor Profile</h3>
               <span className="bk-badge-1on1">{activeSession.duration} • 1:1 Live</span>
             </div>
             
-            <div className="bk-expert-summary-box">
-              <div className="bk-avatar-wrap">
-                <img src={expertAvatar} alt={expertName} className="bk-avatar" />
-                <span className="bk-avatar-check"><CheckCircle2 size={12} /></span>
+            <div className="bk-expert-full-profile-card">
+              <div className="bk-fp-avatar-wrap">
+                <img src={expertAvatar} alt={expertName} className="bk-fp-avatar" />
+                <span className="bk-fp-online-badge" title="Active on PeerPath"></span>
               </div>
-              <div className="bk-expert-info">
-                <h4>{expertName}</h4>
-                <p>{expertRole}</p>
-                <span className="bk-company-tag">{expertCompany}</span>
-                <div className="bk-rating-row">
-                  <Star size={12} className="star-gold" />
-                  <strong>{expertRating}</strong>
-                  <span>({expertReviewsCount} reviews)</span>
+
+              <div className="bk-fp-name-block">
+                <div className="bk-fp-name-row">
+                  <h4>{expertName}</h4>
+                  <span className="bk-fp-verified-tag">
+                    <ShieldCheck size={11} /> Verified
+                  </span>
+                </div>
+                <p className="bk-fp-role">{expertRole}</p>
+                <span className="bk-fp-company-tag">@{expertCompany}</span>
+              </div>
+
+              <div className="bk-fp-stats-strip">
+                <div className="bk-fp-stat-item">
+                  <div className="bk-fp-stat-val">
+                    <Star size={12} className="fill-amber-400 text-amber-400" />
+                    <strong>{expertRating}</strong>
+                  </div>
+                  <span>{expertReviewsCount} reviews</span>
+                </div>
+                <div className="bk-fp-stat-divider"></div>
+                <div className="bk-fp-stat-item">
+                  <div className="bk-fp-stat-val">
+                    <Video size={12} className="text-purple-600" />
+                    <strong>{expert.sessionsCount || 140}+</strong>
+                  </div>
+                  <span>1:1 Calls</span>
+                </div>
+                <div className="bk-fp-stat-divider"></div>
+                <div className="bk-fp-stat-item">
+                  <div className="bk-fp-stat-val">
+                    <Award size={12} className="text-emerald-600" />
+                    <strong>{expert.experience || '7+ Yrs'}</strong>
+                  </div>
+                  <span>Experience</span>
                 </div>
               </div>
-            </div>
 
-            {/* Dynamic deliverables for selected session */}
-            <div className="bk-spec-box">
-              {activeSession.deliverables.map((deliv, idx) => {
-                const IconComponent = deliv.icon;
-                return (
-                  <div key={idx} className="bk-spec-item">
-                    <div className="bk-spec-icon-wrap"><IconComponent size={16} /></div>
-                    <div className="bk-spec-text">
-                      <strong>{deliv.title}</strong>
-                      <span>{deliv.desc}</span>
-                    </div>
+              {/* Dynamic Live Booking Recap */}
+              <div className="bk-fp-booking-recap">
+                <div className="bk-recap-row">
+                  <span className="bk-recap-label">Selected Goal</span>
+                  <strong className="bk-recap-val">{activeSession.title}</strong>
+                </div>
+                <div className="bk-recap-row">
+                  <span className="bk-recap-label">Mode & Timing</span>
+                  <div className="bk-recap-tags">
+                    <span className="bk-recap-tag"><Video size={10} className="text-blue-600" /> 1:1 Google Meet</span>
+                    <span className="bk-recap-tag"><Clock size={10} className="text-amber-600" /> {activeSession.duration}</span>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+                <div className="bk-recap-row">
+                  <span className="bk-recap-label">Scheduled Slot</span>
+                  <span className="bk-recap-date">
+                    📅 {activeDateStr} • {(selectedTime || availableSlots[0]?.time || '10:00 AM').split(' - ')[0]}
+                  </span>
+                </div>
+              </div>
 
-            <div className="cancellation-policy-note">
-              <Info size={16} className="text-blue-600 flex-shrink-0" />
-              <span><strong>Free Reschedule:</strong> Up to 6 hours before slot. 100% money back guarantee if session missed.</span>
+              <div className="bk-fp-trust-footer">
+                <Lock size={11} className="text-emerald-600" />
+                <span>100% Confidential • Instant Calendar Invite</span>
+              </div>
             </div>
           </div>
 
@@ -380,22 +409,16 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                         className={`bk-session-card ${isSelected ? 'active' : ''}`}
                         onClick={() => setSelectedSessionId(session.id)}
                       >
-                        <div className="bk-sc-top">
-                          <div className="bk-sc-radio-row">
-                            <span className={`bk-sc-radio ${isSelected ? 'selected' : ''}`}>
-                              {isSelected && <span className="bk-sc-radio-dot" />}
-                            </span>
-                            <strong className="bk-sc-title">{session.title}</strong>
-                          </div>
-                          <div className="bk-sc-price-col">
-                            <span className="bk-sc-dur">{session.duration}</span>
-                            <strong className="bk-sc-price">₹{session.price}</strong>
-                          </div>
+                        <div className="bk-sc-radio-row">
+                          <span className={`bk-sc-radio ${isSelected ? 'selected' : ''}`}>
+                            {isSelected && <span className="bk-sc-radio-dot" />}
+                          </span>
+                          <span className="bk-sc-title">{session.title}</span>
                         </div>
-                        <p className="bk-sc-desc">{session.desc}</p>
-                        {session.badge && (
-                          <span className={`bk-sc-badge ${session.id === 'mock-interview' ? 'badge-hot' : ''}`}>{session.badge}</span>
-                        )}
+                        <div className="bk-sc-price-col">
+                          <span className="bk-sc-dur">{session.duration}</span>
+                          <strong className="bk-sc-price">₹{session.price}</strong>
+                        </div>
                       </button>
                     );
                   })}
@@ -459,106 +482,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     </div>
                   </div>
                 )}
-              </div>
-
-              {/* Step 4: CV Attachment */}
-              <div className="bk-cv-attachment-section">
-                <div className="bk-cv-sec-header">
-                  <label className="bk-field-label">
-                    <FileText size={14} /> 4. Upload Latest CV
-                  </label>
-                  <span className="bk-cv-impact-tag">⚡ Latest CV = 2x Better Guidance</span>
-                </div>
-
-                {/* Clean Single Card */}
-                <div className={`bk-clean-cv-card ${isCvRecentlyUpdated ? 'cv-card-synced' : currentCvName ? 'cv-card-notice' : 'cv-card-empty'}`}>
-                  <input 
-                    ref={fileInputRef}
-                    type="file" 
-                    accept=".pdf,.doc,.docx" 
-                    style={{ display: 'none' }}
-                    onChange={handleFileUpload}
-                  />
-
-                  {/* Left File Info / Status */}
-                  <div className="bk-clean-cv-left">
-                    <div className="bk-clean-file-header">
-                      <div className="bk-clean-file-icon">
-                        {isScanningCv ? (
-                          <RefreshCw size={18} className="text-purple-600 animate-spin" />
-                        ) : isCvRecentlyUpdated ? (
-                          <CheckCircle2 size={18} className="text-emerald-500" />
-                        ) : currentCvName ? (
-                          <FileText size={18} className="text-rose-500" />
-                        ) : (
-                          <UploadCloud size={18} className="text-slate-400" />
-                        )}
-                      </div>
-                      
-                      {currentCvName ? (
-                        <div className="bk-clean-file-meta">
-                          <strong className="bk-clean-filename">{currentCvName}</strong>
-                          <button 
-                            type="button" 
-                            className="btn-clean-remove-cv"
-                            onClick={handleRemoveResume}
-                            disabled={isScanningCv}
-                            title="Remove attached file"
-                            aria-label="Remove attached file"
-                          >
-                            <X size={12} />
-                          </button>
-                        </div>
-                      ) : (
-                        <span className="bk-clean-nofile-lbl">No Resume Attached</span>
-                      )}
-                    </div>
-
-                    {/* Single Line Clean Context / Reason */}
-                    <p className="bk-clean-cv-hint">
-                      {isScanningCv ? (
-                        <span className="text-purple-600 font-medium">⚡ AI scanning skills & creating dossier for {expertName}...</span>
-                      ) : isCvRecentlyUpdated ? (
-                        <span className="text-emerald-600 font-medium">✅ Synced! {expertName} will review your latest skills & projects before the call.</span>
-                      ) : currentCvName ? (
-                        <span className="text-amber-800">⚠️ Needs update: Mentors give <strong>2x better mock & salary advice</strong> with your latest CV.</span>
-                      ) : (
-                        <span className="text-slate-500">Attach your latest CV so {expertName} can prepare tailored guidance for your call.</span>
-                      )}
-                    </p>
-                  </div>
-
-                  {/* Right Action Buttons */}
-                  <div className="bk-clean-cv-right">
-                    <button 
-                      type="button" 
-                      className="btn-clean-upload"
-                      onClick={() => fileInputRef.current?.click()}
-                      disabled={isScanningCv}
-                    >
-                      <UploadCloud size={13} />
-                      <span>{currentCvName ? 'Replace' : 'Upload CV'}</span>
-                    </button>
-
-                    {!isCvRecentlyUpdated && (
-                      <button 
-                        type="button" 
-                        className="btn-clean-fast-demo"
-                        onClick={handleQuickDemoUpload}
-                        title="1-Click AI Demo Resume Upload"
-                      >
-                        <Sparkles size={11} /> Fast Demo
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                <div className="bk-cv-reassurance-row">
-                  <Clock size={12} className="text-amber-600 flex-shrink-0" />
-                  <span>
-                    <strong>Don't have your updated CV right now?</strong> No worries — you can book now and upload anytime before the call via your dashboard or WhatsApp reminder.
-                  </span>
-                </div>
               </div>
 
             </div>
