@@ -130,6 +130,47 @@ export interface UserProfileData {
   } | null;
   hasExpertBadge?: boolean;
   isMentorEligible?: boolean;
+  currentCompany?: string;
+  dreamCompany?: string;
+  isCalibrated?: boolean;
+  calibratedAt?: string;
+}
+
+export interface BootcampMasterclass {
+  id: string;
+  title: string;
+  domain: string;
+  mentorName: string;
+  mentorRole: string;
+  mentorCompany: string;
+  mentorAvatar: string;
+  mentorExCompany?: string;
+  date: string;
+  time: string;
+  duration: string;
+  registeredCount: number;
+  maxCapacity: number;
+  topics: string[];
+  takeaways: string[];
+  isFree: boolean;
+  expertId: string;
+  openSlotsOnEndCount: number;
+}
+
+export interface NamedExpertInvite {
+  mentorName: string;
+  mentorRole: string;
+  mentorCompany: string;
+  mentorExCompany?: string;
+  mentorAvatar: string;
+  domain: string;
+  headline: string;
+  description: string;
+  targetAudience: string;
+  totalSlots: number;
+  remainingSlots: number;
+  price?: number;
+  expertId: string;
 }
 
 export interface UserAccount {

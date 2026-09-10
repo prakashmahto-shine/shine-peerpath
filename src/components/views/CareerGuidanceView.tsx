@@ -3,7 +3,8 @@ import {
   Compass, Sparkles, Video, User, Clock, MapPin, GraduationCap, 
   Zap, CheckCircle2, ThumbsUp, Check, ArrowRight, TrendingUp,
   Briefcase, Star, Building2, UserCheck, ChevronRight, ChevronDown, Award, Plus, LockOpen, Users,
-  ShieldCheck, Loader2, BarChart2, Target, Lightbulb, IndianRupee, Wifi, Filter, Info, Cpu, Code, BookOpen
+  ShieldCheck, Loader2, BarChart2, Target, Lightbulb, IndianRupee, Wifi, Filter, Info, Cpu, Code, BookOpen,
+  Calendar, RefreshCw
 } from 'lucide-react';
 import { ViewType, Expert, GapAnalysisResult, PathwayTrackKey } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -77,6 +78,7 @@ interface CareerGuidanceViewProps {
 export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
   onNavigate,
   onSelectExpert,
+  experts,
 }) => {
   const { 
     userProfile, 
@@ -85,10 +87,34 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
     addSkill, 
     setSelectedJobCategory,
     setPeerpathJobContext,
-    isCreatorMode
+    isCreatorMode,
+    isCalibrationModalOpen,
+    setIsCalibrationModalOpen,
+    bootcamps,
+    registeredBootcampIds,
+    registerForBootcamp,
+    namedExpertInvite,
+    setBookingDraft,
+    setIsBookingModalOpen
   } = useApp();
   const [activeTab, setActiveTab] = useState<'all' | PathwayTrackKey>('all');
   const isMentor = currentUser?.role === 'mentor';
+
+  const handleBookNamedExpert = () => {
+    const targetMentor = (experts && experts.find(e => e.id === namedExpertInvite.expertId)) || (experts && experts[0]);
+    if (setBookingDraft && targetMentor) {
+      setBookingDraft({
+        expert: targetMentor,
+        date: 'Tomorrow, 5 Sep',
+        timeSlot: '10:00 AM - 11:00 AM',
+        attachedCvName: userProfile.resumeFileName || '',
+        sessionType: '1:1 Career Conversation & ML Transition',
+        amount: targetMentor.price || 999,
+        duration: '45 Mins'
+      });
+    }
+    setIsBookingModalOpen(true);
+  };
 
   // Live Backend Pathways Analysis for all domains based on candidate's profile
   const [pathwayGapResults, setPathwayGapResults] = useState<Record<string, GapAnalysisResult> | null>(null);
@@ -794,6 +820,64 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
   return (
     <div className="content-wrapper peerpath-guidance-page">
 
+      {/* Trajectory Calibration Status Bar (Shown ONLY after user has calibrated) */}
+      {userProfile.isCalibrated && (
+        <div className="peerpath-trajectory-status-bar calibrated">
+          <div className="ptsb-left">
+            <span className="ptsb-chip-badge">🎯 CALIBRATED MATCH</span>
+            <div className="ptsb-route">
+              <span className="ptsb-cur">{userProfile.currentCompany || 'Tech Services'}</span>
+              <span className="ptsb-arrow">➔</span>
+              <span className="ptsb-target">{userProfile.dreamCompany || 'Swiggy / Flipkart'}</span>
+              <span className="ptsb-role">({userProfile.targetRole || 'Staff Architect / Senior ML'})</span>
+            </div>
+          </div>
+          <button 
+            type="button" 
+            className="btn-ptsb-recalibrate"
+            onClick={() => setIsCalibrationModalOpen(true)}
+          >
+            <RefreshCw size={12} />
+            <span>Recalibrate (10s)</span>
+          </button>
+        </div>
+      )}
+
+      {/* Locked Campaign Banner when Uncalibrated (Floating above blurred content) */}
+      {!userProfile.isCalibrated && (
+        <div className="peerpath-locked-unlock-banner animate-fade-in" onClick={() => setIsCalibrationModalOpen(true)}>
+          <div className="plub-left">
+            <div className="plub-icon-wrap">
+              <LockOpen size={24} className="text-amber-400 animate-pulse" />
+            </div>
+            <div className="plub-text-col">
+              <div className="plub-badge-row">
+                <span className="plub-tag">🔒 PERSONALIZED PEERPATH LOCKED</span>
+                <span className="plub-sub-tag">⚡ 10-Second Campaign Calibration</span>
+              </div>
+              <h3 className="plub-title">Unlock Verified Transitions from Your Company to Your Dream Target</h3>
+              <p className="plub-desc">
+                Tell us your <strong>Current Role</strong>, <strong>Current Company</strong> &amp; <strong>Dream Company</strong> to reveal matched salary benchmarks, skill gap roadmaps, and 1:1 mentorship twins.
+              </p>
+            </div>
+          </div>
+          <button 
+            type="button" 
+            className="btn-plub-unlock"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsCalibrationModalOpen(true);
+            }}
+          >
+            <span>Unlock My Peerpath (10s)</span>
+            <ArrowRight size={16} />
+          </button>
+        </div>
+      )}
+
+      {/* Main Peerpath Content (Entire view blurred until candidate completes 10s calibration) */}
+      <div className={`peerpath-main-content-flow ${!userProfile.isCalibrated ? 'peerpath-locked-blur' : ''}`}>
+
       {/* Peerpath Top Sub-Nav View Switcher + Become Mentor CTA (Candidate Mode Only) */}
       {!isCreatorMode && (
         <div className="peerpath-top-nav-switcher">
@@ -809,7 +893,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
             </button>
             
             <button 
-              type="button"
+              type="button" 
               className="ptn-tab-btn ptn-mentors-highlight"
               onClick={() => onNavigate('experts-view')}
             >
@@ -852,7 +936,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
           </button>
         </div>
       )}
-      
+
       {/* 1. Official Shine Prepare+ Peerpath Hero Banner */}
       <div className="peerpath-hero-banner-card">
         <div className="phb-main-grid">
@@ -1002,6 +1086,58 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
         </div>
       </div>
 
+      {/* Cohort 1: Named Expert Invitation Hero Card */}
+      <div className="named-expert-invite-banner">
+        <div className="neib-left">
+          <div className="neib-mentor-media">
+            <img 
+              src={namedExpertInvite.mentorAvatar} 
+              alt={namedExpertInvite.mentorName} 
+              className="neib-mentor-img" 
+            />
+            <span className="neib-live-badge">Verified Mentor</span>
+          </div>
+          <div className="neib-content">
+            <div className="neib-meta-tags">
+              <span className="neib-tag-pill">🔥 Cohort 1 Exclusive</span>
+              <span className="neib-slots-badge">
+                <span className="neib-slots-ping"></span>
+                Only {namedExpertInvite.remainingSlots} of {namedExpertInvite.totalSlots} Slots Left
+              </span>
+              <span className="neib-verified-tag">⚡ 100% Verified Mentor</span>
+            </div>
+            <h2 className="neib-title">
+              {namedExpertInvite.mentorName} • {namedExpertInvite.headline}
+            </h2>
+            <p className="neib-description">
+              "{namedExpertInvite.description}"
+            </p>
+            <div className="neib-target-callout">
+              <Target size={13} className="text-purple-600 flex-shrink-0" />
+              <span>Target: <strong>{namedExpertInvite.targetAudience}</strong></span>
+            </div>
+          </div>
+        </div>
+        <div className="neib-right">
+          <div className="neib-pricing-box">
+            <span className="neib-pricing-lbl">1:1 Mentorship Session</span>
+            <div className="neib-pricing-val">
+              ₹{namedExpertInvite.price || 999}
+              <span className="text-xs font-semibold text-slate-300 ml-1">/ 45 Min Call</span>
+            </div>
+            <span className="neib-pricing-sub">Resume Review &amp; ML Transition Plan</span>
+          </div>
+          <button 
+            type="button" 
+            className="btn-neib-claim"
+            onClick={handleBookNamedExpert}
+          >
+            <span>Book 1:1 Session with Neha</span>
+            <ArrowRight size={15} />
+          </button>
+        </div>
+      </div>
+
       {/* 2. Opportunities Upper Section Header */}
       <div className="trajectories-upper-section" id="trajectoriesSection">
         {/* Main Title Row */}
@@ -1105,6 +1241,99 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
         ))}
       </div>
 
+      {/* 4. The Bootcamp Bridge Section: Softer re-entry point for candidates */}
+      <div className="bootcamp-bridge-container" id="bootcampBridgeSection">
+        <div className="bootcamp-bridge-header">
+          <div className="bbh-tag-row">
+            <span className="bbh-tag-pill">🏕️ THE BOOTCAMP BRIDGE</span>
+            <span className="bbh-sub-tag">Free 2-Hour Live Domain Deep-Dives</span>
+          </div>
+          <h2 className="bbh-title">Not Ready for a 1:1 Call Yet? Start with a Free Live Masterclass</h2>
+          <p className="bbh-desc">
+            A free 2-hour masterclass has a much lower activation threshold. Meet verified Tier-1 mentors, ask questions live, and claim exclusive 1:1 booking slots announced at the end of each session.
+          </p>
+        </div>
+
+        <div className="bootcamp-grid">
+          {bootcamps.map((bootcamp) => {
+            const isRegistered = registeredBootcampIds.includes(bootcamp.id);
+            return (
+              <div key={bootcamp.id} className="bootcamp-card">
+                <div className="bc-top">
+                  <div className="bc-mentor-chip">
+                    <img src={bootcamp.mentorAvatar} alt={bootcamp.mentorName} className="bc-avatar" />
+                    <div>
+                      <strong className="bc-name">{bootcamp.mentorName}</strong>
+                      <span className="bc-role">{bootcamp.mentorRole} @ {bootcamp.mentorCompany} {bootcamp.mentorExCompany && `(${bootcamp.mentorExCompany})`}</span>
+                    </div>
+                  </div>
+                  <span className="bc-free-tag">100% Free Pass</span>
+                </div>
+
+                <h3 className="bc-title">{bootcamp.title}</h3>
+
+                <div className="bc-schedule-row">
+                  <span className="bc-sched-item"><Calendar size={13} /> {bootcamp.date}</span>
+                  <span className="bc-sched-item"><Clock size={13} /> {bootcamp.time}</span>
+                  <span className="bc-sched-item bc-sched-dur"><Sparkles size={13} /> {bootcamp.duration}</span>
+                </div>
+
+                <div className="bc-topics-box">
+                  <span className="bc-section-lbl">Masterclass Agenda:</span>
+                  <ul className="bc-topics-list">
+                    {bootcamp.topics.map((t, i) => (
+                      <li key={i}><CheckCircle2 size={12} className="text-purple-600 flex-shrink-0" /> <span>{t}</span></li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="bc-takeaways-box">
+                  <span className="bc-section-lbl">Free Takeaways Included:</span>
+                  <div className="bc-takeaways-chips">
+                    {bootcamp.takeaways.map((tw, i) => (
+                      <span key={i} className="bc-takeaway-chip">🎁 {tw}</span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bc-footer">
+                  <div className="bc-seats-info">
+                    <span className="bc-seats-count">
+                      <strong>{bootcamp.registeredCount + (isRegistered ? 1 : 0)}</strong> / {bootcamp.maxCapacity} seats filled
+                    </span>
+                    <div className="bc-progress-bar">
+                      <div 
+                        className="bc-progress-fill" 
+                        style={{ width: `${Math.min(100, Math.round(((bootcamp.registeredCount + (isRegistered ? 1 : 0)) / bootcamp.maxCapacity) * 100))}%` }} 
+                      />
+                    </div>
+                    <span className="bc-slots-note">⚡ {bootcamp.openSlotsOnEndCount} exclusive 1:1 slots announced live at session end</span>
+                  </div>
+
+                  <button
+                    type="button"
+                    className={`btn-bootcamp-reg ${isRegistered ? 'registered' : ''}`}
+                    onClick={() => registerForBootcamp(bootcamp.id)}
+                  >
+                    {isRegistered ? (
+                      <>
+                        <CheckCircle2 size={15} className="text-emerald-600" />
+                        <span>Pass Confirmed ✓</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Reserve Free Seat</span>
+                        <ArrowRight size={15} />
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       {/* 5. Bottom Mentorship Acceleration CTA */}
       <div className="peerpath-bottom-acceleration-card peerpath-pro-cta-card">
         <div className="pro-cta-left">
@@ -1140,6 +1369,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
             Book 1:1 Guidance Session <ArrowRight size={16} />
           </button>
         </div>
+      </div>
       </div>
     </div>
   );

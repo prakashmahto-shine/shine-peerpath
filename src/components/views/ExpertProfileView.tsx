@@ -109,6 +109,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
             <div className="name-badge-row">
               <div className="name-follow-group">
                 <h1 className="ep-name">{expert.name}</h1>
+                <span className="ep-cohort-badge">⭐ Cohort 1 Founding Host</span>
                 {!isSelf && (
                   <button 
                     type="button" 
@@ -348,6 +349,39 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                   <div>
                     <h3 className="pane-title">Available 1:1 Sessions ({mentorSessions.length})</h3>
                     <p className="pane-subtitle">Book personalized 1:1 mentorship, live mock interviews, CV audit or direct referral evaluation with {expert.name}.</p>
+                  </div>
+                </div>
+
+                {/* Free Community Session / Masterclass Teaser */}
+                <div className="ep-free-community-session-card">
+                  <div className="efc-left">
+                    <div className="efc-icon-wrap">
+                      <Video size={20} className="text-purple-600" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                          🎙️ Free Community Session
+                        </span>
+                        <span className="text-xs font-semibold text-purple-700 dark:text-purple-300">Assess Before 1:1 Booking</span>
+                      </div>
+                      <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                        {expert.teaserTitle || `Masterclass: Breaking into ${expert.company} & System Architecture`}
+                      </h4>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                        Watch {mentorFirstName}'s free masterclass teaser to assess framework depth and communication style before scheduling a 1:1 session.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="efc-right">
+                    <button 
+                      type="button" 
+                      className="btn-efc-watch"
+                      onClick={() => setActiveTab('about')}
+                    >
+                      <Play size={13} fill="currentColor" />
+                      <span>Watch Teaser</span>
+                    </button>
                   </div>
                 </div>
 

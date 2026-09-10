@@ -28,7 +28,16 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   onSelectTime,
   onProceedToPay,
 }) => {
-  const { userProfile, updateCandidateResume, removeCandidateResume, bookingDraft, setBookingDraft, selectedExpert } = useApp();
+  const { 
+    userProfile, 
+    updateCandidateResume, 
+    removeCandidateResume, 
+    bookingDraft, 
+    setBookingDraft, 
+    selectedExpert,
+    bookSession,
+    showToast
+  } = useApp();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isScanningCv, setIsScanningCv] = useState<boolean>(false);
   const [scannedSuccess, setScannedSuccess] = useState<boolean>(false);
@@ -275,11 +284,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   };
 
   const handleProceed = () => {
+    const slotTime = selectedTime || availableSlots[0]?.time || '10:00 AM - 11:00 AM';
     if (setBookingDraft) {
       setBookingDraft({
         expert,
         date: activeDateStr,
-        timeSlot: selectedTime || availableSlots[0]?.time || '10:00 AM - 11:00 AM',
+        timeSlot: slotTime,
         attachedCvName: currentCvName,
         sessionType: activeSession.title,
         amount: payableAmount,
@@ -565,7 +575,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
               
               <button 
-                type="button"
+                type="button" 
                 className="btn-shine-gold-lg bk-pay-btn" 
                 onClick={handleProceed}
               >

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Expert, MentorshipSession, PeerVerifiedBadge, UserProfileData, ViewType, UserAccount, PeerpathJobContext } from '../types';
+import { Expert, MentorshipSession, PeerVerifiedBadge, UserProfileData, ViewType, UserAccount, PeerpathJobContext, BootcampMasterclass, NamedExpertInvite } from '../types';
 import { peerpathApi } from '../services/api';
 
 export interface ToastMessage {
@@ -23,25 +23,25 @@ interface AppContextType {
   switchUser: (username: string) => void;
   resetDemoData: (targetUser?: string) => void;
 
-  // Experts Database (Dynamic)
+  // Experts & Mentors
   experts: Expert[];
   selectedExpert: Expert;
   setSelectedExpert: (expert: Expert) => void;
   selectExpertById: (expertId: string) => void;
-  addExpert: (newExpert: Omit<Expert, 'id'>) => Expert;
+  addExpert: (expert: Omit<Expert, 'id'> | Expert) => Expert;
 
-  // Sessions (Dynamic Schedule & Management)
+  // Sessions Management
   sessions: MentorshipSession[];
   activeSession: MentorshipSession | null;
   setActiveSession: (session: MentorshipSession | null) => void;
-  bookSession: (expert: Expert, date: string, timeSlot: string) => MentorshipSession;
+  bookSession: (expert: Expert, date: string, timeSlot: string, attachedCvName?: string) => MentorshipSession;
   cancelSession: (sessionId: string) => void;
   rescheduleSession: (sessionId: string, newDate: string, newTimeSlot: string) => void;
   completeSession: (sessionId: string, rating: number, notes: string, badgeTitle?: string) => void;
 
-  // User Profile (Candidate Profile)
+  // Candidate Profile Data
   userProfile: UserProfileData;
-  updateUserProfile: (updates: Partial<UserProfileData>) => void;
+  updateUserProfile: (profile: Partial<UserProfileData>) => void;
   updateProfileSummary: (summary: string) => void;
   addSkill: (skill: string) => void;
   removeSkill: (skill: string) => void;
@@ -79,6 +79,26 @@ interface AppContextType {
   setAssessmentDraftSession: (session: MentorshipSession | null) => void;
   bookingDraft: { expert: Expert; date: string; timeSlot: string; attachedCvName?: string; sessionType?: string; amount?: number; duration?: string };
   setBookingDraft: React.Dispatch<React.SetStateAction<{ expert: Expert; date: string; timeSlot: string; attachedCvName?: string; sessionType?: string; amount?: number; duration?: string }>>;
+
+  // Trajectory Calibration (10-Second Candidate Onboarding)
+  isCalibrationModalOpen: boolean;
+  setIsCalibrationModalOpen: (open: boolean) => void;
+  calibrateCandidateProfile: (data: {
+    currentRole: string;
+    currentCompany: string;
+    dreamCompany: string;
+    targetRole: string;
+    resumeFileName?: string;
+    skills?: string[];
+    currentCtc?: string;
+    targetCtc?: string;
+  }) => void;
+
+  // First Cohort: Bootcamps & Named Expert Invites
+  bootcamps: BootcampMasterclass[];
+  registeredBootcampIds: string[];
+  registerForBootcamp: (bootcampId: string) => void;
+  namedExpertInvite: NamedExpertInvite;
 
   // Global Search & Toast Notifications
   searchQuery: string;
@@ -150,7 +170,88 @@ const initialUserProfile: UserProfileData = {
   resumeFileName: 'Prakash_Mahto_Frontend_Resume.pdf',
   resumeLastUpdated: 'Almost a year ago',
   currentCtc: '₹5.5 LPA',
-  targetCtc: '₹18L - 24L'
+  targetCtc: '₹18L - 24L',
+  currentCompany: 'Tech Services',
+  dreamCompany: 'Swiggy / Flipkart',
+  targetRole: 'Staff Frontend Architect',
+  isCalibrated: false
+};
+
+const initialBootcamps: BootcampMasterclass[] = [
+  {
+    id: 'bootcamp-ml-101',
+    title: 'From Services / SDE to ML & High-Scale Systems in 90 Days',
+    domain: 'AI/ML',
+    mentorName: 'Neha Sharma',
+    mentorRole: 'Senior ML Engineer',
+    mentorCompany: 'Swiggy',
+    mentorExCompany: 'Flipkart (4 yrs)',
+    mentorAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80',
+    date: 'Saturday, 12 Sep 2026',
+    time: '05:00 PM - 07:00 PM IST',
+    duration: '2 Hours Live Masterclass',
+    registeredCount: 342,
+    maxCapacity: 500,
+    topics: [
+      'Deconstructing the Swiggy/Flipkart ML Interview Bar: What they actually test',
+      'Real-world MLOps vs Kaggle: Feature Stores, Real-time Inference & Model Drift',
+      'The 3 System Design patterns you need to clear the ML Senior Bar',
+      'Live Q&A + Announcement of 5 Exclusive 1:1 Mentorship Slots'
+    ],
+    takeaways: [
+      'Downloadable ML Transition Roadmap (90-Day Study Plan)',
+      'Production System Design Template for RecSys & Real-time Ranking',
+      'Priority Access voucher for 1:1 Mock Interview & CV Review'
+    ],
+    isFree: true,
+    expertId: 'ishita',
+    openSlotsOnEndCount: 5
+  },
+  {
+    id: 'bootcamp-arch-201',
+    title: 'Breaking the Staff Engineer Ceiling: Micro-Frontends & System Performance',
+    domain: 'Full-Stack',
+    mentorName: 'Saheli Kanjilal',
+    mentorRole: 'Staff Frontend Architect',
+    mentorCompany: 'Razorpay',
+    mentorExCompany: 'TCS Services (5 yrs)',
+    mentorAvatar: '/avatars/saheli.jpg',
+    date: 'Sunday, 13 Sep 2026',
+    time: '06:00 PM - 08:00 PM IST',
+    duration: '2 Hours Live Masterclass',
+    registeredCount: 418,
+    maxCapacity: 500,
+    topics: [
+      'Architecting Module Federation at Razorpay scale (10M+ daily transactions)',
+      'Cracking L5/L6 Staff Engineer Frontend System Design rounds',
+      'How to jump from ₹6L services to ₹26L+ Tier-1 product tech salary',
+      'Live Assessment Rubric Teaser & Opening 1:1 Slots'
+    ],
+    takeaways: [
+      'Razorpay Core Web Vitals optimization checklist',
+      'L5/L6 Frontend System Design cheatsheet',
+      'Voucher for 1:1 Resume & Architecture Review'
+    ],
+    isFree: true,
+    expertId: 'saheli',
+    openSlotsOnEndCount: 3
+  }
+];
+
+const defaultNamedExpertInvite: NamedExpertInvite = {
+  mentorName: 'Neha Sharma',
+  mentorRole: 'Senior ML Engineer',
+  mentorCompany: 'Swiggy',
+  mentorExCompany: 'Flipkart (4 yrs)',
+  mentorAvatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80',
+  domain: 'AI/ML & Platform Engineering',
+  headline: 'Swiggy Senior ML Engineer • Ex-Flipkart',
+  description: 'Neha, who just joined Swiggy as a Senior ML Engineer after 4 years at Flipkart, has opened 5 exclusive slots for 1:1 career conversations this month. She is specifically talking to engineers working on their ML & high-scale product transition.',
+  targetAudience: 'Engineers & Developers transitioning to AI/ML & High-Scale Systems',
+  totalSlots: 5,
+  remainingSlots: 3,
+  price: 999,
+  expertId: 'ishita'
 };
 
 const DEFAULT_FALLBACK_EXPERT: Expert = {
@@ -548,6 +649,76 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setBookingDraft(prev => ({ ...prev, attachedCvName: '' }));
     showToast('🗑️ Resume Removed', 'CV removed from this session booking.', 'info');
   };
+
+  // Trajectory Calibration (10-Second Candidate Onboarding - Opens on user click)
+  const [isCalibrationModalOpen, setIsCalibrationModalOpen] = useState<boolean>(false);
+
+
+  const calibrateCandidateProfile = (data: {
+    currentRole: string;
+    currentCompany: string;
+    dreamCompany: string;
+    targetRole: string;
+    resumeFileName?: string;
+    skills?: string[];
+    currentCtc?: string;
+    targetCtc?: string;
+  }) => {
+    setUserProfiles(prev => {
+      const existing = prev[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.prakash.profile;
+      const updatedSkills = data.skills && data.skills.length > 0 
+        ? Array.from(new Set([...existing.skills, ...data.skills]))
+        : existing.skills;
+
+      return {
+        ...prev,
+        [activeUsername]: {
+          ...existing,
+          headline: `${data.currentRole} @ ${data.currentCompany} ➔ Aspiring ${data.targetRole} @ ${data.dreamCompany}`,
+          currentCompany: data.currentCompany,
+          dreamCompany: data.dreamCompany,
+          targetRole: data.targetRole,
+          isCalibrated: true,
+          calibratedAt: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+          skills: updatedSkills,
+          resumeFileName: data.resumeFileName || existing.resumeFileName,
+          resumeLastUpdated: data.resumeFileName ? 'Calibrated & Synced just now' : existing.resumeLastUpdated,
+          currentCtc: data.currentCtc || existing.currentCtc,
+          targetCtc: data.targetCtc || existing.targetCtc,
+          profileScore: Math.max(existing.profileScore, 92)
+        }
+      };
+    });
+    setIsCalibrationModalOpen(false);
+    showToast('🎯 Trajectory Calibrated!', `Matching you with verified mentors who transitioned from ${data.currentCompany} to ${data.dreamCompany}!`, 'success');
+  };
+
+  // First Cohort: Bootcamps & Named Expert Invites
+  const [bootcamps] = useState<BootcampMasterclass[]>(initialBootcamps);
+  const [registeredBootcampIds, setRegisteredBootcampIds] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem('shine_peerpath_registered_bootcamps');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const registerForBootcamp = (bootcampId: string) => {
+    if (!registeredBootcampIds.includes(bootcampId)) {
+      const updated = [...registeredBootcampIds, bootcampId];
+      setRegisteredBootcampIds(updated);
+      try {
+        localStorage.setItem('shine_peerpath_registered_bootcamps', JSON.stringify(updated));
+      } catch {}
+      const bootcamp = bootcamps.find(b => b.id === bootcampId);
+      showToast(`🎟️ Free Pass Confirmed!`, `Registered for "${bootcamp?.title || 'Bootcamp'}". Live stream link and calendar invite sent to your email.`, 'success');
+    } else {
+      showToast('Already Registered', 'You already have a confirmed seat for this live masterclass.', 'info');
+    }
+  };
+
+  const [namedExpertInvite] = useState<NamedExpertInvite>(defaultNamedExpertInvite);
 
   // Search & Global Toasts & Selected Job Category & Peerpath Context
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -1018,6 +1189,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setAssessmentDraftSession,
         bookingDraft,
         setBookingDraft,
+        isCalibrationModalOpen,
+        setIsCalibrationModalOpen,
+        calibrateCandidateProfile,
+        bootcamps,
+        registeredBootcampIds,
+        registerForBootcamp,
+        namedExpertInvite,
         searchQuery,
         setSearchQuery,
         selectedJobCategory,
