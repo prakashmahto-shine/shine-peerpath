@@ -14,6 +14,7 @@ export const Footer: React.FC = () => {
     'guidance-view',
     'experts-view',
     'expert-profile-view',
+    'community-view',
     'mentor-dashboard-view',
     'sessions-view',
     'payment-view',

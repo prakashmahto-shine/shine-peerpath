@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { 
   Briefcase, Award, Bell, FileText, ChevronDown, Sparkles, 
   User, Settings, LogOut, Video, Search, ArrowUpRight, Film, Clock, CreditCard,
-  Compass, TrendingUp, ShieldCheck
+  Compass, TrendingUp, ShieldCheck, MessageSquare
 } from 'lucide-react';
 import { ViewType } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -30,7 +30,11 @@ export const Header: React.FC<HeaderProps> = ({
     isCreatorMode,
     setIsCreatorMode,
     navigateToCreatorStudio,
-    showToast
+    showToast,
+    notifications,
+    unreadNotificationsCount,
+    markNotificationAsRead,
+    markAllNotificationsAsRead
   } = useApp();
 
   // Determine whether current view is in Peerpath Mentorship platform or Shine Jobs portal
@@ -38,6 +42,7 @@ export const Header: React.FC<HeaderProps> = ({
     'guidance-view',
     'experts-view',
     'expert-profile-view',
+    'community-view',
     'mentor-dashboard-view',
     'sessions-view',
     'payment-view',
@@ -59,14 +64,19 @@ export const Header: React.FC<HeaderProps> = ({
     ? sessions.filter(s => s.status === 'upcoming' && (s.expert.name.toLowerCase().includes(loggedInFirstName) || s.expert.id === currentUser?.id)).length
     : sessions.filter(s => s.status === 'upcoming' && s.candidateName.toLowerCase().includes(loggedInFirstName) && !s.expert.name.toLowerCase().includes(loggedInFirstName) && s.expert.id !== currentUser?.id).length;
   const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false);
+  const [isNotifOpen, setIsNotifOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const userMenuRef = useRef<HTMLDivElement | null>(null);
+  const notifMenuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
         setIsUserMenuOpen(false);
+      }
+      if (notifMenuRef.current && !notifMenuRef.current.contains(e.target as Node)) {
+        setIsNotifOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -154,6 +164,14 @@ export const Header: React.FC<HeaderProps> = ({
                   >
                     <Award size={15} /> Mentors Directory
                   </button>
+
+                  <button 
+                    className={`myshine-link ${currentView === 'community-view' ? 'active' : ''}`} 
+                    onClick={() => onNavigate('community-view')}
+                    title="Mentor-Led Community & Insights"
+                  >
+                    <MessageSquare size={15} /> Community
+                  </button>
                 </>
               ) : (
                 <>
@@ -164,13 +182,21 @@ export const Header: React.FC<HeaderProps> = ({
                   >
                     <Compass size={15} /> Find Mentors
                   </button>
-                  
+
                   <button 
                     className={`myshine-link ${currentView === 'sessions-view' ? 'active' : ''}`} 
                     onClick={() => onNavigate('sessions-view')}
                   >
                     <Video size={15} /> My Bookings
                     {upcomingCount > 0 && <span className="flyout-count-pill" style={{ marginLeft: '4px' }}>{upcomingCount}</span>}
+                  </button>
+
+                  <button 
+                    className={`myshine-link ${currentView === 'community-view' ? 'active' : ''}`} 
+                    onClick={() => onNavigate('community-view')}
+                    title="Mentor Insights & Discussions"
+                  >
+                    <MessageSquare size={15} /> Community
                   </button>
                 </>
               )
@@ -249,6 +275,101 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
             </div>
           )}
+
+          {/* 🔔 Community Notification Bell */}
+          <div className="header-notif-container" ref={notifMenuRef}>
+            <button 
+              type="button"
+              className="header-bell-btn" 
+              onClick={() => setIsNotifOpen(prev => !prev)}
+              title="Community Alerts & Mentor Post Notifications"
+              aria-label="Community Notifications"
+            >
+              <Bell size={18} />
+              {unreadNotificationsCount > 0 && (
+                <span className="bell-badge-pill">{unreadNotificationsCount}</span>
+              )}
+            </button>
+
+            {isNotifOpen && (
+              <div className="header-notif-dropdown">
+                <div className="notif-dropdown-header">
+                  <div className="ndh-title-row">
+                    <Bell size={15} className="text-purple" />
+                    <span className="ndh-title">Mentor Alerts</span>
+                    {unreadNotificationsCount > 0 && (
+                      <span className="ndh-count">{unreadNotificationsCount} unread</span>
+                    )}
+                  </div>
+                  {notifications.length > 0 && (
+                    <button 
+                      type="button"
+                      className="ndh-mark-all"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        markAllNotificationsAsRead();
+                      }}
+                    >
+                      Mark all read
+                    </button>
+                  )}
+                </div>
+
+                <div className="notif-dropdown-list">
+                  {notifications.length === 0 ? (
+                    <div className="notif-empty">
+                      <Bell size={24} className="text-muted" />
+                      <p>No new notifications</p>
+                      <span>Follow mentors to get notified when they post!</span>
+                    </div>
+                  ) : (
+                    notifications.map(n => (
+                      <div 
+                        key={n.id} 
+                        className={`notif-item ${!n.isRead ? 'unread' : ''}`}
+                        onClick={() => {
+                          markNotificationAsRead(n.id);
+                          setIsNotifOpen(false);
+                          onNavigate('community-view');
+                          setTimeout(() => {
+                            const el = document.getElementById(n.postId);
+                            if (el) {
+                              el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                              el.classList.add('highlight-post');
+                              setTimeout(() => el.classList.remove('highlight-post'), 2500);
+                            }
+                          }, 250);
+                        }}
+                      >
+                        <img src={n.mentorAvatar} alt={n.mentorName} className="notif-avatar" />
+                        <div className="notif-details">
+                          <div className="notif-top">
+                            <span className="notif-type-tag">{n.title}</span>
+                            <span className="notif-time">{n.createdAt}</span>
+                          </div>
+                          <p className="notif-msg">{n.message}</p>
+                        </div>
+                        {!n.isRead && <span className="notif-unread-dot" />}
+                      </div>
+                    ))
+                  )}
+                </div>
+
+                <div className="notif-dropdown-footer">
+                  <button 
+                    type="button"
+                    className="ndf-view-all"
+                    onClick={() => {
+                      setIsNotifOpen(false);
+                      onNavigate('community-view');
+                    }}
+                  >
+                    Go to Community Feed →
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* User Avatar Dropdown OR Login/Register CTA */}
           {currentUser ? (

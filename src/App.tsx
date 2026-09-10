@@ -18,6 +18,7 @@ import { RecruiterView } from './components/views/RecruiterView';
 import { MentorDashboardView } from './components/views/MentorDashboardView';
 import { LoginView } from './components/views/LoginView';
 import { JobsView } from './components/views/JobsView';
+import { CommunityView } from './components/views/CommunityView';
 
 import { BookingModal } from './components/modals/BookingModal';
 import { CreatorWizardModal } from './components/modals/CreatorWizardModal';
@@ -70,6 +71,9 @@ const pathToView = (pathname: string): { view: ViewType; expertId?: string } => 
   }
   if (clean === '/recruiter' || clean === '/recruiters') {
     return { view: 'recruiter-view' };
+  }
+  if (clean === '/community' || clean === '/feed' || clean === '/discussions') {
+    return { view: 'community-view' };
   }
   if (clean === '/mentor-dashboard' || clean === '/mentor' || clean === '/mentor-portal' || clean === '/creator-studio' || clean === '/creator' || clean === '/creator-dashboard') {
     return { view: 'mentor-dashboard-view' };
@@ -233,6 +237,10 @@ const AppMain: React.FC = () => {
 
         {currentView === 'recruiter-view' && (
           <RecruiterView onNavigate={navigate} />
+        )}
+
+        {currentView === 'community-view' && (
+          <CommunityView />
         )}
 
         {currentView === 'mentor-dashboard-view' && (

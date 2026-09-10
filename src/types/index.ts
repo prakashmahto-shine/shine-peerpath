@@ -39,6 +39,7 @@ export type ViewType =
   | 'jobs-view'
   | 'experts-view'
   | 'expert-profile-view'
+  | 'community-view'
   | 'payment-view'
   | 'confirmed-view'
   | 'sessions-view'
@@ -273,3 +274,47 @@ export interface ShineJob {
 }
 
 export type PathwayTrackKey = 'arch' | 'pm' | 'search' | 'ai' | 'semi';
+
+export interface CommunityComment {
+  id: string;
+  postId: string;
+  authorId: string;
+  authorName: string;
+  authorRole: string;
+  authorAvatar: string;
+  authorIsMentor?: boolean;
+  content: string;
+  createdAt: string;
+  likesCount: number;
+  likedByCurrentUser?: boolean;
+}
+
+export interface CommunityPost {
+  id: string;
+  mentorId: string;
+  mentorName: string;
+  mentorRole: string;
+  mentorCompany: string;
+  mentorAvatar: string;
+  title: string;
+  content: string;
+  tags: string[];
+  createdAt: string;
+  likesCount: number;
+  likedByCurrentUser?: boolean;
+  commentsCount: number;
+  comments: CommunityComment[];
+}
+
+export interface CommunityNotification {
+  id: string;
+  type: 'mentor_post' | 'comment_reply';
+  mentorId: string;
+  mentorName: string;
+  mentorAvatar: string;
+  postId: string;
+  title: string;
+  message: string;
+  createdAt: string;
+  isRead: boolean;
+}

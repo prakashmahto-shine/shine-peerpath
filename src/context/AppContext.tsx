@@ -1,5 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Expert, MentorshipSession, PeerVerifiedBadge, UserProfileData, ViewType, UserAccount, PeerpathJobContext, BootcampMasterclass, NamedExpertInvite } from '../types';
+import { 
+  Expert, MentorshipSession, PeerVerifiedBadge, UserProfileData, ViewType, 
+  UserAccount, PeerpathJobContext, BootcampMasterclass, NamedExpertInvite,
+  CommunityPost, CommunityComment, CommunityNotification
+} from '../types';
 import { peerpathApi } from '../services/api';
 
 export interface ToastMessage {
@@ -116,6 +120,20 @@ interface AppContextType {
   followedMentorIds: string[];
   toggleFollowMentor: (mentorId: string, mentorName?: string) => void;
   isFollowingMentor: (mentorId: string) => boolean;
+
+  // Community & Mentor Insights System
+  communityPosts: CommunityPost[];
+  createMentorPost: (postData: { title: string; content: string; tags: string[] }) => CommunityPost | null;
+  addPostComment: (postId: string, content: string) => CommunityComment | null;
+  togglePostLike: (postId: string) => void;
+  toggleCommentLike: (postId: string, commentId: string) => void;
+
+  // Community Notifications (🔔)
+  notifications: CommunityNotification[];
+  unreadNotificationsCount: number;
+  markNotificationAsRead: (notificationId: string) => void;
+  markAllNotificationsAsRead: () => void;
+  clearAllNotifications: () => void;
 }
 
 const initialBadges: PeerVerifiedBadge[] = [
@@ -275,6 +293,251 @@ const DEFAULT_FALLBACK_EXPERT: Expert = {
   verifiedEmail: 'akash.jain@shine.com',
   isVerifiedEmployer: true
 };
+
+const INITIAL_COMMUNITY_POSTS: CommunityPost[] = [
+  {
+    id: 'post-1',
+    mentorId: 'saheli',
+    mentorName: 'Saheli Kanjilal',
+    mentorRole: 'Staff Backend & Cloud Engineer',
+    mentorCompany: 'Razorpay',
+    mentorAvatar: '/avatars/saheli.jpg',
+    title: 'Distributed Transactions & Outbox Pattern: What we evaluate in 40LPA+ Backend Interviews',
+    content: `When engineers interview for Senior Backend / Staff positions, 80% struggle to explain how to maintain consistency across microservices without distributed 2PC locks.
+
+Here is what we look for when designing resilient payment and checkout services:
+1. Idempotency Key architecture at the API gateway layer with Redis caching + database lock.
+2. Transactional Outbox Pattern with Debezium CDC (Change Data Capture) or Kafka Connect.
+3. Dead Letter Queues (DLQ) paired with automated exponential backoff retry workers.
+4. Handling split-brain network partitions using fencing tokens.
+
+If you are preparing for backend system design rounds this month, drop your architecture questions below and I'll break down common pitfalls!`,
+    tags: ['System Design', 'Backend Architecture', 'Kafka', 'Interview Prep'],
+    createdAt: '2 hours ago',
+    likesCount: 52,
+    likedByCurrentUser: false,
+    commentsCount: 3,
+    comments: [
+      {
+        id: 'c-1',
+        postId: 'post-1',
+        authorId: 'prakash',
+        authorName: 'Prakash Mahto',
+        authorRole: 'Senior Frontend Engineer (Transitioning to Fullstack)',
+        authorAvatar: '/avatars/prakash.jpg',
+        authorIsMentor: false,
+        content: 'In the Outbox pattern, how do you prevent duplicated messages in Kafka if the polling worker crashes after pushing to the broker but before committing the database transaction status?',
+        createdAt: '1 hour ago',
+        likesCount: 6,
+        likedByCurrentUser: false
+      },
+      {
+        id: 'c-2',
+        postId: 'post-1',
+        authorId: 'saheli',
+        authorName: 'Saheli Kanjilal',
+        authorRole: 'Staff Backend & Cloud Engineer',
+        authorAvatar: '/avatars/saheli.jpg',
+        authorIsMentor: true,
+        content: '@Prakash Great question! You should always design the downstream consumer to be idempotent. Relying on "exactly-once" delivery across broker boundaries introduces high latency. Consumer-side deduplication via an idempotency table is the industry gold standard.',
+        createdAt: '45 mins ago',
+        likesCount: 14,
+        likedByCurrentUser: true
+      },
+      {
+        id: 'c-3',
+        postId: 'post-1',
+        authorId: 'c-amit',
+        authorName: 'Amit Verma',
+        authorRole: 'SDE-2 @ Infosys',
+        authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+        authorIsMentor: false,
+        content: 'Bookmarked! Just scheduled a 1:1 session with you next Tuesday for my Razorpay interview prep!',
+        createdAt: '20 mins ago',
+        likesCount: 3,
+        likedByCurrentUser: false
+      }
+    ]
+  },
+  {
+    id: 'post-2',
+    mentorId: 'ishita',
+    mentorName: 'Ishita Sharma',
+    mentorRole: 'Senior Frontend Architect',
+    mentorCompany: 'Swiggy',
+    mentorAvatar: '/avatars/ishita.jpg',
+    title: 'The SDE-2 to Frontend Staff Transition: Micro-Frontends, INP Optimization & Design Systems',
+    content: `A common myth: "Frontend interviews are just LeetCode trees and building a todo app in React."
+
+In top product teams, candidate evaluation at Staff/Architect level focuses heavily on:
+• Module Federation orchestration and independent versioning without duplicate React runtimes.
+• INP (Interaction to Next Paint) debugging: Breaking long tasks using scheduler.yield() or React 19 useTransition.
+• Zero-runtime CSS vs CSS Modules trade-offs on mobile web viewports.
+• Cross-team Design System governance and headless accessibility (ARIA patterns).
+
+I'll be hosting a 1:1 roadmap teardown for candidates aiming for Tier-1 product jumps. Ask anything below regarding UI performance audits!`,
+    tags: ['Frontend Architecture', 'React 19', 'Web Vitals', 'System Design'],
+    createdAt: '1 day ago',
+    likesCount: 84,
+    likedByCurrentUser: true,
+    commentsCount: 2,
+    comments: [
+      {
+        id: 'c-4',
+        postId: 'post-2',
+        authorId: 'prakash',
+        authorName: 'Prakash Mahto',
+        authorRole: 'Senior Frontend Engineer',
+        authorAvatar: '/avatars/prakash.jpg',
+        authorIsMentor: false,
+        content: 'We noticed a huge INP penalty when large data tables re-render on user filter inputs. Is startTransition enough, or should we use virtualization?',
+        createdAt: '18 hours ago',
+        likesCount: 8,
+        likedByCurrentUser: false
+      },
+      {
+        id: 'c-5',
+        postId: 'post-2',
+        authorId: 'ishita',
+        authorName: 'Ishita Sharma',
+        authorRole: 'Senior Frontend Architect',
+        authorAvatar: '/avatars/ishita.jpg',
+        authorIsMentor: true,
+        content: '@Prakash Virtualization (e.g. TanStack Virtual) solves the DOM node ceiling. startTransition only prioritizes input responsiveness. You should combine both for sub-50ms INP!',
+        createdAt: '16 hours ago',
+        likesCount: 11,
+        likedByCurrentUser: false
+      }
+    ]
+  },
+  {
+    id: 'post-3',
+    mentorId: 'raghavan',
+    mentorName: 'Dr. Raghavan Nair',
+    mentorRole: 'Principal AI/ML Researcher & Platform Lead',
+    mentorCompany: 'Qualcomm',
+    mentorAvatar: '/avatars/raghavan.jpg',
+    title: 'Production RAG vs Fine-Tuning in 2026: Why Enterprise Teams Don’t Fine-Tune First',
+    content: `Almost every candidate I mentor asks: "Should I fine-tune Llama 3 for my company's domain or build a RAG pipeline?"
+
+Here is what actual production metrics show across Indian tech enterprises:
+1. Fine-tuning solves style and syntax, NOT fresh factual grounding. You still get hallucinations.
+2. Hybrid search (Dense Embeddings + BM25 keyword matching) with a Cross-Encoder reranker yields 88%+ precision at a fraction of training compute.
+3. Context chunking strategies (semantic chunking with parent-document retrievers) matter 5x more than embedding vector dimensions.
+
+Engineers moving into Applied AI & LLM Systems: What architectures are you building right now? Share below!`,
+    tags: ['Generative AI', 'LLM Architectures', 'RAG Pipelines', 'Machine Learning'],
+    createdAt: '2 days ago',
+    likesCount: 112,
+    likedByCurrentUser: false,
+    commentsCount: 2,
+    comments: [
+      {
+        id: 'c-6',
+        postId: 'post-3',
+        authorId: 'c-kavita',
+        authorName: 'Kavita Menon',
+        authorRole: 'Data Engineer @ Fractal',
+        authorAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
+        authorIsMentor: false,
+        content: 'Spot on Dr. Nair. We spent 3 weeks fine-tuning before realizing semantic chunking solved our retrieval miss rate.',
+        createdAt: '1 day ago',
+        likesCount: 9,
+        likedByCurrentUser: false
+      },
+      {
+        id: 'c-7',
+        postId: 'post-3',
+        authorId: 'prakash',
+        authorName: 'Prakash Mahto',
+        authorRole: 'Candidate',
+        authorAvatar: '/avatars/prakash.jpg',
+        authorIsMentor: false,
+        content: 'Dr. Raghavan, what vector DB latency do you consider acceptable in production for sub-100ms end-to-end response times?',
+        createdAt: '1 day ago',
+        likesCount: 5,
+        likedByCurrentUser: false
+      }
+    ]
+  },
+  {
+    id: 'post-4',
+    mentorId: 'akash',
+    mentorName: 'Akash Jain',
+    mentorRole: 'Lead Product Manager',
+    mentorCompany: 'Shine (HT Media)',
+    mentorAvatar: '/avatars/akash.jpg',
+    title: 'Breaking Into High-Impact Product Management: What Your Tech Background Brings to the Table',
+    content: `When engineers transition to Product Management, their biggest superpower is Technical Empathy. You already understand system constraints, API latency budgets, and engineering estimation complexities.
+
+However, the transition bottleneck is shifting from "HOW to build" to "WHY build and WHAT is the ROI".
+In your transition interviews, focus on:
+1. North Star Metrics vs Guardrail Metrics.
+2. PRDs with clear user problem validation rather than architectural solutions.
+3. First-principles unit economics and churn reduction.
+
+Comment your current tech stack or career stage, and I will share recommended PM case frameworks!`,
+    tags: ['Product Management', 'Career Transition', 'Tech to PM', 'Leadership'],
+    createdAt: '3 days ago',
+    likesCount: 76,
+    likedByCurrentUser: false,
+    commentsCount: 1,
+    comments: [
+      {
+        id: 'c-8',
+        postId: 'post-4',
+        authorId: 'prakash',
+        authorName: 'Prakash Mahto',
+        authorRole: 'Candidate',
+        authorAvatar: '/avatars/prakash.jpg',
+        authorIsMentor: false,
+        content: 'Akash, do you recommend technical PMs take Scrum Master or PMP certifications, or focus directly on product teardowns and case studies?',
+        createdAt: '2 days ago',
+        likesCount: 7,
+        likedByCurrentUser: false
+      }
+    ]
+  }
+];
+
+const INITIAL_NOTIFICATIONS: CommunityNotification[] = [
+  {
+    id: 'notif-1',
+    type: 'mentor_post',
+    mentorId: 'saheli',
+    mentorName: 'Saheli Kanjilal',
+    mentorAvatar: '/avatars/saheli.jpg',
+    postId: 'post-1',
+    title: 'New Technical Post',
+    message: 'Saheli Kanjilal posted: "Distributed Transactions & Outbox Pattern: What we evaluate in 40LPA+ Backend Interviews"',
+    createdAt: '2 hours ago',
+    isRead: false
+  },
+  {
+    id: 'notif-2',
+    type: 'mentor_post',
+    mentorId: 'ishita',
+    mentorName: 'Ishita Sharma',
+    mentorAvatar: '/avatars/ishita.jpg',
+    postId: 'post-2',
+    title: 'New Technical Post',
+    message: 'Ishita Sharma posted: "The SDE-2 to Frontend Staff Transition: Micro-Frontends, INP Optimization & Design Systems"',
+    createdAt: '1 day ago',
+    isRead: false
+  },
+  {
+    id: 'notif-3',
+    type: 'comment_reply',
+    mentorId: 'saheli',
+    mentorName: 'Saheli Kanjilal',
+    mentorAvatar: '/avatars/saheli.jpg',
+    postId: 'post-1',
+    title: 'Mentor Replied to You',
+    message: 'Saheli Kanjilal replied to your question on Outbox pattern.',
+    createdAt: '45 mins ago',
+    isRead: true
+  }
+];
 
 const DEFAULT_ACCOUNTS: Record<string, { password: string; account: UserAccount; profile: UserProfileData }> = {
   prakash: {
@@ -444,6 +707,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       if (clean === '/post-session' || clean === '/feedback' || clean === '/review') return { view: 'post-session-view' as ViewType };
       if (clean === '/recruiter' || clean === '/recruiters') return { view: 'recruiter-view' as ViewType };
       if (clean === '/mentor-dashboard' || clean === '/mentor' || clean === '/creator-studio') return { view: 'mentor-dashboard-view' as ViewType };
+      if (clean === '/community' || clean === '/feed' || clean === '/discussions') return { view: 'community-view' as ViewType };
 
       // If landing via Email / WhatsApp / Peerpath campaign link
       if (utmSource || campaign) {
@@ -801,6 +1065,143 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   };
 
+  // Community & Mentor Insights System
+  const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>(INITIAL_COMMUNITY_POSTS);
+  const [notifications, setNotifications] = useState<CommunityNotification[]>(INITIAL_NOTIFICATIONS);
+
+  const createMentorPost = (postData: { title: string; content: string; tags: string[] }) => {
+    const isMentor = currentUser?.role === 'mentor' || isCreatorMode;
+    if (!isMentor || !currentUser) {
+      showToast('Mentor Access Required', 'Only verified mentors can publish insights in Community.', 'warning');
+      return null;
+    }
+
+    const newPost: CommunityPost = {
+      id: `post-${Date.now()}`,
+      mentorId: currentUser.id || 'mentor',
+      mentorName: currentUser.name,
+      mentorRole: currentUser.headline || (isCreatorMode ? 'Verified Tech Lead & Mentor' : 'Mentor'),
+      mentorCompany: currentUser.company || 'Shine Peerpath',
+      mentorAvatar: currentUser.avatar || '/avatars/akash.jpg',
+      title: postData.title,
+      content: postData.content,
+      tags: postData.tags.length > 0 ? postData.tags : ['Career Guidance', 'Tech Transition'],
+      createdAt: 'Just now',
+      likesCount: 0,
+      likedByCurrentUser: false,
+      commentsCount: 0,
+      comments: []
+    };
+
+    setCommunityPosts(prev => [newPost, ...prev]);
+
+    // Create notification for followers
+    const newNotif: CommunityNotification = {
+      id: `notif-${Date.now()}`,
+      type: 'mentor_post',
+      mentorId: currentUser.id,
+      mentorName: currentUser.name,
+      mentorAvatar: currentUser.avatar || '/avatars/akash.jpg',
+      postId: newPost.id,
+      title: 'New Post Published',
+      message: `${currentUser.name} published a new insight: "${postData.title}"`,
+      createdAt: 'Just now',
+      isRead: false
+    };
+
+    setNotifications(prev => [newNotif, ...prev]);
+    showToast('🎉 Post Published!', 'Your insight is live on the Community feed. All candidates following you have been notified.', 'success');
+    return newPost;
+  };
+
+  const addPostComment = (postId: string, content: string) => {
+    if (!currentUser) {
+      showToast('Sign in required', 'Please sign in to join the discussion.', 'info');
+      setIsLoginModalOpen(true);
+      return null;
+    }
+
+    const isMentor = currentUser.role === 'mentor' || isCreatorMode;
+    const newComment: CommunityComment = {
+      id: `c-${Date.now()}`,
+      postId,
+      authorId: currentUser.id,
+      authorName: currentUser.name,
+      authorRole: currentUser.headline || (isMentor ? 'Verified Mentor' : 'Candidate'),
+      authorAvatar: currentUser.avatar || (isMentor ? '/avatars/akash.jpg' : '/avatars/prakash.jpg'),
+      authorIsMentor: isMentor,
+      content: content.trim(),
+      createdAt: 'Just now',
+      likesCount: 0,
+      likedByCurrentUser: false
+    };
+
+    setCommunityPosts(prev => prev.map(p => {
+      if (p.id === postId) {
+        return {
+          ...p,
+          commentsCount: p.commentsCount + 1,
+          comments: [...p.comments, newComment]
+        };
+      }
+      return p;
+    }));
+
+    showToast('💬 Comment Added', 'Your response has been posted to the mentor discussion thread.', 'success');
+    return newComment;
+  };
+
+  const togglePostLike = (postId: string) => {
+    setCommunityPosts(prev => prev.map(p => {
+      if (p.id === postId) {
+        const liked = !p.likedByCurrentUser;
+        return {
+          ...p,
+          likedByCurrentUser: liked,
+          likesCount: liked ? p.likesCount + 1 : Math.max(0, p.likesCount - 1)
+        };
+      }
+      return p;
+    }));
+  };
+
+  const toggleCommentLike = (postId: string, commentId: string) => {
+    setCommunityPosts(prev => prev.map(p => {
+      if (p.id === postId) {
+        return {
+          ...p,
+          comments: p.comments.map(c => {
+            if (c.id === commentId) {
+              const liked = !c.likedByCurrentUser;
+              return {
+                ...c,
+                likedByCurrentUser: liked,
+                likesCount: liked ? c.likesCount + 1 : Math.max(0, c.likesCount - 1)
+              };
+            }
+            return c;
+          })
+        };
+      }
+      return p;
+    }));
+  };
+
+  const unreadNotificationsCount = notifications.filter(n => !n.isRead).length;
+
+  const markNotificationAsRead = (notificationId: string) => {
+    setNotifications(prev => prev.map(n => n.id === notificationId ? { ...n, isRead: true } : n));
+  };
+
+  const markAllNotificationsAsRead = () => {
+    setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+    showToast('All caught up!', 'All notifications marked as read.', 'info');
+  };
+
+  const clearAllNotifications = () => {
+    setNotifications([]);
+  };
+
   // View Navigation with URL sync & Smooth Scroll
   const navigate = (view: ViewType, customPath?: string) => {
     setPreviousView(currentView);
@@ -820,7 +1221,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       'recruiter-view': '/recruiter',
       'jobs-view': '/jobs',
       'login-view': '/pages/myshine/login',
-      'mentor-dashboard-view': '/creator-studio'
+      'mentor-dashboard-view': '/creator-studio',
+      'community-view': '/community'
     };
 
     let pathToPush = customPath;
@@ -1345,7 +1747,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         removeToast,
         followedMentorIds,
         toggleFollowMentor,
-        isFollowingMentor
+        isFollowingMentor,
+        communityPosts,
+        createMentorPost,
+        addPostComment,
+        togglePostLike,
+        toggleCommentLike,
+        notifications,
+        unreadNotificationsCount,
+        markNotificationAsRead,
+        markAllNotificationsAsRead,
+        clearAllNotifications
       }}
     >
       {children}
