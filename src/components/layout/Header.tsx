@@ -158,17 +158,10 @@ export const Header: React.FC<HeaderProps> = ({
               ) : (
                 <>
                   <button 
-                    className={`myshine-link ${currentView === 'experts-view' || currentView === 'expert-profile-view' ? 'active' : ''}`} 
-                    onClick={() => onNavigate('experts-view')}
-                  >
-                    <Compass size={15} /> Explore Mentors
-                  </button>
-
-                  <button 
-                    className={`myshine-link ${currentView === 'guidance-view' ? 'active' : ''}`} 
+                    className={`myshine-link ${currentView === 'guidance-view' || currentView === 'experts-view' || currentView === 'expert-profile-view' ? 'active' : ''}`} 
                     onClick={() => onNavigate('guidance-view')}
                   >
-                    <TrendingUp size={15} /> Domain Roadmaps
+                    <Compass size={15} /> Find Mentors
                   </button>
                   
                   <button 
@@ -177,14 +170,6 @@ export const Header: React.FC<HeaderProps> = ({
                   >
                     <Video size={15} /> My Bookings
                     {upcomingCount > 0 && <span className="flyout-count-pill" style={{ marginLeft: '4px' }}>{upcomingCount}</span>}
-                  </button>
-
-                  <button 
-                    className={`myshine-link ${currentView === 'recruiter-view' ? 'active' : ''}`} 
-                    onClick={() => onNavigate('recruiter-view')}
-                    title="Recruiter Fast-Track Scorecard"
-                  >
-                    <ShieldCheck size={15} className="text-emerald-500" /> Recruiter Moat
                   </button>
                 </>
               )
@@ -217,50 +202,19 @@ export const Header: React.FC<HeaderProps> = ({
           </nav>
         </div>
 
-        {/* Right Side: Search + Cross-App Switcher + User Dropdown / Login */}
+        {/* Right Side: Search (Shine Jobs) + Creator Toggle + User Dropdown */}
         <div className="myshine-nav-right-prod">
-          <form className="prod-nav-search-bar" onSubmit={handleSearchSubmit}>
-            <Search size={14} className="prod-search-icon" />
-            <input 
-              type="text" 
-              placeholder={
-                isPeerpathView
-                  ? (isCreatorMode ? "Search Candidates or Mentees" : "Search tech mentors, skills, companies...")
-                  : "Search jobs, skills, companies..."
-              } 
-              value={searchQuery} 
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="prod-search-input"
-            />
-          </form>
-
-          {/* Cross-App Ecosystem Switchers (Zomato <-> Blinkit model) */}
-          {isPeerpathView ? (
-            /* On Peerpath: Switch back to Shine Jobs */
-            <button 
-              type="button"
-              className="btn-app-switcher-shine"
-              onClick={handleGoToMyJobs}
-              title="Return to shine.com Job Search"
-            >
-              <Briefcase size={14} />
-              <span>Back to shine.com</span>
-              <ArrowUpRight size={13} className="switcher-arrow" />
-            </button>
-          ) : (
-            /* On Shine Jobs: Launch Peerpath Mentorship */
-            <button 
-              type="button"
-              className="btn-app-switcher-peerpath glow-pulse-subtle"
-              onClick={() => onNavigate('guidance-view')}
-              title="Switch to Peerpath by shine.com: 1:1 Tech Transition Mentorship"
-            >
-              <Sparkles size={14} className="sparkle-icon-spin text-amber-300" />
-              <div className="asp-text-wrap">
-                <span className="asp-main-title">Peerpath</span>
-                <span className="asp-sub-badge">1:1 Mentorship ↗</span>
-              </div>
-            </button>
+          {!isPeerpathView && (
+            <form className="prod-nav-search-bar" onSubmit={handleSearchSubmit}>
+              <Search size={14} className="prod-search-icon" />
+              <input 
+                type="text" 
+                placeholder="Search jobs, skills, companies..." 
+                value={searchQuery} 
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="prod-search-input"
+              />
+            </form>
           )}
 
           {/* ⚡ DIRECT NAVBAR CREATOR STUDIO TOGGLE SWITCH (For users with Mentor Access, e.g. Akash & Nisha) */}
@@ -324,7 +278,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <div className="myshine-user-flyout-card">
                   <div className="flyout-user-header">
                     <strong>{currentUser.name}</strong>
-                    <span>{currentUser.email || 'akash.jain@shine.com'}</span>
+                    <span>{currentUser.email || (userProfile?.email || 'prakash.mahto@gmail.com')}</span>
                   </div>
 
                   <div className="flyout-divider"></div>
@@ -356,15 +310,15 @@ export const Header: React.FC<HeaderProps> = ({
                   ) : (
                     <>
                       <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('profile-view'); }}>
-                        <User size={15} /> My Shine Profile
+                        <User size={15} /> My Profile
                       </a>
                       <a href="#!" className="flyout-item" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('guidance-view'); }}>
-                        <Sparkles size={15} className="text-purple-600" /> Peerpath Career Roadmap
+                        <Sparkles size={15} className="text-purple-600" /> Career Roadmap & Goal
                       </a>
                       <a href="#!" className="flyout-item flyout-item-highlight" onClick={(e) => { e.preventDefault(); setIsUserMenuOpen(false); onNavigate('sessions-view'); }}>
                         <Video size={15} className="text-purple-600" /> 
                         <span style={{ fontWeight: 700, color: '#0F172A' }}>
-                          My Bookings
+                          My 1:1 Bookings
                         </span>
                         {upcomingCount > 0 && (
                           <span className="flyout-count-pill">{upcomingCount}</span>

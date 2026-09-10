@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Play, ShieldCheck, Star, ChevronLeft, ChevronRight, SearchX, Compass, Users, TrendingUp, Sparkles, ArrowRight } from 'lucide-react';
+import { Search, Play, ShieldCheck, Star, ChevronLeft, ChevronRight, SearchX, Compass, Users, TrendingUp, Sparkles, ArrowRight, X, User } from 'lucide-react';
 import { Expert, ViewType } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { peerpathApi } from '../../services/api';
@@ -99,106 +99,72 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
 
   return (
     <div className="content-wrapper">
-      {/* Peerpath Top Sub-Nav View Switcher (Candidate Mode Only) */}
-      {!isCreatorMode && (
-        <div className="peerpath-top-nav-switcher">
-          <div className="ptn-left-group">
-            <button 
-              type="button"
-              className="ptn-tab-btn"
-              onClick={() => onNavigate('guidance-view')}
-            >
-              <TrendingUp size={15} className="ptn-icon" />
-              <span>Matched Mentors</span>
-              <span className="ptn-badge-pill">Best Fit</span>
-            </button>
-            
-            <button 
-              type="button" 
-              className="ptn-tab-btn active ptn-mentors-highlight"
-              onClick={() => {}}
-            >
-              <div className="ptn-avatars-stack">
-                <img src="/avatars/saheli.jpg" alt="Mentor" className="ptn-av" />
-                <img src="/avatars/akash.jpg" alt="Mentor" className="ptn-av" />
-                <img src="/avatars/ishita.jpg" alt="Mentor" className="ptn-av" />
-                <span className="ptn-live-dot"></span>
-              </div>
-              <span className="ptn-label-main">Explore 500+ Mentors</span>
-            </button>
-          </div>
-
-          {!isMentor && (currentUser?.isMentorEligible ?? false) && (
-            <button 
-              type="button"
-              className="ptn-become-mentor-btn"
-              onClick={() => setIsCreatorWizardOpen(true)}
-            >
-              <Sparkles size={13} className="text-amber-500" />
-              <span>Become a Mentor</span>
-              <span className="ptn-zero-fee-tag">0% Fee</span>
-            </button>
-          )}
-        </div>
-      )}
-
-      {/* Mentor Acquisition Banner for Candidates in Gallery (Nisha only) */}
-      {!isMentor && (currentUser?.isMentorEligible ?? false) && (
-        <div className="peerpath-mentor-recruitment-strip" onClick={() => setIsCreatorWizardOpen(true)}>
-          <div className="pmrs-left">
-            <span className="pmrs-badge">⭐ FOUNDING MENTOR CIRCLE</span>
-            <span className="pmrs-text">
-              Monetize your expertise & mentor candidates with <strong>0% platform fee</strong>. Join 500+ Top Mentors from Swiggy, Google & Razorpay.
-            </span>
-          </div>
-          <button type="button" className="pmrs-cta-btn">
-            Join as Mentor (0% Fee) <ArrowRight size={13} />
+      {/* 1-Row Compact Gallery Control Toolbar */}
+      <div className="gallery-compact-header-row">
+        <div className="g-title-left-wrap">
+          <h1 className="g-compact-main-title">
+            Explore Mentors
+            <span className="g-count-badge">{filteredExperts.length} Active</span>
+          </h1>
+          <button 
+            type="button" 
+            className="btn-g-matched-switch"
+            onClick={() => onNavigate('guidance-view')}
+            title="Switch to your personalized matched career pathway"
+          >
+            <TrendingUp size={13} />
+            <span>Matched for You</span>
           </button>
         </div>
-      )}
 
-      {/* Main Header Block */}
-      <div className="gallery-header-block">
-        <div className="g-header-text">
-          <h1 className="gallery-main-title">Learn from experts</h1>
-          <p className="gallery-subtitle">Watch teaser videos and connect with verified professionals who've already made the career switch you're planning.</p>
-        </div>
-        <div className="g-search-filter-box">
-          <Search size={18} />
-          <input 
-            type="text" 
-            placeholder="Search by skill, role or company..." 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+        <div className="g-controls-right-wrap">
+          <div className="g-search-filter-box-compact">
+            <Search size={14} className="g-search-icon" />
+            <input 
+              type="text" 
+              placeholder="Search mentor, skill, company..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            {searchTerm && (
+              <button 
+                type="button" 
+                className="g-search-clear-btn" 
+                onClick={() => setSearchTerm('')}
+                title="Clear search"
+              >
+                <X size={12} />
+              </button>
+            )}
+          </div>
+
+          <div className="g-dropdowns-compact">
+            <select className="select-pill-compact" value={expFilter} onChange={(e) => setExpFilter(e.target.value)}>
+              <option value="all">Exp: All</option>
+              <option value="3-5">3 - 5 Yrs</option>
+              <option value="6-8">6 - 8 Yrs</option>
+              <option value="9+">9+ Yrs</option>
+            </select>
+            <select className="select-pill-compact" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+              <option value="trajectory">Sort: Trajectory Fit</option>
+              <option value="rating">Sort: Highest Rating</option>
+              <option value="sessions">Sort: Most Sessions</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      <div className="quick-filter-bar">
-        <div className="filter-pill-group">
-          {['all', 'Full-Stack', 'AI/ML', 'Semiconductor', 'Cybersecurity', 'Search & Data Infra', 'Product Management', 'SaaS Sales'].map((dom) => (
-            <button
-              key={dom}
-              className={`f-pill ${activeDomain === dom ? 'active' : ''}`}
-              onClick={() => setActiveDomain(dom)}
-            >
-              {dom === 'all' ? 'All Domains' : dom}
-            </button>
-          ))}
-        </div>
-        <div className="filter-dropdowns">
-          <select className="select-pill" value={expFilter} onChange={(e) => setExpFilter(e.target.value)}>
-            <option value="all">Experience: All</option>
-            <option value="3-5">3 - 5 Years</option>
-            <option value="6-8">6 - 8 Years</option>
-            <option value="9+">9+ Years</option>
-          </select>
-          <select className="select-pill" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-            <option value="trajectory">Sort: Trajectory Fit</option>
-            <option value="rating">Sort: Highest Rating</option>
-            <option value="sessions">Sort: Most Sessions</option>
-          </select>
-        </div>
+      {/* Horizontal Domain Chips Strip */}
+      <div className="gallery-domain-chips-strip">
+        {['all', 'Full-Stack', 'AI/ML', 'Semiconductor', 'Cybersecurity', 'Search & Data Infra', 'Product Management', 'SaaS Sales'].map((dom) => (
+          <button
+            key={dom}
+            className={`f-pill-compact ${activeDomain === dom ? 'active' : ''}`}
+            onClick={() => setActiveDomain(dom)}
+          >
+            {dom === 'all' ? 'All Domains' : dom}
+          </button>
+        ))}
       </div>
 
       <div className="gallery-layout-grid">
@@ -311,17 +277,43 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
                       ))}
                     </div>
 
-                    <div className="card-footer-pricing-row">
-                      <div>
-                        <span className="card-price-text">₹{exp.price}</span>
-                        <span className="card-price-unit"> / 60 min</span>
+                    <div className="card-footer-structured">
+                      <div className="card-footer-meta-row">
+                        <div className="card-price-main">
+                          <span className="card-price-prefix">Starts at</span>
+                          <strong className="card-price-amount">₹{exp.price || 499}</strong>
+                        </div>
+                        <span className="card-services-badge">4 Services Available</span>
                       </div>
-                      <div className="card-btn-group">
-                        <button className="btn-card-action-sm btn-teaser-play" onClick={() => handleCardClick(exp.id)}>Watch Teaser</button>
+
+                      <div className="card-footer-actions-row">
+                        <button 
+                          type="button"
+                          className="btn-card-action-flex btn-profile-view-flex" 
+                          onClick={() => handleCardClick(exp.id)}
+                          title={`View ${exp.name}'s profile and career journey`}
+                        >
+                          <User size={13} />
+                          <span>Profile</span>
+                        </button>
                         {isSelf ? (
-                          <button className="btn-card-action-sm btn-edit-listing-sm" onClick={() => navigateToCreatorStudio('teaser')} title="Manage your mentor profile, slots and pricing">Edit Listing</button>
+                          <button 
+                            type="button"
+                            className="btn-card-action-flex btn-edit-listing-flex" 
+                            onClick={() => navigateToCreatorStudio('teaser')} 
+                            title="Manage your mentor profile, slots and pricing"
+                          >
+                            Edit Listing
+                          </button>
                         ) : (
-                          <button className="btn-card-action-sm btn-book-sm" onClick={() => onOpenBooking(exp.id)}>Book Session</button>
+                          <button 
+                            type="button"
+                            className="btn-card-action-flex btn-book-session-flex" 
+                            onClick={() => onOpenBooking(exp.id)}
+                            title="Book a 1:1 mentorship session"
+                          >
+                            Book Session
+                          </button>
                         )}
                       </div>
                     </div>

@@ -171,10 +171,10 @@ const initialUserProfile: UserProfileData = {
   resumeLastUpdated: 'Almost a year ago',
   currentCtc: '₹5.5 LPA',
   targetCtc: '₹18L - 24L',
-  currentCompany: 'Tech Services',
-  dreamCompany: 'Swiggy / Flipkart',
-  targetRole: 'Staff Frontend Architect',
-  isCalibrated: false
+  currentCompany: 'TCS',
+  dreamCompany: 'Flipkart',
+  targetRole: 'AI/ML (Generative AI & LLMs)',
+  isCalibrated: true
 };
 
 const initialBootcamps: BootcampMasterclass[] = [
@@ -504,6 +504,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       };
     }
   });
+
+  // Persist user profiles database to localStorage whenever updated
+  useEffect(() => {
+    try {
+      localStorage.setItem('shine_peerpath_profiles_db', JSON.stringify(userProfiles));
+    } catch (e) {
+      console.warn('Failed to save userProfiles to localStorage', e);
+    }
+  }, [userProfiles]);
 
   // Fetch live creators and sessions from backend API on startup
   useEffect(() => {

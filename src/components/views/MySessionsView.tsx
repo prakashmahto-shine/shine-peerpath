@@ -83,15 +83,7 @@ export const MySessionsView: React.FC = () => {
     <div className="content-wrapper sessions-fullwidth-wrapper">
       
       {/* Top Header Navigation Row */}
-      <div className="sessions-top-nav-bar">
-        <button 
-          type="button" 
-          className="btn-sessions-back"
-          onClick={() => isMentor ? navigateToCreatorStudio('bookings') : navigate('profile-view')}
-        >
-          <ArrowLeft size={16} />
-          <span>{isMentor ? 'Back to Creator Studio' : 'Back to Profile'}</span>
-        </button>
+      <div className="sessions-top-nav-bar" style={{ justifyContent: 'flex-end' }}>
 
         <div style={{ display: 'flex', gap: '10px' }}>
           {isMentor ? (

@@ -532,6 +532,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCompany, setSelectedCompany] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'match' | 'rating' | 'experience' | 'price'>('match');
+  const [isTrackDropdownOpen, setIsTrackDropdownOpen] = useState<boolean>(false);
   const isMentor = currentUser?.role === 'mentor';
 
   // Automatically trigger Unlock/Calibration modal if candidate is not calibrated
@@ -678,6 +679,19 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
     });
   }, [activeTab, topRecommendedMentors, scoredAllMentors, selectedCompany, searchQuery, sortBy]);
 
+  const currentTrackInfo = useMemo(() => {
+    const trackMap: Record<MentorCategoryTab, { title: string; growthStat: string; count: number }> = {
+      top: { title: 'Top Matches for You', growthStat: '⚡ 96% Match', count: domainCounts.top },
+      ai: { title: 'AI & Data Science', growthStat: '+480% CTC Jump', count: domainCounts.ai },
+      semi: { title: 'Semiconductor & VLSI', growthStat: '+380% CTC Jump', count: domainCounts.semi },
+      cyber: { title: 'Cybersecurity & Cloud', growthStat: '+350% CTC Jump', count: domainCounts.cyber },
+      fullstack: { title: 'Full-Stack & Systems', growthStat: '+450% CTC Jump', count: domainCounts.fullstack },
+      others: { title: 'Product & Leadership', growthStat: '+320% CTC Jump', count: domainCounts.others },
+      all: { title: 'All Verified Mentors', growthStat: '500+ Network', count: domainCounts.all }
+    };
+    return trackMap[activeTab] || trackMap.top;
+  }, [activeTab, domainCounts]);
+
   // Action: Book 1:1 Session with Mentor -> opens booking modal popup
   const handleBook1on1 = (mentor: TransitionMentor) => {
     const matchedExpert: Expert = (experts && experts.find(e => e.id === mentor.id)) || {
@@ -730,30 +744,6 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
 
   return (
     <div className="content-wrapper peerpath-guidance-page">
-
-      {/* Trajectory Calibration Status Bar (Shown ONLY after user has calibrated) */}
-      {userProfile.isCalibrated && (
-        <div className="peerpath-trajectory-status-bar calibrated">
-          <div className="ptsb-left">
-            <span className="ptsb-chip-badge">🎯 CALIBRATED TARGET MATCH</span>
-            <div className="ptsb-route">
-              <span className="ptsb-cur">{userCurrentCompany}</span>
-              <span className="ptsb-arrow">➔</span>
-              <span className="ptsb-target">{userDreamCompany}</span>
-              <span className="ptsb-role">({userTargetRole})</span>
-            </div>
-          </div>
-          <button 
-            type="button" 
-            className="btn-ptsb-recalibrate"
-            onClick={() => setIsCalibrationModalOpen(true)}
-            title="Update your target role or target company"
-          >
-            <RefreshCw size={12} />
-            <span>Recalibrate Target</span>
-          </button>
-        </div>
-      )}
 
       {/* Main Peerpath Content Flow */}
       <div 
@@ -808,287 +798,270 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
           </div>
         )}
 
-        {/* 1. Official Shine Peerpath Hero Banner (Clean Full Width) */}
+        {/* 1. Official Shine Peerpath Hero Banner (Clean 2-Column with Profile Card) */}
         <div className="peerpath-hero-banner-card">
-          <div className="phb-left">
-            {/* Ecosystem Trust Badge (Zomato/Blinkit Trust model) */}
-            <div className="peerpath-ecosystem-trust-badge">
-              <span className="petb-dot"></span>
-              <span><strong>Peerpath by shine.com</strong> • India's 1st Verified 1:1 Tech Transition Platform • Backed by 3.5Cr+ Recruiter Network</span>
-            </div>
-
-            {/* Main Heading & Candidate Subtitle */}
-            <h1 className="phb-title">
-              Targeted Mentors for {userProfile.name || 'Prakash Mahto'}
-            </h1>
-            <div className="phb-role-subtitle">
-              Targeting: <strong>{userTargetRole}</strong> @ <strong>{userDreamCompany}</strong>
-            </div>
-
-            {/* Description */}
-            <p className="phb-desc">
-              Connect directly with verified tech leaders & engineers from Swiggy, Qualcomm, Razorpay, and Google who made the exact career jump.
-            </p>
-
-            {/* 3 Metric Cards Row */}
-            <div className="phb-stats-row">
-              <div className="phb-stat-card">
-                <div className="phb-stat-icon-wrap icon-purple">
-                  <Users size={16} />
-                </div>
-                <div className="phb-stat-info">
-                  <span className="phb-stat-label">Verified Mentors</span>
-                  <strong className="phb-stat-val val-purple">500+ Active</strong>
-                </div>
+          <div className="phb-flex-layout">
+            
+            {/* Left Column: Heading, Subtitle & Value Metrics */}
+            <div className="phb-left">
+              {/* Ecosystem Trust Badge (Zomato/Blinkit Trust model) */}
+              <div className="peerpath-ecosystem-trust-badge">
+                <span className="petb-dot"></span>
+                <span><strong>Peerpath by shine.com</strong> • India's 1st Verified 1:1 Tech Transition Platform • Backed by 3.5Cr+ Recruiter Network</span>
               </div>
 
-              <div className="phb-stat-card">
-                <div className="phb-stat-icon-wrap icon-green">
-                  <TrendingUp size={16} />
-                </div>
-                <div className="phb-stat-info">
-                  <span className="phb-stat-label">Career Switch</span>
-                  <strong className="phb-stat-val val-green">Services ➔ Product</strong>
-                </div>
+              {/* Main Heading & Candidate Subtitle */}
+              <h1 className="phb-title">
+                Targeted Mentors for {userProfile.name || 'Prakash Mahto'}
+              </h1>
+              <div className="phb-role-subtitle">
+                <span>Targeting: <strong>{userTargetRole}</strong> @ <strong>{userDreamCompany}</strong></span>
+                <span className="phb-subtitle-dot">•</span>
+                <span className="phb-current-role-inline">
+                  {(userProfile.headline ? userProfile.headline.split('|')[0].split('•')[0].split('@')[0].trim() : 'Senior Software Engineer')} @ {userCurrentCompany}
+                </span>
               </div>
 
-              <div className="phb-stat-card">
-                <div className="phb-stat-icon-wrap icon-blue">
-                  <Video size={16} />
+              {/* Description */}
+              <p className="phb-desc">
+                Connect directly with verified tech leaders & engineers from Swiggy, Qualcomm, Razorpay, and Google who made the exact career jump.
+              </p>
+
+              {/* 3 Metric Cards Row */}
+              <div className="phb-stats-row">
+                <div className="phb-stat-card">
+                  <div className="phb-stat-icon-wrap icon-purple">
+                    <Users size={16} />
+                  </div>
+                  <div className="phb-stat-info">
+                    <span className="phb-stat-label">Verified Mentors</span>
+                    <strong className="phb-stat-val val-purple">500+ Active</strong>
+                  </div>
                 </div>
-                <div className="phb-stat-info">
-                  <span className="phb-stat-label">1:1 Live Guidance</span>
-                  <strong className="phb-stat-val val-blue">100% Verified</strong>
+
+                <div className="phb-stat-card">
+                  <div className="phb-stat-icon-wrap icon-green">
+                    <TrendingUp size={16} />
+                  </div>
+                  <div className="phb-stat-info">
+                    <span className="phb-stat-label">Career Switch</span>
+                    <strong className="phb-stat-val val-green">Services ➔ Product</strong>
+                  </div>
+                </div>
+
+                <div className="phb-stat-card">
+                  <div className="phb-stat-icon-wrap icon-blue">
+                    <Video size={16} />
+                  </div>
+                  <div className="phb-stat-info">
+                    <span className="phb-stat-label">1:1 Live Guidance</span>
+                    <strong className="phb-stat-val val-blue">100% Verified</strong>
+                  </div>
                 </div>
               </div>
             </div>
+
+            {/* Right Column: Clean, Minimalist Profile Avatar Showcase */}
+            <div className="phb-right-avatar-showcase">
+              <div className="phb-avatar-showcase-ring">
+                <img
+                  src={currentUser?.avatar || '/avatars/prakash.jpg'}
+                  alt={userProfile.name || 'Prakash Mahto'}
+                  className="phb-avatar-showcase-img"
+                />
+                <span className="phb-verified-avatar-badge-large" title="Verified Candidate Profile">
+                  <CheckCircle2 size={20} fill="#10B981" color="#FFFFFF" />
+                </span>
+              </div>
+              <div className="phb-avatar-meta-pill">
+                <span className="phb-pulse-green"></span>
+                <span>Active Goal</span>
+                <span className="phb-meta-growth-tag">{jumpPercentageDisplay}</span>
+              </div>
+              <button
+                type="button"
+                className="btn-phb-edit-goal-pill"
+                onClick={() => setIsCalibrationModalOpen(true)}
+                title="Edit Target Role & Compensation Benchmark"
+              >
+                <SlidersHorizontal size={11} />
+                <span>Edit Goal</span>
+              </button>
+            </div>
+
           </div>
         </div>
 
-        {/* 2. Mentors Showcase Section with Category Tabs */}
+        {/* 2. Mentors Showcase Section with Minimalist Header Controls */}
         <div className="peerpath-mentors-showcase-section" id="mentorsShowcaseSection">
           
-          {/* Section Header */}
-          <div className="pms-section-header">
-            <div className="pms-title-wrap">
-              <div className="pms-badge-row">
-                <span className="pms-section-pill">
-                  <ShieldCheck size={13} className="text-emerald-600" /> 100% VERIFIED PEER MENTORS
-                </span>
-              </div>
-              <h2 className="pms-heading">Verified Mentors for Your Career Transition</h2>
-              <p className="pms-subheading">
-                Connect 1:1 with industry leaders from Swiggy, Qualcomm, Razorpay, NVIDIA, Google, and Microsoft who made the exact career jump.
-              </p>
-            </div>
-          </div>
-
-          {/* MODERN DOMAIN EXPLORER & DISCOVERY CONTROLS */}
-          <div className="peerpath-domain-explorer-wrap">
-            
-            {/* 1. Primary Category Segmented Tab Bar */}
-            <div className="peerpath-domain-tabs-nav">
-              <button
-                type="button"
-                className={`pm-domain-tab-btn ${activeTab === 'top' ? 'active' : ''}`}
-                onClick={() => setActiveTab('top')}
-              >
-                <Sparkles size={15} className="pm-dtab-ico text-amber-500" />
-                <span className="pm-dtab-title">Top Recommended</span>
-                <span className="pm-dtab-count">{domainCounts.top}</span>
-              </button>
-
-              <button
-                type="button"
-                className={`pm-domain-tab-btn ${activeTab === 'ai' ? 'active' : ''}`}
-                onClick={() => setActiveTab('ai')}
-              >
-                <Cpu size={15} className="pm-dtab-ico text-purple-600" />
-                <span className="pm-dtab-title">AI & Data Science</span>
-                <span className="pm-dtab-count">{domainCounts.ai}</span>
-              </button>
-
-              <button
-                type="button"
-                className={`pm-domain-tab-btn ${activeTab === 'semi' ? 'active' : ''}`}
-                onClick={() => setActiveTab('semi')}
-              >
-                <Zap size={15} className="pm-dtab-ico text-amber-600" />
-                <span className="pm-dtab-title">Semiconductor & VLSI</span>
-                <span className="pm-dtab-count">{domainCounts.semi}</span>
-              </button>
-
-              <button
-                type="button"
-                className={`pm-domain-tab-btn ${activeTab === 'cyber' ? 'active' : ''}`}
-                onClick={() => setActiveTab('cyber')}
-              >
-                <ShieldCheck size={15} className="pm-dtab-ico text-blue-600" />
-                <span className="pm-dtab-title">Cybersecurity & Cloud</span>
-                <span className="pm-dtab-count">{domainCounts.cyber}</span>
-              </button>
-
-              <button
-                type="button"
-                className={`pm-domain-tab-btn ${activeTab === 'fullstack' ? 'active' : ''}`}
-                onClick={() => setActiveTab('fullstack')}
-              >
-                <Code size={15} className="pm-dtab-ico text-emerald-600" />
-                <span className="pm-dtab-title">Full-Stack & Systems</span>
-                <span className="pm-dtab-count">{domainCounts.fullstack}</span>
-              </button>
-
-              <button
-                type="button"
-                className={`pm-domain-tab-btn ${activeTab === 'others' ? 'active' : ''}`}
-                onClick={() => setActiveTab('others')}
-              >
-                <Compass size={15} className="pm-dtab-ico text-indigo-600" />
-                <span className="pm-dtab-title">Product & Leadership</span>
-                <span className="pm-dtab-count">{domainCounts.others}</span>
-              </button>
-
-              <button
-                type="button"
-                className={`pm-domain-tab-btn ${activeTab === 'all' ? 'active' : ''}`}
-                onClick={() => setActiveTab('all')}
-              >
-                <Layers size={15} className="pm-dtab-ico text-slate-600" />
-                <span className="pm-dtab-title">All Mentors</span>
-                <span className="pm-dtab-count">{domainCounts.all}</span>
-              </button>
+          {/* Streamlined 1-Row Header with Track Selector & Search */}
+          <div className="pms-section-header-compact">
+            <div className="pms-compact-title-wrap">
+              <h2 className="pms-compact-heading">
+                <ShieldCheck size={18} className="text-emerald-600 pms-shield-icon" />
+                <span>Verified Mentors</span>
+                <span className="pms-compact-count-pill">{displayedMentors.length} Available</span>
+              </h2>
             </div>
 
-            {/* 2. Search, Company Filter Chips & Sort Controls Toolbar */}
-            <div className="peerpath-filter-toolbar">
-              <div className="pm-filter-left-controls">
-                
-                {/* Live Search Input */}
-                <div className="pm-search-box-wrap">
-                  <Search size={15} className="pm-search-ico" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search by mentor name, skill (PyTorch, VLSI, React) or company..."
-                    className="pm-search-text-input"
-                  />
-                  {searchQuery && (
-                    <button
-                      type="button"
-                      className="pm-search-clear-action"
-                      onClick={() => setSearchQuery('')}
-                      title="Clear search"
-                    >
-                      <X size={13} />
-                    </button>
-                  )}
-                </div>
-
-                {/* Company Filter Chips */}
-                <div className="pm-company-chips-scroll">
-                  <span className="pm-company-label">
-                    <Building2 size={13} /> Target Companies:
-                  </span>
-                  {['all', 'Swiggy', 'Qualcomm', 'Razorpay', 'NVIDIA', 'Google', 'Flipkart', 'Zepto'].map((comp) => (
-                    <button
-                      key={comp}
-                      type="button"
-                      className={`pm-company-chip ${selectedCompany === comp ? 'active' : ''}`}
-                      onClick={() => setSelectedCompany(comp)}
-                    >
-                      {comp === 'all' ? 'All Companies' : comp}
-                    </button>
-                  ))}
-                </div>
-
-              </div>
-
-              {/* Sort Selector Dropdown */}
-              <div className="pm-filter-right-controls">
-                <div className="pm-sort-dropdown-wrap">
-                  <SlidersHorizontal size={13} className="pm-sort-ico" />
-                  <span className="pm-sort-title">Sort:</span>
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as any)}
-                    className="pm-sort-native-select"
-                  >
-                    <option value="match">⚡ Highest Match %</option>
-                    <option value="rating">⭐ Top Rated (4.9+)</option>
-                    <option value="experience">💼 Years of Exp</option>
-                    <option value="price">💸 Fee: Low to High</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            {/* 3. Results Summary & Active Filters Pill Bar */}
-            <div className="peerpath-results-status-bar">
-              <div className="pm-status-left">
-                <span className="pm-results-badge">
-                  Showing <strong>{displayedMentors.length}</strong> verified mentor{displayedMentors.length !== 1 ? 's' : ''}
-                </span>
-                {(searchQuery || selectedCompany !== 'all' || activeTab !== 'top') && (
-                  <div className="pm-active-filters-list">
-                    {activeTab !== 'top' && (
-                      <span className="pm-active-tag">
-                        Domain: {activeTab === 'all' ? 'All' : activeTab.toUpperCase()}
-                      </span>
-                    )}
-                    {selectedCompany !== 'all' && (
-                      <span className="pm-active-tag">
-                        Company: {selectedCompany}
-                      </span>
-                    )}
-                    {searchQuery && (
-                      <span className="pm-active-tag">
-                        Query: "{searchQuery}"
-                      </span>
-                    )}
+            {/* Right Controls: Integrated Dropdown Track Selector + Compact Search */}
+            <div className="pms-header-controls-wrap">
+              
+              {/* Dropdown Track Selector */}
+              <div className="pms-track-dropdown-container">
+                <button
+                  type="button"
+                  className="pms-track-dropdown-trigger"
+                  onClick={() => setIsTrackDropdownOpen(!isTrackDropdownOpen)}
+                >
+                  <div className="pms-trigger-left">
+                    <span className="pms-trigger-kicker">SWITCH TRACK:</span>
+                    <strong className="pms-trigger-title">{currentTrackInfo.title}</strong>
                   </div>
+                  <div className="pms-trigger-right">
+                    <span className="pms-trigger-badge">{currentTrackInfo.growthStat}</span>
+                    <ChevronDown size={14} className={`pms-chevron ${isTrackDropdownOpen ? 'open' : ''}`} />
+                  </div>
+                </button>
+
+                {isTrackDropdownOpen && (
+                  <>
+                    <div className="pms-dropdown-backdrop" onClick={() => setIsTrackDropdownOpen(false)} />
+                    <div className="pms-track-dropdown-menu">
+                      <div className="pms-dropdown-header">
+                        <span>SELECT CAREER TRANSITION TRACK</span>
+                      </div>
+                      {[
+                        {
+                          id: 'top' as MentorCategoryTab,
+                          title: 'Top Matches for You',
+                          companies: 'Swiggy, Qualcomm, Razorpay',
+                          growthStat: '⚡ 96% Match',
+                          icon: Sparkles,
+                          count: domainCounts.top
+                        },
+                        {
+                          id: 'ai' as MentorCategoryTab,
+                          title: 'AI & Data Science',
+                          companies: 'Swiggy, Google, Microsoft',
+                          growthStat: '+480% CTC Jump',
+                          icon: Cpu,
+                          count: domainCounts.ai
+                        },
+                        {
+                          id: 'semi' as MentorCategoryTab,
+                          title: 'Semiconductor & VLSI',
+                          companies: 'Qualcomm, NVIDIA, Intel',
+                          growthStat: '+380% CTC Jump',
+                          icon: Zap,
+                          count: domainCounts.semi
+                        },
+                        {
+                          id: 'cyber' as MentorCategoryTab,
+                          title: 'Cybersecurity & Cloud',
+                          companies: 'Razorpay, AWS, Tier-1',
+                          growthStat: '+350% CTC Jump',
+                          icon: ShieldCheck,
+                          count: domainCounts.cyber
+                        },
+                        {
+                          id: 'fullstack' as MentorCategoryTab,
+                          title: 'Full-Stack & Systems',
+                          companies: 'Flipkart, Swiggy, Zepto',
+                          growthStat: '+450% CTC Jump',
+                          icon: Code,
+                          count: domainCounts.fullstack
+                        },
+                        {
+                          id: 'others' as MentorCategoryTab,
+                          title: 'Product & Leadership',
+                          companies: 'Zepto, Shine (HT Media)',
+                          growthStat: '+320% CTC Jump',
+                          icon: Compass,
+                          count: domainCounts.others
+                        },
+                        {
+                          id: 'all' as MentorCategoryTab,
+                          title: 'All Verified Mentors',
+                          companies: '35+ Tier-1 Product Firms',
+                          growthStat: '500+ Mentors',
+                          icon: Layers,
+                          count: domainCounts.all
+                        }
+                      ].map((t) => {
+                        const IconComp = t.icon;
+                        const isSelected = activeTab === t.id && !searchQuery;
+
+                        return (
+                          <div
+                            key={t.id}
+                            className={`pms-dropdown-item ${isSelected ? 'selected' : ''}`}
+                            onClick={() => {
+                              setActiveTab(t.id);
+                              setSearchQuery('');
+                              setIsTrackDropdownOpen(false);
+                            }}
+                          >
+                            <div className="pms-item-icon">
+                              <IconComp size={15} />
+                            </div>
+                            <div className="pms-item-details">
+                              <div className="pms-item-name-row">
+                                <strong className="pms-item-title">{t.title}</strong>
+                                <span className="pms-item-growth">{t.growthStat}</span>
+                              </div>
+                              <span className="pms-item-sub">{t.companies} • {t.count} Mentors</span>
+                            </div>
+                            {isSelected && (
+                              <Check size={14} className="pms-item-check" />
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </>
                 )}
               </div>
 
-              {(searchQuery || selectedCompany !== 'all' || activeTab !== 'top') && (
-                <button
-                  type="button"
-                  className="pm-btn-reset-filters"
-                  onClick={() => {
-                    setSearchQuery('');
-                    setSelectedCompany('all');
-                    setActiveTab('top');
-                    setSortBy('match');
-                  }}
-                >
-                  <RefreshCw size={12} />
-                  <span>Reset All Filters</span>
-                </button>
-              )}
-            </div>
-
-          </div>
-
-          {/* Mentors Horizontal List or Empty State */}
-          {displayedMentors.length === 0 ? (
-            <div className="peerpath-mentors-empty-state">
-              <div className="pm-empty-icon-wrap">
-                <Search size={28} className="text-indigo-600" />
+              {/* Compact Search Bar */}
+              <div className="pms-compact-search">
+                <Search size={13} className="pms-csearch-icon" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search mentor or skill..."
+                  className="pms-csearch-input"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    className="pms-csearch-clear"
+                    onClick={() => setSearchQuery('')}
+                    title="Clear"
+                  >
+                    <X size={12} />
+                  </button>
+                )}
               </div>
-              <h3>No verified mentors match your current filter</h3>
-              <p>Try searching for different skills (e.g. PyTorch, VLSI, React) or reset your active company and domain filters.</p>
+
+            </div>
+          </div>
+          
+          {/* Mentors Horizontal List or Clean Empty State */}
+          {displayedMentors.length === 0 ? (
+            <div className="peerpath-mentors-empty-clean">
+              <p>No mentors found matching "<strong>{searchQuery}</strong>"</p>
               <button
                 type="button"
-                className="btn-pm-empty-reset"
+                className="btn-pcpb-clear-search"
                 onClick={() => {
                   setSearchQuery('');
-                  setSelectedCompany('all');
                   setActiveTab('top');
-                  setSortBy('match');
                 }}
               >
-                <RefreshCw size={14} />
-                <span>View All Top Recommended Mentors</span>
+                Show Top Recommended Mentors
               </button>
             </div>
           ) : (
@@ -1178,8 +1151,11 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                   {/* Right Column: Pricing & Quick Actions */}
                   <div className="pm-h-col-right">
                     <div className="pm-h-price-wrap">
-                      <span className="pm-h-price-num">₹{mentor.price || 899}</span>
-                      <span className="pm-h-price-lbl">/ 60-min service</span>
+                      <div className="pm-h-price-main">
+                        <span className="pm-h-price-prefix">Starts at</span>
+                        <strong className="pm-h-price-num">₹{mentor.price || 899}</strong>
+                      </div>
+                      <span className="pm-h-price-lbl">4 Services Available</span>
                     </div>
 
                     <div className="pm-h-actions-group">

@@ -3916,211 +3916,72 @@
   ],
   "sessions": [
     {
-      "id": "sess-1789048100994",
-      "expertId": "rajat",
+      "id": "sess-1789061999323",
+      "expertId": "ishita",
       "expert": {
-        "id": "rajat",
-        "name": "Rajat Pandey",
+        "id": "ishita",
+        "name": "Ishita Sharma",
         "role": "Senior Data Scientist & AI Lead",
-        "company": "NVIDIA",
+        "company": "Swiggy",
         "domain": "AI/ML",
         "experience": "7+ Years Exp.",
-        "rating": 4.95,
-        "reviewsCount": 187,
-        "sessionsCount": 219,
-        "price": 999,
-        "location": "Mumbai, India",
-        "duration": "01:20",
-        "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
-        "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at NVIDIA",
+        "rating": 4.8,
+        "reviewsCount": 96,
+        "sessionsCount": 210,
+        "price": 899,
+        "location": "Bengaluru, India",
+        "duration": "01:09",
+        "avatar": "/avatars/ishita.jpg",
+        "videoPoster": "/avatars/ishita.jpg",
+        "teaserTitle": "Teaser: Transitioning from Data Analyst to Production GenAI Lead",
         "skills": [
-          "Vector Search",
+          "Data Science",
+          "Machine Learning",
           "PyTorch",
-          "Deep Learning",
-          "MLOps",
-          "LangChain"
+          "LLMs",
+          "RAG Systems",
+          "FastAPI"
         ],
-        "bio": "Senior Data Scientist & AI Lead at NVIDIA. I mentor engineers making the jump into AI/ML roles, with deep focus on Vector Search and PyTorch.",
-        "verifiedEmail": "rajat.p@nvidia.com",
+        "bio": "Built real-time dispatch and recommendation algorithms at Swiggy. I guide developers making the jump into production GenAI & distributed ML systems.",
+        "verifiedEmail": "ishita.sharma@swiggy.in",
         "isVerifiedEmployer": true,
         "trajectory": {
-          "role3YearsAgo": "Data Analyst",
-          "company3YearsAgo": "Infosys Digital",
-          "salary3YearsAgo": "₹8.4 LPA",
+          "role3YearsAgo": "BI & Data Analyst",
+          "company3YearsAgo": "Mu Sigma",
+          "salary3YearsAgo": "₹5.5 LPA",
           "keyJumpSkills": [
+            "PyTorch Production Pipelines",
             "Vector Search (Pinecone)",
-            "LLM Fine-Tuning",
-            "CUDA Kernel Optimization"
+            "LLM Fine-Tuning"
           ],
-          "jumpStory": "Went from Data Analyst at Infosys Digital to Senior Data Scientist & AI Lead at NVIDIA by mastering Vector Search (Pinecone) and LLM Fine-Tuning."
+          "jumpStory": "Transitioned from SQL dashboards to building multi-modal LLM search algorithms and dispatch heuristics serving 2M orders daily."
         },
         "availability": {
           "days": [
+            "Mon",
             "Tue",
             "Thu",
             "Sat"
           ],
           "timeSlots": [
-            "02:00 PM - 03:00 PM",
-            "08:00 PM - 09:00 PM"
+            "06:30 PM - 07:30 PM",
+            "08:30 PM - 09:30 PM"
           ]
         }
       },
       "candidateId": "prakash",
       "candidateName": "Prakash Mahto",
-      "candidateRole": "Senior Frontend Engineer",
+      "candidateRole": "sfasf @ fsafa ➔ Aspiring AI/ML (Generative AI & LLMs) @ asdas",
       "candidateAvatar": "/avatars/prakash.jpg",
-      "candidateGoal": "Transition to Staff Level at Tier-1 FinTech",
+      "candidateGoal": "Trajectory mentorship & target jump into Swiggy",
       "candidateEmail": "prakash.mahto@gmail.com",
-      "date": "Monday, 14 Sep 2026",
+      "date": "Fri, 11 Sep 2026",
       "timeSlot": "07:00 PM - 08:00 PM",
-      "status": "completed",
-      "meetingLink": "https://meet.shine.com/room/peerpath-rajat-1789048100994",
-      "paymentId": "pay_shine_mtvl1pj6_3yuf",
-      "amountPaid": 999,
-      "bookedAt": "2026-09-10T13:48:20.994Z",
-      "rating": 5,
-      "feedbackNotes": "Prakash demonstrated thorough architectural mastery of micro-frontends and state synchronization.",
-      "badgeAwarded": "Verified Tier-1 Frontend Architecture"
-    },
-    {
-      "id": "sess-1789047310422",
-      "expertId": "rajat",
-      "expert": {
-        "id": "rajat",
-        "name": "Rajat Pandey",
-        "role": "Senior Data Scientist & AI Lead",
-        "company": "NVIDIA",
-        "domain": "AI/ML",
-        "experience": "7+ Years Exp.",
-        "rating": 4.95,
-        "reviewsCount": 187,
-        "sessionsCount": 219,
-        "price": 999,
-        "location": "Mumbai, India",
-        "duration": "01:20",
-        "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
-        "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at NVIDIA",
-        "skills": [
-          "Vector Search",
-          "PyTorch",
-          "Deep Learning",
-          "MLOps",
-          "LangChain"
-        ],
-        "bio": "Senior Data Scientist & AI Lead at NVIDIA. I mentor engineers making the jump into AI/ML roles, with deep focus on Vector Search and PyTorch.",
-        "verifiedEmail": "rajat.p@nvidia.com",
-        "isVerifiedEmployer": true,
-        "trajectory": {
-          "role3YearsAgo": "Data Analyst",
-          "company3YearsAgo": "Infosys Digital",
-          "salary3YearsAgo": "₹8.4 LPA",
-          "keyJumpSkills": [
-            "Vector Search (Pinecone)",
-            "LLM Fine-Tuning",
-            "CUDA Kernel Optimization"
-          ],
-          "jumpStory": "Went from Data Analyst at Infosys Digital to Senior Data Scientist & AI Lead at NVIDIA by mastering Vector Search (Pinecone) and LLM Fine-Tuning."
-        },
-        "availability": {
-          "days": [
-            "Tue",
-            "Thu",
-            "Sat"
-          ],
-          "timeSlots": [
-            "02:00 PM - 03:00 PM",
-            "08:00 PM - 09:00 PM"
-          ]
-        }
-      },
-      "candidateId": "prakash",
-      "candidateName": "Prakash Mahto",
-      "candidateRole": "Senior Frontend Engineer",
-      "candidateAvatar": "/avatars/prakash.jpg",
-      "candidateGoal": "Transition to Staff Level at Tier-1 FinTech",
-      "candidateEmail": "prakash.mahto@gmail.com",
-      "date": "Monday, 14 Sep 2026",
-      "timeSlot": "07:00 PM - 08:00 PM",
-      "status": "completed",
-      "meetingLink": "https://meet.shine.com/room/peerpath-rajat-1789047310422",
-      "paymentId": "pay_shine_mtvkkriu_ny6x",
-      "amountPaid": 999,
-      "bookedAt": "2026-09-10T13:35:10.422Z",
-      "rating": 5,
-      "feedbackNotes": "Prakash demonstrated thorough architectural mastery of micro-frontends and state synchronization.",
-      "badgeAwarded": "Verified Tier-1 Frontend Architecture"
-    },
-    {
-      "id": "sess-1789045175815",
-      "expertId": "rajat",
-      "expert": {
-        "id": "rajat",
-        "name": "Rajat Pandey",
-        "role": "Senior Data Scientist & AI Lead",
-        "company": "NVIDIA",
-        "domain": "AI/ML",
-        "experience": "7+ Years Exp.",
-        "rating": 4.95,
-        "reviewsCount": 187,
-        "sessionsCount": 219,
-        "price": 999,
-        "location": "Mumbai, India",
-        "duration": "01:20",
-        "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
-        "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at NVIDIA",
-        "skills": [
-          "Vector Search",
-          "PyTorch",
-          "Deep Learning",
-          "MLOps",
-          "LangChain"
-        ],
-        "bio": "Senior Data Scientist & AI Lead at NVIDIA. I mentor engineers making the jump into AI/ML roles, with deep focus on Vector Search and PyTorch.",
-        "verifiedEmail": "rajat.p@nvidia.com",
-        "isVerifiedEmployer": true,
-        "trajectory": {
-          "role3YearsAgo": "Data Analyst",
-          "company3YearsAgo": "Infosys Digital",
-          "salary3YearsAgo": "₹8.4 LPA",
-          "keyJumpSkills": [
-            "Vector Search (Pinecone)",
-            "LLM Fine-Tuning",
-            "CUDA Kernel Optimization"
-          ],
-          "jumpStory": "Went from Data Analyst at Infosys Digital to Senior Data Scientist & AI Lead at NVIDIA by mastering Vector Search (Pinecone) and LLM Fine-Tuning."
-        },
-        "availability": {
-          "days": [
-            "Tue",
-            "Thu",
-            "Sat"
-          ],
-          "timeSlots": [
-            "02:00 PM - 03:00 PM",
-            "08:00 PM - 09:00 PM"
-          ]
-        }
-      },
-      "candidateId": "prakash",
-      "candidateName": "Prakash Mahto",
-      "candidateRole": "Senior Frontend Engineer",
-      "candidateAvatar": "/avatars/prakash.jpg",
-      "candidateGoal": "Transition to Staff Level at Tier-1 FinTech",
-      "candidateEmail": "prakash.mahto@gmail.com",
-      "date": "Monday, 14 Sep 2026",
-      "timeSlot": "07:00 PM - 08:00 PM",
-      "status": "completed",
-      "meetingLink": "https://meet.shine.com/room/peerpath-rajat-1789045175815",
-      "paymentId": "pay_shine_mtvjb0g7_zazx",
-      "amountPaid": 999,
-      "bookedAt": "2026-09-10T12:59:35.815Z",
-      "rating": 5,
-      "feedbackNotes": "Prakash demonstrated thorough architectural mastery of micro-frontends and state synchronization.",
-      "badgeAwarded": "Verified Tier-1 Frontend Architecture"
+      "status": "upcoming",
+      "meetingLink": "https://meet.shine.com/room/peerpath-ishita-1789061999323",
+      "paymentId": "pay_shine_mtvtbljv_17th",
+      "amountPaid": 899,
+      "bookedAt": "2026-09-10T17:39:59.323Z"
     },
     {
       "id": "sess-1",
@@ -4353,7 +4214,7 @@
   "analytics": {
     "profileUpdatesThisMonth": 14824,
     "newRegistrationsThisMonth": 6350,
-    "totalSessionsBooked": 2433,
-    "totalActiveCreators": 61
+    "totalSessionsBooked": 2431,
+    "totalActiveCreators": 20
   }
 }
