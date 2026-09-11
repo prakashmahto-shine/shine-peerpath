@@ -469,7 +469,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
               {/* Ecosystem Trust Badge (Zomato/Blinkit Trust model) */}
               <div className="peerpath-ecosystem-trust-badge">
                 <span className="petb-dot"></span>
-                <span><strong>Peerpath by shine.com</strong> • Trusted 1:1 Tech Transition Platform • Backed by 3.5Cr+ Candidate Network</span>
+                <span><strong>Peerpath by shine.com</strong> • Backed by 3.5Cr+ Candidate Network</span>
               </div>
 
               {/* Main Heading & Candidate Subtitle */}

@@ -182,7 +182,7 @@ export const LoginView: React.FC = () => {
                 Accelerate Your Tech Career with <span className="peerpath-title-gradient">1:1 Mentorship</span>
               </h1>
               <p className="peerpath-login-hero-subtitle">
-                Learn directly from vetted tech leaders who made your dream transition. Unlock verified roadmaps, mock interviews, and priority recruiter shortlists.
+                Learn directly from vetted tech leaders who made your dream transition. Unlock verified roadmaps, mock interviews.
               </p>
             </div>
 
@@ -255,36 +255,23 @@ export const LoginView: React.FC = () => {
                   <span className="leap-level">{activeMentor.afterLevel}</span>
                 </div>
               </div>
-
-              {/* Tags Row */}
-              <div className="psc-tags-row">
-                {activeMentor.tags.map((tag, i) => (
-                  <span key={i} className="psc-skill-tag">{tag}</span>
-                ))}
-              </div>
-
-              {/* Quote / Highlight */}
-              <div className="psc-quote-box">
-                <span className="quote-mark">“</span>
-                <p>{activeMentor.quote}</p>
-              </div>
             </div>
 
-            {/* Quick 3-Metric Proof Strip (Career Transition Focus, Zero Package Disclosed) */}
+            {/* Quick 3-Metric Proof Strip */}
             <div className="peerpath-metric-strip">
               <div className="pms-item">
                 <strong className="pms-val">500+</strong>
-                <span className="pms-label">Vetted Mentors</span>
+                <span className="pms-label">Verified Mentors</span>
               </div>
               <div className="pms-divider"></div>
               <div className="pms-item">
-                <strong className="pms-val text-emerald-400">94%</strong>
-                <span className="pms-label">Transition Success</span>
+                <strong className="pms-val text-amber-400">4.9 ★</strong>
+                <span className="pms-label">Avg Rating</span>
               </div>
               <div className="pms-divider"></div>
               <div className="pms-item">
-                <strong className="pms-val text-indigo-300">&lt;90 Days</strong>
-                <span className="pms-label">Avg Offer Speed</span>
+                <strong className="pms-val text-indigo-300">100,000+</strong>
+                <span className="pms-label">Candidate Network</span>
               </div>
             </div>
 
@@ -297,7 +284,7 @@ export const LoginView: React.FC = () => {
               </div>
               <div className="ppp-text">
                 <div className="ppp-title-row">
-                  <strong>300,000+ Recruiter Network</strong>
+                  <strong>1,500+ Recruiter Network</strong>
                   <span className="ppp-verified-tag">
                     <ShieldCheck size={11} /> Verified by Shine
                   </span>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronUp, ChevronDown, ArrowUpRight, Sparkles, Compass, ShieldCheck, Briefcase, Award, TrendingUp, Users } from 'lucide-react';
+import { ChevronUp, ChevronDown, ArrowUpRight, Sparkles, Compass, Briefcase, Award, TrendingUp, Users } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const Footer: React.FC = () => {
@@ -54,11 +54,6 @@ export const Footer: React.FC = () => {
                       <span className="peerpath-brand-title" style={{ color: '#FFFFFF', fontSize: '18px' }}>PEERPATH</span>
                       <span className="peerpath-brand-sub" style={{ color: '#CBD5E1' }}>by <strong className="shine-mark" style={{ color: '#FCD34D' }}>shine.com</strong></span>
                     </div>
-                  </div>
-                  <span className="ftbs-divider-dot">•</span>
-                  <div className="ftbs-trust-endorsement">
-                    <ShieldCheck size={16} className="text-emerald-400" />
-                    <span>Trusted 1:1 Tech Transition Platform</span>
                   </div>
                 </div>
               ) : (
