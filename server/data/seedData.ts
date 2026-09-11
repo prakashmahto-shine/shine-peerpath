@@ -101,6 +101,104 @@ export const SEED_CREATORS: Creator[] = [
     }
   },
   {
+    id: "deepika-pm",
+    name: "Deepika Sen",
+    role: "Senior Technical Product Manager",
+    company: "Google",
+    domain: "Product Management",
+    experience: "7+ Years Exp.",
+    rating: 4.93,
+    reviewsCount: 154,
+    sessionsCount: 312,
+    price: 1399,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: Transitioning from Frontend Engineering to Google Technical Product Management",
+    skills: [
+      "Technical Product Strategy",
+      "PRD & Discovery",
+      "API & Systems Design",
+      "Roadmapping",
+      "A/B Testing"
+    ],
+    bio: "Senior Technical Product Manager at Google. I help frontend and full-stack developers transition into high-impact Product Management, master technical PRDs, and crack Google PM interviews.",
+    verifiedEmail: "deepika.sen@google.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Senior Frontend Developer",
+      company3YearsAgo: "TCS (Tata Consultancy Services)",
+      salary3YearsAgo: "₹7.5 LPA",
+      keyJumpSkills: [
+        "Technical PRDs",
+        "Product Strategy",
+        "System Architecture"
+      ],
+      jumpStory: "Transitioned from 4 years as a Frontend Developer at TCS into high-scale developer platform Product Management at Google."
+    },
+    availability: {
+      days: [
+        "Tue",
+        "Thu",
+        "Sat"
+      ],
+      timeSlots: [
+        "07:00 PM - 08:00 PM",
+        "08:30 PM - 09:30 PM"
+      ]
+    }
+  },
+  {
+    id: "harsh-pm",
+    name: "Harsh Vardhan",
+    role: "Principal Product Manager",
+    company: "Flipkart",
+    domain: "Product Management",
+    experience: "8+ Years Exp.",
+    rating: 4.91,
+    reviewsCount: 129,
+    sessionsCount: 275,
+    price: 1299,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: From SDE / Frontend Developer to Principal PM",
+    skills: [
+      "Product Strategy",
+      "Growth Metrics",
+      "E-commerce Platforms",
+      "User Experience",
+      "Experimentation"
+    ],
+    bio: "Principal Product Manager at Flipkart leading e-commerce checkout and discovery initiatives. I mentor software engineers making the leap to product leadership.",
+    verifiedEmail: "harsh.v@flipkart.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Frontend Developer",
+      company3YearsAgo: "Wipro",
+      salary3YearsAgo: "₹6.8 LPA",
+      keyJumpSkills: [
+        "Product Analytics",
+        "Feature Prioritization",
+        "User Research"
+      ],
+      jumpStory: "Made the transition from Frontend Developer at Wipro to Associate PM, and rapidly climbed to Principal Product Manager at Flipkart."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Wed",
+        "Sat"
+      ],
+      timeSlots: [
+        "06:30 PM - 07:30 PM",
+        "08:00 PM - 09:00 PM"
+      ]
+    }
+  },
+  {
     id: "anirudh",
     name: "Anirudh Sharma",
     role: "Principal Search & Database Architect",
@@ -2570,6 +2668,155 @@ export const SEED_CREATORS: Creator[] = [
     }
   },
   {
+    id: "naveen-ai",
+    name: "Naveen Chandran",
+    role: "Staff GenAI & UI Platform Architect",
+    company: "Google",
+    domain: "AI/ML",
+    experience: "8+ Years Exp.",
+    rating: 4.96,
+    reviewsCount: 162,
+    sessionsCount: 340,
+    price: 1399,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: From Frontend Developer to Staff GenAI Platform Architect at Google",
+    skills: [
+      "Generative AI",
+      "LLMs",
+      "LangChain",
+      "React.js",
+      "Vector Search",
+      "Python"
+    ],
+    bio: "Staff GenAI & UI Platform Architect at Google. I transitioned from frontend engineering at TCS to building generative AI interfaces, streaming LLM systems, and enterprise copilot frameworks at Google.",
+    verifiedEmail: "naveen.c@google.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Senior Frontend Developer",
+      company3YearsAgo: "TCS (Tata Consultancy Services)",
+      salary3YearsAgo: "₹7.2 LPA",
+      keyJumpSkills: [
+        "LangChain & Vector Search",
+        "LLM Streaming Architecture",
+        "Python AI Microservices"
+      ],
+      jumpStory: "Transitioned from 4 years as a Senior Frontend Developer at TCS into spearheading generative AI platforms and multi-modal copilot interfaces at Google."
+    },
+    availability: {
+      days: [
+        "Tue",
+        "Thu",
+        "Sun"
+      ],
+      timeSlots: [
+        "07:30 PM - 08:30 PM",
+        "09:00 PM - 10:00 PM"
+      ]
+    }
+  },
+  {
+    id: "pooja-ai",
+    name: "Pooja Hegde",
+    role: "Senior AI Application Engineer",
+    company: "Microsoft",
+    domain: "AI/ML",
+    experience: "7+ Years Exp.",
+    rating: 4.92,
+    reviewsCount: 135,
+    sessionsCount: 280,
+    price: 1299,
+    location: "Hyderabad, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: Frontend Dev to AI App Engineer at Microsoft",
+    skills: [
+      "Azure OpenAI",
+      "Semantic Kernel",
+      "RAG Systems",
+      "React",
+      "TypeScript",
+      "Prompt Engineering"
+    ],
+    bio: "Senior AI Application Engineer at Microsoft. Guiding frontend and web developers on mastering LLM orchestration, RAG architectures, and breaking into top AI product teams.",
+    verifiedEmail: "pooja.hegde@microsoft.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Frontend Developer",
+      company3YearsAgo: "Infosys",
+      salary3YearsAgo: "₹6.5 LPA",
+      keyJumpSkills: [
+        "Azure OpenAI Services",
+        "RAG Architectures",
+        "Prompt Engineering"
+      ],
+      jumpStory: "Transitioned from frontend web development at Infosys into building enterprise Copilot and RAG applications at Microsoft."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Wed",
+        "Sat"
+      ],
+      timeSlots: [
+        "07:00 PM - 08:00 PM",
+        "08:30 PM - 09:30 PM"
+      ]
+    }
+  },
+  {
+    id: "vikas-ai",
+    name: "Vikas Sharma",
+    role: "Lead Machine Learning Applications Engineer",
+    company: "Google",
+    domain: "AI/ML",
+    experience: "8+ Years Exp.",
+    rating: 4.94,
+    reviewsCount: 148,
+    sessionsCount: 310,
+    price: 1399,
+    location: "Bengaluru, India",
+    duration: "01:20",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: Full-Stack to ML Applications Engineer at Google",
+    skills: [
+      "LLM Fine-Tuning",
+      "PyTorch",
+      "TensorFlow Serving",
+      "Full-Stack Web",
+      "Kubernetes"
+    ],
+    bio: "Lead ML Applications Engineer at Google. I help full-stack and web engineers build deep machine learning competencies and successfully crack tier-1 ML platform loops.",
+    verifiedEmail: "vikas.sharma@google.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Full-Stack Developer",
+      company3YearsAgo: "TCS (Tata Consultancy Services)",
+      salary3YearsAgo: "₹7.8 LPA",
+      keyJumpSkills: [
+        "ML Inference Pipelines",
+        "Model Fine-Tuning",
+        "Distributed Systems"
+      ],
+      jumpStory: "Transitioned from Full-Stack developer at TCS to leading high-throughput ML inference and generative applications at Google."
+    },
+    availability: {
+      days: [
+        "Wed",
+        "Fri",
+        "Sun"
+      ],
+      timeSlots: [
+        "08:00 PM - 09:00 PM",
+        "09:30 PM - 10:30 PM"
+      ]
+    }
+  },
+  {
     id: "arjun",
     name: "Arjun Gupta",
     role: "Lead Silicon Verification Architect",
@@ -3165,6 +3412,105 @@ export const SEED_CREATORS: Creator[] = [
     }
   },
   {
+    id: "siddharth-semi",
+    name: "Siddharth Varman",
+    role: "Staff Silicon Systems & Diagnostics Architect",
+    company: "Qualcomm",
+    domain: "Semiconductor",
+    experience: "8+ Years Exp.",
+    rating: 4.95,
+    reviewsCount: 144,
+    sessionsCount: 310,
+    price: 1399,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: From IT Services Software Engineer to Qualcomm Silicon Architect",
+    skills: [
+      "Hardware Diagnostics",
+      "C++",
+      "SystemVerilog",
+      "Device Drivers",
+      "Post-Silicon Validation",
+      "SoC Bringup"
+    ],
+    bio: "Staff Silicon Systems Architect at Qualcomm. Transitioned from enterprise software at TCS into post-silicon diagnostics and hardware validation pipelines for Snapdragon chipsets.",
+    verifiedEmail: "siddharth.v@qualcomm.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Software Engineer",
+      company3YearsAgo: "TCS (Tata Consultancy Services)",
+      salary3YearsAgo: "₹6.8 LPA",
+      keyJumpSkills: [
+        "Hardware-Software Co-Design",
+        "Post-Silicon Validation",
+        "Low-Level C++ / Drivers"
+      ],
+      jumpStory: "Transitioned from software development at TCS into post-silicon diagnostics and hardware validation pipelines for Snapdragon processors at Qualcomm."
+    },
+    availability: {
+      days: [
+        "Tue",
+        "Fri",
+        "Sun"
+      ],
+      timeSlots: [
+        "07:00 PM - 08:00 PM",
+        "08:30 PM - 09:30 PM"
+      ]
+    }
+  },
+  {
+    id: "priya-semi",
+    name: "Priya Natarajan",
+    role: "Lead Silicon UI & Hardware Tools Architect",
+    company: "NVIDIA",
+    domain: "Semiconductor",
+    experience: "7+ Years Exp.",
+    rating: 4.93,
+    reviewsCount: 122,
+    sessionsCount: 260,
+    price: 1299,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: Frontend Dev to Semiconductor Tooling & Simulation at NVIDIA",
+    skills: [
+      "Silicon Simulation Tools",
+      "React.js",
+      "C++ WebAssembly",
+      "Hardware Visualization",
+      "GPU Profiling"
+    ],
+    bio: "Lead Silicon UI Architect at NVIDIA. I guide frontend and web engineers on leveraging UI/Wasm skills to enter top semiconductor firms building chip telemetry and simulation tooling.",
+    verifiedEmail: "priya.n@nvidia.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Frontend Developer",
+      company3YearsAgo: "Wipro",
+      salary3YearsAgo: "₹6.2 LPA",
+      keyJumpSkills: [
+        "Hardware Telemetry UIs",
+        "WebAssembly Silicon Simulators",
+        "GPU Profiling UIs"
+      ],
+      jumpStory: "Transitioned from standard web development at Wipro into architecting complex chip telemetry and hardware emulation user interfaces at NVIDIA."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Wed",
+        "Sat"
+      ],
+      timeSlots: [
+        "06:30 PM - 07:30 PM",
+        "08:00 PM - 09:00 PM"
+      ]
+    }
+  },
+  {
     id: "divya2",
     name: "Divya Saxena",
     role: "Staff SOC & Threat Hunting Architect",
@@ -3753,6 +4099,105 @@ export const SEED_CREATORS: Creator[] = [
       timeSlots: [
         "07:00 PM - 08:00 PM",
         "08:30 PM - 09:30 PM"
+      ]
+    }
+  },
+  {
+    id: "aditya-cyber",
+    name: "Aditya Singhania",
+    role: "Lead Application Security & DevSecOps Engineer",
+    company: "Palo Alto Networks",
+    domain: "Cybersecurity",
+    experience: "7.5+ Years Exp.",
+    rating: 4.93,
+    reviewsCount: 138,
+    sessionsCount: 295,
+    price: 1299,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: From Frontend / Web Developer to Lead AppSec Engineer",
+    skills: [
+      "Application Security",
+      "OWASP Top 10",
+      "OAuth2 / OpenID Connect",
+      "DevSecOps",
+      "Cloud Security",
+      "Penetration Testing"
+    ],
+    bio: "Lead AppSec Architect at Palo Alto Networks. I guide frontend and web engineers on transitioning into high-demand Application Security, secure SDLC, and zero-trust engineering roles.",
+    verifiedEmail: "aditya.s@paloaltonetworks.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Frontend Developer",
+      company3YearsAgo: "TCS (Tata Consultancy Services)",
+      salary3YearsAgo: "₹6.5 LPA",
+      keyJumpSkills: [
+        "Frontend Vulnerability Scanning",
+        "OAuth2 & Token Hardening",
+        "AppSec Pipeline Automation"
+      ],
+      jumpStory: "Transitioned from securing frontend React codebases at TCS to leading enterprise application security and zero-trust web architectures at Palo Alto Networks."
+    },
+    availability: {
+      days: [
+        "Tue",
+        "Thu",
+        "Sat"
+      ],
+      timeSlots: [
+        "07:00 PM - 08:00 PM",
+        "08:30 PM - 09:30 PM"
+      ]
+    }
+  },
+  {
+    id: "monica-cyber",
+    name: "Monica Deshmukh",
+    role: "Staff Cloud Security Architect",
+    company: "CrowdStrike",
+    domain: "Cybersecurity",
+    experience: "8+ Years Exp.",
+    rating: 4.91,
+    reviewsCount: 119,
+    sessionsCount: 245,
+    price: 1399,
+    location: "Pune, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: SDE to Staff Cloud Security Architect at CrowdStrike",
+    skills: [
+      "Cloud Security",
+      "AWS / GCP Security",
+      "Container & K8s Security",
+      "DevSecOps",
+      "Threat Modeling"
+    ],
+    bio: "Staff Cloud Security Architect at CrowdStrike. Mentoring developers on cloud security architecture, container defense, and interview preparation for top cyber firms.",
+    verifiedEmail: "monica.d@crowdstrike.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Software Engineer",
+      company3YearsAgo: "Infosys",
+      salary3YearsAgo: "₹7.0 LPA",
+      keyJumpSkills: [
+        "Kubernetes Hardening",
+        "IAM Architecture",
+        "Cloud Threat Modeling"
+      ],
+      jumpStory: "Transitioned from software development at Infosys into architecting cloud-native defense systems and container runtime security at CrowdStrike."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Wed",
+        "Fri"
+      ],
+      timeSlots: [
+        "06:30 PM - 07:30 PM",
+        "08:00 PM - 09:00 PM"
       ]
     }
   },

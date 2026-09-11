@@ -122,15 +122,15 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
   const jumpPercentageDisplay = benchmark.jumpPercentageDisplay;
 
   // Candidate Target context
-  const userTargetRole = userProfile.targetRole || 'Full-Stack UI Architect';
-  const userDreamCompany = userProfile.dreamCompany || 'Swiggy / Qualcomm / Razorpay';
-  const userCurrentCompany = userProfile.currentCompany || 'Tech Services';
+  const userTargetRole = userProfile.targetRole || undefined;
+  const userDreamCompany = userProfile.dreamCompany || userProfile.targetCompany || undefined;
+  const userCurrentCompany = userProfile.currentCompany || userProfile.pastCompany || undefined;
 
-  // Headline strings look like "Senior Frontend Engineer | 4 Years, 2 Months | Bengaluru" —
-  // same current-role extraction idiom used elsewhere in this component and in JobsView.
-  const userCurrentRole = userProfile.headline
-    ? userProfile.headline.split('|')[0].split('•')[0].split('@')[0].trim()
-    : 'Senior Frontend Engineer';
+  // Headline strings look like "Senior Frontend Engineer | 4 Years, 2 Months | Bengaluru"
+  // Check explicit pastCompanyRole first, then headline
+  const userCurrentRole = userProfile.pastCompanyRole
+    || (userProfile.headline ? userProfile.headline.split('|')[0].split('•')[0].split('@')[0].trim() : '')
+    || 'Software Engineer';
 
   const [allMatches, setAllMatches] = useState<TrajectoryMatch[]>([]);
   const [isLoadingAllMatches, setIsLoadingAllMatches] = useState<boolean>(true);
@@ -149,15 +149,15 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
 
     peerpathApi.matchTrajectories({
       currentRole: userCurrentRole,
-      currentCompany: userProfile.currentCompany || userProfile.pastCompany,
+      currentCompany: userCurrentCompany,
       currentExperience: userProfile.experienceYears || '4 Years',
       currentSalary: userProfile.currentCtc,
-      targetRole: userProfile.targetRole || undefined,
+      targetRole: userTargetRole,
       targetPackage: userProfile.targetCtc,
-      targetCompany: userProfile.dreamCompany || undefined,
+      targetCompany: userDreamCompany,
       skills: userProfile.skills || []
     }).then(({ matches }) => {
-      if (isCurrent) setAllMatches(matches);
+      if (isCurrent) setAllMatches(matches || []);
     }).catch(err => {
       console.warn('[CareerGuidanceView all-domain trajectory match]:', err);
       if (isCurrent) setAllMatchesError('Failed to load matched mentors. Please try again.');
@@ -166,7 +166,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
     });
 
     return () => { isCurrent = false; };
-  }, [userCurrentRole, userProfile.currentCompany, userProfile.pastCompany, userProfile.experienceYears, userProfile.currentCtc, userTargetRole, userProfile.targetCtc, userDreamCompany, userProfile.skills]);
+  }, [userCurrentRole, userCurrentCompany, userProfile.experienceYears, userProfile.currentCtc, userTargetRole, userProfile.targetCtc, userDreamCompany, userProfile.skills]);
 
   // Re-fetch scoped to a single domain whenever a track tab that maps to one domain is selected.
   useEffect(() => {
@@ -183,17 +183,17 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
 
     peerpathApi.matchTrajectories({
       currentRole: userCurrentRole,
-      currentCompany: userProfile.currentCompany || userProfile.pastCompany,
+      currentCompany: userCurrentCompany,
       currentExperience: userProfile.experienceYears || '4 Years',
       currentSalary: userProfile.currentCtc,
-      targetRole: userProfile.targetRole || undefined,
+      targetRole: userTargetRole,
       targetPackage: userProfile.targetCtc,
-      targetCompany: userProfile.dreamCompany || undefined,
+      targetCompany: userDreamCompany,
       domain,
       skills: userProfile.skills || []
     }).then(({ matches, supportedDomain, message }) => {
       if (!isCurrent) return;
-      setDomainMatches(matches);
+      setDomainMatches(matches || []);
       setDomainMatchesError(!supportedDomain ? (message || `No mentors for "${domain}" yet.`) : null);
     }).catch(err => {
       console.warn('[CareerGuidanceView domain trajectory match]:', err);
@@ -203,7 +203,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
     });
 
     return () => { isCurrent = false; };
-  }, [activeTab, userCurrentRole, userProfile.currentCompany, userProfile.pastCompany, userProfile.experienceYears, userProfile.currentCtc, userTargetRole, userProfile.targetCtc, userDreamCompany, userProfile.skills]);
+  }, [activeTab, userCurrentRole, userCurrentCompany, userProfile.experienceYears, userProfile.currentCtc, userTargetRole, userProfile.targetCtc, userDreamCompany, userProfile.skills]);
 
   // Derive the 'top' (top 5), 'others' (non-named-domain), per-track counts, and each
   // track's best real match % (shown in the Switch Track badges) from the all-domain match set
@@ -219,7 +219,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
     const bestOf = (list: TrajectoryMatch[]) => list.length ? Math.max(...list.map(m => m.trajectorySimilarityScore)) : 0;
 
     const counts: Record<MentorCategoryTab, number> = {
-      top: Math.min(5, allMatches.length),
+      top: Math.min(5, sorted.length),
       all: allMatches.length,
       ai: byDomain.ai.length,
       semi: byDomain.semi.length,
