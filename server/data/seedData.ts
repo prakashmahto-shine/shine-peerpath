@@ -2472,6 +2472,104 @@ export const SEED_CREATORS: Creator[] = [
     }
   },
   {
+    id: "rohit-pm-genai",
+    name: "Rohit Malhotra",
+    role: "Staff GenAI Product Engineer",
+    company: "Google",
+    domain: "AI/ML",
+    experience: "8+ Years Exp.",
+    rating: 4.93,
+    reviewsCount: 134,
+    sessionsCount: 251,
+    price: 1399,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Went from Product Manager to Staff GenAI Product Engineer at Google",
+    skills: [
+      "LLM Product Strategy",
+      "Prompt Engineering",
+      "RAG Systems",
+      "Python",
+      "Stakeholder Mgmt"
+    ],
+    bio: "Staff GenAI Product Engineer at Google. I guide Product Managers making the exact jump I made — from managing roadmaps to shipping GenAI features hands-on.",
+    verifiedEmail: "rohit.m@google.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Product Manager",
+      company3YearsAgo: "TCS",
+      salary3YearsAgo: "₹9 LPA",
+      keyJumpSkills: [
+        "Prompt Engineering",
+        "LLM Evaluation",
+        "RAG Systems"
+      ],
+      jumpStory: "Went from Product Manager at TCS to Staff GenAI Product Engineer at Google by pairing my product intuition with hands-on LLM Evaluation and RAG Systems skills."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Thu",
+        "Sun"
+      ],
+      timeSlots: [
+        "07:00 PM - 08:00 PM",
+        "09:00 PM - 10:00 PM"
+      ]
+    }
+  },
+  {
+    id: "ananya-pm-ml",
+    name: "Ananya Krishnan",
+    role: "Lead GenAI Applications Architect",
+    company: "Microsoft",
+    domain: "AI/ML",
+    experience: "9+ Years Exp.",
+    rating: 4.9,
+    reviewsCount: 108,
+    sessionsCount: 219,
+    price: 1299,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: My Jump from Senior Product Manager to Lead GenAI Applications Architect",
+    skills: [
+      "GenAI Solution Architecture",
+      "LLM Fine-Tuning",
+      "Product Discovery",
+      "Python",
+      "Vector Databases"
+    ],
+    bio: "Lead GenAI Applications Architect at Microsoft. I mentor Product Managers moving into hands-on GenAI engineering roles.",
+    verifiedEmail: "ananya.k@microsoft.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Senior Product Manager",
+      company3YearsAgo: "Infosys",
+      salary3YearsAgo: "₹11 LPA",
+      keyJumpSkills: [
+        "LLM Fine-Tuning",
+        "Vector Databases",
+        "GenAI Solution Architecture"
+      ],
+      jumpStory: "Went from Senior Product Manager at Infosys to Lead GenAI Applications Architect at Microsoft by building hands-on LLM Fine-Tuning and GenAI Solution Architecture depth."
+    },
+    availability: {
+      days: [
+        "Tue",
+        "Fri",
+        "Sat"
+      ],
+      timeSlots: [
+        "08:00 PM - 09:00 PM",
+        "10:00 AM - 11:00 AM"
+      ]
+    }
+  },
+  {
     id: "arjun",
     name: "Arjun Gupta",
     role: "Lead Silicon Verification Architect",
