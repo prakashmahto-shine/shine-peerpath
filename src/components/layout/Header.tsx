@@ -145,13 +145,13 @@ export const Header: React.FC<HeaderProps> = ({
                     {upcomingCount > 0 && <span className="flyout-count-pill" style={{ marginLeft: '4px' }}>{upcomingCount}</span>}
                   </button>
 
-                  <button 
+                  {/* <button 
                     className={`myshine-link ${currentView === 'experts-view' ? 'active' : ''}`} 
                     onClick={() => onNavigate('experts-view')}
                     title="Browse All Mentors"
                   >
                     <Award size={15} /> Mentors Directory
-                  </button>
+                  </button> */}
 
                   <button 
                     className={`myshine-link ${currentView === 'community-view' ? 'active' : ''}`} 

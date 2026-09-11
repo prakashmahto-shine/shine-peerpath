@@ -167,17 +167,6 @@ export const CommunityView: React.FC = () => {
               </div>
 
               {/* Profile Strength Score */}
-              <div className="lpc-score-strip">
-                <div className="lpc-score-header">
-                  <span className="lpc-score-label">Shine Profile Strength</span>
-                  <span className="lpc-score-val">{userProfile.profileScore || 90}%</span>
-                </div>
-                <div className="lpc-score-bar-bg">
-                  <div className="lpc-score-bar-fill" style={{ width: `${userProfile.profileScore || 90}%` }} />
-                </div>
-                <span className="lpc-score-badge">⚡ Top 10% Recruiter Match</span>
-              </div>
-
               <div className="lpc-divider" />
 
               <div className="lpc-analytics">
