@@ -55,20 +55,30 @@ export const CvUploadSyncModal: React.FC = () => {
     // Step 1: Uploading
     setTimeout(async () => {
       setScanStepIndex(1);
-      // Step 2 & 3: AI Parsing via backend API
+      // Step 2: AI Parsing via backend API
       try {
         const textSample = `${file.name.replace(/[^a-zA-Z0-9]/g, ' ')} React.js TypeScript Next.js JavaScript Redux Micro-Frontends Web Vitals 4 years exp`;
         const parsed = await peerpathApi.parseCv(textSample, { fileName: file.name, fileSize: file.size });
-        setScanStepIndex(2);
-        const skillsToSync = parsed.parsedSkills && parsed.parsedSkills.length > 0
-          ? parsed.parsedSkills
-          : simulatedExtractedSkills;
-        updateCandidateResume(file.name, skillsToSync, '₹24L - ₹30 LPA');
-        setUploadStatus('complete');
+        
+        setTimeout(() => {
+          setScanStepIndex(2);
+          const skillsToSync = parsed.parsedSkills && parsed.parsedSkills.length > 0
+            ? parsed.parsedSkills
+            : simulatedExtractedSkills;
+
+          setTimeout(() => {
+            updateCandidateResume(file.name, skillsToSync, '₹24L - ₹30 LPA');
+            setUploadStatus('complete');
+          }, 700);
+        }, 800);
       } catch (err) {
-        setScanStepIndex(2);
-        updateCandidateResume(file.name, simulatedExtractedSkills, '₹24L - ₹30 LPA');
-        setUploadStatus('complete');
+        setTimeout(() => {
+          setScanStepIndex(2);
+          setTimeout(() => {
+            updateCandidateResume(file.name, simulatedExtractedSkills, '₹24L - ₹30 LPA');
+            setUploadStatus('complete');
+          }, 700);
+        }, 800);
       }
     }, 600);
   };

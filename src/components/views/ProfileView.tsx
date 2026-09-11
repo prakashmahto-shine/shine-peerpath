@@ -5,7 +5,7 @@ import {
   Plus, X, Phone, Mail, CheckCircle2,
   GraduationCap, Zap, User,
   Gift, Users,
-  Share2, Building2, MapPin, CheckCircle
+  Share2, Building2, MapPin, CheckCircle, TrendingUp
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -25,6 +25,8 @@ export const ProfileView: React.FC = () => {
     updateMentorTeaserVideo,
     setIsCreatorWizardOpen,
     setIsCvSyncModalOpen,
+    isUpdateProfileModalOpen,
+    setIsUpdateProfileModalOpen,
     removeCandidateResume,
     showToast
   } = useApp();
@@ -77,37 +79,6 @@ export const ProfileView: React.FC = () => {
     <div className="peerpath-profile-page-wrapper">
       <div className="peerpath-profile-container">
 
-        {/* 1. Shine.com Connected Candidate Account Bar */}
-        <div className="shine-sync-banner">
-          <div className="ssb-left">
-            <div className="ssb-badge-shine">
-              <span className="ssb-pulse-dot" />
-              <span>SHINE.COM CONNECTED ACCOUNT</span>
-            </div>
-            <div className="ssb-meta-text">
-              <strong>Candidate ID: #SH-84920 ({userProfile.name})</strong>
-              <span>• Synced with Shine 3.5Cr+ Recruiter Network • Real-time ATS Spotlight</span>
-            </div>
-          </div>
-
-          <div className="ssb-right">
-            <button 
-              className="btn-ssb-sync"
-              onClick={() => setIsCvSyncModalOpen(true)}
-              title="Sync CV with Shine.com Database"
-            >
-              <Sparkles size={13} /> AI Sync with Shine CV
-            </button>
-            <button 
-              className="btn-ssb-share"
-              onClick={handleCopyProfileLink}
-              title="Copy verified profile URL"
-            >
-              <Share2 size={13} /> Share Profile
-            </button>
-          </div>
-        </div>
-
         {/* Mentor Mode Banner (If Logged In User is Mentor / Creator) */}
         {isMentor && (
           <div className="mentor-active-banner">
@@ -127,6 +98,37 @@ export const ProfileView: React.FC = () => {
             >
               <span>⚡ Open Mentor Studio Hub</span>
             </button>
+          </div>
+        )}
+
+        {/* Single High-Conversion Resume Upload Booster Banner */}
+        {userProfile.resumeLastUpdated !== 'Updated just now' && (
+          <div className="shine-single-upload-banner">
+            <div className="ssub-left">
+              <div className="ssub-icon-wrap">
+                <TrendingUp size={18} className="text-amber-600" />
+              </div>
+              <div className="ssub-content">
+                <div className="ssub-title-row">
+                  <strong className="ssub-headline">Your profile was last updated almost a year ago!</strong>
+                  <span className="ssub-pill-tag">3.8x More Recruiter Shortlists</span>
+                </div>
+                <p className="ssub-subtext">
+                  Recruiters prioritize active candidates. Upload your latest CV — our AI auto-fills and updates your profile in 10s.
+                </p>
+              </div>
+            </div>
+
+            <div className="ssub-actions">
+              <button 
+                type="button" 
+                className="btn-ssub-upload"
+                onClick={() => setIsUpdateProfileModalOpen(true)}
+              >
+                <span>Update Profile</span>
+                <ArrowRight size={14} />
+              </button>
+            </div>
           </div>
         )}
 
@@ -155,11 +157,6 @@ export const ProfileView: React.FC = () => {
                   <span className="phc-candidate-pill">
                     <CheckCircle2 size={12} /> Shine Verified Candidate
                   </span>
-                  {userProfile.jobSearchStatus && (
-                    <span className="phc-notice-pill">
-                      ⏱️ {userProfile.jobSearchStatus}
-                    </span>
-                  )}
                 </div>
 
                 <p className="phc-headline">{userProfile.headline}</p>
@@ -198,16 +195,16 @@ export const ProfileView: React.FC = () => {
               <div className="phc-actions-block">
                 <button 
                   className="btn-phc-primary"
-                  onClick={() => setIsCvSyncModalOpen(true)}
+                  onClick={() => setIsUpdateProfileModalOpen(true)}
                 >
-                  <Upload size={14} /> Upload / Sync CV
+                  <Edit2 size={13} /> Edit Profile
                 </button>
 
                 <button 
                   className="btn-phc-secondary"
-                  onClick={() => { setSummaryInput(userProfile.summary); setShowSummaryModal(true); }}
+                  onClick={handleCopyProfileLink}
                 >
-                  <Edit2 size={13} /> Edit Summary
+                  <Share2 size={13} /> Share Profile
                 </button>
               </div>
             </div>

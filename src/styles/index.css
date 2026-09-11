@@ -31453,3 +31453,913 @@ button {
 .btn-amc-close:hover {
   background: #1E293B;
 }
+
+/* ==========================================================================
+   SHINE.COM SINGLE HIGH-CONVERTING RESUME UPLOAD BOOSTER BANNER
+   ========================================================================== */
+
+.shine-single-upload-banner {
+  background: linear-gradient(90deg, #FFFBEB 0%, #FFF7ED 100%);
+  border: 1.5px solid #FCD34D;
+  border-radius: 12px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.08);
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+.ssub-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 280px;
+}
+
+.ssub-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #FEF3C7;
+  border: 1.5px solid #FDE68A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ssub-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ssub-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ssub-headline {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #92400E;
+}
+
+.ssub-pill-tag {
+  background: #FEF08A;
+  border: 1px solid #FDE047;
+  color: #854D0E;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 1px 8px;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+.ssub-subtext {
+  font-size: 12px;
+  color: #B45309;
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.ssub-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.btn-ssub-upload {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #D97706;
+  color: #FFFFFF;
+  border: none;
+  font-size: 12.5px;
+  font-weight: 800;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(217, 119, 6, 0.25);
+  white-space: nowrap;
+}
+
+.btn-ssub-upload:hover {
+  background: #B45309;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(217, 119, 6, 0.35);
+}
+
+/* ==========================================================================
+   SHINE UPDATE PROFILE MODAL (SHINE DIALOG, FLOATING LABELS & RESUME PARSER)
+   ========================================================================== */
+
+.shine-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+.shine-update-profile-surface {
+  background: #FFFFFF;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  animation: slideUpModal 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUpModal {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.sup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 14px;
+  position: sticky;
+  top: 0;
+  background: #FFFFFF;
+  z-index: 10;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.sup-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+}
+
+.btn-sup-close {
+  background: transparent;
+  border: none;
+  color: #64748B;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.btn-sup-close:hover {
+  background: #F1F5F9;
+  color: #0F172A;
+}
+
+.sup-form-body {
+  padding: 20px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Update Profile Photo */
+.sup-section-photo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sup-section-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.sup-photo-card {
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #FFFFFF;
+}
+
+.sup-photo-card:hover {
+  border-color: #CBD5E1;
+  background: #F8FAFC;
+}
+
+.sup-photo-circle {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1.5px solid #E2E8F0;
+  flex-shrink: 0;
+}
+
+.sup-avatar-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sup-photo-camera-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.sup-photo-card:hover .sup-photo-camera-overlay {
+  opacity: 1;
+}
+
+.btn-sup-add-photo {
+  background: transparent;
+  border: none;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #6366F1;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Animated Resume Upload & AI Parser Loader Card */
+.sup-upload-loader-card {
+  background: linear-gradient(135deg, #FAF5FF 0%, #F5F3FF 50%, #EEF2FF 100%);
+  border: 1.5px solid #C4B5FD;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.08);
+  animation: supCardFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes supCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sulc-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sulc-file-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.sulc-icon-orb {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #7C3AED 0%, #6366F1 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(124, 58, 237, 0.25);
+}
+
+.sulc-spinner {
+  animation: spin 1s linear infinite;
+}
+
+.sulc-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.sulc-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sulc-filename {
+  font-size: 13px;
+  font-weight: 800;
+  color: #1E1B4B;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+}
+
+.sulc-filesize {
+  font-size: 11px;
+  font-weight: 700;
+  color: #6D28D9;
+  background: #EDE9FE;
+  padding: 1px 7px;
+  border-radius: 9999px;
+}
+
+.sulc-live-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: #047857;
+  background: #D1FAE5;
+  border: 1px solid #A7F3D0;
+  padding: 1px 6px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.sulc-status-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: #6D28D9;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sulc-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7C3AED;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7);
+  animation: sulcPulse 1.5s infinite;
+}
+
+@keyframes sulcPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.7);
+  }
+  70% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 6px rgba(124, 58, 237, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(124, 58, 237, 0);
+  }
+}
+
+.sulc-percent-badge {
+  background: #FFFFFF;
+  border: 1.5px solid #DDD6FE;
+  padding: 4px 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(124, 58, 237, 0.08);
+  flex-shrink: 0;
+}
+
+.sulc-percent-num {
+  font-size: 15px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #7C3AED 0%, #6366F1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+}
+
+/* Progress Track and Shimmer Fill */
+.sulc-progress-track {
+  width: 100%;
+  height: 8px;
+  background: #E2E8F0;
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.sulc-progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
+  background-size: 200% 100%;
+  transition: width 0.35s ease-out;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+  animation: sulcGradientShift 2s linear infinite;
+  position: relative;
+}
+
+.sulc-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: sulcShimmer 1.5s infinite;
+}
+
+@keyframes sulcGradientShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes sulcShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* 4-Step Visual Milestones */
+.sulc-steps-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.sulc-step-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #94A3B8;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #F1F5F9;
+  transition: all 0.2s ease;
+}
+
+.sulc-step-num {
+  font-size: 9.5px;
+  line-height: 1;
+}
+
+.sulc-step-pill.active {
+  color: #6D28D9;
+  background: #EDE9FE;
+  font-weight: 800;
+}
+
+.sulc-step-pill.done {
+  color: #065F46;
+  background: #D1FAE5;
+}
+
+.sulc-step-arrow {
+  font-size: 10px;
+  color: #CBD5E1;
+  font-weight: 700;
+}
+
+/* Resume AI Parsing Notification Alert */
+.sup-parse-alert {
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  animation: fadeIn 0.2s ease;
+}
+
+.sup-parse-alert.parsing {
+  background: #FAF5FF;
+  color: #7C3AED;
+  border: 1px solid #E9D5FF;
+}
+
+.sup-parse-alert.success {
+  background: #ECFDF5;
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+}
+
+/* 2-Column Inputs Grid */
+.sup-fields-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 540px) {
+  .sup-fields-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Shine Floating Border Label Input */
+.sup-floating-group {
+  position: relative;
+  margin-top: 4px;
+  width: 100%;
+}
+
+.sup-floating-label {
+  position: absolute;
+  top: -8px;
+  left: 12px;
+  background: #FFFFFF;
+  padding: 0 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #6366F1;
+  z-index: 2;
+  border-radius: 4px;
+  letter-spacing: 0.01em;
+}
+
+.sup-floating-input {
+  width: 100%;
+  height: 44px;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 8px;
+  padding: 0 14px;
+  font-size: 13px;
+  color: #0F172A;
+  font-weight: 600;
+  outline: none;
+  background: #FFFFFF;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.sup-floating-input:focus {
+  border-color: #6366F1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+/* Highlighted Missing Field on Auto-parse */
+.sup-floating-group.field-highlighted .sup-floating-input {
+  border-color: #F59E0B !important;
+  background: #FFFDF5 !important;
+}
+
+.sup-floating-group.field-highlighted .sup-floating-label {
+  color: #D97706 !important;
+}
+
+.sup-field-hint {
+  font-size: 11px;
+  color: #D97706;
+  font-weight: 700;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Checkbox Row */
+.sup-checkbox-row {
+  display: flex;
+  align-items: center;
+  margin: -2px 0;
+}
+
+.sup-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #334155;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sup-checkbox-input {
+  width: 16px;
+  height: 16px;
+  accent-color: #6366F1;
+  cursor: pointer;
+  margin: 0;
+}
+
+/* Plain Inputs (Company, Designation, Start Date) */
+.sup-plain-group {
+  width: 100%;
+}
+
+.sup-plain-input {
+  width: 100%;
+  height: 44px;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 0 14px;
+  font-size: 13px;
+  color: #0F172A;
+  font-weight: 500;
+  outline: none;
+  box-sizing: border-box;
+  background: #FFFFFF;
+  transition: all 0.2s ease;
+}
+
+.sup-plain-input:focus {
+  border-color: #6366F1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+/* Job Search Status */
+.sup-job-search-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sup-subheading {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1E293B;
+}
+
+.sup-pills-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sup-search-pill {
+  border: 1.5px solid #CBD5E1;
+  background: #FFFFFF;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+
+.sup-search-pill:hover {
+  border-color: #94A3B8;
+  background: #F8FAFC;
+}
+
+.sup-search-pill.active {
+  border-color: #6366F1;
+  color: #4338CA;
+  background: #EEF2FF;
+}
+
+/* Resume Upload Section */
+.sup-resume-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sup-resume-input-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 44px;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 8px;
+  padding: 0 14px;
+  cursor: pointer;
+  box-sizing: border-box;
+  background: #FFFFFF;
+  transition: all 0.2s ease;
+}
+
+.sup-floating-group.resume-upload-group.is-uploading .sup-resume-input-row {
+  border-color: #A78BFA;
+  background: #FAF5FF;
+}
+
+.sup-resume-input-row:hover {
+  border-color: #6366F1;
+}
+
+.sup-resume-left-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.sup-resume-filename {
+  font-size: 13px;
+  color: #334155;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 340px;
+}
+
+.btn-sup-upload-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: #6366F1;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.btn-sup-upload-inline.loading {
+  color: #7C3AED;
+  cursor: not-allowed;
+}
+
+.sup-resume-subtext {
+  font-size: 11px;
+  color: #64748B;
+  margin-top: 2px;
+  display: block;
+}
+
+/* Skills Section */
+.sup-skills-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sup-skills-limits-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.sup-skills-count {
+  font-weight: 700;
+  color: #4338CA;
+}
+
+.sup-skills-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.sup-skills-block-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.sup-chips-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sup-chip-selected {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #EEF2FF;
+  border: 1px solid #C7D2FE;
+  color: #3730A3;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: 8px;
+}
+
+.btn-sup-chip-delete {
+  background: transparent;
+  border: none;
+  color: #6366F1;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.btn-sup-chip-delete:hover {
+  color: #DC2626;
+}
+
+.sup-chip-recommended {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+
+.sup-chip-recommended:hover {
+  border-color: #6366F1;
+  color: #4338CA;
+  background: #F8FAFC;
+}
+
+.plus-sym {
+  font-weight: 800;
+  color: #6366F1;
+}
+
+.btn-sup-view-more {
+  background: transparent;
+  border: none;
+  color: #6366F1;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 2px;
+  align-self: flex-start;
+}
+
+.btn-sup-view-more:hover {
+  text-decoration: underline;
+}
+
+/* Modal Submit Footer */
+.sup-footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.btn-sup-submit {
+  background: #6366F1;
+  color: #FFFFFF;
+  border: none;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 10px 48px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.btn-sup-submit:hover {
+  background: #4F46E5;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+}
+

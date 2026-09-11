@@ -25,6 +25,7 @@ import { LoginModal } from './components/modals/LoginModal';
 import { MentorAssessmentModal } from './components/modals/MentorAssessmentModal';
 import { CvUploadSyncModal } from './components/modals/CvUploadSyncModal';
 import { TrajectoryCalibrationModal } from './components/modals/TrajectoryCalibrationModal';
+import { UpdateProfileModal } from './components/modals/UpdateProfileModal';
 
 import { AppProvider, useApp } from './context/AppContext';
 import { ViewType } from './types';
@@ -249,6 +250,7 @@ const AppMain: React.FC = () => {
       <MentorAssessmentModal />
       <CvUploadSyncModal />
       <TrajectoryCalibrationModal />
+      <UpdateProfileModal />
     </div>
   );
 };

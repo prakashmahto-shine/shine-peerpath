@@ -46,6 +46,7 @@ interface AppContextType {
   // Candidate Profile Data
   userProfile: UserProfileData;
   updateUserProfile: (profile: Partial<UserProfileData>) => void;
+  updateFullProfile: (profile: Partial<UserProfileData>) => void;
   updateProfileSummary: (summary: string) => void;
   addSkill: (skill: string) => void;
   removeSkill: (skill: string) => void;
@@ -77,6 +78,8 @@ interface AppContextType {
   setIsAssessmentModalOpen: (open: boolean) => void;
   isCvSyncModalOpen: boolean;
   setIsCvSyncModalOpen: (open: boolean) => void;
+  isUpdateProfileModalOpen: boolean;
+  setIsUpdateProfileModalOpen: (open: boolean) => void;
   updateCandidateResume: (fileName: string, extractedSkills?: string[], targetCtc?: string) => void;
   removeCandidateResume: () => void;
   assessmentDraftSession: MentorshipSession | null;
@@ -174,24 +177,29 @@ const initialBadges: PeerVerifiedBadge[] = [
 ];
 
 const initialUserProfile: UserProfileData = {
-  name: 'Prakash Mahto',
-  headline: 'Senior Frontend Engineer | React.js, TypeScript, Next.js UI Architect',
-  experienceYears: '4 Years, 2 Months',
-  location: 'Bengaluru, India',
+  name: 'Prakash Kumar',
+  headline: 'Senior frontend developer',
+  designation: 'Senior frontend developer',
+  experienceYears: '4 yrs',
+  noticePeriod: '2+ Months',
+  currentCtc: '5.5 Lacs',
+  expectedCtc: '66-70 Lacs',
+  location: 'Gurgaon',
+  currentCompany: 'TCS',
+  startDate: 'Aug 2022',
+  currentlyNotWorking: false,
   profileScore: 70,
-  jobSearchStatus: 'Serving Notice Period (30 Days)',
-  summary: 'Senior Frontend Developer with 4+ years of hands-on experience building high-traffic, resilient web applications at scale. Proficient in React.js, TypeScript, Next.js, and modern CSS architecture. Passionate about UI performance optimization, micro-frontends, and collaborating closely with product managers and backend search teams.',
-  skills: ['React.js', 'TypeScript', 'Next.js', 'JavaScript (ES6+)', 'Redux Toolkit', 'Tailwind CSS / Vanilla CSS', 'REST APIs', 'Webpack / Vite', 'Jest & React Testing Library', 'Git & CI/CD'],
+  jobSearchStatus: 'Not Looking For Jobs',
+  summary: 'Senior Frontend Developer with 4+ years of hands-on experience building high-traffic, resilient web applications at scale. Proficient in React.js, TypeScript, Next.js, and modern CSS architecture.',
+  skills: ['Node.Js', 'Css', 'React.Js', 'Javascript'],
   badges: initialBadges,
   email: 'prakash.mahto@gmail.com',
   phone: '+91 98765 43210',
-  resumeFileName: 'Prakash_Mahto_Frontend_Resume.pdf',
+  resumeFileName: 'resume (1).pdf',
   resumeLastUpdated: 'Almost a year ago',
-  currentCtc: '₹5.5 LPA',
-  targetCtc: '₹18L - 24L',
-  currentCompany: 'TCS',
+  targetCtc: '66-70 Lacs',
   dreamCompany: 'Flipkart',
-  targetRole: 'AI/ML (Generative AI & LLMs)',
+  targetRole: 'Senior Frontend Developer',
   isCalibrated: false
 };
 
@@ -994,6 +1002,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
   const [isAssessmentModalOpen, setIsAssessmentModalOpen] = useState<boolean>(false);
   const [isCvSyncModalOpen, setIsCvSyncModalOpen] = useState<boolean>(false);
+  const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] = useState<boolean>(false);
   const [assessmentDraftSession, setAssessmentDraftSession] = useState<MentorshipSession | null>(null);
 
   const [bookingDraft, setBookingDraft] = useState<{ expert: Expert; date: string; timeSlot: string; attachedCvName?: string; sessionType?: string; amount?: number; duration?: string }>({
@@ -1694,6 +1703,27 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showToast('Profile Updated', 'Your profile details have been saved.');
   };
 
+  const updateFullProfile = (updates: Partial<UserProfileData>) => {
+    setUserProfiles(prev => {
+      const existing = prev[activeUsername] || DEFAULT_ACCOUNTS[activeUsername]?.profile || DEFAULT_ACCOUNTS.prakash.profile;
+      const nextScore = Math.min(100, Math.max(existing.profileScore + 20, 90));
+      return {
+        ...prev,
+        [activeUsername]: {
+          ...existing,
+          ...updates,
+          profileScore: updates.profileScore || nextScore,
+          resumeLastUpdated: updates.resumeLastUpdated || 'Updated just now'
+        }
+      };
+    });
+    syncCandidateProfile(activeUsername, {
+      ...updates,
+      resumeLastUpdated: 'Updated just now'
+    });
+    showToast('🎉 Profile Updated Successfully!', 'Your profile details and recruiter search score have been updated.', 'success');
+  };
+
   const updateProfileSummary = (summary: string) => {
     let nextProfileScore = 0;
     setUserProfiles(prev => {
@@ -1849,6 +1879,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         completeSession,
         userProfile,
         updateUserProfile,
+        updateFullProfile,
         updateProfileSummary,
         addSkill,
         removeSkill,
@@ -1874,6 +1905,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setIsAssessmentModalOpen,
         isCvSyncModalOpen,
         setIsCvSyncModalOpen,
+        isUpdateProfileModalOpen,
+        setIsUpdateProfileModalOpen,
         updateCandidateResume,
         removeCandidateResume,
         assessmentDraftSession,

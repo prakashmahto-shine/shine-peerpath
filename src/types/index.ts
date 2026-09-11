@@ -136,6 +136,13 @@ export interface UserProfileData {
   dreamCompany?: string;
   isCalibrated?: boolean;
   calibratedAt?: string;
+  noticePeriod?: string;
+  expectedCtc?: string;
+  designation?: string;
+  currentlyNotWorking?: boolean;
+  startDate?: string;
+  avatar?: string;
+  lastUpdatedDate?: string;
 }
 
 export interface BootcampMasterclass {
