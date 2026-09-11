@@ -3076,30 +3076,24 @@
       "name": "Prakash Mahto",
       "email": "prakash.mahto@example.com",
       "phone": "+91 98000 10000",
-      "headline": "Senior Frontend Engineer • 4 Years, 2 Months • Bengaluru",
+      "headline": "senior frontend devloper @ TCS ➔ Aspiring Full-stack Architecture @ swiggy",
       "experienceYears": "4 Years, 2 Months",
       "location": "Bengaluru, India",
-      "profileScore": 94,
+      "profileScore": 92,
       "jobSearchStatus": "Serving Notice Period (30 Days)",
       "summary": "Senior Frontend Developer with 4+ years of hands-on experience building high-traffic, resilient web applications at scale. Specializing in React 19, TypeScript, and micro-frontends.",
       "skills": [
-        "React.js",
-        "TypeScript",
-        "Next.js",
-        "JavaScript (ES6+)",
-        "Redux Toolkit",
-        "Tailwind CSS",
-        "REST APIs",
-        "Vite",
-        "Jest",
-        "Git"
+        "Node.Js",
+        "Css",
+        "React.Js",
+        "Javascript"
       ],
-      "currentCtc": "₹7.5 LPA",
-      "targetCtc": "₹22 - 30 LPA",
-      "targetRole": "Staff Frontend Architect",
-      "targetCompany": "Razorpay (FinTech)",
-      "pastCompany": "TCS (Tata Consultancy Services)",
-      "pastCompanyRole": "Senior Frontend Engineer",
+      "currentCtc": "5.5 Lacs",
+      "targetCtc": "₹24L – ₹32L+",
+      "targetRole": "Full-stack Architecture",
+      "targetCompany": "swiggy",
+      "pastCompany": "TCS",
+      "pastCompanyRole": "senior frontend devloper",
       "educationDegree": "B.Tech / M.Tech Computer Engineering",
       "educationCollege": "VTU Bengaluru",
       "domain": "Full-Stack",
@@ -3140,7 +3134,10 @@
           "verificationHash": "SHINE-VERIFY-4491-8821-HN"
         }
       ],
-      "recruiterSearchMultiplier": 3.8
+      "recruiterSearchMultiplier": 3.8,
+      "currentCompany": "TCS",
+      "dreamCompany": "swiggy",
+      "resumeFileName": "resume (1).pdf"
     },
     {
       "id": "varun-venkataraman",
@@ -3932,7 +3929,7 @@
     }
   ],
   "analytics": {
-    "profileUpdatesThisMonth": 14820,
+    "profileUpdatesThisMonth": 14821,
     "newRegistrationsThisMonth": 6350,
     "totalSessionsBooked": 2430,
     "totalActiveCreators": 62
