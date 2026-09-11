@@ -4,7 +4,7 @@
 
 import { SP500_COMPANIES, INDIAN_UNICORN_COMPANIES, NSE_LISTED_COMPANIES } from '../data/companyTiers';
 
-export type RoleFamily = 'ML' | 'BACKEND' | 'FRONTEND' | 'DATA' | 'DEVOPS' | 'SECURITY' | 'CHIP' | 'PRODUCT' | 'SALES' | 'MARKETING';
+export type RoleFamily = 'ML' | 'BACKEND' | 'FRONTEND' | 'DATA' | 'DEVOPS' | 'SECURITY' | 'CHIP' | 'PRODUCT' | 'SALES' | 'MARKETING' | 'MOBILE' | 'QA';
 
 // The only guilds Peerpath currently has mentors for. A candidate outside these (Finance, HR,
 // Legal, etc.) gets tagged 'Others' rather than silently matched against an irrelevant
@@ -53,6 +53,8 @@ const ROLE_FAMILY_KEYWORDS: Array<[RoleFamily, string[]]> = [
   ['DEVOPS', ['devops', 'sre', 'site reliability', 'cloud engineer', 'cloud architect', 'infra eng', 'infrastructure engineer', 'platform architect']],
   ['DATA', ['data engineer', 'analytics eng', 'bi engineer', 'bi analyst', 'business intelligence', 'data analyst', 'search architect', 'solr', 'lucene']],
   ['PRODUCT', ['product manager', 'product management', 'apm', 'gpm', 'pm', 'product lead', 'product strategy', 'technical product manager']],
+  ['MOBILE', ['mobile', 'android', 'ios', 'flutter']],
+  ['QA', ['sdet', 'qa', 'quality engineer', 'test engineer']],
   ['FRONTEND', ['frontend', 'front-end', 'ui dev', 'react dev', 'full-stack', 'full stack', 'web developer']],
   ['BACKEND', ['backend', 'back-end', 'sde', 'software development engineer', 'software engineer', 'platform eng', 'java developer', 'python developer', 'java/python dev', 'associate software engineer']],
   ['SALES', ['sales', 'business development', 'account executive', 'account coordinator', 'bdr', 'sdr', 'gtm', 'revenue', 'telesales', 'inside sales']],

@@ -6,12 +6,23 @@ import {
   ShieldCheck, Loader2, BarChart2, Target, Lightbulb, IndianRupee, Wifi, Filter, Info, Cpu, Code, BookOpen,
   Calendar, RefreshCw, Layers, ExternalLink, UserPlus, Search, X, SlidersHorizontal
 } from 'lucide-react';
-import { ViewType, Expert } from '../../types';
+import { ViewType, Expert, TrajectoryMatch } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { calculateSalaryBenchmark } from '../../utils/salaryBenchmark';
 import { peerpathApi } from '../../services/api';
 
 export type MentorCategoryTab = 'top' | 'all' | 'ai' | 'semi' | 'cyber' | 'fullstack' | 'others';
+
+// Tabs that map to a single server-side domain filter. 'top'/'all'/'others' intentionally
+// mix mentors across domains, so they omit the domain filter (see matchBaseParams calls below).
+const TAB_DOMAIN_MAP: Partial<Record<MentorCategoryTab, string>> = {
+  ai: 'AI/ML',
+  semi: 'Semiconductor',
+  cyber: 'Cybersecurity',
+  fullstack: 'Full-Stack'
+};
+
+const NAMED_TRACK_DOMAINS = ['AI/ML', 'Semiconductor', 'Cybersecurity', 'Full-Stack'];
 
 interface TransitionMentor {
   id: string;
@@ -19,11 +30,9 @@ interface TransitionMentor {
   role: string;
   company: string;
   domain: string;
-  category: MentorCategoryTab;
   experience: string;
   rating: number;
   reviewsCount: number;
-  followersCount: string;
   sessionsCount: number;
   price: number;
   avatar: string;
@@ -33,473 +42,37 @@ interface TransitionMentor {
   leapCompany: string;
   leapRole: string;
   jumpTag: string;
-  growthPercent: string;
-  jumpMultiplier: string;
   jumpStory: string;
   skills: string[];
+  matchScore: number;
 }
 
-const VERIFIED_TRANSITION_MENTORS: TransitionMentor[] = [
-  // 1. AI / ML
-  {
-    id: 'ishita',
-    name: 'Ishita Sharma',
-    role: 'Senior Data Scientist & AI Lead',
-    company: 'Swiggy',
-    domain: 'AI/ML',
-    category: 'ai',
-    experience: '7+ Yrs Exp.',
-    rating: 4.95,
-    reviewsCount: 112,
-    followersCount: '2.8k',
-    sessionsCount: 240,
-    price: 899,
-    avatar: '/avatars/ishita.jpg',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Mu Sigma Services',
-    baselineRole: 'BI Analyst',
-    leapCompany: 'Swiggy',
-    leapRole: 'Senior Data Scientist',
-    jumpTag: 'Services ➔ Product',
-    growthPercent: '+480% Growth',
-    jumpMultiplier: '4.8x Growth',
-    jumpStory: 'Transitioned from SQL dashboards to building multi-modal LLM search algorithms serving 2M orders daily.',
-    skills: ['PyTorch', 'LLMs', 'RAG Systems', 'Vector Search', 'FastAPI']
-  },
-  {
-    id: 'raghavan',
-    name: 'Dr. Raghavan Nair',
-    role: 'Principal AI Systems Architect',
-    company: 'NVIDIA',
-    domain: 'AI/ML',
-    category: 'ai',
-    experience: '9+ Yrs Exp.',
-    rating: 4.95,
-    reviewsCount: 124,
-    followersCount: '4.2k',
-    sessionsCount: 260,
-    price: 1599,
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Mindtree Services',
-    baselineRole: 'Senior ML Engineer',
-    leapCompany: 'NVIDIA',
-    leapRole: 'Principal AI Architect',
-    jumpTag: 'Architect Switch',
-    growthPercent: '+300% Growth',
-    jumpMultiplier: '4.0x Growth',
-    jumpStory: 'Transitioned from standard scikit-learn into GPU-accelerated model serving and CUDA inference at NVIDIA.',
-    skills: ['CUDA C++', 'TensorRT', 'LLM Inference', 'Distributed Training', 'vLLM']
-  },
-  {
-    id: 'tanvi',
-    name: 'Tanvi Kulkarni',
-    role: 'Senior Staff GenAI Researcher',
-    company: 'Adobe',
-    domain: 'AI/ML',
-    category: 'ai',
-    experience: '7+ Yrs Exp.',
-    rating: 4.94,
-    reviewsCount: 89,
-    followersCount: '1.9k',
-    sessionsCount: 180,
-    price: 1199,
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&auto=format&fit=crop&q=80',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Mindtree Services',
-    baselineRole: 'CV Engineer',
-    leapCompany: 'Adobe Firefly',
-    leapRole: 'Staff AI Researcher',
-    jumpTag: 'Services ➔ Research',
-    growthPercent: '+450% Growth',
-    jumpMultiplier: '5.5x Growth',
-    jumpStory: 'Moved from traditional OpenCV image processing to pioneering generative Firefly visual models.',
-    skills: ['Diffusion Models', 'Stable Diffusion', 'PyTorch', 'LoRA Fine-Tuning']
-  },
-  {
-    id: 'neha-sharma',
-    name: 'Neha Sharma',
-    role: 'Senior ML & Platform Engineer',
-    company: 'Swiggy',
-    domain: 'AI/ML',
-    category: 'ai',
-    experience: '6+ Yrs Exp.',
-    rating: 4.92,
-    reviewsCount: 95,
-    followersCount: '2.4k',
-    sessionsCount: 190,
-    price: 999,
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Cognizant',
-    baselineRole: 'Backend Dev',
-    leapCompany: 'Swiggy',
-    leapRole: 'Senior ML Engineer',
-    jumpTag: 'Backend ➔ ML',
-    growthPercent: '+350% Growth',
-    jumpMultiplier: '4.5x Growth',
-    jumpStory: 'Transitioned from backend microservices into high-scale real-time recommendation engines at Swiggy & Flipkart.',
-    skills: ['Real-time RecSys', 'Feast Store', 'PyTorch', 'High-Scale APIs']
-  },
+function toTransitionMentor(match: TrajectoryMatch): TransitionMentor {
+  const c = match.creator;
+  return {
+    id: c.id,
+    name: c.name,
+    role: c.role,
+    company: c.company,
+    domain: c.domain,
+    experience: c.experience,
+    rating: c.rating,
+    reviewsCount: c.reviewsCount,
+    sessionsCount: c.sessionsCount,
+    price: c.price,
+    avatar: c.avatar,
+    isVerifiedEmployer: c.isVerifiedEmployer,
+    baselineCompany: c.trajectory.company3YearsAgo,
+    baselineRole: c.trajectory.role3YearsAgo,
+    leapCompany: c.company,
+    leapRole: c.role,
+    jumpTag: match.isExactMatch ? 'Exact Match' : `${c.trajectory.role3YearsAgo} ➔ ${c.role}`,
+    jumpStory: c.trajectory.jumpStory,
+    skills: c.skills,
+    matchScore: match.trajectorySimilarityScore
+  };
+}
 
-  // 2. SEMICONDUCTOR
-  {
-    id: 'karthik',
-    name: 'Karthik Nambiar',
-    role: 'Lead Silicon Verification Architect',
-    company: 'Qualcomm',
-    domain: 'VLSI Design',
-    category: 'semi',
-    experience: '9+ Yrs Exp.',
-    rating: 4.93,
-    reviewsCount: 104,
-    followersCount: '3.1k',
-    sessionsCount: 210,
-    price: 1099,
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Wipro VLSI Practice',
-    baselineRole: 'RTL Engineer',
-    leapCompany: 'Qualcomm',
-    leapRole: 'Lead Silicon Architect',
-    jumpTag: 'Services ➔ Product',
-    growthPercent: '+380% Growth',
-    jumpMultiplier: '3.8x Growth',
-    jumpStory: 'Transitioned from outsourced IP block verification into driving full-chip tapeouts for flagship Snapdragon 5G SoCs.',
-    skills: ['UVM Verification', 'SystemVerilog', 'PCIe Gen5', 'Synthesis', 'Low Power Design']
-  },
-  {
-    id: 'ananya',
-    name: 'Ananya Deshmukh',
-    role: 'Staff ASIC Design & Timing Lead',
-    company: 'Texas Instruments',
-    domain: 'VLSI Design',
-    category: 'semi',
-    experience: '8+ Yrs Exp.',
-    rating: 4.91,
-    reviewsCount: 78,
-    followersCount: '2.1k',
-    sessionsCount: 160,
-    price: 999,
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80',
-    isVerifiedEmployer: true,
-    baselineCompany: 'TCS Semiconductor Hub',
-    baselineRole: 'STA Trainee',
-    leapCompany: 'Texas Instruments',
-    leapRole: 'Staff ASIC Lead',
-    jumpTag: 'Services ➔ Product',
-    growthPercent: '+400% Growth',
-    jumpMultiplier: '4.0x Growth',
-    jumpStory: 'Navigated from legacy static timing analysis into sub-5nm analog/mixed-signal power optimization.',
-    skills: ['Primetime STA', 'Cadence Innovus', 'Clock Tree Synthesis', '5nm FinFET']
-  },
-  {
-    id: 'siddharth',
-    name: 'Siddharth Rao',
-    role: 'Principal Physical Design Lead',
-    company: 'Intel',
-    domain: 'VLSI Design',
-    category: 'semi',
-    experience: '11+ Yrs Exp.',
-    rating: 4.96,
-    reviewsCount: 142,
-    followersCount: '4.8k',
-    sessionsCount: 310,
-    price: 1399,
-    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80',
-    isVerifiedEmployer: true,
-    baselineCompany: 'HCL Technologies',
-    baselineRole: 'Layout Engineer',
-    leapCompany: 'Intel',
-    leapRole: 'Principal VLSI Lead',
-    jumpTag: 'Services ➔ Product',
-    growthPercent: '+460% Growth',
-    jumpMultiplier: '4.6x Growth',
-    jumpStory: 'Transitioned from standard cell layout drafting into leading top-level floorplanning and timing closure for Intel Core microarchitectures.',
-    skills: ['Top Floorplanning', 'DRC/LVS Clean', 'Power Integrity (RedHawk)', 'Synopsys ICC2']
-  },
-
-  // 3. CYBERSECURITY
-  {
-    id: 'vikram',
-    name: 'Vikramaditya Roy',
-    role: 'Lead Cloud Security & DevSecOps Architect',
-    company: 'Palo Alto Networks',
-    domain: 'Cybersecurity',
-    category: 'cyber',
-    experience: '8+ Yrs Exp.',
-    rating: 4.94,
-    reviewsCount: 98,
-    followersCount: '2.9k',
-    sessionsCount: 220,
-    price: 1299,
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&auto=format&fit=crop&q=80',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Infosys SOC',
-    baselineRole: 'L1 SOC Analyst',
-    leapCompany: 'Palo Alto Networks',
-    leapRole: 'Lead CloudSec Architect',
-    jumpTag: 'SOC ➔ Cloud Architect',
-    growthPercent: '+530% Growth',
-    jumpMultiplier: '5.3x Growth',
-    jumpStory: 'Graduated from tier-1 alert monitoring shifts into automated cloud threat prevention and zero-trust Kubernetes architectures.',
-    skills: ['Prisma Cloud', 'Kubernetes Security', 'AWS IAM Hardening', 'Zero Trust', 'Terraform Sec']
-  },
-  {
-    id: 'meera',
-    name: 'Meera Nambisan',
-    role: 'Staff Threat Hunter & Incident Lead',
-    company: 'CrowdStrike',
-    domain: 'Cybersecurity',
-    category: 'cyber',
-    experience: '7+ Yrs Exp.',
-    rating: 4.92,
-    reviewsCount: 86,
-    followersCount: '2.3k',
-    sessionsCount: 175,
-    price: 1099,
-    avatar: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=300&auto=format&fit=crop&q=80',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Wipro Cyber Defense',
-    baselineRole: 'SOC Analyst',
-    leapCompany: 'CrowdStrike',
-    leapRole: 'Staff Threat Hunter',
-    jumpTag: 'Services ➔ Product',
-    growthPercent: '+540% Growth',
-    jumpMultiplier: '5.4x Growth',
-    jumpStory: 'Shifted from manual log correlation into tracking advanced persistent threat (APT) campaigns and building behavioral detection models.',
-    skills: ['Splunk Phantom', 'MITRE ATT&CK', 'EDR Forensics', 'Threat Hunting', 'Malware Analysis']
-  },
-  {
-    id: 'rohit',
-    name: 'Rohit Kulkarni',
-    role: 'Principal Application Security Lead',
-    company: 'Microsoft',
-    domain: 'Cybersecurity',
-    category: 'cyber',
-    experience: '10+ Yrs Exp.',
-    rating: 4.97,
-    reviewsCount: 156,
-    followersCount: '4.6k',
-    sessionsCount: 340,
-    price: 1499,
-    avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=300&auto=format&fit=crop&q=80',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Tech Mahindra',
-    baselineRole: 'QA Automation',
-    leapCompany: 'Microsoft',
-    leapRole: 'Principal AppSec Lead',
-    jumpTag: 'QA ➔ AppSec Lead',
-    growthPercent: '+640% Growth',
-    jumpMultiplier: '6.4x Growth',
-    jumpStory: 'Transitioned from running static scanner reports into discovering zero-days and leading red team exercises for Azure.',
-    skills: ['Red Teaming', 'Threat Modeling', 'SAST/DAST Triage', 'Cryptographic Protocols', 'Zero-Day Exploit']
-  },
-
-  // 4. FULL-STACK & SYSTEM ARCHITECTURE
-  {
-    id: 'akash',
-    name: 'Akash Jain',
-    role: 'Staff UI Platform Architect',
-    company: 'Razorpay',
-    domain: 'Full-stack',
-    category: 'fullstack',
-    experience: '8+ Yrs Exp.',
-    rating: 4.98,
-    reviewsCount: 210,
-    followersCount: '5.4k',
-    sessionsCount: 420,
-    price: 999,
-    avatar: '/avatars/akash.jpg',
-    isVerifiedEmployer: true,
-    baselineCompany: 'TCS Digital',
-    baselineRole: 'Angular Dev',
-    leapCompany: 'Razorpay',
-    leapRole: 'Staff UI Architect',
-    jumpTag: 'Services ➔ Product',
-    growthPercent: '+410% Growth',
-    jumpMultiplier: '4.1x Growth',
-    jumpStory: 'Shifted from monolithic Angular enterprise portals into designing micro-frontend payment checkouts processing $80B+ TPV.',
-    skills: ['Micro-Frontends', 'React 19', 'Design Systems', 'Web Vitals', 'System Design']
-  },
-  {
-    id: 'rahul',
-    name: 'Rahul Sharma',
-    role: 'Staff Engineering Manager (L6)',
-    company: 'Google',
-    domain: 'Full-stack',
-    category: 'fullstack',
-    experience: '12+ Yrs Exp.',
-    rating: 4.95,
-    reviewsCount: 180,
-    followersCount: '6.2k',
-    sessionsCount: 380,
-    price: 1499,
-    avatar: '/avatars/rahul.jpg',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Infosys',
-    baselineRole: 'Java Developer',
-    leapCompany: 'Google',
-    leapRole: 'Staff EM (L6)',
-    jumpTag: 'Services ➔ Tier-1 Tech',
-    growthPercent: '+400% Growth',
-    jumpMultiplier: '4.0x Growth',
-    jumpStory: 'Transformed traditional backend skillset into leading large-scale distributed cloud systems at Google.',
-    skills: ['System Design', 'Distributed Systems', 'Go / Java', 'Engineering Management']
-  },
-  {
-    id: 'nisha',
-    name: 'Nisha Singhania',
-    role: 'Staff UI Architect & Frontend Lead',
-    company: 'Flipkart',
-    domain: 'Full-stack',
-    category: 'fullstack',
-    experience: '8+ Yrs Exp.',
-    rating: 4.96,
-    reviewsCount: 175,
-    followersCount: '4.1k',
-    sessionsCount: 310,
-    price: 899,
-    avatar: '/avatars/nisha.jpg',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Capgemini',
-    baselineRole: 'Frontend Dev',
-    leapCompany: 'Flipkart',
-    leapRole: 'Staff UI Architect',
-    jumpTag: 'Services ➔ Tier-1',
-    growthPercent: '+450% Growth',
-    jumpMultiplier: '4.5x Growth',
-    jumpStory: 'Graduated from outsourced enterprise UI maintenance to leading high-concurrency Big Billion Day checkout experiences.',
-    skills: ['React 19', 'Performance Tuning', 'Design Systems', 'Next.js']
-  },
-
-  // 5. OTHERS (Product Management, SRE, Tech Sales)
-  {
-    id: 'saheli',
-    name: 'Saheli Chatterjee',
-    role: 'Lead Product Manager & Growth Strategist',
-    company: 'Shine (HT Media)',
-    domain: 'Product Management',
-    category: 'others',
-    experience: '7+ Yrs Exp.',
-    rating: 4.92,
-    reviewsCount: 145,
-    followersCount: '3.8k',
-    sessionsCount: 320,
-    price: 999,
-    avatar: '/avatars/saheli.jpg',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Accenture Strategy',
-    baselineRole: 'Business Consultant',
-    leapCompany: 'Shine (HT Media)',
-    leapRole: 'Lead Product Manager',
-    jumpTag: 'Consulting ➔ Tech PM',
-    growthPercent: '+320% Growth',
-    jumpMultiplier: '3.2x Growth',
-    jumpStory: 'Transitioned from management deck presentations into shipping AI-driven matching algorithms for 3.5M+ active users.',
-    skills: ['Product Strategy', 'Growth Metrics', 'PRD Discovery', 'A/B Testing']
-  },
-  {
-    id: 'pooja',
-    name: 'Pooja Sundaram',
-    role: 'Director of Growth & Product Strategy',
-    company: 'Zepto',
-    domain: 'Product Management',
-    category: 'others',
-    experience: '8+ Yrs Exp.',
-    rating: 4.89,
-    reviewsCount: 110,
-    followersCount: '2.7k',
-    sessionsCount: 240,
-    price: 1199,
-    avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&auto=format&fit=crop&q=80',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Oyo Rooms',
-    baselineRole: 'Operations Analyst',
-    leapCompany: 'Zepto',
-    leapRole: 'Director of Growth',
-    jumpTag: 'Ops ➔ Growth Director',
-    growthPercent: '+330% Growth',
-    jumpMultiplier: '4.3x Growth',
-    jumpStory: 'Transformed operational analytics background into rapid-cycle growth engineering.',
-    skills: ['Product Growth Loops', 'Retention Optimization', 'Funnel Analytics']
-  },
-  {
-    id: 'anirudh',
-    name: 'Anirudh Sharma',
-    role: 'Principal Search & Database Architect',
-    company: 'Shine (HT Media)',
-    domain: 'Search & Data Infra',
-    category: 'others',
-    experience: '8+ Yrs Exp.',
-    rating: 4.9,
-    reviewsCount: 165,
-    followersCount: '2.2k',
-    sessionsCount: 390,
-    price: 1199,
-    avatar: '/avatars/anirudh.jpg',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Cognizant',
-    baselineRole: 'Java Engineer',
-    leapCompany: 'Shine (HT Media)',
-    leapRole: 'Principal Search Architect',
-    jumpTag: 'Java ➔ Search Architect',
-    growthPercent: '+350% Growth',
-    jumpMultiplier: '4.5x Growth',
-    jumpStory: 'Shifted from enterprise maintenance contracts to designing real-time indexing for 40M+ profiles.',
-    skills: ['Apache Solr', 'Search Indexing', 'Database Tuning', 'Distributed DBs']
-  },
-  {
-    id: 'arunachalam',
-    name: 'Arunachalam Murugan',
-    role: 'Principal Platform & SRE Architect',
-    company: 'Uber',
-    domain: 'Platform & SRE',
-    category: 'others',
-    experience: '11+ Yrs Exp.',
-    rating: 4.96,
-    reviewsCount: 135,
-    followersCount: '4.5k',
-    sessionsCount: 320,
-    price: 1499,
-    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&auto=format&fit=crop&q=80',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Sify Technologies',
-    baselineRole: 'Sysadmin',
-    leapCompany: 'Uber',
-    leapRole: 'Principal SRE Architect',
-    jumpTag: 'Sysadmin ➔ Principal SRE',
-    growthPercent: '+800% Growth',
-    jumpMultiplier: '9.0x Growth',
-    jumpStory: 'Self-taught distributed systems from bare-metal server provisioning to orchestrating 50,000+ container nodes.',
-    skills: ['Kubernetes Fleet', 'Observability', 'Chaos Engineering', 'Go Microservices']
-  },
-  {
-    id: 'amit',
-    name: 'Amit Verma',
-    role: 'Senior Enterprise SaaS Sales Director',
-    company: 'Salesforce',
-    domain: 'SaaS Sales',
-    category: 'others',
-    experience: '8+ Yrs Exp.',
-    rating: 4.86,
-    reviewsCount: 120,
-    followersCount: '2.5k',
-    sessionsCount: 280,
-    price: 999,
-    avatar: '/avatars/amit.jpg',
-    isVerifiedEmployer: true,
-    baselineCompany: 'Local IT Consultancy',
-    baselineRole: 'BDE',
-    leapCompany: 'Salesforce',
-    leapRole: 'Senior Sales Director',
-    jumpTag: 'IT Sales ➔ Enterprise Director',
-    growthPercent: '+520% Growth',
-    jumpMultiplier: '6.2x Growth',
-    jumpStory: 'Transitioned from selling basic IT outsourcing into global cloud software contracts.',
-    skills: ['Enterprise SaaS Sales', 'MEDDIC Framework', 'Stakeholder Pitching', 'Pipeline Forecasting']
-  }
-];
 
 interface CareerGuidanceViewProps {
   onNavigate: (view: ViewType) => void;
@@ -553,94 +126,147 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
   const userDreamCompany = userProfile.dreamCompany || 'Swiggy / Qualcomm / Razorpay';
   const userCurrentCompany = userProfile.currentCompany || 'Tech Services';
 
-  // Calculate dynamic match scores & Top 5 Recommended
-  const { scoredAllMentors, topRecommendedMentors, domainCounts } = useMemo(() => {
-    const targetRoleLower = userTargetRole.toLowerCase();
-    const dreamCompanyLower = userDreamCompany.toLowerCase();
+  // Headline strings look like "Senior Frontend Engineer | 4 Years, 2 Months | Bengaluru" —
+  // same current-role extraction idiom used elsewhere in this component and in JobsView.
+  const userCurrentRole = userProfile.headline
+    ? userProfile.headline.split('|')[0].split('•')[0].split('@')[0].trim()
+    : 'Senior Frontend Engineer';
 
-    // Score all mentors based on target role, company & skills
-    const scoredMentors = VERIFIED_TRANSITION_MENTORS.map(m => {
-      let score = 70;
+  const [allMatches, setAllMatches] = useState<TrajectoryMatch[]>([]);
+  const [isLoadingAllMatches, setIsLoadingAllMatches] = useState<boolean>(true);
+  const [allMatchesError, setAllMatchesError] = useState<string | null>(null);
 
-      // Domain / role matching
-      if (
-        (targetRoleLower.includes('ai') || targetRoleLower.includes('ml') || targetRoleLower.includes('data')) &&
-        m.category === 'ai'
-      ) {
-        score += 24;
-      } else if (
-        (targetRoleLower.includes('semi') || targetRoleLower.includes('vlsi') || targetRoleLower.includes('silicon') || targetRoleLower.includes('rtl')) &&
-        m.category === 'semi'
-      ) {
-        score += 24;
-      } else if (
-        (targetRoleLower.includes('cyber') || targetRoleLower.includes('security') || targetRoleLower.includes('appsec')) &&
-        m.category === 'cyber'
-      ) {
-        score += 24;
-      } else if (
-        (targetRoleLower.includes('full') || targetRoleLower.includes('front') || targetRoleLower.includes('react') || targetRoleLower.includes('arch')) &&
-        m.category === 'fullstack'
-      ) {
-        score += 24;
-      } else if (
-        (targetRoleLower.includes('pm') || targetRoleLower.includes('product') || targetRoleLower.includes('search') || targetRoleLower.includes('solr')) &&
-        m.category === 'others'
-      ) {
-        score += 24;
-      }
+  const [domainMatches, setDomainMatches] = useState<TrajectoryMatch[]>([]);
+  const [isLoadingDomainMatches, setIsLoadingDomainMatches] = useState<boolean>(false);
+  const [domainMatchesError, setDomainMatchesError] = useState<string | null>(null);
 
-      // Company match bonus
-      if (dreamCompanyLower && m.company.toLowerCase().includes(dreamCompanyLower.split(' ')[0].toLowerCase())) {
-        score += 6;
-      }
+  // Fetch across all domains whenever the candidate context changes — powers the 'top'/'all'/'others'
+  // tabs (which intentionally mix domains) and the per-track mentor counts in the Switch Track dropdown.
+  useEffect(() => {
+    let isCurrent = true;
+    setIsLoadingAllMatches(true);
+    setAllMatchesError(null);
 
-      // Rating bonus
-      score += Math.round((m.rating - 4.8) * 10);
-
-      return {
-        ...m,
-        matchScore: Math.min(99, Math.max(78, score))
-      };
+    peerpathApi.matchTrajectories({
+      currentRole: userCurrentRole,
+      currentCompany: userProfile.currentCompany || userProfile.pastCompany,
+      currentExperience: userProfile.experienceYears || '4 Years',
+      currentSalary: userProfile.currentCtc,
+      targetRole: userProfile.targetRole || undefined,
+      targetPackage: userProfile.targetCtc,
+      targetCompany: userProfile.dreamCompany || undefined,
+      skills: userProfile.skills || []
+    }).then(({ matches }) => {
+      if (isCurrent) setAllMatches(matches);
+    }).catch(err => {
+      console.warn('[CareerGuidanceView all-domain trajectory match]:', err);
+      if (isCurrent) setAllMatchesError('Failed to load matched mentors. Please try again.');
+    }).finally(() => {
+      if (isCurrent) setIsLoadingAllMatches(false);
     });
 
-    // Sort descending by match score
-    const sorted = [...scoredMentors].sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
-    const top5 = sorted.slice(0, 5);
+    return () => { isCurrent = false; };
+  }, [userCurrentRole, userProfile.currentCompany, userProfile.pastCompany, userProfile.experienceYears, userProfile.currentCtc, userTargetRole, userProfile.targetCtc, userDreamCompany, userProfile.skills]);
 
-    // Count per category
+  // Re-fetch scoped to a single domain whenever a track tab that maps to one domain is selected.
+  useEffect(() => {
+    const domain = TAB_DOMAIN_MAP[activeTab];
+    if (!domain) {
+      setDomainMatches([]);
+      setDomainMatchesError(null);
+      return;
+    }
+
+    let isCurrent = true;
+    setIsLoadingDomainMatches(true);
+    setDomainMatchesError(null);
+
+    peerpathApi.matchTrajectories({
+      currentRole: userCurrentRole,
+      currentCompany: userProfile.currentCompany || userProfile.pastCompany,
+      currentExperience: userProfile.experienceYears || '4 Years',
+      currentSalary: userProfile.currentCtc,
+      targetRole: userProfile.targetRole || undefined,
+      targetPackage: userProfile.targetCtc,
+      targetCompany: userProfile.dreamCompany || undefined,
+      domain,
+      skills: userProfile.skills || []
+    }).then(({ matches, supportedDomain, message }) => {
+      if (!isCurrent) return;
+      setDomainMatches(matches);
+      setDomainMatchesError(!supportedDomain ? (message || `No mentors for "${domain}" yet.`) : null);
+    }).catch(err => {
+      console.warn('[CareerGuidanceView domain trajectory match]:', err);
+      if (isCurrent) setDomainMatchesError('Failed to load matched mentors for this track. Please try again.');
+    }).finally(() => {
+      if (isCurrent) setIsLoadingDomainMatches(false);
+    });
+
+    return () => { isCurrent = false; };
+  }, [activeTab, userCurrentRole, userProfile.currentCompany, userProfile.pastCompany, userProfile.experienceYears, userProfile.currentCtc, userTargetRole, userProfile.targetCtc, userDreamCompany, userProfile.skills]);
+
+  // Derive the 'top' (top 5), 'others' (non-named-domain), per-track counts, and each
+  // track's best real match % (shown in the Switch Track badges) from the all-domain match set
+  const { topMatches, othersMatches, domainCounts, domainBestMatch } = useMemo(() => {
+    const sorted = [...allMatches].sort((a, b) => b.trajectorySimilarityScore - a.trajectorySimilarityScore);
+    const others = allMatches.filter(m => !NAMED_TRACK_DOMAINS.includes(m.creator.domain));
+    const byDomain = {
+      ai: allMatches.filter(m => m.creator.domain === 'AI/ML'),
+      semi: allMatches.filter(m => m.creator.domain === 'Semiconductor'),
+      cyber: allMatches.filter(m => m.creator.domain === 'Cybersecurity'),
+      fullstack: allMatches.filter(m => m.creator.domain === 'Full-Stack')
+    };
+    const bestOf = (list: TrajectoryMatch[]) => list.length ? Math.max(...list.map(m => m.trajectorySimilarityScore)) : 0;
+
     const counts: Record<MentorCategoryTab, number> = {
-      top: 5,
-      all: scoredMentors.length,
-      ai: scoredMentors.filter(m => m.category === 'ai').length,
-      semi: scoredMentors.filter(m => m.category === 'semi').length,
-      cyber: scoredMentors.filter(m => m.category === 'cyber').length,
-      fullstack: scoredMentors.filter(m => m.category === 'fullstack').length,
-      others: scoredMentors.filter(m => m.category === 'others').length
+      top: Math.min(5, allMatches.length),
+      all: allMatches.length,
+      ai: byDomain.ai.length,
+      semi: byDomain.semi.length,
+      cyber: byDomain.cyber.length,
+      fullstack: byDomain.fullstack.length,
+      others: others.length
+    };
+
+    const bestMatch: Record<MentorCategoryTab, number> = {
+      top: bestOf(sorted),
+      all: bestOf(allMatches),
+      ai: bestOf(byDomain.ai),
+      semi: bestOf(byDomain.semi),
+      cyber: bestOf(byDomain.cyber),
+      fullstack: bestOf(byDomain.fullstack),
+      others: bestOf(others)
     };
 
     return {
-      scoredAllMentors: sorted,
-      topRecommendedMentors: top5,
-      domainCounts: counts
+      topMatches: sorted.slice(0, 5),
+      othersMatches: others,
+      domainCounts: counts,
+      domainBestMatch: bestMatch
     };
-  }, [userTargetRole, userDreamCompany]);
+  }, [allMatches]);
+
+  const matchBadgeLabel = (tab: MentorCategoryTab) =>
+    domainCounts[tab] > 0 ? `⚡ ${domainBestMatch[tab]}% Match` : 'No mentors yet';
+
+  const isLoadingActiveTab = TAB_DOMAIN_MAP[activeTab] ? isLoadingDomainMatches : isLoadingAllMatches;
+  const activeTabError = TAB_DOMAIN_MAP[activeTab] ? domainMatchesError : allMatchesError;
 
   // Displayed mentors with search, category tab, company filter, and sorting
   const displayedMentors = useMemo(() => {
-    let list: (TransitionMentor & { matchScore?: number })[] = [];
+    const baseMatches = activeTab === 'top'
+      ? topMatches
+      : activeTab === 'all'
+        ? allMatches
+        : activeTab === 'others'
+          ? othersMatches
+          : domainMatches;
 
-    if (activeTab === 'top') {
-      list = [...topRecommendedMentors];
-    } else if (activeTab === 'all') {
-      list = [...scoredAllMentors];
-    } else {
-      list = scoredAllMentors.filter(m => m.category === activeTab);
-    }
+    let list: TransitionMentor[] = baseMatches.map(toTransitionMentor);
 
     // Company filter
     if (selectedCompany !== 'all') {
-      list = list.filter(m => 
+      list = list.filter(m =>
         m.company.toLowerCase().includes(selectedCompany.toLowerCase()) ||
         m.leapCompany.toLowerCase().includes(selectedCompany.toLowerCase())
       );
@@ -649,7 +275,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
     // Search query filter
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
-      list = list.filter(m => 
+      list = list.filter(m =>
         m.name.toLowerCase().includes(q) ||
         m.role.toLowerCase().includes(q) ||
         m.company.toLowerCase().includes(q) ||
@@ -662,7 +288,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
     // Sorting
     return list.sort((a, b) => {
       if (sortBy === 'match') {
-        return (b.matchScore || 0) - (a.matchScore || 0);
+        return b.matchScore - a.matchScore;
       }
       if (sortBy === 'rating') {
         return b.rating - a.rating;
@@ -677,20 +303,20 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
       }
       return 0;
     });
-  }, [activeTab, topRecommendedMentors, scoredAllMentors, selectedCompany, searchQuery, sortBy]);
+  }, [activeTab, topMatches, allMatches, othersMatches, domainMatches, selectedCompany, searchQuery, sortBy]);
 
   const currentTrackInfo = useMemo(() => {
     const trackMap: Record<MentorCategoryTab, { title: string; growthStat: string; count: number }> = {
-      top: { title: 'Top Matches for You', growthStat: '⚡ 96% Match', count: domainCounts.top },
-      ai: { title: 'AI & Data Science', growthStat: '+480% CTC Jump', count: domainCounts.ai },
-      semi: { title: 'Semiconductor & VLSI', growthStat: '+380% CTC Jump', count: domainCounts.semi },
-      cyber: { title: 'Cybersecurity & Cloud', growthStat: '+350% CTC Jump', count: domainCounts.cyber },
-      fullstack: { title: 'Full-Stack & Systems', growthStat: '+450% CTC Jump', count: domainCounts.fullstack },
-      others: { title: 'Product & Leadership', growthStat: '+320% CTC Jump', count: domainCounts.others },
-      all: { title: 'All Verified Mentors', growthStat: '500+ Network', count: domainCounts.all }
+      top: { title: 'Top Matches for You', growthStat: matchBadgeLabel('top'), count: domainCounts.top },
+      ai: { title: 'AI & Data Science', growthStat: matchBadgeLabel('ai'), count: domainCounts.ai },
+      semi: { title: 'Semiconductor & VLSI', growthStat: matchBadgeLabel('semi'), count: domainCounts.semi },
+      cyber: { title: 'Cybersecurity & Cloud', growthStat: matchBadgeLabel('cyber'), count: domainCounts.cyber },
+      fullstack: { title: 'Full-Stack & Systems', growthStat: matchBadgeLabel('fullstack'), count: domainCounts.fullstack },
+      others: { title: 'Product & Leadership', growthStat: matchBadgeLabel('others'), count: domainCounts.others },
+      all: { title: 'All Verified Mentors', growthStat: matchBadgeLabel('all'), count: domainCounts.all }
     };
     return trackMap[activeTab] || trackMap.top;
-  }, [activeTab, domainCounts]);
+  }, [activeTab, domainCounts, domainBestMatch]);
 
   // Action: Book 1:1 Session with Mentor -> opens booking modal popup
   const handleBook1on1 = (mentor: TransitionMentor) => {
@@ -935,7 +561,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                           id: 'top' as MentorCategoryTab,
                           title: 'Top Matches for You',
                           companies: 'Swiggy, Qualcomm, Razorpay',
-                          growthStat: '⚡ 96% Match',
+                          growthStat: matchBadgeLabel('top'),
                           icon: Sparkles,
                           count: domainCounts.top
                         },
@@ -943,7 +569,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                           id: 'ai' as MentorCategoryTab,
                           title: 'AI & Data Science',
                           companies: 'Swiggy, Google, Microsoft',
-                          growthStat: '+480% CTC Jump',
+                          growthStat: matchBadgeLabel('ai'),
                           icon: Cpu,
                           count: domainCounts.ai
                         },
@@ -951,7 +577,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                           id: 'semi' as MentorCategoryTab,
                           title: 'Semiconductor & VLSI',
                           companies: 'Qualcomm, NVIDIA, Intel',
-                          growthStat: '+380% CTC Jump',
+                          growthStat: matchBadgeLabel('semi'),
                           icon: Zap,
                           count: domainCounts.semi
                         },
@@ -959,7 +585,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                           id: 'cyber' as MentorCategoryTab,
                           title: 'Cybersecurity & Cloud',
                           companies: 'Razorpay, AWS, Tier-1',
-                          growthStat: '+350% CTC Jump',
+                          growthStat: matchBadgeLabel('cyber'),
                           icon: ShieldCheck,
                           count: domainCounts.cyber
                         },
@@ -967,7 +593,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                           id: 'fullstack' as MentorCategoryTab,
                           title: 'Full-Stack & Systems',
                           companies: 'Flipkart, Swiggy, Zepto',
-                          growthStat: '+450% CTC Jump',
+                          growthStat: matchBadgeLabel('fullstack'),
                           icon: Code,
                           count: domainCounts.fullstack
                         },
@@ -975,7 +601,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                           id: 'others' as MentorCategoryTab,
                           title: 'Product & Leadership',
                           companies: 'Zepto, Shine (HT Media)',
-                          growthStat: '+320% CTC Jump',
+                          growthStat: matchBadgeLabel('others'),
                           icon: Compass,
                           count: domainCounts.others
                         },
@@ -983,7 +609,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                           id: 'all' as MentorCategoryTab,
                           title: 'All Verified Mentors',
                           companies: '35+ Tier-1 Product Firms',
-                          growthStat: '500+ Mentors',
+                          growthStat: matchBadgeLabel('all'),
                           icon: Layers,
                           count: domainCounts.all
                         }
@@ -1047,10 +673,30 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
             </div>
           </div>
           
-          {/* Mentors Horizontal List or Clean Empty State */}
-          {displayedMentors.length === 0 ? (
+          {/* Mentors Horizontal List, Loading, Error, or Clean Empty State */}
+          {isLoadingActiveTab ? (
+            <div style={{ textAlign: 'center', padding: '40px', background: '#fff', borderRadius: '12px' }}>
+              <Loader2 size={28} className="animate-spin text-purple-600 mb-2" style={{ margin: '0 auto' }} />
+              <p style={{ color: '#64748B', fontSize: '14px' }}>Matching you with verified trajectory mentors...</p>
+            </div>
+          ) : activeTabError ? (
             <div className="peerpath-mentors-empty-clean">
-              <p>No mentors found matching "<strong>{searchQuery}</strong>"</p>
+              <p>{activeTabError}</p>
+              <button
+                type="button"
+                className="btn-pcpb-clear-search"
+                onClick={() => setActiveTab('top')}
+              >
+                Show Top Recommended Mentors
+              </button>
+            </div>
+          ) : displayedMentors.length === 0 ? (
+            <div className="peerpath-mentors-empty-clean">
+              <p>
+                {searchQuery
+                  ? <>No mentors found matching "<strong>{searchQuery}</strong>"</>
+                  : 'No mentors found for this track yet.'}
+              </p>
               <button
                 type="button"
                 className="btn-pcpb-clear-search"
@@ -1065,7 +711,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
           ) : (
             <div className="peerpath-mentors-grid">
               {displayedMentors.map((mentor) => {
-                const matchScore = (mentor as any).matchScore || 95;
+                const matchScore = mentor.matchScore;
                 return (
                   <div key={mentor.id} className="pm-mentor-card-h">
                   

@@ -126,7 +126,13 @@ export class TrajectoryService {
 
       // Composite trajectory score blends structured alignment with dense vector semantic trajectory similarity
       const compositeTrajectory = (taxonomyScore * 0.70) + (((originSemanticSim + destSemanticSim) / 2) * 0.30);
-      const trajectorySimilarityScore = Math.min(99, Math.max(52, Math.round(compositeTrajectory * 100)));
+      // A linear 0-100 mapping bottoms out in the low 50s for any genuine cross-domain jump (e.g.
+      // Frontend -> AI/ML), since origin/destination semantic similarity is naturally low across
+      // domains — even the best available mentor then reads as a "bad match". Applying sqrt() before
+      // scaling preserves the relative ranking (monotonic) while lifting mid/low scores into a more
+      // legible range, so the strongest mentor for a hard jump isn't displayed as a coin-flip match.
+      const displayTrajectory = Math.sqrt(Math.max(0, Math.min(1, compositeTrajectory)));
+      const trajectorySimilarityScore = Math.min(99, Math.max(60, Math.round(displayTrajectory * 100)));
 
       let matchType: TrajectoryMatch['matchType'];
       if (dreamRoleScore >= 0.95 && dreamCompanyScore === 1) {
