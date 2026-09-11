@@ -486,7 +486,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
 
               {/* Description */}
               <p className="phb-desc">
-                Connect directly with verified tech leaders & engineers who made the exact career jump.
+                Connect directly with verified leaders & engineers who made the exact career jump.
               </p>
             </div>
 

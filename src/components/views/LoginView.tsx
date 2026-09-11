@@ -156,7 +156,6 @@ export const LoginView: React.FC = () => {
               </div>
               <div className="peerpath-brand-text-col">
                 <span className="peerpath-brand-title">PEERPATH</span>
-                <span className="peerpath-brand-sub">Tech Career Transitions</span>
               </div>
             </div>
 
@@ -179,7 +178,7 @@ export const LoginView: React.FC = () => {
             {/* Headline */}
             <div className="peerpath-hero-text-block">
               <h1 className="peerpath-login-hero-title">
-                Accelerate Your Tech Career with <span className="peerpath-title-gradient">1:1 Mentorship</span>
+                Accelerate Your Career with <span className="peerpath-title-gradient">1:1 Mentorship</span>
               </h1>
               <p className="peerpath-login-hero-subtitle">
                 Learn directly from vetted tech leaders who made your dream transition. Unlock verified roadmaps, mock interviews.

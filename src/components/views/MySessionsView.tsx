@@ -131,7 +131,7 @@ export const MySessionsView: React.FC = () => {
           <p className="sessions-hero-subtitle">
             {isMentor
               ? 'Host 1:1 live guidance calls with ambitious candidates, evaluate skills, and manage your booking schedule.'
-              : 'Manage your live 1:1 guidance calls with verified tech leaders, enter video meeting rooms, and access verified skill badges.'}
+              : 'Manage your live 1:1 guidance calls with verified leaders, enter video meeting rooms, and access verified skill badges.'}
           </p>
         </div>
 
