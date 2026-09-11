@@ -80,6 +80,8 @@ interface AppContextType {
   setIsCvSyncModalOpen: (open: boolean) => void;
   isUpdateProfileModalOpen: boolean;
   setIsUpdateProfileModalOpen: (open: boolean) => void;
+  pendingBookingCheckout: boolean;
+  setPendingBookingCheckout: (pending: boolean) => void;
   updateCandidateResume: (fileName: string, extractedSkills?: string[], targetCtc?: string) => void;
   removeCandidateResume: () => void;
   assessmentDraftSession: MentorshipSession | null;
@@ -824,7 +826,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
       if (clean === '/login' || clean === '/signin' || clean === '/pages/myshine/login') return { view: 'login-view' as ViewType };
       if (clean === '/profile' || clean === '/my-profile' || clean === '/candidate-profile') return { view: 'profile-view' as ViewType };
-      if (clean === '/peerpath' || clean === '/guidance' || clean === '/career-guidance') return { view: 'guidance-view' as ViewType };
+      if (clean === '/' || clean === '/peerpath' || clean === '/guidance' || clean === '/career-guidance' || clean === '/dashboard' || clean === '/myshine') return { view: 'guidance-view' as ViewType };
       if (clean === '/jobs' || clean === '/job-search' || clean === '/matching-jobs') return { view: 'jobs-view' as ViewType };
       if (clean === '/experts' || clean === '/mentors') return { view: 'experts-view' as ViewType };
       if (clean.startsWith('/expert/') || clean.startsWith('/mentor/')) {
@@ -834,9 +836,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       if (clean === '/expert' || clean === '/expert-profile') return { view: 'expert-profile-view' as ViewType };
       if (clean === '/payment' || clean === '/checkout') return { view: 'payment-view' as ViewType };
       if (clean === '/confirmed' || clean === '/success') return { view: 'confirmed-view' as ViewType };
-      if (clean === '/sessions' || clean === '/my-sessions') return { view: 'sessions-view' as ViewType };
-      if (clean === '/live-call' || clean === '/call') return { view: 'live-call-view' as ViewType };
-      if (clean === '/post-session' || clean === '/feedback' || clean === '/review') return { view: 'post-session-view' as ViewType };
+      if (clean === '/sessions' || clean === '/my-sessions' || clean === '/bookings') return { view: 'sessions-view' as ViewType };
+      if (clean === '/live-call' || clean === '/call' || clean === '/room/peerpath-session' || clean.startsWith('/room/')) return { view: 'live-call-view' as ViewType };
+      if (clean === '/session/feedback' || clean === '/post-session' || clean === '/feedback' || clean === '/review') return { view: 'post-session-view' as ViewType };
       if (clean === '/recruiter' || clean === '/recruiters') return { view: 'recruiter-view' as ViewType };
       if (clean === '/mentor-dashboard' || clean === '/mentor' || clean === '/creator-studio') return { view: 'mentor-dashboard-view' as ViewType };
       if (clean === '/community' || clean === '/feed' || clean === '/discussions') return { view: 'community-view' as ViewType };
@@ -1003,6 +1005,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isAssessmentModalOpen, setIsAssessmentModalOpen] = useState<boolean>(false);
   const [isCvSyncModalOpen, setIsCvSyncModalOpen] = useState<boolean>(false);
   const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] = useState<boolean>(false);
+  const [pendingBookingCheckout, setPendingBookingCheckout] = useState<boolean>(false);
   const [assessmentDraftSession, setAssessmentDraftSession] = useState<MentorshipSession | null>(null);
 
   const [bookingDraft, setBookingDraft] = useState<{ expert: Expert; date: string; timeSlot: string; attachedCvName?: string; sessionType?: string; amount?: number; duration?: string }>({
@@ -1010,9 +1013,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     date: 'Tomorrow, 5 Sep',
     timeSlot: '10:00 AM - 11:00 AM',
     attachedCvName: 'Prakash_Mahto_Frontend_Resume.pdf',
-    sessionType: '1:1 Mock Interview & Case Prep',
+    sessionType: 'Career guidance',
     amount: DEFAULT_FALLBACK_EXPERT.price,
-    duration: '60 Mins'
+    duration: '30 Mins'
   });
 
   const updateCandidateResume = (fileName: string, extractedSkills?: string[], targetCtc?: string) => {
@@ -1373,7 +1376,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       'payment-view': '/checkout',
       'confirmed-view': '/confirmed',
       'sessions-view': '/sessions',
-      'dashboard-view': '/dashboard',
+      'dashboard-view': '/peerpath',
       'profile-view': '/profile',
       'live-call-view': '/room/peerpath-session',
       'post-session-view': '/session/feedback',
@@ -1907,6 +1910,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setIsCvSyncModalOpen,
         isUpdateProfileModalOpen,
         setIsUpdateProfileModalOpen,
+        pendingBookingCheckout,
+        setPendingBookingCheckout,
         updateCandidateResume,
         removeCandidateResume,
         assessmentDraftSession,

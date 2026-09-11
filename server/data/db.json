@@ -1001,11 +1001,11 @@
       "name": "Prakash Mahto",
       "email": "prakash.mahto@example.com",
       "phone": "+91 98000 10000",
-      "headline": "Senior Frontend Engineer • 4 Years, 2 Months • Bengaluru",
+      "headline": "Senior frontend developer",
       "experienceYears": "4 Years, 2 Months",
       "location": "Bengaluru, India",
-      "profileScore": 94,
-      "jobSearchStatus": "Serving Notice Period (30 Days)",
+      "profileScore": 90,
+      "jobSearchStatus": "Actively Looking For Jobs",
       "summary": "Senior Frontend Developer with 4+ years of hands-on experience building high-traffic, resilient web applications at scale. Specializing in React 19, TypeScript, and micro-frontends.",
       "skills": [
         "React.js",
@@ -1013,13 +1013,13 @@
         "Next.js",
         "JavaScript (ES6+)",
         "Redux Toolkit",
-        "Tailwind CSS",
+        "Tailwind CSS / Vanilla CSS",
         "REST APIs",
-        "Vite",
-        "Jest",
-        "Git"
+        "Webpack / Vite",
+        "Jest & React Testing Library",
+        "Git & CI/CD"
       ],
-      "currentCtc": "₹7.5 LPA",
+      "currentCtc": "₹5.5 LPA",
       "targetCtc": "₹22 - 30 LPA",
       "targetRole": "Staff UI & Micro-Frontend Architect",
       "pastCompany": "TCS (Tata Consultancy Services)",
@@ -1064,7 +1064,16 @@
           "verificationHash": "SHINE-VERIFY-4491-8821-HN"
         }
       ],
-      "recruiterSearchMultiplier": 3.8
+      "recruiterSearchMultiplier": 3.8,
+      "avatar": "/avatars/prakash.jpg",
+      "noticePeriod": "2+ Months",
+      "expectedCtc": "66-70 Lacs",
+      "currentlyNotWorking": false,
+      "currentCompany": "TCS",
+      "designation": "Senior frontend developer",
+      "startDate": "Aug 2022",
+      "resumeFileName": "Prakash_Mahto_Frontend_Resume.pdf",
+      "resumeLastUpdated": "Updated just now"
     },
     {
       "id": "kunal-singh",
@@ -1263,6 +1272,142 @@
   ],
   "sessions": [
     {
+      "id": "sess-1789098657155",
+      "expertId": "saheli",
+      "expert": {
+        "id": "saheli",
+        "name": "Saheli Kanjilal",
+        "role": "Staff Frontend Architect",
+        "company": "Razorpay (FinTech)",
+        "domain": "Full-Stack",
+        "experience": "7+ Years Exp.",
+        "rating": 4.9,
+        "reviewsCount": 178,
+        "sessionsCount": 360,
+        "price": 999,
+        "location": "Bengaluru, India",
+        "duration": "01:15",
+        "avatar": "/avatars/saheli.jpg",
+        "videoPoster": "/avatars/saheli.jpg",
+        "teaserTitle": "Teaser: How I Jumped from ₹6L to ₹26L Staff Frontend Architect",
+        "skills": [
+          "React.js",
+          "TypeScript",
+          "Micro-Frontends",
+          "Module Federation",
+          "Web Vitals",
+          "Next.js"
+        ],
+        "bio": "Staff Frontend Architect at Razorpay. I guide frontend developers on mastering Module Federation, Core Web Vitals, and cracking high-paying Staff & Senior Frontend interview loops.",
+        "verifiedEmail": "saheli.k@razorpay.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Senior Frontend Developer",
+          "company3YearsAgo": "TCS / Mid-tier Services",
+          "salary3YearsAgo": "₹6.2 LPA",
+          "keyJumpSkills": [
+            "Module Federation",
+            "Micro-Frontends",
+            "Web Vitals Performance"
+          ],
+          "jumpStory": "Was writing vanilla React components at an IT services consultancy. Mastered micro-frontends and SSR architecture to break into Tier-1 product engineering."
+        },
+        "availability": {
+          "days": [
+            "Mon",
+            "Wed",
+            "Fri",
+            "Sat"
+          ],
+          "timeSlots": [
+            "06:30 PM - 07:30 PM",
+            "08:00 PM - 09:00 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash",
+      "candidateName": "Prakash Mahto",
+      "candidateRole": "Senior frontend developer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Trajectory mentorship & target jump into Razorpay (FinTech)",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "Sat, 12 Sep 2026",
+      "timeSlot": "10:00 AM - 11:00 AM",
+      "status": "upcoming",
+      "meetingLink": "https://meet.shine.com/room/peerpath-saheli-1789098657155",
+      "paymentId": "pay_shine_mtwf5awz_2cvr",
+      "amountPaid": 999,
+      "bookedAt": "2026-09-11T03:50:57.155Z"
+    },
+    {
+      "id": "sess-1789094191444",
+      "expertId": "ishita",
+      "expert": {
+        "id": "ishita",
+        "name": "Ishita Sharma",
+        "role": "Senior Data Scientist & AI Lead",
+        "company": "Swiggy",
+        "domain": "AI/ML",
+        "experience": "7+ Years Exp.",
+        "rating": 4.8,
+        "reviewsCount": 96,
+        "sessionsCount": 210,
+        "price": 899,
+        "location": "Bengaluru, India",
+        "duration": "01:09",
+        "avatar": "/avatars/ishita.jpg",
+        "videoPoster": "/avatars/ishita.jpg",
+        "teaserTitle": "Teaser: Transitioning from Data Analyst to Production GenAI Lead",
+        "skills": [
+          "Data Science",
+          "Machine Learning",
+          "PyTorch",
+          "LLMs",
+          "RAG Systems",
+          "FastAPI"
+        ],
+        "bio": "Built real-time dispatch and recommendation algorithms at Swiggy. I guide developers making the jump into production GenAI & distributed ML systems.",
+        "verifiedEmail": "ishita.sharma@swiggy.in",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "BI & Data Analyst",
+          "company3YearsAgo": "Mu Sigma",
+          "salary3YearsAgo": "₹5.5 LPA",
+          "keyJumpSkills": [
+            "PyTorch Production Pipelines",
+            "Vector Search (Pinecone)",
+            "LLM Fine-Tuning"
+          ],
+          "jumpStory": "Transitioned from SQL dashboards to building multi-modal LLM search algorithms and dispatch heuristics serving 2M orders daily."
+        },
+        "availability": {
+          "days": [
+            "Mon",
+            "Tue",
+            "Thu",
+            "Sat"
+          ],
+          "timeSlots": [
+            "06:30 PM - 07:30 PM",
+            "08:30 PM - 09:30 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash",
+      "candidateName": "Prakash Mahto",
+      "candidateRole": "Senior Frontend Engineer @ TCS ➔ Aspiring AI/ML (Generative AI & LLMs) @ Flipkart",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Trajectory mentorship & target jump into Swiggy",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "Sat, 12 Sep 2026",
+      "timeSlot": "07:00 PM - 08:00 PM",
+      "status": "upcoming",
+      "meetingLink": "https://meet.shine.com/room/peerpath-ishita-1789094191444",
+      "paymentId": "pay_shine_mtwchl5g_2t6v",
+      "amountPaid": 899,
+      "bookedAt": "2026-09-11T02:36:31.444Z"
+    },
+    {
       "id": "sess-1",
       "expertId": "saheli",
       "expert": {
@@ -1440,9 +1585,9 @@
     }
   ],
   "analytics": {
-    "profileUpdatesThisMonth": 14820,
+    "profileUpdatesThisMonth": 14821,
     "newRegistrationsThisMonth": 6350,
-    "totalSessionsBooked": 2430,
+    "totalSessionsBooked": 2432,
     "totalActiveCreators": 20
   }
 }

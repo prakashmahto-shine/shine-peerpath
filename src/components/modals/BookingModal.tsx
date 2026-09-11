@@ -1,11 +1,12 @@
-import React, { useMemo, useState, useRef } from 'react';
+import React, { useMemo, useState, useRef, useEffect } from 'react';
 import { 
-  X, Video, Clock, ShieldCheck, Info, ArrowRight, Lock, 
+  X, Video, Clock, ShieldCheck, Info, ArrowRight, ArrowLeft, Lock, 
   CheckCircle2, Calendar, Star, FileText, UploadCloud, Sparkles, RefreshCw, Trash2,
-  TrendingUp, Award, Target, Check
+  TrendingUp, Award, Target, Check, Compass
 } from 'lucide-react';
 import { Expert } from '../../types';
 import { useApp } from '../../context/AppContext';
+import { peerpathApi } from '../../services/api';
 
 interface BookingModalProps {
   expert?: Expert;
@@ -30,17 +31,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 }) => {
   const { 
     userProfile, 
-    updateCandidateResume, 
-    removeCandidateResume, 
     bookingDraft, 
     setBookingDraft, 
     selectedExpert,
-    bookSession,
+    setIsBookingModalOpen,
+    setIsUpdateProfileModalOpen,
+    setPendingBookingCheckout,
     showToast
   } = useApp();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isScanningCv, setIsScanningCv] = useState<boolean>(false);
-  const [scannedSuccess, setScannedSuccess] = useState<boolean>(false);
 
   // Dynamically calculate next 7 days starting strictly from Today
   const next7Days = useMemo(() => {
@@ -152,132 +150,72 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     const base = expertPrice || 999;
     return [
       {
-        id: 'mock-interview',
-        title: '1:1 Mock Interview & Case Prep',
-        duration: '60 Mins',
+        id: 'career-guidance',
+        title: 'Career guidance',
+        duration: '30 Mins',
         price: base,
-        desc: 'Real technical / case interview simulation with instant feedback & recruiter rating',
+        desc: 'Personalized career roadmap, transition guidance & target company strategy',
         deliverables: [
-          { icon: Video, title: '1:1 Live Interview Simulation', desc: 'Target company coding, architecture or PRD case questions' },
-          { icon: Clock, title: '60 Minutes Deep Evaluation', desc: 'Immediate feedback on problem-solving, depth & communication' },
-          { icon: ShieldCheck, title: 'Official Shine Scorecard', desc: 'Personalized rubric assessment & verified skill badge for recruiters' }
+          { icon: Compass, title: '1:1 Career Roadmap Strategy', desc: 'Target company skill gap audit & transition planning' },
+          { icon: Clock, title: '30 Minutes Dedicated Guidance', desc: 'Direct actionable feedback on your career trajectory' },
+          { icon: ShieldCheck, title: 'Verified Transition Playbook', desc: 'Practical step-by-step roadmap to achieve your target role' }
         ]
       },
       {
-        id: 'resume-audit',
-        title: 'Resume & Portfolio Deep-Dive',
+        id: 'interview-prep',
+        title: 'Interview prep',
         duration: '30 Mins',
-        price: Math.max(499, Math.round((base * 0.65) / 50) * 50 - 1),
-        desc: 'Line-by-line ATS resume audit, project showcase tuning & keyword boost',
+        price: base,
+        desc: 'Target company technical / case interview simulation & instant rubric feedback',
+        deliverables: [
+          { icon: Video, title: '1:1 Live Mock Interview', desc: 'Target company coding, system design or PRD questions' },
+          { icon: Clock, title: '30 Minutes Focused Simulation', desc: 'Immediate feedback on problem-solving, depth & communication' },
+          { icon: ShieldCheck, title: 'Official Shine Scorecard', desc: 'Personalized rubric assessment & verified feedback' }
+        ]
+      },
+      {
+        id: 'resume-review',
+        title: 'Portfolio / resume review',
+        duration: '30 Mins',
+        price: Math.max(499, Math.round((base * 0.7) / 50) * 50 - 1),
+        desc: 'Line-by-line ATS resume review, project showcase tuning & keyword boost',
         deliverables: [
           { icon: FileText, title: 'Line-by-Line CV Teardown', desc: 'ATS formatting audit, high-impact bullet points & metrics phrasing' },
           { icon: Clock, title: '30 Minutes Focused Review', desc: 'GitHub, portfolio & live project showcase optimization' },
-          { icon: Sparkles, title: 'Recruiter Spotlight Boost', desc: '+22% profile visibility score on Shine recruiter search' }
+          { icon: Sparkles, title: 'Recruiter Visibility Boost', desc: 'Maximize recruiter shortlists on Shine candidate search' }
         ]
       },
       {
-        id: 'career-strategy',
-        title: '1:1 Career Jump & CTC Strategy',
-        duration: '45 Mins',
+        id: 'salary-negotiation',
+        title: 'Salary negotiation guidance',
+        duration: '30 Mins',
         price: Math.max(699, Math.round((base * 0.85) / 50) * 50 - 1),
-        desc: 'Step-by-step roadmap to switch domains & negotiate higher CTC offers',
+        desc: 'Offer letter benchmarking, counter-offer strategy & compensation optimization',
         deliverables: [
-          { icon: TrendingUp, title: 'Domain Transition Roadmap', desc: 'Personalized 30-60-90 day skill bridge & interview readiness plan' },
-          { icon: Clock, title: '45 Minutes Strategy Session', desc: 'Offer evaluation, compensation benchmarking & counter-offer tactics' },
-          { icon: ShieldCheck, title: 'Company Insider Insights', desc: 'Culture, team expectations & real compensation bands' }
-        ]
-      },
-      {
-        id: 'referral-prep',
-        title: 'Target Referral & Fast-Track',
-        duration: '45 Mins',
-        price: Math.max(899, Math.round((base * 1.15) / 50) * 50 - 1),
-        desc: 'Internal referral prep, hiring round secrets & direct profile endorsement',
-        deliverables: [
-          { icon: ShieldCheck, title: 'Internal Referral Evaluation', desc: 'Review fitment for active openings at top product firms' },
-          { icon: Clock, title: '45 Minutes Hiring Deep-Dive', desc: 'Hiring manager expectation breakdown & interview loop secrets' },
-          { icon: Sparkles, title: 'Fast-Track Recommendation', desc: 'Direct mentor endorsement & recruiter introduction guidance' }
+          { icon: TrendingUp, title: 'Compensation Benchmarking', desc: 'Market standard salary bands for your role, tier & experience' },
+          { icon: Clock, title: '30 Minutes Strategy Session', desc: 'Offer evaluation, counter-offer scripting & negotiation tactics' },
+          { icon: ShieldCheck, title: 'Insider Industry Bands', desc: 'Fixed CTC, variable bonus & ESOP equity breakdowns' }
         ]
       }
     ];
   }, [expertPrice]);
 
-  const [selectedSessionId, setSelectedSessionId] = useState<string>('mock-interview');
+  const [selectedSessionId, setSelectedSessionId] = useState<string>('career-guidance');
+
+  // Keep selected session in sync with booking draft when opened with pre-selected service
+  useEffect(() => {
+    if (bookingDraft?.sessionType) {
+      const matched = sessionOfferings.find(s => 
+        s.title.toLowerCase() === bookingDraft.sessionType?.toLowerCase() || 
+        s.id === bookingDraft.sessionType
+      );
+      if (matched) {
+        setSelectedSessionId(matched.id);
+      }
+    }
+  }, [bookingDraft?.sessionType, sessionOfferings]);
   const activeSession = sessionOfferings.find(s => s.id === selectedSessionId) || sessionOfferings[0];
   const payableAmount = activeSession.price;
-
-  const isCvExplicitlyRemoved = bookingDraft?.attachedCvName === '';
-  const currentCvName = isCvExplicitlyRemoved 
-    ? '' 
-    : (bookingDraft?.attachedCvName || userProfile?.resumeFileName || 'Prakash_Mahto_Frontend_Resume.pdf');
-  
-  const isCvRecentlyUpdated = !isCvExplicitlyRemoved && Boolean(
-    (userProfile?.resumeLastUpdated && (userProfile.resumeLastUpdated.includes('Just now') || userProfile.resumeLastUpdated.includes('Synced'))) ||
-    scannedSuccess
-  );
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setIsScanningCv(true);
-      setTimeout(() => {
-        setIsScanningCv(false);
-        setScannedSuccess(true);
-        if (updateCandidateResume) {
-          updateCandidateResume(file.name, ['Next.js 15', 'React 19', 'Micro-Frontends', 'UI Architecture'], '₹24L - ₹30 LPA');
-        }
-        if (setBookingDraft) {
-          setBookingDraft({ 
-            ...bookingDraft, 
-            expert, 
-            attachedCvName: file.name,
-            sessionType: activeSession.title,
-            amount: payableAmount,
-            duration: activeSession.duration
-          });
-        }
-      }, 1200);
-    }
-  };
-
-  const handleQuickDemoUpload = () => {
-    setIsScanningCv(true);
-    setTimeout(() => {
-      setIsScanningCv(false);
-      setScannedSuccess(true);
-      const demoName = 'Prakash_Mahto_LeadFrontend_Updated.pdf';
-      if (updateCandidateResume) {
-        updateCandidateResume(demoName, ['Next.js 15', 'React 19', 'Micro-Frontends', 'UI Architecture'], '₹24L - ₹30 LPA');
-      }
-      if (setBookingDraft) {
-        setBookingDraft({ 
-          ...bookingDraft, 
-          expert, 
-          attachedCvName: demoName,
-          sessionType: activeSession.title,
-          amount: payableAmount,
-          duration: activeSession.duration
-        });
-      }
-    }, 1100);
-  };
-
-  const handleRemoveResume = () => {
-    setScannedSuccess(false);
-    if (removeCandidateResume) {
-      removeCandidateResume();
-    }
-    if (setBookingDraft) {
-      setBookingDraft({ 
-        ...bookingDraft, 
-        expert, 
-        attachedCvName: '',
-        sessionType: activeSession.title,
-        amount: payableAmount,
-        duration: activeSession.duration
-      });
-    }
-  };
 
   const handleProceed = () => {
     const slotTime = selectedTime || availableSlots[0]?.time || '10:00 AM - 11:00 AM';
@@ -286,13 +224,16 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         expert,
         date: activeDateStr,
         timeSlot: slotTime,
-        attachedCvName: currentCvName,
+        attachedCvName: userProfile?.resumeFileName || '',
         sessionType: activeSession.title,
         amount: payableAmount,
         duration: activeSession.duration
       });
     }
-    onProceedToPay();
+    // Launch candidate acquisition / profile update popup directly (same popup as profile page)
+    setPendingBookingCheckout(true);
+    setIsBookingModalOpen(false);
+    setIsUpdateProfileModalOpen(true);
   };
 
   if (!isOpen) return null;
@@ -356,26 +297,17 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </div>
               </div>
 
-              {/* Dynamic Live Booking Recap */}
-              <div className="bk-fp-booking-recap">
-                <div className="bk-recap-row">
-                  <span className="bk-recap-label">Selected Goal</span>
-                  <strong className="bk-recap-val">{activeSession.title}</strong>
-                </div>
-                <div className="bk-recap-row">
-                  <span className="bk-recap-label">Mode & Timing</span>
-                  <div className="bk-recap-tags">
-                    <span className="bk-recap-tag"><Video size={10} className="text-blue-600" /> 1:1 Google Meet</span>
-                    <span className="bk-recap-tag"><Clock size={10} className="text-amber-600" /> {activeSession.duration}</span>
+              {/* Focus Skills */}
+              {expert.skills && expert.skills.length > 0 && (
+                <div className="bk-fp-skills-wrap">
+                  <span className="bk-fp-skills-label">Focus Areas</span>
+                  <div className="bk-fp-skills-chips">
+                    {expert.skills.slice(0, 4).map((s: string) => (
+                      <span key={s} className="bk-fp-skill-chip">{s}</span>
+                    ))}
                   </div>
                 </div>
-                <div className="bk-recap-row">
-                  <span className="bk-recap-label">Scheduled Slot</span>
-                  <span className="bk-recap-date">
-                    📅 {activeDateStr} • {(selectedTime || availableSlots[0]?.time || '10:00 AM').split(' - ')[0]}
-                  </span>
-                </div>
-              </div>
+              )}
 
               <div className="bk-fp-trust-footer">
                 <Lock size={11} className="text-emerald-600" />
@@ -415,9 +347,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                           </span>
                           <span className="bk-sc-title">{session.title}</span>
                         </div>
-                        <div className="bk-sc-price-col">
+
+                        <div className="bk-sc-bottom-meta">
                           <span className="bk-sc-dur">{session.duration}</span>
-                          <strong className="bk-sc-price">₹{session.price}</strong>
+                          <span className="bk-sc-price">₹{session.price}</span>
                         </div>
                       </button>
                     );
@@ -425,7 +358,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </div>
               </div>
 
-              {/* Step 2: 7-Day Date Grid (No Scroll Needed) */}
+              {/* Step 2: 7-Day Date Grid */}
               <div className="bk-date-selector-wrapper">
                 <label className="bk-field-label">
                   <Calendar size={13} /> 2. Select Date
@@ -450,12 +383,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </div>
               </div>
 
-              {/* Step 3: Time Slots */}
+              {/* Step 3: Available Time Slots */}
               <div className="time-slots-container">
                 <label className="bk-field-label">
                   <Clock size={14} /> 3. Choose Time Slot for <strong>{activeDateStr}</strong>
                 </label>
-                
+
                 {availableSlots.length > 0 ? (
                   <div className="slots-pill-grid">
                     {availableSlots.map((slot) => {

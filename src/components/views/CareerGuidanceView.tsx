@@ -722,9 +722,9 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
         date: 'Tomorrow, 11 Sep',
         timeSlot: '07:00 PM - 08:00 PM',
         attachedCvName: userProfile.resumeFileName || '',
-        sessionType: `1:1 Career Transition & ${mentor.domain} Guidance`,
+        sessionType: 'Career guidance',
         amount: mentor.price || 999,
-        duration: '45 Mins'
+        duration: '30 Mins'
       });
     }
 
@@ -1078,15 +1078,15 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
 
                     <div className="pm-h-profile-details">
                       <div className="pm-h-name-row">
-                        <h4 className="pm-mentor-name">{mentor.name}</h4>
+                        <h4 className="pm-mentor-name" title={mentor.name}>{mentor.name}</h4>
                         <span className="pm-match-badge">
                           <Zap size={10} fill="currentColor" /> {matchScore}% Match
                         </span>
                       </div>
 
                       <p className="pm-role-company">
-                        <span className="pm-role-name">{mentor.role}</span>
-                        <span className="pm-company-name">@{mentor.company}</span>
+                        <span className="pm-role-name" title={mentor.role}>{mentor.role}</span>
+                        <span className="pm-company-name" title={`@${mentor.company}`}>@{mentor.company}</span>
                       </p>
 
                       <div className="pm-meta-row">
@@ -1123,14 +1123,16 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                           <TrendingUp size={11} className="text-emerald-600" />
                           CAREER TRANSITION JOURNEY
                         </span>
-                        <span className="pm-leap-pill">{mentor.jumpTag || 'Services ➔ Product'}</span>
+                        <span className="pm-leap-pill" title={mentor.jumpTag || 'Services ➔ Product'}>
+                          {mentor.jumpTag || 'Services ➔ Product'}
+                        </span>
                       </div>
 
                       <div className="pm-h-stepper-row">
                         <div className="pm-h-node from">
                           <span className="pm-h-node-label">Started At</span>
-                          <strong className="pm-h-node-val">{mentor.baselineRole}</strong>
-                          <span className="pm-h-node-sub">{mentor.baselineCompany.replace(/\s+Services$/, '')}</span>
+                          <strong className="pm-h-node-val" title={mentor.baselineRole}>{mentor.baselineRole}</strong>
+                          <span className="pm-h-node-sub" title={mentor.baselineCompany}>{mentor.baselineCompany.replace(/\s+Services$/, '')}</span>
                         </div>
 
                         <div className="pm-h-node-arrow">
@@ -1139,8 +1141,8 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
 
                         <div className="pm-h-node to">
                           <span className="pm-h-node-label leap">Switched To</span>
-                          <strong className="pm-h-node-val">{mentor.leapRole}</strong>
-                          <span className="pm-h-node-sub">@{mentor.leapCompany}</span>
+                          <strong className="pm-h-node-val" title={mentor.leapRole}>{mentor.leapRole}</strong>
+                          <span className="pm-h-node-sub" title={`@${mentor.leapCompany}`}>@{mentor.leapCompany}</span>
                         </div>
                       </div>
                     </div>

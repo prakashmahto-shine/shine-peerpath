@@ -1,11 +1,41 @@
 import { Expert, MentorshipSession, PeerVerifiedBadge, TrajectoryMatch, ZeroPrepDossier, GapAnalysisResult, ShineJob, UserProfileData } from '../types';
 
-const API_BASE = '/api';
+const ENV_API_URL = typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_API_URL 
+  ? String((import.meta as any).env.VITE_API_URL).replace(/\/$/, '') 
+  : '';
+
+export const API_BASE = ENV_API_URL ? `${ENV_API_URL}/api` : '/api';
+
+/**
+ * Resilient fetch wrapper with automatic retry to handle Render Free Tier cold-starts
+ * (which return 502/503/504 or network timeout while the web service spins up after 15m inactivity).
+ */
+async function fetchWithRetry(url: string, options?: RequestInit, retries = 2, delayMs = 1200): Promise<Response> {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const res = await fetch(url, options);
+      if ((res.status === 502 || res.status === 503 || res.status === 504) && i < retries) {
+        console.warn(`[API] Received HTTP ${res.status} from server (Render warming up?), retrying ${i + 1}/${retries} in ${delayMs}ms...`);
+        await new Promise(r => setTimeout(r, delayMs * (i + 1)));
+        continue;
+      }
+      return res;
+    } catch (err) {
+      if (i < retries) {
+        console.warn(`[API] Request attempt ${i + 1}/${retries} failed (Render instance spinning up?), retrying in ${delayMs}ms...`);
+        await new Promise(r => setTimeout(r, delayMs * (i + 1)));
+        continue;
+      }
+      throw err;
+    }
+  }
+  return fetch(url, options);
+}
 
 export const peerpathApi = {
   // Health
   async getHealth() {
-    const res = await fetch(`${API_BASE}/health`);
+    const res = await fetchWithRetry(`${API_BASE}/health`);
     if (!res.ok) throw new Error(`Health check failed: ${res.statusText}`);
     return res.json();
   },
@@ -16,21 +46,21 @@ export const peerpathApi = {
     if (domain && domain !== 'all') params.append('domain', domain);
     if (query) params.append('q', query);
     
-    const res = await fetch(`${API_BASE}/creators?${params.toString()}`);
+    const res = await fetchWithRetry(`${API_BASE}/creators?${params.toString()}`);
     if (!res.ok) throw new Error(`Failed fetching creators: ${res.statusText}`);
     const json = await res.json();
     return json.data;
   },
 
   async getCreatorById(id: string): Promise<Expert> {
-    const res = await fetch(`${API_BASE}/creators/${id}`);
+    const res = await fetchWithRetry(`${API_BASE}/creators/${id}`);
     if (!res.ok) throw new Error(`Failed fetching creator ${id}`);
     const json = await res.json();
     return json.data;
   },
 
   async registerCreator(creatorData: Partial<Expert>): Promise<Expert> {
-    const res = await fetch(`${API_BASE}/creators/register`, {
+    const res = await fetchWithRetry(`${API_BASE}/creators/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(creatorData)
@@ -42,14 +72,14 @@ export const peerpathApi = {
 
   // Candidate Profile
   async getCandidateProfile(id: string): Promise<UserProfileData> {
-    const res = await fetch(`${API_BASE}/candidates/${id}`);
+    const res = await fetchWithRetry(`${API_BASE}/candidates/${id}`);
     if (!res.ok) throw new Error(`Failed fetching candidate ${id}`);
     const json = await res.json();
     return json.data;
   },
 
   async updateCandidateProfile(id: string, updates: Partial<UserProfileData>): Promise<UserProfileData> {
-    const res = await fetch(`${API_BASE}/candidates/${id}`, {
+    const res = await fetchWithRetry(`${API_BASE}/candidates/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updates)
@@ -71,7 +101,7 @@ export const peerpathApi = {
     domain?: string;
     skills: string[];
   }): Promise<{ matches: TrajectoryMatch[]; supportedDomain: boolean; message?: string }> {
-    const res = await fetch(`${API_BASE}/trajectory/match`, {
+    const res = await fetchWithRetry(`${API_BASE}/trajectory/match`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(params)
@@ -88,7 +118,7 @@ export const peerpathApi = {
     rawLength: number;
     extractedHighlights: string[];
   }> {
-    const res = await fetch(`${API_BASE}/cv/parse`, {
+    const res = await fetchWithRetry(`${API_BASE}/cv/parse`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ cvText, metadata })
@@ -107,7 +137,7 @@ export const peerpathApi = {
     currentCompany?: string;
     targetCompany?: string;
   }): Promise<GapAnalysisResult> {
-    const res = await fetch(`${API_BASE}/cv/gap-analysis`, {
+    const res = await fetchWithRetry(`${API_BASE}/cv/gap-analysis`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(params)
@@ -125,7 +155,7 @@ export const peerpathApi = {
     currentCompany?: string;
     targetCompany?: string;
   }): Promise<Record<string, GapAnalysisResult>> {
-    const res = await fetch(`${API_BASE}/cv/pathways-analysis`, {
+    const res = await fetchWithRetry(`${API_BASE}/cv/pathways-analysis`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(params)
@@ -150,7 +180,7 @@ export const peerpathApi = {
     if (params?.trackKey) qs.append('trackKey', params.trackKey);
     if (params?.minSalary) qs.append('minSalary', String(params.minSalary));
 
-    const res = await fetch(`${API_BASE}/jobs?${qs.toString()}`);
+    const res = await fetchWithRetry(`${API_BASE}/jobs?${qs.toString()}`);
     if (!res.ok) throw new Error(`Failed fetching jobs`);
     const json = await res.json();
     return json.data;
@@ -162,7 +192,7 @@ export const peerpathApi = {
     if (userId) params.append('userId', userId);
     if (role) params.append('role', role);
 
-    const res = await fetch(`${API_BASE}/bookings?${params.toString()}`);
+    const res = await fetchWithRetry(`${API_BASE}/bookings?${params.toString()}`);
     if (!res.ok) throw new Error(`Failed fetching sessions`);
     const json = await res.json();
     return json.data;
@@ -182,7 +212,7 @@ export const peerpathApi = {
     upiId?: string;
     amount: number;
   }): Promise<{ session: MentorshipSession; receipt: any }> {
-    const res = await fetch(`${API_BASE}/payments/checkout`, {
+    const res = await fetchWithRetry(`${API_BASE}/payments/checkout`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -193,7 +223,7 @@ export const peerpathApi = {
   },
 
   async cancelSession(sessionId: string): Promise<MentorshipSession> {
-    const res = await fetch(`${API_BASE}/bookings/${sessionId}/cancel`, {
+    const res = await fetchWithRetry(`${API_BASE}/bookings/${sessionId}/cancel`, {
       method: 'POST'
     });
     if (!res.ok) throw new Error(`Failed cancelling session`);
@@ -202,7 +232,7 @@ export const peerpathApi = {
   },
 
   async rescheduleSession(sessionId: string, newDate: string, newTimeSlot: string): Promise<MentorshipSession> {
-    const res = await fetch(`${API_BASE}/bookings/${sessionId}/reschedule`, {
+    const res = await fetchWithRetry(`${API_BASE}/bookings/${sessionId}/reschedule`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ newDate, newTimeSlot })
@@ -214,7 +244,7 @@ export const peerpathApi = {
 
   // Creator Mode Zero-Prep Dossier
   async getZeroPrepDossier(sessionId: string): Promise<ZeroPrepDossier> {
-    const res = await fetch(`${API_BASE}/creator/sessions/${sessionId}/briefing`);
+    const res = await fetchWithRetry(`${API_BASE}/creator/sessions/${sessionId}/briefing`);
     if (!res.ok) throw new Error(`Failed fetching zero-prep dossier`);
     const json = await res.json();
     return json.data;
@@ -228,7 +258,7 @@ export const peerpathApi = {
     skillsVerified?: string[];
     interviewReadinessScore?: number;
   }): Promise<{ session: MentorshipSession; badge: PeerVerifiedBadge; recruiterVisibilityBoost: string }> {
-    const res = await fetch(`${API_BASE}/sessions/${sessionId}/assess`, {
+    const res = await fetchWithRetry(`${API_BASE}/sessions/${sessionId}/assess`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -255,7 +285,7 @@ export const peerpathApi = {
       explanation: string;
     }>;
   }> {
-    const res = await fetch(`${API_BASE}/recruiter/match`, {
+    const res = await fetchWithRetry(`${API_BASE}/recruiter/match`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(params)
@@ -277,7 +307,7 @@ export const peerpathApi = {
     if (params?.peerVerifiedOnly) qs.append('peer_verified_only', 'true');
     if (params?.minScore) qs.append('min_score', String(params.minScore));
 
-    const res = await fetch(`${API_BASE}/recruiter/candidates?${qs.toString()}`);
+    const res = await fetchWithRetry(`${API_BASE}/recruiter/candidates?${qs.toString()}`);
     if (!res.ok) throw new Error(`Failed searching recruiter candidates`);
     const json = await res.json();
     return json.data;
@@ -290,7 +320,7 @@ export const peerpathApi = {
     roleTitle: string;
     message?: string;
   }) {
-    const res = await fetch(`${API_BASE}/recruiter/invite`, {
+    const res = await fetchWithRetry(`${API_BASE}/recruiter/invite`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -301,14 +331,14 @@ export const peerpathApi = {
 
   // Analytics
   async getAnalytics() {
-    const res = await fetch(`${API_BASE}/analytics/metrics`);
+    const res = await fetchWithRetry(`${API_BASE}/analytics/metrics`);
     if (!res.ok) throw new Error(`Failed fetching analytics`);
     return res.json();
   },
 
   // Reset Demo
   async resetDemo() {
-    const res = await fetch(`${API_BASE}/demo/reset`, { method: 'POST' });
+    const res = await fetchWithRetry(`${API_BASE}/demo/reset`, { method: 'POST' });
     if (!res.ok) throw new Error(`Failed resetting demo`);
     return res.json();
   }

@@ -4,6 +4,17 @@ import { Expert, ViewType } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { peerpathApi } from '../../services/api';
 
+const DOMAIN_OPTIONS = [
+  'Full-Stack',
+  'AI/ML',
+  'Product Management',
+  'Search & Data Infra',
+  'Semiconductor',
+  'Cybersecurity',
+  'SaaS Sales',
+  'Marketing'
+];
+
 interface ExpertsGalleryViewProps {
   experts: Expert[];
   onSelectExpert: (expertId: string) => void;
@@ -45,7 +56,7 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
   }, [activeDomain, searchTerm]);
 
   const filteredExperts = creatorsList.filter((exp) => {
-    if (activeDomain !== 'all' && exp.domain !== activeDomain) return false;
+    if (activeDomain !== 'all' && exp.domain.toLowerCase() !== activeDomain.toLowerCase()) return false;
     if (exp.price > priceLimit) return false;
     if (searchTerm) {
       const q = searchTerm.toLowerCase();
@@ -156,10 +167,10 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
 
       {/* Horizontal Domain Chips Strip */}
       <div className="gallery-domain-chips-strip">
-        {['all', 'Full-Stack', 'AI/ML', 'Semiconductor', 'Cybersecurity', 'Search & Data Infra', 'Product Management', 'SaaS Sales'].map((dom) => (
+        {['all', ...DOMAIN_OPTIONS].map((dom) => (
           <button
             key={dom}
-            className={`f-pill-compact ${activeDomain === dom ? 'active' : ''}`}
+            className={`f-pill-compact ${activeDomain.toLowerCase() === dom.toLowerCase() ? 'active' : ''}`}
             onClick={() => setActiveDomain(dom)}
           >
             {dom === 'all' ? 'All Domains' : dom}
@@ -177,12 +188,12 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
           <div className="filter-section">
             <label className="filter-section-title">Career / Domain</label>
             <div className="checkbox-list">
-              {['Full-Stack', 'AI/ML', 'Semiconductor', 'Cybersecurity', 'SaaS Sales', 'Marketing'].map((dom) => (
+              {DOMAIN_OPTIONS.map((dom) => (
                 <label key={dom} className="custom-checkbox">
                   <input 
                     type="checkbox" 
-                    checked={activeDomain === 'all' || activeDomain === dom} 
-                    onChange={() => setActiveDomain(activeDomain === dom ? 'all' : dom)}
+                    checked={activeDomain === 'all' || activeDomain.toLowerCase() === dom.toLowerCase()} 
+                    onChange={() => setActiveDomain(activeDomain.toLowerCase() === dom.toLowerCase() ? 'all' : dom)}
                   />
                   <span>{dom}</span>
                 </label>

@@ -37,21 +37,8 @@ export const Header: React.FC<HeaderProps> = ({
     markAllNotificationsAsRead
   } = useApp();
 
-  // Determine whether current view is in Peerpath Mentorship platform or Shine Jobs portal
-  const isPeerpathView = [
-    'guidance-view',
-    'experts-view',
-    'expert-profile-view',
-    'community-view',
-    'mentor-dashboard-view',
-    'sessions-view',
-    'payment-view',
-    'confirmed-view',
-    'live-call-view',
-    'post-session-view',
-    'recruiter-view',
-    'profile-view'
-  ].includes(currentView);
+  // Consistent Peerpath Mentorship platform header across all views
+  const isPeerpathView = true;
 
   const isAlreadyMentor = Boolean(
     currentUser?.role === 'mentor' || 

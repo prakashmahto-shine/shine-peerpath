@@ -15,8 +15,8 @@ export const PaymentView: React.FC = () => {
 
   const date = bookingDraft.date || 'Tomorrow, 5 Sep';
   const timeSlot = bookingDraft.timeSlot || '10:00 AM - 11:00 AM';
-  const sessionType = bookingDraft.sessionType || '1:1 Mock Interview & Case Prep';
-  const sessionDuration = bookingDraft.duration || '60 Mins';
+  const sessionType = bookingDraft.sessionType || 'Career guidance';
+  const sessionDuration = bookingDraft.duration || '30 Mins';
   const payableAmount = bookingDraft.amount || expert.price || 999;
 
   const [payMethod, setPayMethod] = useState<'upi' | 'card' | 'netbanking' | 'wallet'>('upi');

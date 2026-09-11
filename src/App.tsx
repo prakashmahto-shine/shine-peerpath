@@ -32,14 +32,11 @@ import { ViewType } from './types';
 
 const pathToView = (pathname: string): { view: ViewType; expertId?: string } => {
   const clean = pathname.replace(/\/$/, '') || '/';
-  if (clean === '/' || clean === '/myshine' || clean === '/dashboard') {
-    return { view: 'dashboard-view' };
+  if (clean === '/' || clean === '/peerpath' || clean === '/guidance' || clean === '/career-guidance' || clean === '/myshine' || clean === '/dashboard') {
+    return { view: 'guidance-view' };
   }
   if (clean === '/profile' || clean === '/my-profile' || clean === '/candidate-profile') {
     return { view: 'profile-view' };
-  }
-  if (clean === '/peerpath' || clean === '/guidance' || clean === '/career-guidance') {
-    return { view: 'guidance-view' };
   }
   if (clean === '/jobs' || clean === '/job-search' || clean === '/matching-jobs' || clean.startsWith('/new-job-search')) {
     return { view: 'jobs-view' };
@@ -60,13 +57,13 @@ const pathToView = (pathname: string): { view: ViewType; expertId?: string } => 
   if (clean === '/confirmed' || clean === '/success') {
     return { view: 'confirmed-view' };
   }
-  if (clean === '/sessions' || clean === '/my-sessions') {
+  if (clean === '/sessions' || clean === '/my-sessions' || clean === '/bookings') {
     return { view: 'sessions-view' };
   }
-  if (clean === '/live-call' || clean === '/call') {
+  if (clean === '/live-call' || clean === '/call' || clean === '/room/peerpath-session' || clean.startsWith('/room/')) {
     return { view: 'live-call-view' };
   }
-  if (clean === '/post-session' || clean === '/feedback' || clean === '/review') {
+  if (clean === '/session/feedback' || clean === '/post-session' || clean === '/feedback' || clean === '/review') {
     return { view: 'post-session-view' };
   }
   if (clean === '/recruiter' || clean === '/recruiters') {
@@ -81,7 +78,7 @@ const pathToView = (pathname: string): { view: ViewType; expertId?: string } => 
   if (clean === '/login' || clean === '/signin' || clean === '/pages/myshine/login') {
     return { view: 'login-view' };
   }
-  return { view: 'dashboard-view' };
+  return { view: 'guidance-view' };
 };
 
 const AppMain: React.FC = () => {
@@ -153,7 +150,11 @@ const AppMain: React.FC = () => {
 
       <main className="app-main-viewport" style={{ minHeight: currentView === 'login-view' ? '100vh' : '80vh' }}>
         {currentView === 'dashboard-view' && (
-          <DashboardView />
+          <CareerGuidanceView
+            onNavigate={navigate}
+            onSelectExpert={handleSelectExpert}
+            experts={experts}
+          />
         )}
 
         {currentView === 'profile-view' && (

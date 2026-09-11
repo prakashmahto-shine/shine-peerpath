@@ -20,7 +20,7 @@ export const ConfirmedView: React.FC = () => {
 
   const date = bookingDraft.date || 'Tomorrow, 5 Sep';
   const timeSlot = bookingDraft.timeSlot || '10:00 AM - 11:00 AM';
-  const sessionType = bookingDraft.sessionType || '1:1 Mock Interview & Case Prep';
+  const sessionType = bookingDraft.sessionType || 'Career guidance';
   const paidAmount = bookingDraft.amount || expert.price || 999;
 
   useEffect(() => {

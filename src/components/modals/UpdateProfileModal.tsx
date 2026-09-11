@@ -24,6 +24,10 @@ export const UpdateProfileModal: React.FC = () => {
     setIsUpdateProfileModalOpen, 
     userProfile, 
     updateFullProfile,
+    pendingBookingCheckout,
+    setPendingBookingCheckout,
+    bookingDraft,
+    navigate,
     showToast 
   } = useApp();
 
@@ -120,6 +124,9 @@ export const UpdateProfileModal: React.FC = () => {
   const handleClose = () => {
     clearUploadTimers();
     setIsUploadingResume(false);
+    if (pendingBookingCheckout) {
+      setPendingBookingCheckout(false);
+    }
     setIsUpdateProfileModalOpen(false);
   };
 
@@ -283,6 +290,12 @@ export const UpdateProfileModal: React.FC = () => {
       skills: skillsList,
       profileScore: 90
     });
+
+    if (pendingBookingCheckout) {
+      setPendingBookingCheckout(false);
+      showToast('Profile & CV Saved!', 'Proceeding to secure checkout...', 'success');
+      navigate('payment-view');
+    }
 
     handleClose();
   };
@@ -711,7 +724,7 @@ export const UpdateProfileModal: React.FC = () => {
               type="submit" 
               className="btn-sup-submit"
             >
-              Submit
+              {pendingBookingCheckout ? `Submit & Continue to Pay (₹${bookingDraft?.amount || 899})` : 'Submit'}
             </button>
           </div>
 

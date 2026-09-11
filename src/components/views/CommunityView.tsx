@@ -4,7 +4,8 @@ import {
   CheckCircle, Sparkles, Filter, Users, Bell, Bookmark, 
   ArrowRight, ShieldCheck, Calendar, Info, PlusCircle, Check,
   ThumbsUp, Globe, MoreHorizontal, X, FileText, Lightbulb, Hash,
-  BarChart2, Eye, TrendingUp, Target, Building2, MapPin, Clock
+  BarChart2, Eye, TrendingUp, Target, Building2, MapPin, Clock,
+  Briefcase
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { CommunityPost } from '../../types';
@@ -12,6 +13,7 @@ import { CommunityPost } from '../../types';
 export const CommunityView: React.FC = () => {
   const { 
     currentUser, 
+    userProfile,
     isCreatorMode, 
     communityPosts, 
     createMentorPost, 
@@ -146,17 +148,34 @@ export const CommunityView: React.FC = () => {
               <div className="lpc-banner" />
               <div className="lpc-avatar-container">
                 <img 
-                  src={currentUser?.avatar || '/avatars/prakash.jpg'} 
-                  alt={currentUser?.name || 'User'} 
+                  src={currentUser?.avatar || userProfile.avatar || '/avatars/prakash.jpg'} 
+                  alt={currentUser?.name || userProfile.name || 'User'} 
                   className="lpc-avatar" 
                 />
               </div>
 
               <div className="lpc-body">
-                <h4 className="lpc-name">{currentUser?.name || 'Prakash Mahto'}</h4>
+                <h4 className="lpc-name">{currentUser?.name || userProfile.name || 'Prakash Mahto'}</h4>
                 <p className="lpc-headline">
-                  {currentUser?.headline || 'Senior Frontend Engineer (Transitioning to Fullstack)'}
+                  {userProfile.headline || currentUser?.headline || 'Senior Frontend Engineer | React.js, TypeScript, Next.js UI Architect'}
                 </p>
+                <div className="lpc-company-loc">
+                  <span>🏢 {userProfile.currentCompany || 'TCS'}</span>
+                  <span>•</span>
+                  <span>📍 {userProfile.location || 'Bengaluru'}</span>
+                </div>
+              </div>
+
+              {/* Profile Strength Score */}
+              <div className="lpc-score-strip">
+                <div className="lpc-score-header">
+                  <span className="lpc-score-label">Shine Profile Strength</span>
+                  <span className="lpc-score-val">{userProfile.profileScore || 90}%</span>
+                </div>
+                <div className="lpc-score-bar-bg">
+                  <div className="lpc-score-bar-fill" style={{ width: `${userProfile.profileScore || 90}%` }} />
+                </div>
+                <span className="lpc-score-badge">⚡ Top 10% Recruiter Match</span>
               </div>
 
               <div className="lpc-divider" />
@@ -221,33 +240,48 @@ export const CommunityView: React.FC = () => {
               >
                 <Bookmark size={14} className="lpc-bookmark-icon" />
                 <span>My Peerpath Bookings</span>
+                <span className="lpc-bookings-badge">3</span>
               </div>
             </div>
 
-            {/* Trending Topics & Hashtags Widget */}
-            <div className="linkedin-left-widget">
-              <div className="llw-header">
-                <span className="llw-title">Topics & Hashtags</span>
-              </div>
-              <div className="llw-tags-list">
-                {allTags.filter(t => t !== 'all').map(tag => (
-                  <button
-                    key={tag}
-                    className={`llw-tag-btn ${selectedTag === tag ? 'active' : ''}`}
-                    onClick={() => setSelectedTag(selectedTag === tag ? 'all' : tag)}
-                  >
-                    <Hash size={13} className="llw-tag-hash" />
-                    <span>{tag.replace(/\s+/g, '')}</span>
-                  </button>
-                ))}
+            {/* Second Card: Career Target & Skills Snapshot */}
+            <div className="linkedin-career-card">
+              <div className="lcc-header">
+                <div className="lcc-title-row">
+                  <Briefcase size={14} className="text-purple" />
+                  <span className="lcc-title">Career & Target Sync</span>
+                </div>
+                <span className="lcc-status-pill">
+                  <span className="lcc-green-dot" /> Actively Looking
+                </span>
               </div>
 
-              <div className="llw-divider" />
-
-              <div className="llw-trust-badge">
-                <ShieldCheck size={14} className="text-emerald" />
-                <span>Verified Mentors Only • No Recruiter Spam</span>
+              <div className="lcc-metric-box">
+                <span className="lcc-m-label">Total Experience</span>
+                <span className="lcc-m-val">{userProfile.experienceYears || '4+ Years'}</span>
               </div>
+
+              {/* Verified Skills */}
+              <div className="lcc-skills-section">
+                <span className="lcc-skills-label">Key Verified Skills</span>
+                <div className="lcc-skills-chips">
+                  {(userProfile.skills && userProfile.skills.length > 0 
+                    ? userProfile.skills.slice(0, 5) 
+                    : ['React.js', 'TypeScript', 'Next.js', 'REST APIs', 'Redux']
+                  ).map(s => (
+                    <span key={s} className="lcc-skill-chip">{s}</span>
+                  ))}
+                </div>
+              </div>
+
+              <button 
+                type="button" 
+                className="btn-lcc-view-full"
+                onClick={() => navigate('profile-view')}
+              >
+                <span>View Full Shine Profile</span>
+                <ArrowRight size={13} />
+              </button>
             </div>
 
           </aside>
@@ -257,8 +291,8 @@ export const CommunityView: React.FC = () => {
              ========================================================================= */}
           <main className="community-center-feed">
             
-            {/* LinkedIn-style Composer / Prompt Box */}
-            {isMentorRole ? (
+            {/* LinkedIn-style Composer (for Mentors) */}
+            {isMentorRole && (
               <div className="linkedin-composer-box">
                 <div className="lcb-top-row">
                   <img 
@@ -286,28 +320,6 @@ export const CommunityView: React.FC = () => {
                     <Calendar size={16} className="lcb-icon text-purple" />
                     <span>Open 1:1 Slots</span>
                   </button>
-                </div>
-              </div>
-            ) : (
-              <div className="linkedin-candidate-prompt">
-                <div className="lcp-header">
-                  <img 
-                    src={currentUser?.avatar || '/avatars/prakash.jpg'} 
-                    alt="Prakash" 
-                    className="lcp-avatar" 
-                  />
-                  <div className="lcp-text">
-                    <span className="lcp-title">Candidate Community Access • Technical Q&A</span>
-                    <p className="lcp-sub">
-                      Only verified tech leaders post insights. Ask architecture doubts & transition questions directly in any comment thread!
-                    </p>
-                  </div>
-                </div>
-                <div className="lcp-quick-tags">
-                  <span className="lcp-tag-label">Popular discussions:</span>
-                  <button className="lcp-quick-pill" onClick={() => setSelectedTag('System Design')}>#SystemDesign</button>
-                  <button className="lcp-quick-pill" onClick={() => setSelectedTag('Backend Architecture')}>#BackendArchitecture</button>
-                  <button className="lcp-quick-pill" onClick={() => setSelectedTag('Kafka')}>#Kafka</button>
                 </div>
               </div>
             )}
@@ -577,9 +589,9 @@ export const CommunityView: React.FC = () => {
                             <button 
                               className="btn-header-book-mentor"
                               onClick={() => handleBookWithMentor(post.mentorId)}
-                              title={`Book 1:1 Live Guidance with ${post.mentorName}`}
+                              title={`Book Mentorship Session with ${post.mentorName}`}
                             >
-                              <Calendar size={13} /> Book 1:1
+                              <Calendar size={13} /> Book Session
                             </button>
                           </div>
                         )}
@@ -797,141 +809,6 @@ export const CommunityView: React.FC = () => {
             )}
 
           </main>
-
-          {/* =========================================================================
-              RIGHT COLUMN: Mentors You Follow, Guardrails & Creator Callout
-             ========================================================================= */}
-          <aside className="community-right-column">
-            
-            {/* Followed Mentors Widget */}
-            <div className="sidebar-widget-card">
-              <div className="widget-header">
-                <div className="widget-title-row">
-                  <Users size={16} className="text-purple" />
-                  <h3>Mentors You Follow</h3>
-                </div>
-                <span className="widget-count-badge">{followedMentorIds.length}</span>
-              </div>
-
-              <p className="widget-desc">
-                Get WhatsApp alerts and see their insights first whenever they publish new posts or open 1:1 slots.
-              </p>
-
-              <div className="followed-mentors-list">
-                {followedMentorIds.length === 0 ? (
-                  <div className="empty-followed-mentors">
-                    <span>You haven't followed any mentors yet. Click Follow on any mentor card to stay notified!</span>
-                    <button 
-                      className="btn-sidebar-explore"
-                      onClick={() => navigate('experts-view')}
-                    >
-                      Find Mentors to Follow
-                    </button>
-                  </div>
-                ) : (
-                  followedMentorIds.map(mentorId => {
-                    const matchingPost = communityPosts.find(p => p.mentorId === mentorId);
-                    const name = matchingPost ? matchingPost.mentorName : (mentorId === 'saheli' ? 'Saheli Kanjilal' : mentorId);
-                    const role = matchingPost ? matchingPost.mentorRole : 'Verified Mentor';
-                    const company = matchingPost ? matchingPost.mentorCompany : 'Tech Leader';
-                    const avatar = matchingPost ? matchingPost.mentorAvatar : `/avatars/${mentorId}.jpg`;
-
-                    return (
-                      <div key={mentorId} className="followed-mentor-item">
-                        <div className="fmi-left">
-                          <img src={avatar} alt={name} className="fmi-avatar" />
-                          <div className="fmi-info">
-                            <span 
-                              className="fmi-name"
-                              onClick={() => {
-                                selectExpertById(mentorId);
-                                navigate('expert-profile-view', `/expert/${mentorId}`);
-                              }}
-                            >
-                              {name}
-                            </span>
-                            <span className="fmi-role">{role} @ {company}</span>
-                          </div>
-                        </div>
-
-                        <div className="fmi-actions">
-                          <button 
-                            className="fmi-book-btn"
-                            onClick={() => handleBookWithMentor(mentorId)}
-                            title="Book 1:1 Session"
-                          >
-                            Book
-                          </button>
-                          <button 
-                            className="fmi-unfollow-btn"
-                            onClick={() => toggleFollowMentor(mentorId, name)}
-                            title="Unfollow"
-                          >
-                            ✕
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })
-                )}
-              </div>
-            </div>
-
-            {/* How Community Works Widget */}
-            <div className="sidebar-widget-card rules-card">
-              <div className="widget-header">
-                <div className="widget-title-row">
-                  <ShieldCheck size={16} className="text-emerald" />
-                  <h3>Community Standards</h3>
-                </div>
-              </div>
-
-              <ul className="rules-list">
-                <li>
-                  <div className="rule-number">1</div>
-                  <div className="rule-content">
-                    <strong>Mentor-Led Signal:</strong> Only vetted tech leaders from top product companies publish top posts.
-                  </div>
-                </li>
-                <li>
-                  <div className="rule-number">2</div>
-                  <div className="rule-content">
-                    <strong>Zero Recruiter Spam:</strong> Direct architecture discussion without agency marketing posts.
-                  </div>
-                </li>
-                <li>
-                  <div className="rule-number">3</div>
-                  <div className="rule-content">
-                    <strong>Follower Priority:</strong> Followed mentors notify you via app alert (🔔) and priority booking access.
-                  </div>
-                </li>
-                <li>
-                  <div className="rule-number">4</div>
-                  <div className="rule-content">
-                    <strong>Direct Transition to 1:1:</strong> Book 1:1 sessions immediately with authors to resolve deep doubts.
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            {/* Quick Creator Studio Card if Candidate wants to become a Mentor */}
-            {!isMentorRole && (
-              <div className="sidebar-widget-card mentor-invite-card">
-                <div className="mic-sparkle">
-                  <Award size={20} className="text-amber" />
-                </div>
-                <h4>Are you a Senior Engineer or Tech Leader?</h4>
-                <p>Share your transition experience, earn up to ₹2,500/hr, and guide ambitious developers.</p>
-                <button 
-                  className="btn-apply-mentor"
-                  onClick={() => navigate('experts-view')}
-                >
-                  Apply as Verified Mentor <ArrowRight size={14} />
-                </button>
-              </div>
-            )}
-
-          </aside>
 
         </div>
 

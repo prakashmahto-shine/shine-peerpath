@@ -4,7 +4,7 @@ import {
   PlayCircle, Film, Play, Pause, Zap, Award, Globe, Briefcase, 
   CircleDot, Shield, Video, Bell, UserPlus, UserCheck,
   FileText, Sparkles, TrendingUp, X, ShieldCheck, ArrowRight, ThumbsUp,
-  GraduationCap, Target 
+  GraduationCap, Target, Compass
 } from 'lucide-react';
 import { Expert, ViewType } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -20,13 +20,12 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
   onNavigate,
   onOpenBooking,
 }) => {
-  const { previousView, currentUser, navigateToCreatorStudio, isFollowingMentor, toggleFollowMentor } = useApp();
+  const { previousView, currentUser, navigateToCreatorStudio, isFollowingMentor, toggleFollowMentor, bookingDraft, setBookingDraft } = useApp();
 
   const [activeTab, setActiveTab] = useState<'sessions' | 'about' | 'trajectory' | 'reviews'>('sessions');
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [videoProgress, setVideoProgress] = useState<number>(35);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState<boolean>(false);
-  const [reviewFilter, setReviewFilter] = useState<'all' | 'mock' | 'resume' | 'roadmap'>('all');
 
   useEffect(() => {
     let interval: any;
@@ -186,76 +185,75 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
             const basePrice = expert.price || 999;
             const mentorSessions = [
               {
-                id: 'mock-interview',
-                title: '1:1 Mock Interview & Case Prep',
-                icon: Video,
+                id: 'career-guidance',
+                title: 'Career guidance',
+                icon: Compass,
                 iconColor: '#7C3AED',
                 iconBg: '#F3E8FF',
                 isPopular: false,
                 price: basePrice,
-                duration: '60 Mins',
-                desc: 'Real technical & case interview simulation with live rubrics, instant feedback & verified recruiter scorecard.',
+                duration: '30 Mins',
                 meta: [
-                  { icon: Clock, label: '60 Mins' },
-                  { icon: Video, label: '1:1 Video' },
-                  { icon: ShieldCheck, label: 'Official Scorecard' }
+                  { icon: Video, label: '1:1 Live Video' },
+                  { icon: Compass, label: 'Roadmap & Action Items' }
                 ]
               },
               {
-                id: 'resume-audit',
-                title: 'Resume & Portfolio Deep-Dive',
-                icon: FileText,
+                id: 'interview-prep',
+                title: 'Interview prep',
+                icon: Video,
                 iconColor: '#059669',
                 iconBg: '#ECFDF5',
                 isPopular: false,
-                badge: '⚡ Quick Audit',
-                badgeClass: 'st-badge-audit',
-                price: Math.max(499, Math.round((basePrice * 0.65) / 50) * 50 - 1),
+                price: basePrice,
                 duration: '30 Mins',
-                desc: 'Line-by-line ATS resume review, project showcase tuning & keyword boost to maximize recruiter shortlists.',
                 meta: [
-                  { icon: Clock, label: '30 Mins' },
-                  { icon: FileText, label: 'ATS Teardown' },
-                  { icon: Sparkles, label: '+22% Shortlists' }
+                  { icon: Video, label: 'Live Mock Simulation' },
+                  { icon: ShieldCheck, label: 'Instant Scorecard' }
                 ]
               },
               {
-                id: 'career-strategy',
-                title: '1:1 Career Jump & CTC Strategy',
-                icon: TrendingUp,
+                id: 'resume-review',
+                title: 'Portfolio / resume review',
+                icon: FileText,
                 iconColor: '#D97706',
                 iconBg: '#FEF3C7',
                 isPopular: false,
-                badge: '🚀 High ROI',
-                badgeClass: 'st-badge-roi',
-                price: Math.max(699, Math.round((basePrice * 0.85) / 50) * 50 - 1),
-                duration: '45 Mins',
-                desc: 'Strategic roadmap to switch domains, benchmark competing offers & negotiate 30-50% higher compensation.',
+                price: Math.max(499, Math.round((basePrice * 0.7) / 50) * 50 - 1),
+                duration: '30 Mins',
                 meta: [
-                  { icon: Clock, label: '45 Mins' },
-                  { icon: TrendingUp, label: 'CTC Benchmark' },
-                  { icon: Video, label: 'Domain Jump' }
+                  { icon: FileText, label: 'CV & ATS Teardown' },
+                  { icon: Sparkles, label: 'Portfolio Tuning' }
                 ]
               },
               {
-                id: 'referral-prep',
-                title: 'Target Referral & Fast-Track',
-                icon: Sparkles,
+                id: 'salary-negotiation',
+                title: 'Salary negotiation guidance',
+                icon: TrendingUp,
                 iconColor: '#2563EB',
                 iconBg: '#EFF6FF',
                 isPopular: false,
-                badge: '⭐ Direct Intro',
-                badgeClass: 'st-badge-intro',
-                price: Math.max(899, Math.round((basePrice * 1.15) / 50) * 50 - 1),
-                duration: '45 Mins',
-                desc: 'Internal referral fitment check for tier-1 openings, interview loop secrets & direct mentor endorsement.',
+                price: Math.max(699, Math.round((basePrice * 0.85) / 50) * 50 - 1),
+                duration: '30 Mins',
                 meta: [
-                  { icon: Clock, label: '45 Mins' },
-                  { icon: Award, label: 'Referral Eval' },
-                  { icon: Sparkles, label: 'Endorsement' }
+                  { icon: TrendingUp, label: 'CTC Benchmarking' },
+                  { icon: Award, label: 'Counter-Offer Strategy' }
                 ]
               }
             ];
+
+            const handleBookSpecificSession = (s: typeof mentorSessions[0]) => {
+              if (setBookingDraft) {
+                setBookingDraft({
+                  ...bookingDraft,
+                  expert,
+                  sessionType: s.title,
+                  amount: s.price,
+                  duration: s.duration
+                });
+              }
+              onOpenBooking(expert.id);
+            };
 
             return (
               <div className="sessions-tab-wrapper">
@@ -270,52 +268,48 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                   </div>
                 </div>
 
-                <div className="session-types-grid">
+                <div className="session-types-horizontal-list">
                   {mentorSessions.map((session) => {
                     const IconComp = session.icon;
                     return (
                       <div 
                         key={session.id} 
-                        className={`st-card ${session.isPopular ? 'st-card-featured' : ''}`}
-                        onClick={() => !isSelf && onOpenBooking(expert.id)}
+                        className="st-card-h"
+                        style={{ '--service-accent': session.iconColor, '--service-bg': session.iconBg } as React.CSSProperties}
+                        onClick={() => !isSelf && handleBookSpecificSession(session)}
                       >
-                        <div className="st-card-top">
-                          <div className="st-card-main-header">
-                            <div className="st-service-icon" style={{ background: session.iconBg, color: session.iconColor }}>
-                              <IconComp size={20} />
-                            </div>
-                            <div className="st-header-info">
-                              <div className="st-header-title-row">
-                                <h4 className="st-card-title">{session.title}</h4>
-                                {session.badge && (
-                                  <span className={`st-badge-pill ${session.badgeClass}`}>
-                                    {session.badge}
-                                  </span>
-                                )}
-                              </div>
-                              <p className="st-card-desc">{session.desc}</p>
-                            </div>
+                        <div className="st-h-left">
+                          <div className="st-service-icon" style={{ background: session.iconBg, color: session.iconColor }}>
+                            <IconComp size={22} />
                           </div>
-
-                          <div className="st-chips-row">
-                            {session.meta.map((m, idx) => {
-                              const MIcon = m.icon;
-                              return (
-                                <span key={idx} className="st-chip">
-                                  <MIcon size={12} /> {m.label}
-                                </span>
-                              );
-                            })}
+                          <div className="st-h-details">
+                            <div className="st-h-title-row">
+                              <h4 className="st-card-title">{session.title}</h4>
+                              <span className="st-h-duration-badge">
+                                <Clock size={11.5} /> {session.duration}
+                              </span>
+                            </div>
+                            <div className="st-h-chips">
+                              {session.meta.map((m, idx) => {
+                                const MIcon = m.icon;
+                                return (
+                                  <span key={idx} className="st-chip">
+                                    <MIcon size={12} style={{ color: session.iconColor }} />
+                                    <span>{m.label}</span>
+                                  </span>
+                                );
+                              })}
+                            </div>
                           </div>
                         </div>
 
-                        <div className="st-card-footer">
+                        <div className="st-h-right">
                           <div className="st-price-tag-wrap">
                             <div className="st-price-main">
                               <span className="st-currency">₹</span>
                               <span className="st-amount">{session.price}</span>
                             </div>
-                            <span className="st-per-session">/ {session.duration} session</span>
+                            <span className="st-per-session">/ session</span>
                           </div>
 
                           {isSelf ? (
@@ -325,16 +319,16 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                               onClick={(e) => { e.stopPropagation(); navigateToCreatorStudio('pricing'); }}
                             >
                               <span>Manage</span>
-                              <ArrowRight size={14} />
+                              <ArrowRight size={13} className="st-arrow" />
                             </button>
                           ) : (
                             <button 
                               type="button" 
                               className="btn-st-action" 
-                              onClick={(e) => { e.stopPropagation(); onOpenBooking(expert.id); }}
+                              onClick={(e) => { e.stopPropagation(); handleBookSpecificSession(session); }}
                             >
                               <span>Book Session</span>
-                              <ArrowRight size={14} />
+                              <ArrowRight size={13} className="st-arrow" />
                             </button>
                           )}
                         </div>
@@ -393,106 +387,6 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                     <span className="ep-stat-number">{expert.sessionsCount || 210}+</span>
                     <span className="ep-stat-title">1:1 Sessions Delivered</span>
                     <p className="ep-stat-desc">{expert.rating || 4.9} ★ rating from 96+ verified mentees</p>
-                  </div>
-                </div>
-
-                <div className="ep-stat-card">
-                  <div className="ep-stat-icon-wrap stat-emerald">
-                    <TrendingUp size={20} />
-                  </div>
-                  <div className="ep-stat-content">
-                    <span className="ep-stat-number">84%</span>
-                    <span className="ep-stat-title">Transition Success</span>
-                    <p className="ep-stat-desc">Mentees placed in Tier-1 tech & unicorns</p>
-                  </div>
-                </div>
-
-                <div className="ep-stat-card">
-                  <div className="ep-stat-icon-wrap stat-blue">
-                    <Clock size={20} />
-                  </div>
-                  <div className="ep-stat-content">
-                    <span className="ep-stat-number">&lt; 4 Hours</span>
-                    <span className="ep-stat-title">Avg. Response Time</span>
-                    <p className="ep-stat-desc">Fast confirmation & prep material sharing</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* 3. Sleek Video Teaser Spotlight */}
-              <div 
-                className="ep-about-teaser-banner"
-                onClick={handleOpenTeaserModal}
-                role="button"
-                tabIndex={0}
-              >
-                <div className="ep-atb-left">
-                  <div className="ep-atb-badge">
-                    <Film size={13} />
-                    <span>1-Min Trajectory Teaser</span>
-                  </div>
-                  <h4 className="ep-atb-title">How I Scaled into Top Product Engineering @ {expert.company}</h4>
-                  <p className="ep-atb-desc">
-                    Watch {mentorFirstName} share core transition principles, architectural trade-offs, and how she conducts high-impact 1:1 sessions.
-                  </p>
-                </div>
-                <div className="ep-atb-action">
-                  <button type="button" className="btn-atb-watch">
-                    <Play size={14} fill="currentColor" /> Watch Teaser (01:09)
-                  </button>
-                </div>
-              </div>
-
-              {/* 4. What You Can Expect in My 1:1 Sessions (Interactive 4-Card Grid) */}
-              <div className="ep-about-pillars-section">
-                <div className="ep-section-heading-row">
-                  <h3 className="pane-title">What You Get in My 1:1 Sessions</h3>
-                  <span className="ep-section-tag"><ShieldCheck size={14} /> 100% Tailored & Action-Oriented</span>
-                </div>
-
-                <div className="ep-pillars-grid">
-                  <div className="ep-pillar-card">
-                    <div className="ep-pillar-icon-box">
-                      <Target size={18} />
-                    </div>
-                    <h4>Production-Grade Mock Interviews</h4>
-                    <p>
-                      Rigorous live technical & architecture rounds replicating actual Tier-1 hiring loops at {expert.company} and top tech companies.
-                    </p>
-                    <span className="ep-pillar-pill">Includes Live Scoring Rubrics</span>
-                  </div>
-
-                  <div className="ep-pillar-card">
-                    <div className="ep-pillar-icon-box">
-                      <FileText size={18} />
-                    </div>
-                    <h4>ATS Resume & Pitch Teardown</h4>
-                    <p>
-                      Line-by-line audit transforming passive task bullet points into measurable production metrics that senior recruiters search for.
-                    </p>
-                    <span className="ep-pillar-pill">ATS Optimized Format</span>
-                  </div>
-
-                  <div className="ep-pillar-card">
-                    <div className="ep-pillar-icon-box">
-                      <Sparkles size={18} />
-                    </div>
-                    <h4>System Architecture & Trade-Offs</h4>
-                    <p>
-                      Deep-dive into distributed systems, vector search pipelines, caching strategies, and real-world scalability decisions.
-                    </p>
-                    <span className="ep-pillar-pill">Architecture Whiteboarding</span>
-                  </div>
-
-                  <div className="ep-pillar-card">
-                    <div className="ep-pillar-icon-box">
-                      <Award size={18} />
-                    </div>
-                    <h4>Referral Readiness & Verified Badge</h4>
-                    <p>
-                      Top-performing candidates receive a verified Shine PeerPath endorsement on their profile and direct referral consideration.
-                    </p>
-                    <span className="ep-pillar-pill">Verified Profile Boost</span>
                   </div>
                 </div>
               </div>
@@ -562,31 +456,6 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
 
           {activeTab === 'trajectory' && (
             <div className="ep-trajectory-tab">
-              {/* Trajectory Growth Overview Banner */}
-              <div className="ep-trajectory-hero-banner">
-                <div className="ep-th-left">
-                  <div className="ep-th-badge-row">
-                    <span className="ep-th-pill"><TrendingUp size={13} /> Verified Transition Pathway</span>
-                    <span className="ep-th-pill-sub">Services ➔ Tier-1 Product Tech</span>
-                  </div>
-                  <h3 className="ep-th-title">Verified Career Trajectory Roadmap</h3>
-                  <p className="ep-th-subtitle">
-                    Step-by-step career progression from foundational analytics to Senior Lead at {expert.company}.
-                  </p>
-                </div>
-                <div className="ep-th-metrics">
-                  <div className="ep-th-metric-box">
-                    <span className="metric-label">Starting Stage</span>
-                    <strong className="metric-val">Associate IC</strong>
-                  </div>
-                  <div className="ep-th-metric-arrow">➔</div>
-                  <div className="ep-th-metric-box highlight">
-                    <span className="metric-label">Current Stage</span>
-                    <strong className="metric-val">Senior Staff / Lead</strong>
-                  </div>
-                </div>
-              </div>
-
               {/* Connected Milestone Pathway */}
               <div className="ep-roadmap-timeline">
                 
@@ -753,10 +622,6 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
               }
             ];
 
-            const filteredReviews = reviewFilter === 'all' 
-              ? candidateReviews 
-              : candidateReviews.filter(r => r.category === reviewFilter);
-
             return (
               <div className="ep-reviews-tab">
                 {/* Aggregate Rating & Verification Summary Card */}
@@ -819,41 +684,9 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                   </div>
                 </div>
 
-                {/* Filter Chips Bar */}
-                <div className="ep-review-filters-bar">
-                  <button
-                    type="button"
-                    className={`btn-rev-filter ${reviewFilter === 'all' ? 'active' : ''}`}
-                    onClick={() => setReviewFilter('all')}
-                  >
-                    All Reviews ({candidateReviews.length})
-                  </button>
-                  <button
-                    type="button"
-                    className={`btn-rev-filter ${reviewFilter === 'mock' ? 'active' : ''}`}
-                    onClick={() => setReviewFilter('mock')}
-                  >
-                    Mock Interviews ({candidateReviews.filter(r => r.category === 'mock').length})
-                  </button>
-                  <button
-                    type="button"
-                    className={`btn-rev-filter ${reviewFilter === 'resume' ? 'active' : ''}`}
-                    onClick={() => setReviewFilter('resume')}
-                  >
-                    CV & Pitch Overhaul ({candidateReviews.filter(r => r.category === 'resume').length})
-                  </button>
-                  <button
-                    type="button"
-                    className={`btn-rev-filter ${reviewFilter === 'roadmap' ? 'active' : ''}`}
-                    onClick={() => setReviewFilter('roadmap')}
-                  >
-                    Transition Roadmap ({candidateReviews.filter(r => r.category === 'roadmap').length})
-                  </button>
-                </div>
-
                 {/* Reviews List Stack */}
                 <div className="reviews-list-stack">
-                  {filteredReviews.map((rev) => (
+                  {candidateReviews.map((rev) => (
                     <div key={rev.id} className="review-item-card">
                       <div className="review-card-header">
                         <div className="reviewer-profile-group">
