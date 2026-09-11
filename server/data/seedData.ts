@@ -101,6 +101,104 @@ export const SEED_CREATORS: Creator[] = [
     }
   },
   {
+    id: "deepika-pm",
+    name: "Deepika Sen",
+    role: "Senior Technical Product Manager",
+    company: "Google",
+    domain: "Product Management",
+    experience: "7+ Years Exp.",
+    rating: 4.93,
+    reviewsCount: 154,
+    sessionsCount: 312,
+    price: 1399,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: Transitioning from Frontend Engineering to Google Technical Product Management",
+    skills: [
+      "Technical Product Strategy",
+      "PRD & Discovery",
+      "API & Systems Design",
+      "Roadmapping",
+      "A/B Testing"
+    ],
+    bio: "Senior Technical Product Manager at Google. I help frontend and full-stack developers transition into high-impact Product Management, master technical PRDs, and crack Google PM interviews.",
+    verifiedEmail: "deepika.sen@google.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Senior Frontend Developer",
+      company3YearsAgo: "TCS (Tata Consultancy Services)",
+      salary3YearsAgo: "₹7.5 LPA",
+      keyJumpSkills: [
+        "Technical PRDs",
+        "Product Strategy",
+        "System Architecture"
+      ],
+      jumpStory: "Transitioned from 4 years as a Frontend Developer at TCS into high-scale developer platform Product Management at Google."
+    },
+    availability: {
+      days: [
+        "Tue",
+        "Thu",
+        "Sat"
+      ],
+      timeSlots: [
+        "07:00 PM - 08:00 PM",
+        "08:30 PM - 09:30 PM"
+      ]
+    }
+  },
+  {
+    id: "harsh-pm",
+    name: "Harsh Vardhan",
+    role: "Principal Product Manager",
+    company: "Flipkart",
+    domain: "Product Management",
+    experience: "8+ Years Exp.",
+    rating: 4.91,
+    reviewsCount: 129,
+    sessionsCount: 275,
+    price: 1299,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: From SDE / Frontend Developer to Principal PM",
+    skills: [
+      "Product Strategy",
+      "Growth Metrics",
+      "E-commerce Platforms",
+      "User Experience",
+      "Experimentation"
+    ],
+    bio: "Principal Product Manager at Flipkart leading e-commerce checkout and discovery initiatives. I mentor software engineers making the leap to product leadership.",
+    verifiedEmail: "harsh.v@flipkart.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Frontend Developer",
+      company3YearsAgo: "Wipro",
+      salary3YearsAgo: "₹6.8 LPA",
+      keyJumpSkills: [
+        "Product Analytics",
+        "Feature Prioritization",
+        "User Research"
+      ],
+      jumpStory: "Made the transition from Frontend Developer at Wipro to Associate PM, and rapidly climbed to Principal Product Manager at Flipkart."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Wed",
+        "Sat"
+      ],
+      timeSlots: [
+        "06:30 PM - 07:30 PM",
+        "08:00 PM - 09:00 PM"
+      ]
+    }
+  },
+  {
     id: "anirudh",
     name: "Anirudh Sharma",
     role: "Principal Search & Database Architect",
@@ -845,6 +943,937 @@ export const SEED_CREATORS: Creator[] = [
     }
   },
   {
+    id: "tanvi-oberoi",
+    name: "Tanvi Oberoi",
+    role: "Lead Frontend Engineer",
+    company: "Meesho",
+    domain: "Full-Stack",
+    experience: "6+ Years Exp.",
+    rating: 4.91,
+    reviewsCount: 128,
+    sessionsCount: 267,
+    price: 999,
+    location: "Bengaluru, India",
+    duration: "01:12",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Lead Frontend Engineer at Meesho",
+    skills: [
+      "React.js",
+      "TypeScript",
+      "Web Vitals",
+      "Micro-Frontends",
+      "Next.js"
+    ],
+    bio: "Lead Frontend Engineer at Meesho. I mentor engineers making the jump into Full-Stack roles, with deep focus on React.js and Web Vitals.",
+    verifiedEmail: "tanvi.o@meesho.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "React Developer",
+      company3YearsAgo: "Infosys",
+      salary3YearsAgo: "₹6.4 LPA",
+      keyJumpSkills: [
+        "Web Vitals Performance",
+        "Micro-Frontends Architecture",
+        "Module Federation"
+      ],
+      jumpStory: "Went from React Developer at Infosys to Lead Frontend Engineer at Meesho by mastering Web Vitals Performance and Micro-Frontends Architecture."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Wed",
+        "Sat"
+      ],
+      timeSlots: [
+        "06:00 PM - 07:00 PM",
+        "07:30 PM - 08:30 PM"
+      ]
+    }
+  },
+  {
+    id: "aditya-kulkarni",
+    name: "Aditya Kulkarni",
+    role: "Principal UI Engineer",
+    company: "Flipkart",
+    domain: "Full-Stack",
+    experience: "8+ Years Exp.",
+    rating: 4.93,
+    reviewsCount: 149,
+    sessionsCount: 302,
+    price: 1199,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Principal UI Engineer at Flipkart",
+    skills: [
+      "React.js",
+      "Redux Toolkit",
+      "Module Federation",
+      "Design Systems",
+      "TypeScript"
+    ],
+    bio: "Principal UI Engineer at Flipkart. I mentor engineers making the jump into Full-Stack roles, with deep focus on React.js and Redux Toolkit.",
+    verifiedEmail: "aditya.k@flipkart.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "UI Developer",
+      company3YearsAgo: "Capgemini",
+      salary3YearsAgo: "₹5.8 LPA",
+      keyJumpSkills: [
+        "Design Systems at Scale",
+        "Module Federation",
+        "Web Vitals Performance"
+      ],
+      jumpStory: "Went from UI Developer at Capgemini to Principal UI Engineer at Flipkart by mastering Design Systems at Scale and Module Federation."
+    },
+    availability: {
+      days: [
+        "Tue",
+        "Thu",
+        "Sun"
+      ],
+      timeSlots: [
+        "02:00 PM - 03:00 PM",
+        "07:00 PM - 08:00 PM"
+      ]
+    }
+  },
+  {
+    id: "riya-malhotra",
+    name: "Riya Malhotra",
+    role: "Staff Frontend Architect",
+    company: "CRED",
+    domain: "Full-Stack",
+    experience: "7+ Years Exp.",
+    rating: 4.9,
+    reviewsCount: 133,
+    sessionsCount: 288,
+    price: 1099,
+    location: "Bengaluru, India",
+    duration: "01:14",
+    avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Staff Frontend Architect at CRED",
+    skills: [
+      "React.js",
+      "Next.js",
+      "Micro-Frontends",
+      "Web Vitals",
+      "TypeScript"
+    ],
+    bio: "Staff Frontend Architect at CRED. I mentor engineers making the jump into Full-Stack roles, with deep focus on React.js and Next.js.",
+    verifiedEmail: "riya.m@cred.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Frontend Developer",
+      company3YearsAgo: "Wipro",
+      salary3YearsAgo: "₹5.5 LPA",
+      keyJumpSkills: [
+        "Micro-Frontends Architecture",
+        "Web Vitals Performance",
+        "Module Federation"
+      ],
+      jumpStory: "Went from Frontend Developer at Wipro to Staff Frontend Architect at CRED by mastering Micro-Frontends Architecture and Web Vitals Performance."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Thu",
+        "Sat"
+      ],
+      timeSlots: [
+        "06:30 PM - 07:30 PM",
+        "08:00 PM - 09:00 PM"
+      ]
+    }
+  },
+  {
+    id: "karthik-subramaniam",
+    name: "Karthik Subramaniam",
+    role: "Staff Backend Architect",
+    company: "Amazon",
+    domain: "Full-Stack",
+    experience: "8+ Years Exp.",
+    rating: 4.92,
+    reviewsCount: 157,
+    sessionsCount: 321,
+    price: 1199,
+    location: "Bengaluru, India",
+    duration: "01:16",
+    avatar: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Staff Backend Architect at Amazon",
+    skills: [
+      "Java",
+      "Microservices",
+      "Distributed Systems",
+      "Kafka",
+      "REST APIs"
+    ],
+    bio: "Staff Backend Architect at Amazon. I mentor engineers making the jump into Full-Stack roles, with deep focus on Java and Microservices.",
+    verifiedEmail: "karthik.s@amazon.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Backend Developer",
+      company3YearsAgo: "TCS",
+      salary3YearsAgo: "₹6.8 LPA",
+      keyJumpSkills: [
+        "Distributed Systems Design",
+        "Microservices Architecture",
+        "High-Throughput Messaging"
+      ],
+      jumpStory: "Went from Backend Developer at TCS to Staff Backend Architect at Amazon by mastering Distributed Systems Design and Microservices Architecture."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Wed",
+        "Fri"
+      ],
+      timeSlots: [
+        "06:00 PM - 07:00 PM",
+        "07:30 PM - 08:30 PM"
+      ]
+    }
+  },
+  {
+    id: "neha-agarwal",
+    name: "Neha Agarwal",
+    role: "Principal Backend Engineer",
+    company: "Swiggy",
+    domain: "Full-Stack",
+    experience: "7.5+ Years Exp.",
+    rating: 4.89,
+    reviewsCount: 142,
+    sessionsCount: 279,
+    price: 1099,
+    location: "Bengaluru, India",
+    duration: "01:13",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Principal Backend Engineer at Swiggy",
+    skills: [
+      "Java",
+      "Spring Boot",
+      "Kafka",
+      "System Design",
+      "PostgreSQL"
+    ],
+    bio: "Principal Backend Engineer at Swiggy. I mentor engineers making the jump into Full-Stack roles, with deep focus on Java and Spring Boot.",
+    verifiedEmail: "neha.a@swiggy.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Java Developer",
+      company3YearsAgo: "Infosys",
+      salary3YearsAgo: "₹6.1 LPA",
+      keyJumpSkills: [
+        "Large-Scale System Design",
+        "Kafka Streaming Pipelines",
+        "Distributed Caching"
+      ],
+      jumpStory: "Went from Java Developer at Infosys to Principal Backend Engineer at Swiggy by mastering Large-Scale System Design and Kafka Streaming Pipelines."
+    },
+    availability: {
+      days: [
+        "Tue",
+        "Thu",
+        "Sat"
+      ],
+      timeSlots: [
+        "07:00 PM - 08:00 PM",
+        "08:30 PM - 09:30 PM"
+      ]
+    }
+  },
+  {
+    id: "manoj-tiwari",
+    name: "Manoj Tiwari",
+    role: "Staff Backend Architect",
+    company: "Razorpay (FinTech)",
+    domain: "Full-Stack",
+    experience: "8+ Years Exp.",
+    rating: 4.91,
+    reviewsCount: 138,
+    sessionsCount: 296,
+    price: 1099,
+    location: "Bengaluru, India",
+    duration: "01:14",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Staff Backend Architect at Razorpay",
+    skills: [
+      "Java",
+      "Microservices",
+      "REST APIs",
+      "Distributed Systems",
+      "Redis"
+    ],
+    bio: "Staff Backend Architect at Razorpay (FinTech). I mentor engineers making the jump into Full-Stack roles, with deep focus on Java and Microservices.",
+    verifiedEmail: "manoj.t@razorpay.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Backend Engineer",
+      company3YearsAgo: "Cognizant",
+      salary3YearsAgo: "₹7.2 LPA",
+      keyJumpSkills: [
+        "Payment Systems Architecture",
+        "Microservices Architecture",
+        "Distributed Systems Design"
+      ],
+      jumpStory: "Went from Backend Engineer at Cognizant to Staff Backend Architect at Razorpay (FinTech) by mastering Payment Systems Architecture and Microservices Architecture."
+    },
+    availability: {
+      days: [
+        "Wed",
+        "Sat",
+        "Sun"
+      ],
+      timeSlots: [
+        "06:00 PM - 07:00 PM",
+        "07:30 PM - 08:30 PM"
+      ]
+    }
+  },
+  {
+    id: "esha-bhattacharya",
+    name: "Esha Bhattacharya",
+    role: "Principal Backend Engineer",
+    company: "PhonePe",
+    domain: "Full-Stack",
+    experience: "7+ Years Exp.",
+    rating: 4.94,
+    reviewsCount: 161,
+    sessionsCount: 334,
+    price: 1199,
+    location: "Pune, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Principal Backend Engineer at PhonePe",
+    skills: [
+      "Java",
+      "Spring Boot",
+      "Kafka",
+      "Microservices",
+      "System Design"
+    ],
+    bio: "Principal Backend Engineer at PhonePe. I mentor engineers making the jump into Full-Stack roles, with deep focus on Java and Spring Boot.",
+    verifiedEmail: "esha.b@phonepe.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Java Developer",
+      company3YearsAgo: "HCL Technologies",
+      salary3YearsAgo: "₹6.6 LPA",
+      keyJumpSkills: [
+        "Distributed Systems Design",
+        "High-Throughput Messaging",
+        "Microservices Architecture"
+      ],
+      jumpStory: "Went from Java Developer at HCL Technologies to Principal Backend Engineer at PhonePe by mastering Distributed Systems Design and High-Throughput Messaging."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Thu",
+        "Sun"
+      ],
+      timeSlots: [
+        "02:00 PM - 03:00 PM",
+        "08:00 PM - 09:00 PM"
+      ]
+    }
+  },
+  {
+    id: "rohit-sinha",
+    name: "Rohit Sinha",
+    role: "Staff Mobile Architect",
+    company: "Swiggy",
+    domain: "Full-Stack",
+    experience: "8+ Years Exp.",
+    rating: 4.9,
+    reviewsCount: 145,
+    sessionsCount: 265,
+    price: 1099,
+    location: "Bengaluru, India",
+    duration: "01:14",
+    avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Staff Mobile Architect at Swiggy",
+    skills: [
+      "Kotlin",
+      "Android Jetpack",
+      "Mobile Performance",
+      "CI/CD for Mobile",
+      "Java"
+    ],
+    bio: "Staff Mobile Architect at Swiggy. I mentor engineers making the jump into Full-Stack roles, with deep focus on Kotlin and Android Jetpack.",
+    verifiedEmail: "rohit.s@swiggy.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Android Developer",
+      company3YearsAgo: "Tech Mahindra",
+      salary3YearsAgo: "₹6.3 LPA",
+      keyJumpSkills: [
+        "Modular App Architecture",
+        "Mobile Performance Tuning",
+        "Offline-First Sync"
+      ],
+      jumpStory: "Went from Android Developer at Tech Mahindra to Staff Mobile Architect at Swiggy by mastering Modular App Architecture and Mobile Performance Tuning."
+    },
+    availability: {
+      days: [
+        "Tue",
+        "Fri",
+        "Sun"
+      ],
+      timeSlots: [
+        "06:30 PM - 07:30 PM",
+        "08:00 PM - 09:00 PM"
+      ]
+    }
+  },
+  {
+    id: "fatima-shaikh",
+    name: "Fatima Shaikh",
+    role: "Lead Mobile Engineer",
+    company: "Meesho",
+    domain: "Full-Stack",
+    experience: "6.5+ Years Exp.",
+    rating: 4.87,
+    reviewsCount: 121,
+    sessionsCount: 214,
+    price: 999,
+    location: "Bengaluru, India",
+    duration: "01:11",
+    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Lead Mobile Engineer at Meesho",
+    skills: [
+      "Swift",
+      "iOS Architecture",
+      "Mobile Performance",
+      "Combine",
+      "Objective-C"
+    ],
+    bio: "Lead Mobile Engineer at Meesho. I mentor engineers making the jump into Full-Stack roles, with deep focus on Swift and iOS Architecture.",
+    verifiedEmail: "fatima.s@meesho.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "iOS Developer",
+      company3YearsAgo: "Capgemini",
+      salary3YearsAgo: "₹5.9 LPA",
+      keyJumpSkills: [
+        "Modular App Architecture",
+        "Mobile Performance Tuning",
+        "CI/CD for Mobile"
+      ],
+      jumpStory: "Went from iOS Developer at Capgemini to Lead Mobile Engineer at Meesho by mastering Modular App Architecture and Mobile Performance Tuning."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Wed",
+        "Sat"
+      ],
+      timeSlots: [
+        "02:00 PM - 03:00 PM",
+        "07:00 PM - 08:00 PM"
+      ]
+    }
+  },
+  {
+    id: "gaurav-mehra",
+    name: "Gaurav Mehra",
+    role: "Staff Mobile Architect",
+    company: "Flipkart",
+    domain: "Full-Stack",
+    experience: "7.5+ Years Exp.",
+    rating: 4.93,
+    reviewsCount: 168,
+    sessionsCount: 301,
+    price: 1199,
+    location: "Bengaluru, India",
+    duration: "01:16",
+    avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Staff Mobile Architect at Flipkart",
+    skills: [
+      "Kotlin",
+      "Swift",
+      "Mobile Performance",
+      "Offline-First Sync",
+      "CI/CD for Mobile"
+    ],
+    bio: "Staff Mobile Architect at Flipkart. I mentor engineers making the jump into Full-Stack roles, with deep focus on Kotlin and Swift.",
+    verifiedEmail: "gaurav.m@flipkart.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Mobile Engineer",
+      company3YearsAgo: "LTIMindtree",
+      salary3YearsAgo: "₹6.7 LPA",
+      keyJumpSkills: [
+        "Offline-First Sync",
+        "Modular App Architecture",
+        "Mobile Performance Tuning"
+      ],
+      jumpStory: "Went from Mobile Engineer at LTIMindtree to Staff Mobile Architect at Flipkart by mastering Offline-First Sync and Modular App Architecture."
+    },
+    availability: {
+      days: [
+        "Tue",
+        "Thu",
+        "Sat"
+      ],
+      timeSlots: [
+        "06:00 PM - 07:00 PM",
+        "07:30 PM - 08:30 PM"
+      ]
+    }
+  },
+  {
+    id: "sakshi-pillai",
+    name: "Sakshi Pillai",
+    role: "Lead Mobile Engineer",
+    company: "CRED",
+    domain: "Full-Stack",
+    experience: "6+ Years Exp.",
+    rating: 4.88,
+    reviewsCount: 116,
+    sessionsCount: 198,
+    price: 999,
+    location: "Bengaluru, India",
+    duration: "01:10",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Lead Mobile Engineer at CRED",
+    skills: [
+      "Kotlin",
+      "Android Jetpack",
+      "Mobile Performance",
+      "CI/CD for Mobile",
+      "Java"
+    ],
+    bio: "Lead Mobile Engineer at CRED. I mentor engineers making the jump into Full-Stack roles, with deep focus on Kotlin and Android Jetpack.",
+    verifiedEmail: "sakshi.p@cred.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Android Developer",
+      company3YearsAgo: "Wipro",
+      salary3YearsAgo: "₹5.6 LPA",
+      keyJumpSkills: [
+        "Mobile Performance Tuning",
+        "Modular App Architecture",
+        "CI/CD for Mobile"
+      ],
+      jumpStory: "Went from Android Developer at Wipro to Lead Mobile Engineer at CRED by mastering Mobile Performance Tuning and Modular App Architecture."
+    },
+    availability: {
+      days: [
+        "Wed",
+        "Fri",
+        "Sun"
+      ],
+      timeSlots: [
+        "06:30 PM - 07:30 PM",
+        "08:00 PM - 09:00 PM"
+      ]
+    }
+  },
+  {
+    id: "vishal-nair",
+    name: "Vishal Nair",
+    role: "Staff QA Architect",
+    company: "Razorpay (FinTech)",
+    domain: "Full-Stack",
+    experience: "8+ Years Exp.",
+    rating: 4.89,
+    reviewsCount: 137,
+    sessionsCount: 251,
+    price: 999,
+    location: "Bengaluru, India",
+    duration: "01:12",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Staff QA Architect at Razorpay",
+    skills: [
+      "Test Automation Frameworks",
+      "Selenium",
+      "API Testing",
+      "CI/CD Testing",
+      "Playwright"
+    ],
+    bio: "Staff QA Architect at Razorpay (FinTech). I mentor engineers making the jump into Full-Stack roles, with deep focus on Test Automation Frameworks and Selenium.",
+    verifiedEmail: "vishal.n@razorpay.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "QA Engineer",
+      company3YearsAgo: "Infosys",
+      salary3YearsAgo: "₹5.7 LPA",
+      keyJumpSkills: [
+        "Test Automation Framework Design",
+        "CI/CD Test Pipelines",
+        "API Contract Testing"
+      ],
+      jumpStory: "Went from QA Engineer at Infosys to Staff QA Architect at Razorpay (FinTech) by mastering Test Automation Framework Design and CI/CD Test Pipelines."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Wed",
+        "Fri"
+      ],
+      timeSlots: [
+        "06:00 PM - 07:00 PM",
+        "07:30 PM - 08:30 PM"
+      ]
+    }
+  },
+  {
+    id: "priyanka-dutta",
+    name: "Priyanka Dutta",
+    role: "Lead SDET",
+    company: "Flipkart",
+    domain: "Full-Stack",
+    experience: "7+ Years Exp.",
+    rating: 4.92,
+    reviewsCount: 154,
+    sessionsCount: 289,
+    price: 1099,
+    location: "Bengaluru, India",
+    duration: "01:13",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Lead SDET at Flipkart",
+    skills: [
+      "Cypress",
+      "Test Automation Frameworks",
+      "API Testing",
+      "Playwright",
+      "CI/CD Testing"
+    ],
+    bio: "Lead SDET at Flipkart. I mentor engineers making the jump into Full-Stack roles, with deep focus on Cypress and Test Automation Frameworks.",
+    verifiedEmail: "priyanka.d@flipkart.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "SDET",
+      company3YearsAgo: "Cognizant",
+      salary3YearsAgo: "₹6.9 LPA",
+      keyJumpSkills: [
+        "Test Automation Framework Design",
+        "API Contract Testing",
+        "CI/CD Test Pipelines"
+      ],
+      jumpStory: "Went from SDET at Cognizant to Lead SDET at Flipkart by mastering Test Automation Framework Design and API Contract Testing."
+    },
+    availability: {
+      days: [
+        "Tue",
+        "Thu",
+        "Sun"
+      ],
+      timeSlots: [
+        "02:00 PM - 03:00 PM",
+        "07:00 PM - 08:00 PM"
+      ]
+    }
+  },
+  {
+    id: "sameer-khan",
+    name: "Sameer Khan",
+    role: "Staff QA Architect",
+    company: "Meesho",
+    domain: "Full-Stack",
+    experience: "7.5+ Years Exp.",
+    rating: 4.86,
+    reviewsCount: 119,
+    sessionsCount: 233,
+    price: 999,
+    location: "Bengaluru, India",
+    duration: "01:11",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Staff QA Architect at Meesho",
+    skills: [
+      "Selenium",
+      "Test Automation Frameworks",
+      "API Testing",
+      "CI/CD Testing",
+      "Performance Testing"
+    ],
+    bio: "Staff QA Architect at Meesho. I mentor engineers making the jump into Full-Stack roles, with deep focus on Selenium and Test Automation Frameworks.",
+    verifiedEmail: "sameer.k@meesho.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Test Engineer",
+      company3YearsAgo: "TCS",
+      salary3YearsAgo: "₹5.4 LPA",
+      keyJumpSkills: [
+        "Test Automation Framework Design",
+        "Performance Test Engineering",
+        "CI/CD Test Pipelines"
+      ],
+      jumpStory: "Went from Test Engineer at TCS to Staff QA Architect at Meesho by mastering Test Automation Framework Design and Performance Test Engineering."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Thu",
+        "Sat"
+      ],
+      timeSlots: [
+        "06:30 PM - 07:30 PM",
+        "08:00 PM - 09:00 PM"
+      ]
+    }
+  },
+  {
+    id: "ritu-saxena",
+    name: "Ritu Saxena",
+    role: "Lead SDET",
+    company: "Swiggy",
+    domain: "Full-Stack",
+    experience: "6.5+ Years Exp.",
+    rating: 4.9,
+    reviewsCount: 126,
+    sessionsCount: 217,
+    price: 999,
+    location: "Bengaluru, India",
+    duration: "01:10",
+    avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Lead SDET at Swiggy",
+    skills: [
+      "Playwright",
+      "Test Automation Frameworks",
+      "API Testing",
+      "CI/CD Testing",
+      "Cypress"
+    ],
+    bio: "Lead SDET at Swiggy. I mentor engineers making the jump into Full-Stack roles, with deep focus on Playwright and Test Automation Frameworks.",
+    verifiedEmail: "ritu.s@swiggy.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "SDET",
+      company3YearsAgo: "HCL Technologies",
+      salary3YearsAgo: "₹6.2 LPA",
+      keyJumpSkills: [
+        "Test Automation Framework Design",
+        "CI/CD Test Pipelines",
+        "API Contract Testing"
+      ],
+      jumpStory: "Went from SDET at HCL Technologies to Lead SDET at Swiggy by mastering Test Automation Framework Design and CI/CD Test Pipelines."
+    },
+    availability: {
+      days: [
+        "Wed",
+        "Sat",
+        "Sun"
+      ],
+      timeSlots: [
+        "02:00 PM - 03:00 PM",
+        "08:00 PM - 09:00 PM"
+      ]
+    }
+  },
+  {
+    id: "arvind-menon",
+    name: "Arvind Menon",
+    role: "Staff DevOps Architect",
+    company: "PhonePe",
+    domain: "Full-Stack",
+    experience: "8+ Years Exp.",
+    rating: 4.93,
+    reviewsCount: 159,
+    sessionsCount: 312,
+    price: 1199,
+    location: "Pune, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Staff DevOps Architect at PhonePe",
+    skills: [
+      "Kubernetes",
+      "Terraform",
+      "AWS",
+      "CI/CD Pipelines",
+      "Docker"
+    ],
+    bio: "Staff DevOps Architect at PhonePe. I mentor engineers making the jump into Full-Stack roles, with deep focus on Kubernetes and Terraform.",
+    verifiedEmail: "arvind.m@phonepe.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "DevOps Engineer",
+      company3YearsAgo: "Wipro",
+      salary3YearsAgo: "₹6.9 LPA",
+      keyJumpSkills: [
+        "Kubernetes Orchestration",
+        "Infrastructure as Code",
+        "CI/CD Pipeline Design"
+      ],
+      jumpStory: "Went from DevOps Engineer at Wipro to Staff DevOps Architect at PhonePe by mastering Kubernetes Orchestration and Infrastructure as Code."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Wed",
+        "Fri"
+      ],
+      timeSlots: [
+        "06:00 PM - 07:00 PM",
+        "07:30 PM - 08:30 PM"
+      ]
+    }
+  },
+  {
+    id: "swati-rane",
+    name: "Swati Rane",
+    role: "Principal SRE",
+    company: "CRED",
+    domain: "Full-Stack",
+    experience: "7.5+ Years Exp.",
+    rating: 4.9,
+    reviewsCount: 144,
+    sessionsCount: 276,
+    price: 1099,
+    location: "Bengaluru, India",
+    duration: "01:13",
+    avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Principal SRE at CRED",
+    skills: [
+      "Site Reliability Engineering",
+      "Kubernetes",
+      "Observability",
+      "AWS",
+      "Incident Response"
+    ],
+    bio: "Principal SRE at CRED. I mentor engineers making the jump into Full-Stack roles, with deep focus on Site Reliability Engineering and Kubernetes.",
+    verifiedEmail: "swati.r@cred.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Site Reliability Engineer",
+      company3YearsAgo: "Tech Mahindra",
+      salary3YearsAgo: "₹7.1 LPA",
+      keyJumpSkills: [
+        "Observability at Scale",
+        "Kubernetes Orchestration",
+        "Incident Response Automation"
+      ],
+      jumpStory: "Went from Site Reliability Engineer at Tech Mahindra to Principal SRE at CRED by mastering Observability at Scale and Kubernetes Orchestration."
+    },
+    availability: {
+      days: [
+        "Tue",
+        "Thu",
+        "Sat"
+      ],
+      timeSlots: [
+        "07:00 PM - 08:00 PM",
+        "08:30 PM - 09:30 PM"
+      ]
+    }
+  },
+  {
+    id: "yogesh-kulkarni",
+    name: "Yogesh Kulkarni",
+    role: "Staff DevOps Architect",
+    company: "Razorpay (FinTech)",
+    domain: "Full-Stack",
+    experience: "7+ Years Exp.",
+    rating: 4.88,
+    reviewsCount: 131,
+    sessionsCount: 244,
+    price: 1099,
+    location: "Bengaluru, India",
+    duration: "01:12",
+    avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Staff DevOps Architect at Razorpay",
+    skills: [
+      "Terraform",
+      "Kubernetes",
+      "AWS",
+      "CI/CD Pipelines",
+      "Monitoring"
+    ],
+    bio: "Staff DevOps Architect at Razorpay (FinTech). I mentor engineers making the jump into Full-Stack roles, with deep focus on Terraform and Kubernetes.",
+    verifiedEmail: "yogesh.k@razorpay.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Infra Engineer",
+      company3YearsAgo: "LTIMindtree",
+      salary3YearsAgo: "₹6.5 LPA",
+      keyJumpSkills: [
+        "Infrastructure as Code",
+        "Kubernetes Orchestration",
+        "CI/CD Pipeline Design"
+      ],
+      jumpStory: "Went from Infra Engineer at LTIMindtree to Staff DevOps Architect at Razorpay (FinTech) by mastering Infrastructure as Code and Kubernetes Orchestration."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Thu",
+        "Sun"
+      ],
+      timeSlots: [
+        "06:30 PM - 07:30 PM",
+        "08:00 PM - 09:00 PM"
+      ]
+    }
+  },
+  {
+    id: "meenal-joshi",
+    name: "Meenal Joshi",
+    role: "Principal SRE",
+    company: "Zomato",
+    domain: "Full-Stack",
+    experience: "8+ Years Exp.",
+    rating: 4.95,
+    reviewsCount: 172,
+    sessionsCount: 340,
+    price: 1199,
+    location: "Pune, India",
+    duration: "01:16",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Principal SRE at Zomato",
+    skills: [
+      "Kubernetes",
+      "Site Reliability Engineering",
+      "Terraform",
+      "Observability",
+      "AWS"
+    ],
+    bio: "Principal SRE at Zomato. I mentor engineers making the jump into Full-Stack roles, with deep focus on Kubernetes and Site Reliability Engineering.",
+    verifiedEmail: "meenal.j@zomato.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "DevOps Engineer",
+      company3YearsAgo: "Capgemini",
+      salary3YearsAgo: "₹7.4 LPA",
+      keyJumpSkills: [
+        "Observability at Scale",
+        "Infrastructure as Code",
+        "Kubernetes Orchestration"
+      ],
+      jumpStory: "Went from DevOps Engineer at Capgemini to Principal SRE at Zomato by mastering Observability at Scale and Infrastructure as Code."
+    },
+    availability: {
+      days: [
+        "Wed",
+        "Sat",
+        "Sun"
+      ],
+      timeSlots: [
+        "06:00 PM - 07:00 PM",
+        "07:30 PM - 08:30 PM"
+      ]
+    }
+  },
+  {
     id: "deepak",
     name: "Deepak Patel",
     role: "Senior Data Scientist & AI Lead",
@@ -1492,6 +2521,302 @@ export const SEED_CREATORS: Creator[] = [
     }
   },
   {
+    id: "kunal-verma",
+    name: "Kunal Verma",
+    role: "Senior Data Scientist & AI Lead",
+    company: "Flipkart",
+    domain: "AI/ML",
+    experience: "7+ Years Exp.",
+    rating: 4.91,
+    reviewsCount: 152,
+    sessionsCount: 286,
+    price: 1099,
+    location: "Bengaluru, India",
+    duration: "01:14",
+    avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Became Senior Data Scientist & AI Lead at Flipkart",
+    skills: [
+      "SQL",
+      "Python",
+      "Statistical Modeling",
+      "MLOps",
+      "Vector Search"
+    ],
+    bio: "Senior Data Scientist & AI Lead at Flipkart. I mentor engineers making the jump into AI/ML roles, with deep focus on SQL and Statistical Modeling.",
+    verifiedEmail: "kunal.v@flipkart.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Data Analyst",
+      company3YearsAgo: "Mu Sigma",
+      salary3YearsAgo: "₹5.6 LPA",
+      keyJumpSkills: [
+        "Statistical Model Deployment",
+        "Vector Search (Pinecone)",
+        "Distributed Model Training"
+      ],
+      jumpStory: "Went from Data Analyst at Mu Sigma to Senior Data Scientist & AI Lead at Flipkart by mastering Statistical Model Deployment and Vector Search (Pinecone)."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Wed",
+        "Sat"
+      ],
+      timeSlots: [
+        "06:00 PM - 07:00 PM",
+        "07:30 PM - 08:30 PM"
+      ]
+    }
+  },
+  {
+    id: "rohit-pm-genai",
+    name: "Rohit Malhotra",
+    role: "Staff GenAI Product Engineer",
+    company: "Google",
+    domain: "AI/ML",
+    experience: "8+ Years Exp.",
+    rating: 4.93,
+    reviewsCount: 134,
+    sessionsCount: 251,
+    price: 1399,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: How I Went from Product Manager to Staff GenAI Product Engineer at Google",
+    skills: [
+      "LLM Product Strategy",
+      "Prompt Engineering",
+      "RAG Systems",
+      "Python",
+      "Stakeholder Mgmt"
+    ],
+    bio: "Staff GenAI Product Engineer at Google. I guide Product Managers making the exact jump I made — from managing roadmaps to shipping GenAI features hands-on.",
+    verifiedEmail: "rohit.m@google.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Product Manager",
+      company3YearsAgo: "TCS",
+      salary3YearsAgo: "₹9 LPA",
+      keyJumpSkills: [
+        "Prompt Engineering",
+        "LLM Evaluation",
+        "RAG Systems"
+      ],
+      jumpStory: "Went from Product Manager at TCS to Staff GenAI Product Engineer at Google by pairing my product intuition with hands-on LLM Evaluation and RAG Systems skills."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Thu",
+        "Sun"
+      ],
+      timeSlots: [
+        "07:00 PM - 08:00 PM",
+        "09:00 PM - 10:00 PM"
+      ]
+    }
+  },
+  {
+    id: "ananya-pm-ml",
+    name: "Ananya Krishnan",
+    role: "Lead GenAI Applications Architect",
+    company: "Microsoft",
+    domain: "AI/ML",
+    experience: "9+ Years Exp.",
+    rating: 4.9,
+    reviewsCount: 108,
+    sessionsCount: 219,
+    price: 1299,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: My Jump from Senior Product Manager to Lead GenAI Applications Architect",
+    skills: [
+      "GenAI Solution Architecture",
+      "LLM Fine-Tuning",
+      "Product Discovery",
+      "Python",
+      "Vector Databases"
+    ],
+    bio: "Lead GenAI Applications Architect at Microsoft. I mentor Product Managers moving into hands-on GenAI engineering roles.",
+    verifiedEmail: "ananya.k@microsoft.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Senior Product Manager",
+      company3YearsAgo: "Infosys",
+      salary3YearsAgo: "₹11 LPA",
+      keyJumpSkills: [
+        "LLM Fine-Tuning",
+        "Vector Databases",
+        "GenAI Solution Architecture"
+      ],
+      jumpStory: "Went from Senior Product Manager at Infosys to Lead GenAI Applications Architect at Microsoft by building hands-on LLM Fine-Tuning and GenAI Solution Architecture depth."
+    },
+    availability: {
+      days: [
+        "Tue",
+        "Fri",
+        "Sat"
+      ],
+      timeSlots: [
+        "08:00 PM - 09:00 PM",
+        "10:00 AM - 11:00 AM"
+      ]
+    }
+  },
+  {
+    id: "naveen-ai",
+    name: "Naveen Chandran",
+    role: "Staff GenAI & UI Platform Architect",
+    company: "Google",
+    domain: "AI/ML",
+    experience: "8+ Years Exp.",
+    rating: 4.96,
+    reviewsCount: 162,
+    sessionsCount: 340,
+    price: 1399,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: From Frontend Developer to Staff GenAI Platform Architect at Google",
+    skills: [
+      "Generative AI",
+      "LLMs",
+      "LangChain",
+      "React.js",
+      "Vector Search",
+      "Python"
+    ],
+    bio: "Staff GenAI & UI Platform Architect at Google. I transitioned from frontend engineering at TCS to building generative AI interfaces, streaming LLM systems, and enterprise copilot frameworks at Google.",
+    verifiedEmail: "naveen.c@google.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Senior Frontend Developer",
+      company3YearsAgo: "TCS (Tata Consultancy Services)",
+      salary3YearsAgo: "₹7.2 LPA",
+      keyJumpSkills: [
+        "LangChain & Vector Search",
+        "LLM Streaming Architecture",
+        "Python AI Microservices"
+      ],
+      jumpStory: "Transitioned from 4 years as a Senior Frontend Developer at TCS into spearheading generative AI platforms and multi-modal copilot interfaces at Google."
+    },
+    availability: {
+      days: [
+        "Tue",
+        "Thu",
+        "Sun"
+      ],
+      timeSlots: [
+        "07:30 PM - 08:30 PM",
+        "09:00 PM - 10:00 PM"
+      ]
+    }
+  },
+  {
+    id: "pooja-ai",
+    name: "Pooja Hegde",
+    role: "Senior AI Application Engineer",
+    company: "Microsoft",
+    domain: "AI/ML",
+    experience: "7+ Years Exp.",
+    rating: 4.92,
+    reviewsCount: 135,
+    sessionsCount: 280,
+    price: 1299,
+    location: "Hyderabad, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: Frontend Dev to AI App Engineer at Microsoft",
+    skills: [
+      "Azure OpenAI",
+      "Semantic Kernel",
+      "RAG Systems",
+      "React",
+      "TypeScript",
+      "Prompt Engineering"
+    ],
+    bio: "Senior AI Application Engineer at Microsoft. Guiding frontend and web developers on mastering LLM orchestration, RAG architectures, and breaking into top AI product teams.",
+    verifiedEmail: "pooja.hegde@microsoft.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Frontend Developer",
+      company3YearsAgo: "Infosys",
+      salary3YearsAgo: "₹6.5 LPA",
+      keyJumpSkills: [
+        "Azure OpenAI Services",
+        "RAG Architectures",
+        "Prompt Engineering"
+      ],
+      jumpStory: "Transitioned from frontend web development at Infosys into building enterprise Copilot and RAG applications at Microsoft."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Wed",
+        "Sat"
+      ],
+      timeSlots: [
+        "07:00 PM - 08:00 PM",
+        "08:30 PM - 09:30 PM"
+      ]
+    }
+  },
+  {
+    id: "vikas-ai",
+    name: "Vikas Sharma",
+    role: "Lead Machine Learning Applications Engineer",
+    company: "Google",
+    domain: "AI/ML",
+    experience: "8+ Years Exp.",
+    rating: 4.94,
+    reviewsCount: 148,
+    sessionsCount: 310,
+    price: 1399,
+    location: "Bengaluru, India",
+    duration: "01:20",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: Full-Stack to ML Applications Engineer at Google",
+    skills: [
+      "LLM Fine-Tuning",
+      "PyTorch",
+      "TensorFlow Serving",
+      "Full-Stack Web",
+      "Kubernetes"
+    ],
+    bio: "Lead ML Applications Engineer at Google. I help full-stack and web engineers build deep machine learning competencies and successfully crack tier-1 ML platform loops.",
+    verifiedEmail: "vikas.sharma@google.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Full-Stack Developer",
+      company3YearsAgo: "TCS (Tata Consultancy Services)",
+      salary3YearsAgo: "₹7.8 LPA",
+      keyJumpSkills: [
+        "ML Inference Pipelines",
+        "Model Fine-Tuning",
+        "Distributed Systems"
+      ],
+      jumpStory: "Transitioned from Full-Stack developer at TCS to leading high-throughput ML inference and generative applications at Google."
+    },
+    availability: {
+      days: [
+        "Wed",
+        "Fri",
+        "Sun"
+      ],
+      timeSlots: [
+        "08:00 PM - 09:00 PM",
+        "09:30 PM - 10:30 PM"
+      ]
+    }
+  },
+  {
     id: "arjun",
     name: "Arjun Gupta",
     role: "Lead Silicon Verification Architect",
@@ -2087,6 +3412,105 @@ export const SEED_CREATORS: Creator[] = [
     }
   },
   {
+    id: "siddharth-semi",
+    name: "Siddharth Varman",
+    role: "Staff Silicon Systems & Diagnostics Architect",
+    company: "Qualcomm",
+    domain: "Semiconductor",
+    experience: "8+ Years Exp.",
+    rating: 4.95,
+    reviewsCount: 144,
+    sessionsCount: 310,
+    price: 1399,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: From IT Services Software Engineer to Qualcomm Silicon Architect",
+    skills: [
+      "Hardware Diagnostics",
+      "C++",
+      "SystemVerilog",
+      "Device Drivers",
+      "Post-Silicon Validation",
+      "SoC Bringup"
+    ],
+    bio: "Staff Silicon Systems Architect at Qualcomm. Transitioned from enterprise software at TCS into post-silicon diagnostics and hardware validation pipelines for Snapdragon chipsets.",
+    verifiedEmail: "siddharth.v@qualcomm.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Software Engineer",
+      company3YearsAgo: "TCS (Tata Consultancy Services)",
+      salary3YearsAgo: "₹6.8 LPA",
+      keyJumpSkills: [
+        "Hardware-Software Co-Design",
+        "Post-Silicon Validation",
+        "Low-Level C++ / Drivers"
+      ],
+      jumpStory: "Transitioned from software development at TCS into post-silicon diagnostics and hardware validation pipelines for Snapdragon processors at Qualcomm."
+    },
+    availability: {
+      days: [
+        "Tue",
+        "Fri",
+        "Sun"
+      ],
+      timeSlots: [
+        "07:00 PM - 08:00 PM",
+        "08:30 PM - 09:30 PM"
+      ]
+    }
+  },
+  {
+    id: "priya-semi",
+    name: "Priya Natarajan",
+    role: "Lead Silicon UI & Hardware Tools Architect",
+    company: "NVIDIA",
+    domain: "Semiconductor",
+    experience: "7+ Years Exp.",
+    rating: 4.93,
+    reviewsCount: 122,
+    sessionsCount: 260,
+    price: 1299,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: Frontend Dev to Semiconductor Tooling & Simulation at NVIDIA",
+    skills: [
+      "Silicon Simulation Tools",
+      "React.js",
+      "C++ WebAssembly",
+      "Hardware Visualization",
+      "GPU Profiling"
+    ],
+    bio: "Lead Silicon UI Architect at NVIDIA. I guide frontend and web engineers on leveraging UI/Wasm skills to enter top semiconductor firms building chip telemetry and simulation tooling.",
+    verifiedEmail: "priya.n@nvidia.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Frontend Developer",
+      company3YearsAgo: "Wipro",
+      salary3YearsAgo: "₹6.2 LPA",
+      keyJumpSkills: [
+        "Hardware Telemetry UIs",
+        "WebAssembly Silicon Simulators",
+        "GPU Profiling UIs"
+      ],
+      jumpStory: "Transitioned from standard web development at Wipro into architecting complex chip telemetry and hardware emulation user interfaces at NVIDIA."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Wed",
+        "Sat"
+      ],
+      timeSlots: [
+        "06:30 PM - 07:30 PM",
+        "08:00 PM - 09:00 PM"
+      ]
+    }
+  },
+  {
     id: "divya2",
     name: "Divya Saxena",
     role: "Staff SOC & Threat Hunting Architect",
@@ -2675,6 +4099,105 @@ export const SEED_CREATORS: Creator[] = [
       timeSlots: [
         "07:00 PM - 08:00 PM",
         "08:30 PM - 09:30 PM"
+      ]
+    }
+  },
+  {
+    id: "aditya-cyber",
+    name: "Aditya Singhania",
+    role: "Lead Application Security & DevSecOps Engineer",
+    company: "Palo Alto Networks",
+    domain: "Cybersecurity",
+    experience: "7.5+ Years Exp.",
+    rating: 4.93,
+    reviewsCount: 138,
+    sessionsCount: 295,
+    price: 1299,
+    location: "Bengaluru, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: From Frontend / Web Developer to Lead AppSec Engineer",
+    skills: [
+      "Application Security",
+      "OWASP Top 10",
+      "OAuth2 / OpenID Connect",
+      "DevSecOps",
+      "Cloud Security",
+      "Penetration Testing"
+    ],
+    bio: "Lead AppSec Architect at Palo Alto Networks. I guide frontend and web engineers on transitioning into high-demand Application Security, secure SDLC, and zero-trust engineering roles.",
+    verifiedEmail: "aditya.s@paloaltonetworks.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Frontend Developer",
+      company3YearsAgo: "TCS (Tata Consultancy Services)",
+      salary3YearsAgo: "₹6.5 LPA",
+      keyJumpSkills: [
+        "Frontend Vulnerability Scanning",
+        "OAuth2 & Token Hardening",
+        "AppSec Pipeline Automation"
+      ],
+      jumpStory: "Transitioned from securing frontend React codebases at TCS to leading enterprise application security and zero-trust web architectures at Palo Alto Networks."
+    },
+    availability: {
+      days: [
+        "Tue",
+        "Thu",
+        "Sat"
+      ],
+      timeSlots: [
+        "07:00 PM - 08:00 PM",
+        "08:30 PM - 09:30 PM"
+      ]
+    }
+  },
+  {
+    id: "monica-cyber",
+    name: "Monica Deshmukh",
+    role: "Staff Cloud Security Architect",
+    company: "CrowdStrike",
+    domain: "Cybersecurity",
+    experience: "8+ Years Exp.",
+    rating: 4.91,
+    reviewsCount: 119,
+    sessionsCount: 245,
+    price: 1399,
+    location: "Pune, India",
+    duration: "01:15",
+    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80",
+    videoPoster: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1000&auto=format&fit=crop&q=80",
+    teaserTitle: "Teaser: SDE to Staff Cloud Security Architect at CrowdStrike",
+    skills: [
+      "Cloud Security",
+      "AWS / GCP Security",
+      "Container & K8s Security",
+      "DevSecOps",
+      "Threat Modeling"
+    ],
+    bio: "Staff Cloud Security Architect at CrowdStrike. Mentoring developers on cloud security architecture, container defense, and interview preparation for top cyber firms.",
+    verifiedEmail: "monica.d@crowdstrike.com",
+    isVerifiedEmployer: true,
+    trajectory: {
+      role3YearsAgo: "Software Engineer",
+      company3YearsAgo: "Infosys",
+      salary3YearsAgo: "₹7.0 LPA",
+      keyJumpSkills: [
+        "Kubernetes Hardening",
+        "IAM Architecture",
+        "Cloud Threat Modeling"
+      ],
+      jumpStory: "Transitioned from software development at Infosys into architecting cloud-native defense systems and container runtime security at CrowdStrike."
+    },
+    availability: {
+      days: [
+        "Mon",
+        "Wed",
+        "Fri"
+      ],
+      timeSlots: [
+        "06:30 PM - 07:30 PM",
+        "08:00 PM - 09:00 PM"
       ]
     }
   },

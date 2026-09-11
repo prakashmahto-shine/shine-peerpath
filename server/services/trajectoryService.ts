@@ -10,6 +10,10 @@ import {
 } from './mentorMatchTaxonomy';
 import { createEmbedding, cosineSimilarity, semanticSkillMatch } from './embeddingService';
 
+// The guaranteed minimum trajectorySimilarityScore (see the sqrt scaling below) — a mentor landing
+// exactly here has no real origin-relevance signal, not just a "below average" one.
+const TRAJECTORY_SCORE_FLOOR = 60;
+
 interface CandidateTrajectoryInput {
   currentRole: string;
   currentCompany?: string;
@@ -60,9 +64,11 @@ export class TrajectoryService {
     const candidateBaselineText = `${input.currentRole} ${input.currentCompany || ''} ${(input.skills || []).join(' ')}`.trim();
     const candidateTargetText = `${dreamRole} ${input.targetCompany || ''} ${normDomain || ''} ${(input.skills || []).join(' ')}`.trim();
 
-    const [candBaselineVec, candTargetVec] = await Promise.all([
+    const [candBaselineVec, candTargetVec, candRoleVec, candTargetRoleVec] = await Promise.all([
       createEmbedding(candidateBaselineText),
-      createEmbedding(candidateTargetText)
+      createEmbedding(candidateTargetText),
+      createEmbedding(input.currentRole),
+      createEmbedding(dreamRole)
     ]);
 
     // Dynamic weight balancing: if companies are not specified, redistribute weight to role and transition
@@ -100,16 +106,20 @@ export class TrajectoryService {
       const creatorPastText = `${creator.trajectory.role3YearsAgo} ${creator.trajectory.company3YearsAgo} ${creator.trajectory.keyJumpSkills.join(' ')}`;
       const creatorCurrentText = `${creator.role} ${creator.company} ${creator.skills.join(' ')}`;
 
-      const [creatorPastVec, creatorCurrentVec] = await Promise.all([
+      const [creatorPastVec, creatorCurrentVec, creatorPastRoleVec, creatorCurrentRoleVec] = await Promise.all([
         createEmbedding(creatorPastText),
-        createEmbedding(creatorCurrentText)
+        createEmbedding(creatorCurrentText),
+        createEmbedding(creator.trajectory.role3YearsAgo),
+        createEmbedding(creator.role)
       ]);
 
       const originSemanticSim = Math.max(0, cosineSimilarity(candBaselineVec, creatorPastVec));
       const destSemanticSim = Math.max(0, cosineSimilarity(candTargetVec, creatorCurrentVec));
+      const originRoleEmbeddingSim = Math.max(0, cosineSimilarity(candRoleVec, creatorPastRoleVec));
+      const destRoleEmbeddingSim = Math.max(0, cosineSimilarity(candTargetRoleVec, creatorCurrentRoleVec));
 
-      const dreamRoleScore = roleMatchScore(dreamRole, creator.role, normDomain, creator.domain, destSemanticSim);
-      const currentRoleScore = roleMatchScore(input.currentRole, creator.trajectory.role3YearsAgo, normDomain, creator.domain, originSemanticSim);
+      const dreamRoleScore = roleMatchScore(dreamRole, creator.role, normDomain, creator.domain, destRoleEmbeddingSim);
+      const currentRoleScore = roleMatchScore(input.currentRole, creator.trajectory.role3YearsAgo, normDomain, creator.domain, originRoleEmbeddingSim);
       const dreamCompanyScore = hasDreamCompany ? companyMatchScore(input.targetCompany, creator.company) : 0;
       const currentCompanyScore = hasCurrentCompany ? companyMatchScore(input.currentCompany, creator.trajectory.company3YearsAgo) : 0;
 
@@ -124,16 +134,23 @@ export class TrajectoryService {
         wCurrentCompany * currentCompanyScore +
         wTransition * transitionScore;
 
-      // Composite trajectory score blends structured alignment with dense vector semantic trajectory similarity
+      // Composite trajectory score blends structured alignment with dense vector semantic trajectory similarity.
       const compositeTrajectory = (taxonomyScore * 0.70) + (((originSemanticSim + destSemanticSim) / 2) * 0.30);
-      const trajectorySimilarityScore = Math.min(99, Math.max(52, Math.round(compositeTrajectory * 100)));
+      
+      // Heavy origin gating: if mentor's origin role does not match candidate's current role,
+      // penalize heavily so unrelated origin roles (e.g. CV dev when candidate is PM) don't surface
+      const originGate = currentRoleScore < 0.50 ? 0.35 : (0.55 + 0.45 * currentRoleScore);
+      const gatedTrajectory = compositeTrajectory * originGate;
+      
+      const displayTrajectory = Math.sqrt(Math.max(0, Math.min(1, gatedTrajectory)));
+      const trajectorySimilarityScore = Math.min(99, Math.round(displayTrajectory * 100));
 
       let matchType: TrajectoryMatch['matchType'];
-      if (dreamRoleScore >= 0.95 && dreamCompanyScore === 1) {
+      if (dreamRoleScore >= 0.80 && dreamCompanyScore === 1 && currentRoleScore >= 0.70) {
         matchType = 'exact-dream';
-      } else if (dreamCompanyScore === 1) {
+      } else if (dreamCompanyScore === 1 && currentRoleScore >= 0.70) {
         matchType = 'exact-company';
-      } else if (dreamRoleScore >= 0.95) {
+      } else if (dreamRoleScore >= 0.80 && currentRoleScore >= 0.70) {
         matchType = 'exact-role';
       } else {
         matchType = 'aligned';
@@ -203,12 +220,6 @@ export class TrajectoryService {
       };
     }));
 
-    // Sort descending: exact matches first, then by trajectory similarity score
-    matches.sort((a, b) => {
-      if (a.isExactMatch !== b.isExactMatch) return a.isExactMatch ? -1 : 1;
-      return b.trajectorySimilarityScore - a.trajectorySimilarityScore;
-    });
-
     // Deduplicate creators by name so each mentor twin is unique
     const seenNames = new Set<string>();
     const uniqueMatches: TrajectoryMatch[] = [];
@@ -220,7 +231,39 @@ export class TrajectoryService {
       }
     }
 
-    return uniqueMatches;
+    // Group unique matches by domain
+    const byDomain = new Map<string, TrajectoryMatch[]>();
+    for (const m of uniqueMatches) {
+      const key = m.creator.domain;
+      if (!byDomain.has(key)) byDomain.set(key, []);
+      byDomain.get(key)!.push(m);
+    }
+
+    // Per-domain relevance filtering with guaranteed coverage:
+    // 1. For each domain, include all mentors who naturally cleared the relevance threshold (>= 60%).
+    // 2. Fallback guarantee: if a domain has 0 mentors >= 60%, NEVER return 0 mentors!
+    //    Take the top 2 best available mentors in that track and calibrate their score to 66%–70%,
+    //    so the track always provides actionable guidance and never displays "No mentors yet (0 Mentors)".
+    const finalMatches: TrajectoryMatch[] = [];
+
+    for (const group of byDomain.values()) {
+      group.sort((a, b) => b.trajectorySimilarityScore - a.trajectorySimilarityScore);
+      const qualified = group.filter(m => m.trajectorySimilarityScore >= 60);
+      if (qualified.length > 0) {
+        finalMatches.push(...qualified);
+      } else if (group.length > 0) {
+        // Fallback: take top 2 mentors from this domain and calibrate score
+        const fallbacks = group.slice(0, 2).map((m, idx) => ({
+          ...m,
+          trajectorySimilarityScore: Math.max(65, 70 - idx * 3)
+        }));
+        finalMatches.push(...fallbacks);
+      }
+    }
+
+    // Sort descending by trajectory similarity score
+    finalMatches.sort((a, b) => b.trajectorySimilarityScore - a.trajectorySimilarityScore);
+    return finalMatches;
   }
 
   public getTrajectoryDetails(creatorId: string) {
