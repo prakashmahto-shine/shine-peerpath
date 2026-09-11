@@ -156,13 +156,20 @@ export const LoginView: React.FC = () => {
               </div>
               <div className="peerpath-brand-text-col">
                 <span className="peerpath-brand-title">PEERPATH</span>
-                <span className="peerpath-brand-sub">by <strong className="shine-mark">shine.com</strong></span>
+                <span className="peerpath-brand-sub">Tech Career Transitions</span>
               </div>
             </div>
 
-            <div className="peerpath-partner-tag-pill">
-              <span className="pptp-dot"></span>
-              <span>Tech Career Transitions</span>
+            {/* Official Shine Initiative Badge (Single Strategic Brand Placement) */}
+            <div className="peerpath-header-shine-badge" title="An Initiative by Shine.com">
+              <span className="phsb-label">An Initiative by</span>
+              <div className="phsb-logo-container">
+                <img 
+                  src="https://staticcand.shine.com/c/s1/images/candidate/nova/home/shine-logo.svg" 
+                  alt="Shine.com" 
+                  className="shine-official-header-logo" 
+                />
+              </div>
             </div>
           </div>
 
@@ -281,7 +288,7 @@ export const LoginView: React.FC = () => {
               </div>
             </div>
 
-            {/* Shine Partner Proof Bar */}
+            {/* Recruiter Network Proof Bar */}
             <div className="peerpath-partner-proof-bar">
               <div className="ppp-avatars">
                 <img src="/avatars/saheli.jpg" alt="Saheli" className="ppp-avatar" />
@@ -292,7 +299,7 @@ export const LoginView: React.FC = () => {
                 <div className="ppp-title-row">
                   <strong>300,000+ Recruiter Network</strong>
                   <span className="ppp-verified-tag">
-                    <ShieldCheck size={11} /> Verified Partner
+                    <ShieldCheck size={11} /> Verified by Shine
                   </span>
                 </div>
                 <span>Direct referrals to hiring teams across India's top unicorns & tech firms</span>
@@ -303,7 +310,7 @@ export const LoginView: React.FC = () => {
 
           {/* Bottom Left Note */}
           <div className="peerpath-left-footer-note">
-            <span>🤝 Official Career Transition Initiative with <strong>Shine.com (HT Media)</strong></span>
+            <span>🤝 Official Career Transition Initiative by <strong>Shine.com (HT Media)</strong></span>
           </div>
 
         </div>
@@ -332,19 +339,9 @@ export const LoginView: React.FC = () => {
               </div>
             ) : null}
 
-            {/* Login Header */}
+            {/* Clean & Sleek Login Header */}
             <div className="shine-login-header-group">
-              <div className="peerpath-login-eyebrow-row">
-                <span className="peerpath-login-eyebrow">SIGN IN TO</span>
-                <span className="peerpath-partner-mini-badge">
-                  <span>In Partnership with</span>
-                  <img 
-                    src="https://staticcand.shine.com/c/s1/images/candidate/nova/home/shine-logo.svg" 
-                    alt="Shine.com" 
-                    className="shine-inline-partner-logo"
-                  />
-                </span>
-              </div>
+              <span className="peerpath-login-eyebrow">SIGN IN TO</span>
               <h2 className="shine-login-main-heading">PeerPath</h2>
               <p className="peerpath-login-subheading">
                 Access your verified career transition roadmaps & 1:1 mentors
