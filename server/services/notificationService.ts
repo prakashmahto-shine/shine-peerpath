@@ -80,6 +80,20 @@ class NotificationService {
   }
 
   /**
+   * Delete a single notification by ID
+   */
+  public deleteNotification(notificationId: string): boolean {
+    return store.deleteNotification(notificationId);
+  }
+
+  /**
+   * Clear all notifications for a user
+   */
+  public clearAll(userId?: string): number {
+    return store.clearAllNotifications(userId);
+  }
+
+  /**
    * Broadcast an announcement notification to all registered candidates & mentors
    */
   public broadcastAnnouncement(title: string, message: string, actionUrl?: string): CommunityNotification {

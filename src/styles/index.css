@@ -7126,6 +7126,91 @@ button {
   color: var(--shine-slate); 
 }
 
+/* ========================================================================== */
+/* Prominent, Focused Follow / Following Action Button                        */
+/* ========================================================================== */
+.btn-follow-profile-action {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 13.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.btn-follow-profile-action:hover {
+  background: #f8fafc;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.12);
+}
+
+.btn-follow-profile-action:active {
+  transform: translateY(0);
+}
+
+.btn-follow-profile-action.is-following {
+  background: #ecfdf5;
+  border-color: #6ee7b7;
+  color: #065f46;
+  box-shadow: 0 1px 3px rgba(16, 185, 129, 0.08);
+}
+
+.btn-follow-profile-action.is-following:hover {
+  background: #fff1f2;
+  border-color: #fecdd3;
+  color: #be123c;
+  box-shadow: 0 4px 12px rgba(244, 63, 94, 0.1);
+}
+
+.btn-follow-profile-action .follow-status-pill {
+  background: #d1fae5;
+  color: #047857;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-left: auto;
+  border: 1px solid #a7f3d0;
+}
+
+.btn-follow-profile-action.is-following:hover .follow-status-pill {
+  background: #ffe4e6;
+  color: #e11d48;
+  border-color: #fecdd3;
+}
+
+.metric-followers-chip {
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+}
+
+.metric-followers-chip:hover {
+  background: #f1f5f9;
+  color: #1d4ed8;
+}
+
+.metric-following-dot {
+  color: #059669;
+  font-size: 11px;
+  font-weight: 700;
+  margin-left: 4px;
+}
+
 .btn-teaser-action {
   background: #f8fafc;
   color: #1e293b;
@@ -29003,19 +29088,40 @@ button {
   border-radius: 9999px;
 }
 
-.ndh-mark-all {
+.ndh-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ndh-action-btn {
   background: none;
   border: none;
   font-size: 11.5px;
   font-weight: 600;
   color: #64748B;
   cursor: pointer;
-  transition: color 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
 }
 
-.ndh-mark-all:hover {
+.ndh-action-btn:hover {
+  background: #E2E8F0;
+  color: #1E293B;
+}
+
+.ndh-action-btn.ndh-mark-all:hover {
   color: #7C3AED;
-  text-decoration: underline;
+  background: #F3E8FF;
+}
+
+.ndh-action-btn.ndh-clear-all:hover {
+  color: #DC2626;
+  background: #FEE2E2;
 }
 
 .notif-dropdown-list {
@@ -29066,6 +29172,31 @@ button {
 
 .notif-item.unread:hover {
   background: #F3E8FF;
+}
+
+.btn-delete-notif {
+  opacity: 0;
+  background: none;
+  border: none;
+  color: #94A3B8;
+  padding: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.notif-item:hover .btn-delete-notif {
+  opacity: 1;
+}
+
+.btn-delete-notif:hover {
+  color: #DC2626;
+  background: #FEE2E2;
 }
 
 .notif-avatar {

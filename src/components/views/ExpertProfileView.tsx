@@ -101,30 +101,12 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
               <h2>{expert.name}</h2>
               <span className="ep-verified-tag"><CheckCircle2 size={14} /> Verified Practitioner</span>
               
-              {/* Creator Mode / Self Indicator or Follow Button */}
-              {isSelf ? (
+              {/* Creator Mode / Self Indicator */}
+              {isSelf && (
                 <div className="self-mentor-pill">
                   <Sparkles size={13} className="text-amber-500" />
                   <span>Your Public Listing</span>
                 </div>
-              ) : (
-                <button 
-                  type="button" 
-                  className={`btn-follow-mentor ${isFollowing ? 'is-following' : ''}`}
-                  onClick={() => toggleFollowMentor(expert.id, expert.name)}
-                >
-                  {isFollowing ? (
-                    <>
-                      <UserCheck size={14} />
-                      <span>Following</span>
-                    </>
-                  ) : (
-                    <>
-                      <UserPlus size={14} />
-                      <span>Follow Updates</span>
-                    </>
-                  )}
-                </button>
               )}
             </div>
             <p className="ep-headline">{expert.role} at {expert.company}</p>
@@ -132,7 +114,13 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
             <div className="ep-metrics-bar">
               <span><MapPin size={14} /> {expert.location || 'India'}</span>
               <span><Star size={14} className="star-gold" /> <strong>{expert.rating || 4.9}</strong> ({expert.reviewsCount || 0} Reviews)</span>
-              <span><Users size={14} /> <strong>{displayFollowersCount.toLocaleString()}</strong> Followers</span>
+              <span 
+                className="metric-followers-chip" 
+                onClick={() => !isSelf && toggleFollowMentor(expert.id, expert.name)}
+                title={!isSelf ? (isFollowing ? 'Click to unfollow' : 'Click to follow mentor') : undefined}
+              >
+                <Users size={14} /> <strong>{displayFollowersCount.toLocaleString()}</strong> Followers {isFollowing && <span className="metric-following-dot">● Following</span>}
+              </span>
               <span><Clock size={14} /> {expert.experience || '6+ Years'}</span>
               <span><Award size={14} /> <strong>{expert.sessionsCount || 0}+</strong> Services Delivered</span>
             </div>
@@ -150,10 +138,34 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                 <Award size={18} /> Manage Your Listing
               </button>
             ) : (
-              <button className="btn-shine-gold-lg" onClick={() => onOpenBooking(expert.id)}>
-                <Calendar size={18} /> Book a Service
-              </button>
+              <>
+                <button className="btn-shine-gold-lg" onClick={() => onOpenBooking(expert.id)}>
+                  <Calendar size={18} /> Book a Service
+                </button>
+
+                {/* High-Focus Attractive Follow / Following Button */}
+                <button 
+                  type="button" 
+                  className={`btn-follow-profile-action ${isFollowing ? 'is-following' : ''}`}
+                  onClick={() => toggleFollowMentor(expert.id, expert.name)}
+                  title={isFollowing ? 'Click to unfollow mentor' : 'Follow to receive instant session & post updates'}
+                >
+                  {isFollowing ? (
+                    <>
+                      <UserCheck size={16} />
+                      <span>Following</span>
+                      <span className="follow-status-pill">Active</span>
+                    </>
+                  ) : (
+                    <>
+                      <UserPlus size={16} />
+                      <span>Follow for Updates</span>
+                    </>
+                  )}
+                </button>
+              </>
             )}
+
             <button 
               type="button" 
               className="btn-teaser-action" 

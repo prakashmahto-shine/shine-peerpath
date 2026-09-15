@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { 
   Briefcase, Award, Bell, FileText, ChevronDown, Sparkles, 
   User, Settings, LogOut, Video, Search, ArrowUpRight, Film, Clock, CreditCard,
-  Compass, TrendingUp, ShieldCheck, MessageSquare
+  Compass, TrendingUp, ShieldCheck, MessageSquare, Trash2, CheckCheck
 } from 'lucide-react';
 import { ViewType } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -34,7 +34,9 @@ export const Header: React.FC<HeaderProps> = ({
     notifications,
     unreadNotificationsCount,
     markNotificationAsRead,
-    markAllNotificationsAsRead
+    markAllNotificationsAsRead,
+    deleteNotification,
+    clearAllNotifications
   } = useApp();
 
   // Consistent Peerpath Mentorship platform header across all views
@@ -290,16 +292,34 @@ export const Header: React.FC<HeaderProps> = ({
                     )}
                   </div>
                   {notifications.length > 0 && (
-                    <button 
-                      type="button"
-                      className="ndh-mark-all"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        markAllNotificationsAsRead();
-                      }}
-                    >
-                      Mark all read
-                    </button>
+                    <div className="ndh-actions-row">
+                      {unreadNotificationsCount > 0 && (
+                        <button 
+                          type="button"
+                          className="ndh-action-btn ndh-mark-all"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            markAllNotificationsAsRead();
+                          }}
+                          title="Mark all notifications as read"
+                        >
+                          <CheckCheck size={12} />
+                          <span>Mark all read</span>
+                        </button>
+                      )}
+                      <button 
+                        type="button"
+                        className="ndh-action-btn ndh-clear-all"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          clearAllNotifications();
+                        }}
+                        title="Clear all notifications"
+                      >
+                        <Trash2 size={12} />
+                        <span>Clear all</span>
+                      </button>
+                    </div>
                   )}
                 </div>
 

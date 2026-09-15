@@ -1,288 +1,6 @@
 {
   "creators": [
     {
-      "id": "exp-1789473896315",
-      "name": "Nisha Kumari",
-      "role": "Staff Frontend Architect & UI Lead",
-      "company": "Flipkart",
-      "domain": "Full-Stack",
-      "experience": "6+ Years Exp.",
-      "rating": 5,
-      "reviewsCount": 1,
-      "sessionsCount": 0,
-      "price": 1299,
-      "location": "Bengaluru / Remote",
-      "duration": "01:15",
-      "avatar": "/avatars/nisha.jpg",
-      "videoPoster": "/avatars/nisha.jpg",
-      "teaserTitle": "Teaser: How I Jumped into Staff Frontend Architect & UI Lead at Flipkart",
-      "skills": [
-        "React 19",
-        "Micro-Frontends",
-        "System Design"
-      ],
-      "bio": "Staff Architect at Flipkart leading core web checkout teams.",
-      "verifiedEmail": "@flipkart.com",
-      "isVerifiedEmployer": true,
-      "trajectory": {
-        "role3YearsAgo": "Senior Software Engineer",
-        "company3YearsAgo": "Mid-tier Technology Firm",
-        "salary3YearsAgo": "₹8 LPA",
-        "keyJumpSkills": [
-          "React 19",
-          "Micro-Frontends",
-          "System Design"
-        ],
-        "jumpStory": "Bridged core architecture and system design requirements to land role at Flipkart."
-      },
-      "availability": {
-        "days": [
-          "Wed",
-          "Sat",
-          "Sun"
-        ],
-        "timeSlots": [
-          "07:00 PM - 08:00 PM",
-          "08:30 PM - 09:30 PM"
-        ]
-      }
-    },
-    {
-      "id": "exp-1789472562454",
-      "name": "Nisha Kumari",
-      "role": "Staff Frontend Architect & UI Lead",
-      "company": "Flipkart",
-      "domain": "Full-Stack",
-      "experience": "6+ Years Exp.",
-      "rating": 5,
-      "reviewsCount": 1,
-      "sessionsCount": 0,
-      "price": 1299,
-      "location": "Bengaluru / Remote",
-      "duration": "01:15",
-      "avatar": "/avatars/nisha.jpg",
-      "videoPoster": "/avatars/nisha.jpg",
-      "teaserTitle": "Teaser: How I Jumped into Staff Frontend Architect & UI Lead at Flipkart",
-      "skills": [
-        "React 19",
-        "Micro-Frontends",
-        "System Design"
-      ],
-      "bio": "Staff Architect at Flipkart leading core web checkout teams.",
-      "verifiedEmail": "@flipkart.com",
-      "isVerifiedEmployer": true,
-      "trajectory": {
-        "role3YearsAgo": "Senior Software Engineer",
-        "company3YearsAgo": "Mid-tier Technology Firm",
-        "salary3YearsAgo": "₹8 LPA",
-        "keyJumpSkills": [
-          "React 19",
-          "Micro-Frontends",
-          "System Design"
-        ],
-        "jumpStory": "Bridged core architecture and system design requirements to land role at Flipkart."
-      },
-      "availability": {
-        "days": [
-          "Wed",
-          "Sat",
-          "Sun"
-        ],
-        "timeSlots": [
-          "07:00 PM - 08:00 PM",
-          "08:30 PM - 09:30 PM"
-        ]
-      }
-    },
-    {
-      "id": "exp-1789472245311",
-      "name": "Nisha Kumari",
-      "role": "Staff Frontend Architect & UI Lead",
-      "company": "Flipkart",
-      "domain": "Full-Stack",
-      "experience": "6+ Years Exp.",
-      "rating": 5,
-      "reviewsCount": 1,
-      "sessionsCount": 0,
-      "price": 1299,
-      "location": "Bengaluru / Remote",
-      "duration": "01:15",
-      "avatar": "/avatars/nisha.jpg",
-      "videoPoster": "/avatars/nisha.jpg",
-      "teaserTitle": "Teaser: How I Jumped into Staff Frontend Architect & UI Lead at Flipkart",
-      "skills": [
-        "React 19",
-        "Micro-Frontends",
-        "System Design"
-      ],
-      "bio": "Staff Architect at Flipkart leading core web checkout teams.",
-      "verifiedEmail": "@flipkart.com",
-      "isVerifiedEmployer": true,
-      "trajectory": {
-        "role3YearsAgo": "Senior Software Engineer",
-        "company3YearsAgo": "Mid-tier Technology Firm",
-        "salary3YearsAgo": "₹8 LPA",
-        "keyJumpSkills": [
-          "React 19",
-          "Micro-Frontends",
-          "System Design"
-        ],
-        "jumpStory": "Bridged core architecture and system design requirements to land role at Flipkart."
-      },
-      "availability": {
-        "days": [
-          "Wed",
-          "Sat",
-          "Sun"
-        ],
-        "timeSlots": [
-          "07:00 PM - 08:00 PM",
-          "08:30 PM - 09:30 PM"
-        ]
-      }
-    },
-    {
-      "id": "exp-1789471996037",
-      "name": "Nisha Kumari",
-      "role": "Staff Frontend Architect & UI Lead",
-      "company": "Flipkart",
-      "domain": "Full-Stack",
-      "experience": "6+ Years Exp.",
-      "rating": 5,
-      "reviewsCount": 1,
-      "sessionsCount": 0,
-      "price": 1299,
-      "location": "Bengaluru / Remote",
-      "duration": "01:15",
-      "avatar": "/avatars/nisha.jpg",
-      "videoPoster": "/avatars/nisha.jpg",
-      "teaserTitle": "Teaser: How I Jumped into Staff Frontend Architect & UI Lead at Flipkart",
-      "skills": [
-        "React 19",
-        "Micro-Frontends",
-        "System Design"
-      ],
-      "bio": "Staff Architect at Flipkart leading core web checkout teams.",
-      "verifiedEmail": "@flipkart.com",
-      "isVerifiedEmployer": true,
-      "trajectory": {
-        "role3YearsAgo": "Senior Software Engineer",
-        "company3YearsAgo": "Mid-tier Technology Firm",
-        "salary3YearsAgo": "₹8 LPA",
-        "keyJumpSkills": [
-          "React 19",
-          "Micro-Frontends",
-          "System Design"
-        ],
-        "jumpStory": "Bridged core architecture and system design requirements to land role at Flipkart."
-      },
-      "availability": {
-        "days": [
-          "Wed",
-          "Sat",
-          "Sun"
-        ],
-        "timeSlots": [
-          "07:00 PM - 08:00 PM",
-          "08:30 PM - 09:30 PM"
-        ]
-      }
-    },
-    {
-      "id": "exp-1789471905093",
-      "name": "Nisha Kumari",
-      "role": "Staff Frontend Architect & UI Lead",
-      "company": "Flipkart",
-      "domain": "Full-Stack",
-      "experience": "6+ Years Exp.",
-      "rating": 5,
-      "reviewsCount": 1,
-      "sessionsCount": 0,
-      "price": 1299,
-      "location": "Bengaluru / Remote",
-      "duration": "01:15",
-      "avatar": "/avatars/nisha.jpg",
-      "videoPoster": "/avatars/nisha.jpg",
-      "teaserTitle": "Teaser: How I Jumped into Staff Frontend Architect & UI Lead at Flipkart",
-      "skills": [
-        "React 19",
-        "Micro-Frontends",
-        "System Design"
-      ],
-      "bio": "Staff Architect at Flipkart leading core web checkout teams.",
-      "verifiedEmail": "@flipkart.com",
-      "isVerifiedEmployer": true,
-      "trajectory": {
-        "role3YearsAgo": "Senior Software Engineer",
-        "company3YearsAgo": "Mid-tier Technology Firm",
-        "salary3YearsAgo": "₹8 LPA",
-        "keyJumpSkills": [
-          "React 19",
-          "Micro-Frontends",
-          "System Design"
-        ],
-        "jumpStory": "Bridged core architecture and system design requirements to land role at Flipkart."
-      },
-      "availability": {
-        "days": [
-          "Wed",
-          "Sat",
-          "Sun"
-        ],
-        "timeSlots": [
-          "07:00 PM - 08:00 PM",
-          "08:30 PM - 09:30 PM"
-        ]
-      }
-    },
-    {
-      "id": "exp-1789471736759",
-      "name": "Nisha Kumari",
-      "role": "Staff Frontend Architect & UI Lead",
-      "company": "Flipkart",
-      "domain": "Full-Stack",
-      "experience": "6+ Years Exp.",
-      "rating": 5,
-      "reviewsCount": 1,
-      "sessionsCount": 0,
-      "price": 1299,
-      "location": "Bengaluru / Remote",
-      "duration": "01:15",
-      "avatar": "/avatars/nisha.jpg",
-      "videoPoster": "/avatars/nisha.jpg",
-      "teaserTitle": "Teaser: How I Jumped into Staff Frontend Architect & UI Lead at Flipkart",
-      "skills": [
-        "React 19",
-        "Micro-Frontends",
-        "System Design"
-      ],
-      "bio": "Staff Architect at Flipkart leading core web checkout teams.",
-      "verifiedEmail": "@flipkart.com",
-      "isVerifiedEmployer": true,
-      "trajectory": {
-        "role3YearsAgo": "Senior Software Engineer",
-        "company3YearsAgo": "Mid-tier Technology Firm",
-        "salary3YearsAgo": "₹8 LPA",
-        "keyJumpSkills": [
-          "React 19",
-          "Micro-Frontends",
-          "System Design"
-        ],
-        "jumpStory": "Bridged core architecture and system design requirements to land role at Flipkart."
-      },
-      "availability": {
-        "days": [
-          "Wed",
-          "Sat",
-          "Sun"
-        ],
-        "timeSlots": [
-          "07:00 PM - 08:00 PM",
-          "08:30 PM - 09:30 PM"
-        ]
-      }
-    },
-    {
       "id": "akash",
       "name": "Akash Jain",
       "role": "Lead Product Manager",
@@ -377,6 +95,104 @@
         ],
         "timeSlots": [
           "06:00 PM - 07:00 PM",
+          "08:00 PM - 09:00 PM"
+        ]
+      }
+    },
+    {
+      "id": "deepika-pm",
+      "name": "Deepika Sen",
+      "role": "Senior Technical Product Manager",
+      "company": "Google",
+      "domain": "Product Management",
+      "experience": "7+ Years Exp.",
+      "rating": 4.93,
+      "reviewsCount": 154,
+      "sessionsCount": 312,
+      "price": 1399,
+      "location": "Bengaluru, India",
+      "duration": "01:15",
+      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: Transitioning from Frontend Engineering to Google Technical Product Management",
+      "skills": [
+        "Technical Product Strategy",
+        "PRD & Discovery",
+        "API & Systems Design",
+        "Roadmapping",
+        "A/B Testing"
+      ],
+      "bio": "Senior Technical Product Manager at Google. I help frontend and full-stack developers transition into high-impact Product Management, master technical PRDs, and crack Google PM interviews.",
+      "verifiedEmail": "deepika.sen@google.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Senior Frontend Developer",
+        "company3YearsAgo": "TCS (Tata Consultancy Services)",
+        "salary3YearsAgo": "₹7.5 LPA",
+        "keyJumpSkills": [
+          "Technical PRDs",
+          "Product Strategy",
+          "System Architecture"
+        ],
+        "jumpStory": "Transitioned from 4 years as a Frontend Developer at TCS into high-scale developer platform Product Management at Google."
+      },
+      "availability": {
+        "days": [
+          "Tue",
+          "Thu",
+          "Sat"
+        ],
+        "timeSlots": [
+          "07:00 PM - 08:00 PM",
+          "08:30 PM - 09:30 PM"
+        ]
+      }
+    },
+    {
+      "id": "harsh-pm",
+      "name": "Harsh Vardhan",
+      "role": "Principal Product Manager",
+      "company": "Flipkart",
+      "domain": "Product Management",
+      "experience": "8+ Years Exp.",
+      "rating": 4.91,
+      "reviewsCount": 129,
+      "sessionsCount": 275,
+      "price": 1299,
+      "location": "Bengaluru, India",
+      "duration": "01:15",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: From SDE / Frontend Developer to Principal PM",
+      "skills": [
+        "Product Strategy",
+        "Growth Metrics",
+        "E-commerce Platforms",
+        "User Experience",
+        "Experimentation"
+      ],
+      "bio": "Principal Product Manager at Flipkart leading e-commerce checkout and discovery initiatives. I mentor software engineers making the leap to product leadership.",
+      "verifiedEmail": "harsh.v@flipkart.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Frontend Developer",
+        "company3YearsAgo": "Wipro",
+        "salary3YearsAgo": "₹6.8 LPA",
+        "keyJumpSkills": [
+          "Product Analytics",
+          "Feature Prioritization",
+          "User Research"
+        ],
+        "jumpStory": "Made the transition from Frontend Developer at Wipro to Associate PM, and rapidly climbed to Principal Product Manager at Flipkart."
+      },
+      "availability": {
+        "days": [
+          "Mon",
+          "Wed",
+          "Sat"
+        ],
+        "timeSlots": [
+          "06:30 PM - 07:30 PM",
           "08:00 PM - 09:00 PM"
         ]
       }
@@ -1126,6 +942,937 @@
       }
     },
     {
+      "id": "tanvi-oberoi",
+      "name": "Tanvi Oberoi",
+      "role": "Lead Frontend Engineer",
+      "company": "Meesho",
+      "domain": "Full-Stack",
+      "experience": "6+ Years Exp.",
+      "rating": 4.91,
+      "reviewsCount": 128,
+      "sessionsCount": 267,
+      "price": 999,
+      "location": "Bengaluru, India",
+      "duration": "01:12",
+      "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Lead Frontend Engineer at Meesho",
+      "skills": [
+        "React.js",
+        "TypeScript",
+        "Web Vitals",
+        "Micro-Frontends",
+        "Next.js"
+      ],
+      "bio": "Lead Frontend Engineer at Meesho. I mentor engineers making the jump into Full-Stack roles, with deep focus on React.js and Web Vitals.",
+      "verifiedEmail": "tanvi.o@meesho.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "React Developer",
+        "company3YearsAgo": "Infosys",
+        "salary3YearsAgo": "₹6.4 LPA",
+        "keyJumpSkills": [
+          "Web Vitals Performance",
+          "Micro-Frontends Architecture",
+          "Module Federation"
+        ],
+        "jumpStory": "Went from React Developer at Infosys to Lead Frontend Engineer at Meesho by mastering Web Vitals Performance and Micro-Frontends Architecture."
+      },
+      "availability": {
+        "days": [
+          "Mon",
+          "Wed",
+          "Sat"
+        ],
+        "timeSlots": [
+          "06:00 PM - 07:00 PM",
+          "07:30 PM - 08:30 PM"
+        ]
+      }
+    },
+    {
+      "id": "aditya-kulkarni",
+      "name": "Aditya Kulkarni",
+      "role": "Principal UI Engineer",
+      "company": "Flipkart",
+      "domain": "Full-Stack",
+      "experience": "8+ Years Exp.",
+      "rating": 4.93,
+      "reviewsCount": 149,
+      "sessionsCount": 302,
+      "price": 1199,
+      "location": "Bengaluru, India",
+      "duration": "01:15",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Principal UI Engineer at Flipkart",
+      "skills": [
+        "React.js",
+        "Redux Toolkit",
+        "Module Federation",
+        "Design Systems",
+        "TypeScript"
+      ],
+      "bio": "Principal UI Engineer at Flipkart. I mentor engineers making the jump into Full-Stack roles, with deep focus on React.js and Redux Toolkit.",
+      "verifiedEmail": "aditya.k@flipkart.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "UI Developer",
+        "company3YearsAgo": "Capgemini",
+        "salary3YearsAgo": "₹5.8 LPA",
+        "keyJumpSkills": [
+          "Design Systems at Scale",
+          "Module Federation",
+          "Web Vitals Performance"
+        ],
+        "jumpStory": "Went from UI Developer at Capgemini to Principal UI Engineer at Flipkart by mastering Design Systems at Scale and Module Federation."
+      },
+      "availability": {
+        "days": [
+          "Tue",
+          "Thu",
+          "Sun"
+        ],
+        "timeSlots": [
+          "02:00 PM - 03:00 PM",
+          "07:00 PM - 08:00 PM"
+        ]
+      }
+    },
+    {
+      "id": "riya-malhotra",
+      "name": "Riya Malhotra",
+      "role": "Staff Frontend Architect",
+      "company": "CRED",
+      "domain": "Full-Stack",
+      "experience": "7+ Years Exp.",
+      "rating": 4.9,
+      "reviewsCount": 133,
+      "sessionsCount": 288,
+      "price": 1099,
+      "location": "Bengaluru, India",
+      "duration": "01:14",
+      "avatar": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Staff Frontend Architect at CRED",
+      "skills": [
+        "React.js",
+        "Next.js",
+        "Micro-Frontends",
+        "Web Vitals",
+        "TypeScript"
+      ],
+      "bio": "Staff Frontend Architect at CRED. I mentor engineers making the jump into Full-Stack roles, with deep focus on React.js and Next.js.",
+      "verifiedEmail": "riya.m@cred.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Frontend Developer",
+        "company3YearsAgo": "Wipro",
+        "salary3YearsAgo": "₹5.5 LPA",
+        "keyJumpSkills": [
+          "Micro-Frontends Architecture",
+          "Web Vitals Performance",
+          "Module Federation"
+        ],
+        "jumpStory": "Went from Frontend Developer at Wipro to Staff Frontend Architect at CRED by mastering Micro-Frontends Architecture and Web Vitals Performance."
+      },
+      "availability": {
+        "days": [
+          "Mon",
+          "Thu",
+          "Sat"
+        ],
+        "timeSlots": [
+          "06:30 PM - 07:30 PM",
+          "08:00 PM - 09:00 PM"
+        ]
+      }
+    },
+    {
+      "id": "karthik-subramaniam",
+      "name": "Karthik Subramaniam",
+      "role": "Staff Backend Architect",
+      "company": "Amazon",
+      "domain": "Full-Stack",
+      "experience": "8+ Years Exp.",
+      "rating": 4.92,
+      "reviewsCount": 157,
+      "sessionsCount": 321,
+      "price": 1199,
+      "location": "Bengaluru, India",
+      "duration": "01:16",
+      "avatar": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Staff Backend Architect at Amazon",
+      "skills": [
+        "Java",
+        "Microservices",
+        "Distributed Systems",
+        "Kafka",
+        "REST APIs"
+      ],
+      "bio": "Staff Backend Architect at Amazon. I mentor engineers making the jump into Full-Stack roles, with deep focus on Java and Microservices.",
+      "verifiedEmail": "karthik.s@amazon.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Backend Developer",
+        "company3YearsAgo": "TCS",
+        "salary3YearsAgo": "₹6.8 LPA",
+        "keyJumpSkills": [
+          "Distributed Systems Design",
+          "Microservices Architecture",
+          "High-Throughput Messaging"
+        ],
+        "jumpStory": "Went from Backend Developer at TCS to Staff Backend Architect at Amazon by mastering Distributed Systems Design and Microservices Architecture."
+      },
+      "availability": {
+        "days": [
+          "Mon",
+          "Wed",
+          "Fri"
+        ],
+        "timeSlots": [
+          "06:00 PM - 07:00 PM",
+          "07:30 PM - 08:30 PM"
+        ]
+      }
+    },
+    {
+      "id": "neha-agarwal",
+      "name": "Neha Agarwal",
+      "role": "Principal Backend Engineer",
+      "company": "Swiggy",
+      "domain": "Full-Stack",
+      "experience": "7.5+ Years Exp.",
+      "rating": 4.89,
+      "reviewsCount": 142,
+      "sessionsCount": 279,
+      "price": 1099,
+      "location": "Bengaluru, India",
+      "duration": "01:13",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Principal Backend Engineer at Swiggy",
+      "skills": [
+        "Java",
+        "Spring Boot",
+        "Kafka",
+        "System Design",
+        "PostgreSQL"
+      ],
+      "bio": "Principal Backend Engineer at Swiggy. I mentor engineers making the jump into Full-Stack roles, with deep focus on Java and Spring Boot.",
+      "verifiedEmail": "neha.a@swiggy.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Java Developer",
+        "company3YearsAgo": "Infosys",
+        "salary3YearsAgo": "₹6.1 LPA",
+        "keyJumpSkills": [
+          "Large-Scale System Design",
+          "Kafka Streaming Pipelines",
+          "Distributed Caching"
+        ],
+        "jumpStory": "Went from Java Developer at Infosys to Principal Backend Engineer at Swiggy by mastering Large-Scale System Design and Kafka Streaming Pipelines."
+      },
+      "availability": {
+        "days": [
+          "Tue",
+          "Thu",
+          "Sat"
+        ],
+        "timeSlots": [
+          "07:00 PM - 08:00 PM",
+          "08:30 PM - 09:30 PM"
+        ]
+      }
+    },
+    {
+      "id": "manoj-tiwari",
+      "name": "Manoj Tiwari",
+      "role": "Staff Backend Architect",
+      "company": "Razorpay (FinTech)",
+      "domain": "Full-Stack",
+      "experience": "8+ Years Exp.",
+      "rating": 4.91,
+      "reviewsCount": 138,
+      "sessionsCount": 296,
+      "price": 1099,
+      "location": "Bengaluru, India",
+      "duration": "01:14",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Staff Backend Architect at Razorpay",
+      "skills": [
+        "Java",
+        "Microservices",
+        "REST APIs",
+        "Distributed Systems",
+        "Redis"
+      ],
+      "bio": "Staff Backend Architect at Razorpay (FinTech). I mentor engineers making the jump into Full-Stack roles, with deep focus on Java and Microservices.",
+      "verifiedEmail": "manoj.t@razorpay.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Backend Engineer",
+        "company3YearsAgo": "Cognizant",
+        "salary3YearsAgo": "₹7.2 LPA",
+        "keyJumpSkills": [
+          "Payment Systems Architecture",
+          "Microservices Architecture",
+          "Distributed Systems Design"
+        ],
+        "jumpStory": "Went from Backend Engineer at Cognizant to Staff Backend Architect at Razorpay (FinTech) by mastering Payment Systems Architecture and Microservices Architecture."
+      },
+      "availability": {
+        "days": [
+          "Wed",
+          "Sat",
+          "Sun"
+        ],
+        "timeSlots": [
+          "06:00 PM - 07:00 PM",
+          "07:30 PM - 08:30 PM"
+        ]
+      }
+    },
+    {
+      "id": "esha-bhattacharya",
+      "name": "Esha Bhattacharya",
+      "role": "Principal Backend Engineer",
+      "company": "PhonePe",
+      "domain": "Full-Stack",
+      "experience": "7+ Years Exp.",
+      "rating": 4.94,
+      "reviewsCount": 161,
+      "sessionsCount": 334,
+      "price": 1199,
+      "location": "Pune, India",
+      "duration": "01:15",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Principal Backend Engineer at PhonePe",
+      "skills": [
+        "Java",
+        "Spring Boot",
+        "Kafka",
+        "Microservices",
+        "System Design"
+      ],
+      "bio": "Principal Backend Engineer at PhonePe. I mentor engineers making the jump into Full-Stack roles, with deep focus on Java and Spring Boot.",
+      "verifiedEmail": "esha.b@phonepe.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Java Developer",
+        "company3YearsAgo": "HCL Technologies",
+        "salary3YearsAgo": "₹6.6 LPA",
+        "keyJumpSkills": [
+          "Distributed Systems Design",
+          "High-Throughput Messaging",
+          "Microservices Architecture"
+        ],
+        "jumpStory": "Went from Java Developer at HCL Technologies to Principal Backend Engineer at PhonePe by mastering Distributed Systems Design and High-Throughput Messaging."
+      },
+      "availability": {
+        "days": [
+          "Mon",
+          "Thu",
+          "Sun"
+        ],
+        "timeSlots": [
+          "02:00 PM - 03:00 PM",
+          "08:00 PM - 09:00 PM"
+        ]
+      }
+    },
+    {
+      "id": "rohit-sinha",
+      "name": "Rohit Sinha",
+      "role": "Staff Mobile Architect",
+      "company": "Swiggy",
+      "domain": "Full-Stack",
+      "experience": "8+ Years Exp.",
+      "rating": 4.9,
+      "reviewsCount": 145,
+      "sessionsCount": 265,
+      "price": 1099,
+      "location": "Bengaluru, India",
+      "duration": "01:14",
+      "avatar": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Staff Mobile Architect at Swiggy",
+      "skills": [
+        "Kotlin",
+        "Android Jetpack",
+        "Mobile Performance",
+        "CI/CD for Mobile",
+        "Java"
+      ],
+      "bio": "Staff Mobile Architect at Swiggy. I mentor engineers making the jump into Full-Stack roles, with deep focus on Kotlin and Android Jetpack.",
+      "verifiedEmail": "rohit.s@swiggy.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Android Developer",
+        "company3YearsAgo": "Tech Mahindra",
+        "salary3YearsAgo": "₹6.3 LPA",
+        "keyJumpSkills": [
+          "Modular App Architecture",
+          "Mobile Performance Tuning",
+          "Offline-First Sync"
+        ],
+        "jumpStory": "Went from Android Developer at Tech Mahindra to Staff Mobile Architect at Swiggy by mastering Modular App Architecture and Mobile Performance Tuning."
+      },
+      "availability": {
+        "days": [
+          "Tue",
+          "Fri",
+          "Sun"
+        ],
+        "timeSlots": [
+          "06:30 PM - 07:30 PM",
+          "08:00 PM - 09:00 PM"
+        ]
+      }
+    },
+    {
+      "id": "fatima-shaikh",
+      "name": "Fatima Shaikh",
+      "role": "Lead Mobile Engineer",
+      "company": "Meesho",
+      "domain": "Full-Stack",
+      "experience": "6.5+ Years Exp.",
+      "rating": 4.87,
+      "reviewsCount": 121,
+      "sessionsCount": 214,
+      "price": 999,
+      "location": "Bengaluru, India",
+      "duration": "01:11",
+      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Lead Mobile Engineer at Meesho",
+      "skills": [
+        "Swift",
+        "iOS Architecture",
+        "Mobile Performance",
+        "Combine",
+        "Objective-C"
+      ],
+      "bio": "Lead Mobile Engineer at Meesho. I mentor engineers making the jump into Full-Stack roles, with deep focus on Swift and iOS Architecture.",
+      "verifiedEmail": "fatima.s@meesho.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "iOS Developer",
+        "company3YearsAgo": "Capgemini",
+        "salary3YearsAgo": "₹5.9 LPA",
+        "keyJumpSkills": [
+          "Modular App Architecture",
+          "Mobile Performance Tuning",
+          "CI/CD for Mobile"
+        ],
+        "jumpStory": "Went from iOS Developer at Capgemini to Lead Mobile Engineer at Meesho by mastering Modular App Architecture and Mobile Performance Tuning."
+      },
+      "availability": {
+        "days": [
+          "Mon",
+          "Wed",
+          "Sat"
+        ],
+        "timeSlots": [
+          "02:00 PM - 03:00 PM",
+          "07:00 PM - 08:00 PM"
+        ]
+      }
+    },
+    {
+      "id": "gaurav-mehra",
+      "name": "Gaurav Mehra",
+      "role": "Staff Mobile Architect",
+      "company": "Flipkart",
+      "domain": "Full-Stack",
+      "experience": "7.5+ Years Exp.",
+      "rating": 4.93,
+      "reviewsCount": 168,
+      "sessionsCount": 301,
+      "price": 1199,
+      "location": "Bengaluru, India",
+      "duration": "01:16",
+      "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Staff Mobile Architect at Flipkart",
+      "skills": [
+        "Kotlin",
+        "Swift",
+        "Mobile Performance",
+        "Offline-First Sync",
+        "CI/CD for Mobile"
+      ],
+      "bio": "Staff Mobile Architect at Flipkart. I mentor engineers making the jump into Full-Stack roles, with deep focus on Kotlin and Swift.",
+      "verifiedEmail": "gaurav.m@flipkart.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Mobile Engineer",
+        "company3YearsAgo": "LTIMindtree",
+        "salary3YearsAgo": "₹6.7 LPA",
+        "keyJumpSkills": [
+          "Offline-First Sync",
+          "Modular App Architecture",
+          "Mobile Performance Tuning"
+        ],
+        "jumpStory": "Went from Mobile Engineer at LTIMindtree to Staff Mobile Architect at Flipkart by mastering Offline-First Sync and Modular App Architecture."
+      },
+      "availability": {
+        "days": [
+          "Tue",
+          "Thu",
+          "Sat"
+        ],
+        "timeSlots": [
+          "06:00 PM - 07:00 PM",
+          "07:30 PM - 08:30 PM"
+        ]
+      }
+    },
+    {
+      "id": "sakshi-pillai",
+      "name": "Sakshi Pillai",
+      "role": "Lead Mobile Engineer",
+      "company": "CRED",
+      "domain": "Full-Stack",
+      "experience": "6+ Years Exp.",
+      "rating": 4.88,
+      "reviewsCount": 116,
+      "sessionsCount": 198,
+      "price": 999,
+      "location": "Bengaluru, India",
+      "duration": "01:10",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Lead Mobile Engineer at CRED",
+      "skills": [
+        "Kotlin",
+        "Android Jetpack",
+        "Mobile Performance",
+        "CI/CD for Mobile",
+        "Java"
+      ],
+      "bio": "Lead Mobile Engineer at CRED. I mentor engineers making the jump into Full-Stack roles, with deep focus on Kotlin and Android Jetpack.",
+      "verifiedEmail": "sakshi.p@cred.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Android Developer",
+        "company3YearsAgo": "Wipro",
+        "salary3YearsAgo": "₹5.6 LPA",
+        "keyJumpSkills": [
+          "Mobile Performance Tuning",
+          "Modular App Architecture",
+          "CI/CD for Mobile"
+        ],
+        "jumpStory": "Went from Android Developer at Wipro to Lead Mobile Engineer at CRED by mastering Mobile Performance Tuning and Modular App Architecture."
+      },
+      "availability": {
+        "days": [
+          "Wed",
+          "Fri",
+          "Sun"
+        ],
+        "timeSlots": [
+          "06:30 PM - 07:30 PM",
+          "08:00 PM - 09:00 PM"
+        ]
+      }
+    },
+    {
+      "id": "vishal-nair",
+      "name": "Vishal Nair",
+      "role": "Staff QA Architect",
+      "company": "Razorpay (FinTech)",
+      "domain": "Full-Stack",
+      "experience": "8+ Years Exp.",
+      "rating": 4.89,
+      "reviewsCount": 137,
+      "sessionsCount": 251,
+      "price": 999,
+      "location": "Bengaluru, India",
+      "duration": "01:12",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Staff QA Architect at Razorpay",
+      "skills": [
+        "Test Automation Frameworks",
+        "Selenium",
+        "API Testing",
+        "CI/CD Testing",
+        "Playwright"
+      ],
+      "bio": "Staff QA Architect at Razorpay (FinTech). I mentor engineers making the jump into Full-Stack roles, with deep focus on Test Automation Frameworks and Selenium.",
+      "verifiedEmail": "vishal.n@razorpay.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "QA Engineer",
+        "company3YearsAgo": "Infosys",
+        "salary3YearsAgo": "₹5.7 LPA",
+        "keyJumpSkills": [
+          "Test Automation Framework Design",
+          "CI/CD Test Pipelines",
+          "API Contract Testing"
+        ],
+        "jumpStory": "Went from QA Engineer at Infosys to Staff QA Architect at Razorpay (FinTech) by mastering Test Automation Framework Design and CI/CD Test Pipelines."
+      },
+      "availability": {
+        "days": [
+          "Mon",
+          "Wed",
+          "Fri"
+        ],
+        "timeSlots": [
+          "06:00 PM - 07:00 PM",
+          "07:30 PM - 08:30 PM"
+        ]
+      }
+    },
+    {
+      "id": "priyanka-dutta",
+      "name": "Priyanka Dutta",
+      "role": "Lead SDET",
+      "company": "Flipkart",
+      "domain": "Full-Stack",
+      "experience": "7+ Years Exp.",
+      "rating": 4.92,
+      "reviewsCount": 154,
+      "sessionsCount": 289,
+      "price": 1099,
+      "location": "Bengaluru, India",
+      "duration": "01:13",
+      "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Lead SDET at Flipkart",
+      "skills": [
+        "Cypress",
+        "Test Automation Frameworks",
+        "API Testing",
+        "Playwright",
+        "CI/CD Testing"
+      ],
+      "bio": "Lead SDET at Flipkart. I mentor engineers making the jump into Full-Stack roles, with deep focus on Cypress and Test Automation Frameworks.",
+      "verifiedEmail": "priyanka.d@flipkart.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "SDET",
+        "company3YearsAgo": "Cognizant",
+        "salary3YearsAgo": "₹6.9 LPA",
+        "keyJumpSkills": [
+          "Test Automation Framework Design",
+          "API Contract Testing",
+          "CI/CD Test Pipelines"
+        ],
+        "jumpStory": "Went from SDET at Cognizant to Lead SDET at Flipkart by mastering Test Automation Framework Design and API Contract Testing."
+      },
+      "availability": {
+        "days": [
+          "Tue",
+          "Thu",
+          "Sun"
+        ],
+        "timeSlots": [
+          "02:00 PM - 03:00 PM",
+          "07:00 PM - 08:00 PM"
+        ]
+      }
+    },
+    {
+      "id": "sameer-khan",
+      "name": "Sameer Khan",
+      "role": "Staff QA Architect",
+      "company": "Meesho",
+      "domain": "Full-Stack",
+      "experience": "7.5+ Years Exp.",
+      "rating": 4.86,
+      "reviewsCount": 119,
+      "sessionsCount": 233,
+      "price": 999,
+      "location": "Bengaluru, India",
+      "duration": "01:11",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Staff QA Architect at Meesho",
+      "skills": [
+        "Selenium",
+        "Test Automation Frameworks",
+        "API Testing",
+        "CI/CD Testing",
+        "Performance Testing"
+      ],
+      "bio": "Staff QA Architect at Meesho. I mentor engineers making the jump into Full-Stack roles, with deep focus on Selenium and Test Automation Frameworks.",
+      "verifiedEmail": "sameer.k@meesho.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Test Engineer",
+        "company3YearsAgo": "TCS",
+        "salary3YearsAgo": "₹5.4 LPA",
+        "keyJumpSkills": [
+          "Test Automation Framework Design",
+          "Performance Test Engineering",
+          "CI/CD Test Pipelines"
+        ],
+        "jumpStory": "Went from Test Engineer at TCS to Staff QA Architect at Meesho by mastering Test Automation Framework Design and Performance Test Engineering."
+      },
+      "availability": {
+        "days": [
+          "Mon",
+          "Thu",
+          "Sat"
+        ],
+        "timeSlots": [
+          "06:30 PM - 07:30 PM",
+          "08:00 PM - 09:00 PM"
+        ]
+      }
+    },
+    {
+      "id": "ritu-saxena",
+      "name": "Ritu Saxena",
+      "role": "Lead SDET",
+      "company": "Swiggy",
+      "domain": "Full-Stack",
+      "experience": "6.5+ Years Exp.",
+      "rating": 4.9,
+      "reviewsCount": 126,
+      "sessionsCount": 217,
+      "price": 999,
+      "location": "Bengaluru, India",
+      "duration": "01:10",
+      "avatar": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Lead SDET at Swiggy",
+      "skills": [
+        "Playwright",
+        "Test Automation Frameworks",
+        "API Testing",
+        "CI/CD Testing",
+        "Cypress"
+      ],
+      "bio": "Lead SDET at Swiggy. I mentor engineers making the jump into Full-Stack roles, with deep focus on Playwright and Test Automation Frameworks.",
+      "verifiedEmail": "ritu.s@swiggy.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "SDET",
+        "company3YearsAgo": "HCL Technologies",
+        "salary3YearsAgo": "₹6.2 LPA",
+        "keyJumpSkills": [
+          "Test Automation Framework Design",
+          "CI/CD Test Pipelines",
+          "API Contract Testing"
+        ],
+        "jumpStory": "Went from SDET at HCL Technologies to Lead SDET at Swiggy by mastering Test Automation Framework Design and CI/CD Test Pipelines."
+      },
+      "availability": {
+        "days": [
+          "Wed",
+          "Sat",
+          "Sun"
+        ],
+        "timeSlots": [
+          "02:00 PM - 03:00 PM",
+          "08:00 PM - 09:00 PM"
+        ]
+      }
+    },
+    {
+      "id": "arvind-menon",
+      "name": "Arvind Menon",
+      "role": "Staff DevOps Architect",
+      "company": "PhonePe",
+      "domain": "Full-Stack",
+      "experience": "8+ Years Exp.",
+      "rating": 4.93,
+      "reviewsCount": 159,
+      "sessionsCount": 312,
+      "price": 1199,
+      "location": "Pune, India",
+      "duration": "01:15",
+      "avatar": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Staff DevOps Architect at PhonePe",
+      "skills": [
+        "Kubernetes",
+        "Terraform",
+        "AWS",
+        "CI/CD Pipelines",
+        "Docker"
+      ],
+      "bio": "Staff DevOps Architect at PhonePe. I mentor engineers making the jump into Full-Stack roles, with deep focus on Kubernetes and Terraform.",
+      "verifiedEmail": "arvind.m@phonepe.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "DevOps Engineer",
+        "company3YearsAgo": "Wipro",
+        "salary3YearsAgo": "₹6.9 LPA",
+        "keyJumpSkills": [
+          "Kubernetes Orchestration",
+          "Infrastructure as Code",
+          "CI/CD Pipeline Design"
+        ],
+        "jumpStory": "Went from DevOps Engineer at Wipro to Staff DevOps Architect at PhonePe by mastering Kubernetes Orchestration and Infrastructure as Code."
+      },
+      "availability": {
+        "days": [
+          "Mon",
+          "Wed",
+          "Fri"
+        ],
+        "timeSlots": [
+          "06:00 PM - 07:00 PM",
+          "07:30 PM - 08:30 PM"
+        ]
+      }
+    },
+    {
+      "id": "swati-rane",
+      "name": "Swati Rane",
+      "role": "Principal SRE",
+      "company": "CRED",
+      "domain": "Full-Stack",
+      "experience": "7.5+ Years Exp.",
+      "rating": 4.9,
+      "reviewsCount": 144,
+      "sessionsCount": 276,
+      "price": 1099,
+      "location": "Bengaluru, India",
+      "duration": "01:13",
+      "avatar": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Principal SRE at CRED",
+      "skills": [
+        "Site Reliability Engineering",
+        "Kubernetes",
+        "Observability",
+        "AWS",
+        "Incident Response"
+      ],
+      "bio": "Principal SRE at CRED. I mentor engineers making the jump into Full-Stack roles, with deep focus on Site Reliability Engineering and Kubernetes.",
+      "verifiedEmail": "swati.r@cred.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Site Reliability Engineer",
+        "company3YearsAgo": "Tech Mahindra",
+        "salary3YearsAgo": "₹7.1 LPA",
+        "keyJumpSkills": [
+          "Observability at Scale",
+          "Kubernetes Orchestration",
+          "Incident Response Automation"
+        ],
+        "jumpStory": "Went from Site Reliability Engineer at Tech Mahindra to Principal SRE at CRED by mastering Observability at Scale and Kubernetes Orchestration."
+      },
+      "availability": {
+        "days": [
+          "Tue",
+          "Thu",
+          "Sat"
+        ],
+        "timeSlots": [
+          "07:00 PM - 08:00 PM",
+          "08:30 PM - 09:30 PM"
+        ]
+      }
+    },
+    {
+      "id": "yogesh-kulkarni",
+      "name": "Yogesh Kulkarni",
+      "role": "Staff DevOps Architect",
+      "company": "Razorpay (FinTech)",
+      "domain": "Full-Stack",
+      "experience": "7+ Years Exp.",
+      "rating": 4.88,
+      "reviewsCount": 131,
+      "sessionsCount": 244,
+      "price": 1099,
+      "location": "Bengaluru, India",
+      "duration": "01:12",
+      "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Staff DevOps Architect at Razorpay",
+      "skills": [
+        "Terraform",
+        "Kubernetes",
+        "AWS",
+        "CI/CD Pipelines",
+        "Monitoring"
+      ],
+      "bio": "Staff DevOps Architect at Razorpay (FinTech). I mentor engineers making the jump into Full-Stack roles, with deep focus on Terraform and Kubernetes.",
+      "verifiedEmail": "yogesh.k@razorpay.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Infra Engineer",
+        "company3YearsAgo": "LTIMindtree",
+        "salary3YearsAgo": "₹6.5 LPA",
+        "keyJumpSkills": [
+          "Infrastructure as Code",
+          "Kubernetes Orchestration",
+          "CI/CD Pipeline Design"
+        ],
+        "jumpStory": "Went from Infra Engineer at LTIMindtree to Staff DevOps Architect at Razorpay (FinTech) by mastering Infrastructure as Code and Kubernetes Orchestration."
+      },
+      "availability": {
+        "days": [
+          "Mon",
+          "Thu",
+          "Sun"
+        ],
+        "timeSlots": [
+          "06:30 PM - 07:30 PM",
+          "08:00 PM - 09:00 PM"
+        ]
+      }
+    },
+    {
+      "id": "meenal-joshi",
+      "name": "Meenal Joshi",
+      "role": "Principal SRE",
+      "company": "Zomato",
+      "domain": "Full-Stack",
+      "experience": "8+ Years Exp.",
+      "rating": 4.95,
+      "reviewsCount": 172,
+      "sessionsCount": 340,
+      "price": 1199,
+      "location": "Pune, India",
+      "duration": "01:16",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Principal SRE at Zomato",
+      "skills": [
+        "Kubernetes",
+        "Site Reliability Engineering",
+        "Terraform",
+        "Observability",
+        "AWS"
+      ],
+      "bio": "Principal SRE at Zomato. I mentor engineers making the jump into Full-Stack roles, with deep focus on Kubernetes and Site Reliability Engineering.",
+      "verifiedEmail": "meenal.j@zomato.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "DevOps Engineer",
+        "company3YearsAgo": "Capgemini",
+        "salary3YearsAgo": "₹7.4 LPA",
+        "keyJumpSkills": [
+          "Observability at Scale",
+          "Infrastructure as Code",
+          "Kubernetes Orchestration"
+        ],
+        "jumpStory": "Went from DevOps Engineer at Capgemini to Principal SRE at Zomato by mastering Observability at Scale and Infrastructure as Code."
+      },
+      "availability": {
+        "days": [
+          "Wed",
+          "Sat",
+          "Sun"
+        ],
+        "timeSlots": [
+          "06:00 PM - 07:00 PM",
+          "07:30 PM - 08:30 PM"
+        ]
+      }
+    },
+    {
       "id": "deepak",
       "name": "Deepak Patel",
       "role": "Senior Data Scientist & AI Lead",
@@ -1735,10 +2482,10 @@
       "sessionsCount": 219,
       "price": 999,
       "location": "Mumbai, India",
-      "duration": "01:00",
+      "duration": "01:20",
       "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
       "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
-      "teaserTitle": "Mastering System Design for Tier-1 Tech",
+      "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at NVIDIA",
       "skills": [
         "Vector Search",
         "PyTorch",
@@ -1769,6 +2516,302 @@
         "timeSlots": [
           "02:00 PM - 03:00 PM",
           "08:00 PM - 09:00 PM"
+        ]
+      }
+    },
+    {
+      "id": "kunal-verma",
+      "name": "Kunal Verma",
+      "role": "Senior Data Scientist & AI Lead",
+      "company": "Flipkart",
+      "domain": "AI/ML",
+      "experience": "7+ Years Exp.",
+      "rating": 4.91,
+      "reviewsCount": 152,
+      "sessionsCount": 286,
+      "price": 1099,
+      "location": "Bengaluru, India",
+      "duration": "01:14",
+      "avatar": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at Flipkart",
+      "skills": [
+        "SQL",
+        "Python",
+        "Statistical Modeling",
+        "MLOps",
+        "Vector Search"
+      ],
+      "bio": "Senior Data Scientist & AI Lead at Flipkart. I mentor engineers making the jump into AI/ML roles, with deep focus on SQL and Statistical Modeling.",
+      "verifiedEmail": "kunal.v@flipkart.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Data Analyst",
+        "company3YearsAgo": "Mu Sigma",
+        "salary3YearsAgo": "₹5.6 LPA",
+        "keyJumpSkills": [
+          "Statistical Model Deployment",
+          "Vector Search (Pinecone)",
+          "Distributed Model Training"
+        ],
+        "jumpStory": "Went from Data Analyst at Mu Sigma to Senior Data Scientist & AI Lead at Flipkart by mastering Statistical Model Deployment and Vector Search (Pinecone)."
+      },
+      "availability": {
+        "days": [
+          "Mon",
+          "Wed",
+          "Sat"
+        ],
+        "timeSlots": [
+          "06:00 PM - 07:00 PM",
+          "07:30 PM - 08:30 PM"
+        ]
+      }
+    },
+    {
+      "id": "rohit-pm-genai",
+      "name": "Rohit Malhotra",
+      "role": "Staff GenAI Product Engineer",
+      "company": "Google",
+      "domain": "AI/ML",
+      "experience": "8+ Years Exp.",
+      "rating": 4.93,
+      "reviewsCount": 134,
+      "sessionsCount": 251,
+      "price": 1399,
+      "location": "Bengaluru, India",
+      "duration": "01:15",
+      "avatar": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: How I Went from Product Manager to Staff GenAI Product Engineer at Google",
+      "skills": [
+        "LLM Product Strategy",
+        "Prompt Engineering",
+        "RAG Systems",
+        "Python",
+        "Stakeholder Mgmt"
+      ],
+      "bio": "Staff GenAI Product Engineer at Google. I guide Product Managers making the exact jump I made — from managing roadmaps to shipping GenAI features hands-on.",
+      "verifiedEmail": "rohit.m@google.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Product Manager",
+        "company3YearsAgo": "TCS",
+        "salary3YearsAgo": "₹9 LPA",
+        "keyJumpSkills": [
+          "Prompt Engineering",
+          "LLM Evaluation",
+          "RAG Systems"
+        ],
+        "jumpStory": "Went from Product Manager at TCS to Staff GenAI Product Engineer at Google by pairing my product intuition with hands-on LLM Evaluation and RAG Systems skills."
+      },
+      "availability": {
+        "days": [
+          "Mon",
+          "Thu",
+          "Sun"
+        ],
+        "timeSlots": [
+          "07:00 PM - 08:00 PM",
+          "09:00 PM - 10:00 PM"
+        ]
+      }
+    },
+    {
+      "id": "ananya-pm-ml",
+      "name": "Ananya Krishnan",
+      "role": "Lead GenAI Applications Architect",
+      "company": "Microsoft",
+      "domain": "AI/ML",
+      "experience": "9+ Years Exp.",
+      "rating": 4.9,
+      "reviewsCount": 108,
+      "sessionsCount": 219,
+      "price": 1299,
+      "location": "Bengaluru, India",
+      "duration": "01:15",
+      "avatar": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: My Jump from Senior Product Manager to Lead GenAI Applications Architect",
+      "skills": [
+        "GenAI Solution Architecture",
+        "LLM Fine-Tuning",
+        "Product Discovery",
+        "Python",
+        "Vector Databases"
+      ],
+      "bio": "Lead GenAI Applications Architect at Microsoft. I mentor Product Managers moving into hands-on GenAI engineering roles.",
+      "verifiedEmail": "ananya.k@microsoft.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Senior Product Manager",
+        "company3YearsAgo": "Infosys",
+        "salary3YearsAgo": "₹11 LPA",
+        "keyJumpSkills": [
+          "LLM Fine-Tuning",
+          "Vector Databases",
+          "GenAI Solution Architecture"
+        ],
+        "jumpStory": "Went from Senior Product Manager at Infosys to Lead GenAI Applications Architect at Microsoft by building hands-on LLM Fine-Tuning and GenAI Solution Architecture depth."
+      },
+      "availability": {
+        "days": [
+          "Tue",
+          "Fri",
+          "Sat"
+        ],
+        "timeSlots": [
+          "08:00 PM - 09:00 PM",
+          "10:00 AM - 11:00 AM"
+        ]
+      }
+    },
+    {
+      "id": "naveen-ai",
+      "name": "Naveen Chandran",
+      "role": "Staff GenAI & UI Platform Architect",
+      "company": "Google",
+      "domain": "AI/ML",
+      "experience": "8+ Years Exp.",
+      "rating": 4.96,
+      "reviewsCount": 162,
+      "sessionsCount": 340,
+      "price": 1399,
+      "location": "Bengaluru, India",
+      "duration": "01:15",
+      "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: From Frontend Developer to Staff GenAI Platform Architect at Google",
+      "skills": [
+        "Generative AI",
+        "LLMs",
+        "LangChain",
+        "React.js",
+        "Vector Search",
+        "Python"
+      ],
+      "bio": "Staff GenAI & UI Platform Architect at Google. I transitioned from frontend engineering at TCS to building generative AI interfaces, streaming LLM systems, and enterprise copilot frameworks at Google.",
+      "verifiedEmail": "naveen.c@google.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Senior Frontend Developer",
+        "company3YearsAgo": "TCS (Tata Consultancy Services)",
+        "salary3YearsAgo": "₹7.2 LPA",
+        "keyJumpSkills": [
+          "LangChain & Vector Search",
+          "LLM Streaming Architecture",
+          "Python AI Microservices"
+        ],
+        "jumpStory": "Transitioned from 4 years as a Senior Frontend Developer at TCS into spearheading generative AI platforms and multi-modal copilot interfaces at Google."
+      },
+      "availability": {
+        "days": [
+          "Tue",
+          "Thu",
+          "Sun"
+        ],
+        "timeSlots": [
+          "07:30 PM - 08:30 PM",
+          "09:00 PM - 10:00 PM"
+        ]
+      }
+    },
+    {
+      "id": "pooja-ai",
+      "name": "Pooja Hegde",
+      "role": "Senior AI Application Engineer",
+      "company": "Microsoft",
+      "domain": "AI/ML",
+      "experience": "7+ Years Exp.",
+      "rating": 4.92,
+      "reviewsCount": 135,
+      "sessionsCount": 280,
+      "price": 1299,
+      "location": "Hyderabad, India",
+      "duration": "01:15",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: Frontend Dev to AI App Engineer at Microsoft",
+      "skills": [
+        "Azure OpenAI",
+        "Semantic Kernel",
+        "RAG Systems",
+        "React",
+        "TypeScript",
+        "Prompt Engineering"
+      ],
+      "bio": "Senior AI Application Engineer at Microsoft. Guiding frontend and web developers on mastering LLM orchestration, RAG architectures, and breaking into top AI product teams.",
+      "verifiedEmail": "pooja.hegde@microsoft.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Frontend Developer",
+        "company3YearsAgo": "Infosys",
+        "salary3YearsAgo": "₹6.5 LPA",
+        "keyJumpSkills": [
+          "Azure OpenAI Services",
+          "RAG Architectures",
+          "Prompt Engineering"
+        ],
+        "jumpStory": "Transitioned from frontend web development at Infosys into building enterprise Copilot and RAG applications at Microsoft."
+      },
+      "availability": {
+        "days": [
+          "Mon",
+          "Wed",
+          "Sat"
+        ],
+        "timeSlots": [
+          "07:00 PM - 08:00 PM",
+          "08:30 PM - 09:30 PM"
+        ]
+      }
+    },
+    {
+      "id": "vikas-ai",
+      "name": "Vikas Sharma",
+      "role": "Lead Machine Learning Applications Engineer",
+      "company": "Google",
+      "domain": "AI/ML",
+      "experience": "8+ Years Exp.",
+      "rating": 4.94,
+      "reviewsCount": 148,
+      "sessionsCount": 310,
+      "price": 1399,
+      "location": "Bengaluru, India",
+      "duration": "01:20",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: Full-Stack to ML Applications Engineer at Google",
+      "skills": [
+        "LLM Fine-Tuning",
+        "PyTorch",
+        "TensorFlow Serving",
+        "Full-Stack Web",
+        "Kubernetes"
+      ],
+      "bio": "Lead ML Applications Engineer at Google. I help full-stack and web engineers build deep machine learning competencies and successfully crack tier-1 ML platform loops.",
+      "verifiedEmail": "vikas.sharma@google.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Full-Stack Developer",
+        "company3YearsAgo": "TCS (Tata Consultancy Services)",
+        "salary3YearsAgo": "₹7.8 LPA",
+        "keyJumpSkills": [
+          "ML Inference Pipelines",
+          "Model Fine-Tuning",
+          "Distributed Systems"
+        ],
+        "jumpStory": "Transitioned from Full-Stack developer at TCS to leading high-throughput ML inference and generative applications at Google."
+      },
+      "availability": {
+        "days": [
+          "Wed",
+          "Fri",
+          "Sun"
+        ],
+        "timeSlots": [
+          "08:00 PM - 09:00 PM",
+          "09:30 PM - 10:30 PM"
         ]
       }
     },
@@ -2368,6 +3411,105 @@
       }
     },
     {
+      "id": "siddharth-semi",
+      "name": "Siddharth Varman",
+      "role": "Staff Silicon Systems & Diagnostics Architect",
+      "company": "Qualcomm",
+      "domain": "Semiconductor",
+      "experience": "8+ Years Exp.",
+      "rating": 4.95,
+      "reviewsCount": 144,
+      "sessionsCount": 310,
+      "price": 1399,
+      "location": "Bengaluru, India",
+      "duration": "01:15",
+      "avatar": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: From IT Services Software Engineer to Qualcomm Silicon Architect",
+      "skills": [
+        "Hardware Diagnostics",
+        "C++",
+        "SystemVerilog",
+        "Device Drivers",
+        "Post-Silicon Validation",
+        "SoC Bringup"
+      ],
+      "bio": "Staff Silicon Systems Architect at Qualcomm. Transitioned from enterprise software at TCS into post-silicon diagnostics and hardware validation pipelines for Snapdragon chipsets.",
+      "verifiedEmail": "siddharth.v@qualcomm.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Software Engineer",
+        "company3YearsAgo": "TCS (Tata Consultancy Services)",
+        "salary3YearsAgo": "₹6.8 LPA",
+        "keyJumpSkills": [
+          "Hardware-Software Co-Design",
+          "Post-Silicon Validation",
+          "Low-Level C++ / Drivers"
+        ],
+        "jumpStory": "Transitioned from software development at TCS into post-silicon diagnostics and hardware validation pipelines for Snapdragon processors at Qualcomm."
+      },
+      "availability": {
+        "days": [
+          "Tue",
+          "Fri",
+          "Sun"
+        ],
+        "timeSlots": [
+          "07:00 PM - 08:00 PM",
+          "08:30 PM - 09:30 PM"
+        ]
+      }
+    },
+    {
+      "id": "priya-semi",
+      "name": "Priya Natarajan",
+      "role": "Lead Silicon UI & Hardware Tools Architect",
+      "company": "NVIDIA",
+      "domain": "Semiconductor",
+      "experience": "7+ Years Exp.",
+      "rating": 4.93,
+      "reviewsCount": 122,
+      "sessionsCount": 260,
+      "price": 1299,
+      "location": "Bengaluru, India",
+      "duration": "01:15",
+      "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: Frontend Dev to Semiconductor Tooling & Simulation at NVIDIA",
+      "skills": [
+        "Silicon Simulation Tools",
+        "React.js",
+        "C++ WebAssembly",
+        "Hardware Visualization",
+        "GPU Profiling"
+      ],
+      "bio": "Lead Silicon UI Architect at NVIDIA. I guide frontend and web engineers on leveraging UI/Wasm skills to enter top semiconductor firms building chip telemetry and simulation tooling.",
+      "verifiedEmail": "priya.n@nvidia.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Frontend Developer",
+        "company3YearsAgo": "Wipro",
+        "salary3YearsAgo": "₹6.2 LPA",
+        "keyJumpSkills": [
+          "Hardware Telemetry UIs",
+          "WebAssembly Silicon Simulators",
+          "GPU Profiling UIs"
+        ],
+        "jumpStory": "Transitioned from standard web development at Wipro into architecting complex chip telemetry and hardware emulation user interfaces at NVIDIA."
+      },
+      "availability": {
+        "days": [
+          "Mon",
+          "Wed",
+          "Sat"
+        ],
+        "timeSlots": [
+          "06:30 PM - 07:30 PM",
+          "08:00 PM - 09:00 PM"
+        ]
+      }
+    },
+    {
       "id": "divya2",
       "name": "Divya Saxena",
       "role": "Staff SOC & Threat Hunting Architect",
@@ -2960,6 +4102,105 @@
       }
     },
     {
+      "id": "aditya-cyber",
+      "name": "Aditya Singhania",
+      "role": "Lead Application Security & DevSecOps Engineer",
+      "company": "Palo Alto Networks",
+      "domain": "Cybersecurity",
+      "experience": "7.5+ Years Exp.",
+      "rating": 4.93,
+      "reviewsCount": 138,
+      "sessionsCount": 295,
+      "price": 1299,
+      "location": "Bengaluru, India",
+      "duration": "01:15",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: From Frontend / Web Developer to Lead AppSec Engineer",
+      "skills": [
+        "Application Security",
+        "OWASP Top 10",
+        "OAuth2 / OpenID Connect",
+        "DevSecOps",
+        "Cloud Security",
+        "Penetration Testing"
+      ],
+      "bio": "Lead AppSec Architect at Palo Alto Networks. I guide frontend and web engineers on transitioning into high-demand Application Security, secure SDLC, and zero-trust engineering roles.",
+      "verifiedEmail": "aditya.s@paloaltonetworks.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Frontend Developer",
+        "company3YearsAgo": "TCS (Tata Consultancy Services)",
+        "salary3YearsAgo": "₹6.5 LPA",
+        "keyJumpSkills": [
+          "Frontend Vulnerability Scanning",
+          "OAuth2 & Token Hardening",
+          "AppSec Pipeline Automation"
+        ],
+        "jumpStory": "Transitioned from securing frontend React codebases at TCS to leading enterprise application security and zero-trust web architectures at Palo Alto Networks."
+      },
+      "availability": {
+        "days": [
+          "Tue",
+          "Thu",
+          "Sat"
+        ],
+        "timeSlots": [
+          "07:00 PM - 08:00 PM",
+          "08:30 PM - 09:30 PM"
+        ]
+      }
+    },
+    {
+      "id": "monica-cyber",
+      "name": "Monica Deshmukh",
+      "role": "Staff Cloud Security Architect",
+      "company": "CrowdStrike",
+      "domain": "Cybersecurity",
+      "experience": "8+ Years Exp.",
+      "rating": 4.91,
+      "reviewsCount": 119,
+      "sessionsCount": 245,
+      "price": 1399,
+      "location": "Pune, India",
+      "duration": "01:15",
+      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80",
+      "videoPoster": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1000&auto=format&fit=crop&q=80",
+      "teaserTitle": "Teaser: SDE to Staff Cloud Security Architect at CrowdStrike",
+      "skills": [
+        "Cloud Security",
+        "AWS / GCP Security",
+        "Container & K8s Security",
+        "DevSecOps",
+        "Threat Modeling"
+      ],
+      "bio": "Staff Cloud Security Architect at CrowdStrike. Mentoring developers on cloud security architecture, container defense, and interview preparation for top cyber firms.",
+      "verifiedEmail": "monica.d@crowdstrike.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Software Engineer",
+        "company3YearsAgo": "Infosys",
+        "salary3YearsAgo": "₹7.0 LPA",
+        "keyJumpSkills": [
+          "Kubernetes Hardening",
+          "IAM Architecture",
+          "Cloud Threat Modeling"
+        ],
+        "jumpStory": "Transitioned from software development at Infosys into architecting cloud-native defense systems and container runtime security at CrowdStrike."
+      },
+      "availability": {
+        "days": [
+          "Mon",
+          "Wed",
+          "Fri"
+        ],
+        "timeSlots": [
+          "06:30 PM - 07:30 PM",
+          "08:00 PM - 09:00 PM"
+        ]
+      }
+    },
+    {
       "id": "aarav-mehta",
       "name": "Aarav Mehta",
       "role": "Senior Enterprise SaaS Sales Director",
@@ -3358,11 +4599,11 @@
       "name": "Prakash Mahto",
       "email": "prakash.mahto@example.com",
       "phone": "+91 98000 10000",
-      "headline": "Senior frontend developer",
-      "experienceYears": "4 yrs",
-      "location": "Gurgaon",
-      "profileScore": 100,
-      "jobSearchStatus": "Actively Looking For Jobs",
+      "headline": "java @ TCS ➔ Aspiring Full-stack Architecture @ google",
+      "experienceYears": "4 Years, 2 Months",
+      "location": "Bengaluru, India",
+      "profileScore": 92,
+      "jobSearchStatus": "Serving Notice Period (30 Days)",
       "summary": "Senior Frontend Developer with 4+ years of hands-on experience building high-traffic, resilient web applications at scale. Specializing in React 19, TypeScript, and micro-frontends.",
       "skills": [
         "Node.Js",
@@ -3373,30 +4614,13 @@
       "currentCtc": "5.5 Lacs",
       "targetCtc": "₹24L – ₹32L+",
       "targetRole": "Full-stack Architecture",
-      "targetCompany": "swiggy",
+      "targetCompany": "google",
       "pastCompany": "TCS",
-      "pastCompanyRole": "senior frontend devloper",
+      "pastCompanyRole": "java",
       "educationDegree": "B.Tech / M.Tech Computer Engineering",
       "educationCollege": "VTU Bengaluru",
       "domain": "Full-Stack",
       "badges": [
-        {
-          "id": "badge-1789473896333",
-          "title": "Verified Tier-1 Frontend Architecture",
-          "subtitle": "Verified by Rajat Pandey • Senior Data Scientist & AI Lead @ NVIDIA",
-          "verifierName": "Rajat Pandey",
-          "verifierRole": "Senior Data Scientist & AI Lead @ NVIDIA",
-          "verifierAvatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-          "verifierCompany": "NVIDIA",
-          "date": "Sep 15, 2026",
-          "skills": [
-            "React.js 19",
-            "Micro-Frontends",
-            "System Design"
-          ],
-          "status": "verified",
-          "verificationHash": "SHINE-PEER-MU2MJZBH-NVI"
-        },
         {
           "id": "badge-pm-1",
           "title": "Tier-1 Frontend & UI Architecture",
@@ -3433,17 +4657,10 @@
           "verificationHash": "SHINE-VERIFY-4491-8821-HN"
         }
       ],
-      "recruiterSearchMultiplier": 5,
+      "recruiterSearchMultiplier": 3.8,
       "currentCompany": "TCS",
-      "dreamCompany": "swiggy",
-      "resumeFileName": "resume (1).pdf",
-      "avatar": "/avatars/prakash.jpg",
-      "noticePeriod": "2+ Months",
-      "expectedCtc": "66-70 Lacs",
-      "currentlyNotWorking": false,
-      "designation": "Senior frontend developer",
-      "startDate": "Aug 2022",
-      "resumeLastUpdated": "Updated just now"
+      "dreamCompany": "google",
+      "resumeFileName": "resume (1).pdf"
     },
     {
       "id": "varun-venkataraman",
@@ -4058,487 +5275,6 @@
   ],
   "sessions": [
     {
-      "id": "sess-1789473896325",
-      "expertId": "rajat",
-      "expert": {
-        "id": "rajat",
-        "name": "Rajat Pandey",
-        "role": "Senior Data Scientist & AI Lead",
-        "company": "NVIDIA",
-        "domain": "AI/ML",
-        "experience": "7+ Years Exp.",
-        "rating": 4.95,
-        "reviewsCount": 187,
-        "sessionsCount": 219,
-        "price": 999,
-        "location": "Mumbai, India",
-        "duration": "01:00",
-        "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
-        "teaserTitle": "Mastering System Design for Tier-1 Tech",
-        "skills": [
-          "Vector Search",
-          "PyTorch",
-          "Deep Learning",
-          "MLOps",
-          "LangChain"
-        ],
-        "bio": "Senior Data Scientist & AI Lead at NVIDIA. I mentor engineers making the jump into AI/ML roles, with deep focus on Vector Search and PyTorch.",
-        "verifiedEmail": "rajat.p@nvidia.com",
-        "isVerifiedEmployer": true,
-        "trajectory": {
-          "role3YearsAgo": "Data Analyst",
-          "company3YearsAgo": "Infosys Digital",
-          "salary3YearsAgo": "₹8.4 LPA",
-          "keyJumpSkills": [
-            "Vector Search (Pinecone)",
-            "LLM Fine-Tuning",
-            "CUDA Kernel Optimization"
-          ],
-          "jumpStory": "Went from Data Analyst at Infosys Digital to Senior Data Scientist & AI Lead at NVIDIA by mastering Vector Search (Pinecone) and LLM Fine-Tuning."
-        },
-        "availability": {
-          "days": [
-            "Tue",
-            "Thu",
-            "Sat"
-          ],
-          "timeSlots": [
-            "02:00 PM - 03:00 PM",
-            "08:00 PM - 09:00 PM"
-          ]
-        }
-      },
-      "candidateId": "prakash",
-      "candidateName": "Prakash Mahto",
-      "candidateRole": "Senior Frontend Engineer",
-      "candidateAvatar": "/avatars/prakash.jpg",
-      "candidateGoal": "Transition to Staff Level at Tier-1 FinTech",
-      "candidateEmail": "prakash.mahto@gmail.com",
-      "date": "Monday, 14 Sep 2026",
-      "timeSlot": "07:00 PM - 08:00 PM",
-      "status": "completed",
-      "meetingLink": "https://meet.shine.com/room/peerpath-rajat-1789473896325",
-      "paymentId": "pay_shine_mu2mjzb9_36ot",
-      "amountPaid": 999,
-      "bookedAt": "2026-09-15T12:04:56.325Z",
-      "rating": 5,
-      "feedbackNotes": "Prakash demonstrated thorough architectural mastery of micro-frontends and state synchronization.",
-      "badgeAwarded": "Verified Tier-1 Frontend Architecture"
-    },
-    {
-      "id": "sess-1789472562458",
-      "expertId": "rajat",
-      "expert": {
-        "id": "rajat",
-        "name": "Rajat Pandey",
-        "role": "Senior Data Scientist & AI Lead",
-        "company": "NVIDIA",
-        "domain": "AI/ML",
-        "experience": "7+ Years Exp.",
-        "rating": 4.95,
-        "reviewsCount": 187,
-        "sessionsCount": 219,
-        "price": 999,
-        "location": "Mumbai, India",
-        "duration": "01:20",
-        "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
-        "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at NVIDIA",
-        "skills": [
-          "Vector Search",
-          "PyTorch",
-          "Deep Learning",
-          "MLOps",
-          "LangChain"
-        ],
-        "bio": "Senior Data Scientist & AI Lead at NVIDIA. I mentor engineers making the jump into AI/ML roles, with deep focus on Vector Search and PyTorch.",
-        "verifiedEmail": "rajat.p@nvidia.com",
-        "isVerifiedEmployer": true,
-        "trajectory": {
-          "role3YearsAgo": "Data Analyst",
-          "company3YearsAgo": "Infosys Digital",
-          "salary3YearsAgo": "₹8.4 LPA",
-          "keyJumpSkills": [
-            "Vector Search (Pinecone)",
-            "LLM Fine-Tuning",
-            "CUDA Kernel Optimization"
-          ],
-          "jumpStory": "Went from Data Analyst at Infosys Digital to Senior Data Scientist & AI Lead at NVIDIA by mastering Vector Search (Pinecone) and LLM Fine-Tuning."
-        },
-        "availability": {
-          "days": [
-            "Tue",
-            "Thu",
-            "Sat"
-          ],
-          "timeSlots": [
-            "02:00 PM - 03:00 PM",
-            "08:00 PM - 09:00 PM"
-          ]
-        }
-      },
-      "candidateId": "prakash",
-      "candidateName": "Prakash Mahto",
-      "candidateRole": "Senior Frontend Engineer",
-      "candidateAvatar": "/avatars/prakash.jpg",
-      "candidateGoal": "Transition to Staff Level at Tier-1 FinTech",
-      "candidateEmail": "prakash.mahto@gmail.com",
-      "date": "Monday, 14 Sep 2026",
-      "timeSlot": "07:00 PM - 08:00 PM",
-      "status": "completed",
-      "meetingLink": "https://meet.shine.com/room/peerpath-rajat-1789472562458",
-      "paymentId": "pay_shine_mu2lre3e_6i2o",
-      "amountPaid": 999,
-      "bookedAt": "2026-09-15T11:42:42.458Z",
-      "rating": 5,
-      "feedbackNotes": "Prakash demonstrated thorough architectural mastery of micro-frontends and state synchronization.",
-      "badgeAwarded": "Verified Tier-1 Frontend Architecture"
-    },
-    {
-      "id": "sess-1789472245316",
-      "expertId": "rajat",
-      "expert": {
-        "id": "rajat",
-        "name": "Rajat Pandey",
-        "role": "Senior Data Scientist & AI Lead",
-        "company": "NVIDIA",
-        "domain": "AI/ML",
-        "experience": "7+ Years Exp.",
-        "rating": 4.95,
-        "reviewsCount": 187,
-        "sessionsCount": 219,
-        "price": 999,
-        "location": "Mumbai, India",
-        "duration": "01:20",
-        "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
-        "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at NVIDIA",
-        "skills": [
-          "Vector Search",
-          "PyTorch",
-          "Deep Learning",
-          "MLOps",
-          "LangChain"
-        ],
-        "bio": "Senior Data Scientist & AI Lead at NVIDIA. I mentor engineers making the jump into AI/ML roles, with deep focus on Vector Search and PyTorch.",
-        "verifiedEmail": "rajat.p@nvidia.com",
-        "isVerifiedEmployer": true,
-        "trajectory": {
-          "role3YearsAgo": "Data Analyst",
-          "company3YearsAgo": "Infosys Digital",
-          "salary3YearsAgo": "₹8.4 LPA",
-          "keyJumpSkills": [
-            "Vector Search (Pinecone)",
-            "LLM Fine-Tuning",
-            "CUDA Kernel Optimization"
-          ],
-          "jumpStory": "Went from Data Analyst at Infosys Digital to Senior Data Scientist & AI Lead at NVIDIA by mastering Vector Search (Pinecone) and LLM Fine-Tuning."
-        },
-        "availability": {
-          "days": [
-            "Tue",
-            "Thu",
-            "Sat"
-          ],
-          "timeSlots": [
-            "02:00 PM - 03:00 PM",
-            "08:00 PM - 09:00 PM"
-          ]
-        }
-      },
-      "candidateId": "prakash",
-      "candidateName": "Prakash Mahto",
-      "candidateRole": "Senior Frontend Engineer",
-      "candidateAvatar": "/avatars/prakash.jpg",
-      "candidateGoal": "Transition to Staff Level at Tier-1 FinTech",
-      "candidateEmail": "prakash.mahto@gmail.com",
-      "date": "Monday, 14 Sep 2026",
-      "timeSlot": "07:00 PM - 08:00 PM",
-      "status": "completed",
-      "meetingLink": "https://meet.shine.com/room/peerpath-rajat-1789472245316",
-      "paymentId": "pay_shine_mu2lkldw_x7t3",
-      "amountPaid": 999,
-      "bookedAt": "2026-09-15T11:37:25.316Z",
-      "rating": 5,
-      "feedbackNotes": "Prakash demonstrated thorough architectural mastery of micro-frontends and state synchronization.",
-      "badgeAwarded": "Verified Tier-1 Frontend Architecture"
-    },
-    {
-      "id": "sess-1789471996040",
-      "expertId": "rajat",
-      "expert": {
-        "id": "rajat",
-        "name": "Rajat Pandey",
-        "role": "Senior Data Scientist & AI Lead",
-        "company": "NVIDIA",
-        "domain": "AI/ML",
-        "experience": "7+ Years Exp.",
-        "rating": 4.95,
-        "reviewsCount": 187,
-        "sessionsCount": 219,
-        "price": 999,
-        "location": "Mumbai, India",
-        "duration": "01:20",
-        "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
-        "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at NVIDIA",
-        "skills": [
-          "Vector Search",
-          "PyTorch",
-          "Deep Learning",
-          "MLOps",
-          "LangChain"
-        ],
-        "bio": "Senior Data Scientist & AI Lead at NVIDIA. I mentor engineers making the jump into AI/ML roles, with deep focus on Vector Search and PyTorch.",
-        "verifiedEmail": "rajat.p@nvidia.com",
-        "isVerifiedEmployer": true,
-        "trajectory": {
-          "role3YearsAgo": "Data Analyst",
-          "company3YearsAgo": "Infosys Digital",
-          "salary3YearsAgo": "₹8.4 LPA",
-          "keyJumpSkills": [
-            "Vector Search (Pinecone)",
-            "LLM Fine-Tuning",
-            "CUDA Kernel Optimization"
-          ],
-          "jumpStory": "Went from Data Analyst at Infosys Digital to Senior Data Scientist & AI Lead at NVIDIA by mastering Vector Search (Pinecone) and LLM Fine-Tuning."
-        },
-        "availability": {
-          "days": [
-            "Tue",
-            "Thu",
-            "Sat"
-          ],
-          "timeSlots": [
-            "02:00 PM - 03:00 PM",
-            "08:00 PM - 09:00 PM"
-          ]
-        }
-      },
-      "candidateId": "prakash",
-      "candidateName": "Prakash Mahto",
-      "candidateRole": "Senior Frontend Engineer",
-      "candidateAvatar": "/avatars/prakash.jpg",
-      "candidateGoal": "Transition to Staff Level at Tier-1 FinTech",
-      "candidateEmail": "prakash.mahto@gmail.com",
-      "date": "Monday, 14 Sep 2026",
-      "timeSlot": "07:00 PM - 08:00 PM",
-      "status": "completed",
-      "meetingLink": "https://meet.shine.com/room/peerpath-rajat-1789471996040",
-      "paymentId": "pay_shine_mu2lf91k_ms3j",
-      "amountPaid": 999,
-      "bookedAt": "2026-09-15T11:33:16.040Z",
-      "rating": 5,
-      "feedbackNotes": "Prakash demonstrated thorough architectural mastery of micro-frontends and state synchronization.",
-      "badgeAwarded": "Verified Tier-1 Frontend Architecture"
-    },
-    {
-      "id": "sess-1789471905098",
-      "expertId": "rajat",
-      "expert": {
-        "id": "rajat",
-        "name": "Rajat Pandey",
-        "role": "Senior Data Scientist & AI Lead",
-        "company": "NVIDIA",
-        "domain": "AI/ML",
-        "experience": "7+ Years Exp.",
-        "rating": 4.95,
-        "reviewsCount": 187,
-        "sessionsCount": 219,
-        "price": 999,
-        "location": "Mumbai, India",
-        "duration": "01:20",
-        "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
-        "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at NVIDIA",
-        "skills": [
-          "Vector Search",
-          "PyTorch",
-          "Deep Learning",
-          "MLOps",
-          "LangChain"
-        ],
-        "bio": "Senior Data Scientist & AI Lead at NVIDIA. I mentor engineers making the jump into AI/ML roles, with deep focus on Vector Search and PyTorch.",
-        "verifiedEmail": "rajat.p@nvidia.com",
-        "isVerifiedEmployer": true,
-        "trajectory": {
-          "role3YearsAgo": "Data Analyst",
-          "company3YearsAgo": "Infosys Digital",
-          "salary3YearsAgo": "₹8.4 LPA",
-          "keyJumpSkills": [
-            "Vector Search (Pinecone)",
-            "LLM Fine-Tuning",
-            "CUDA Kernel Optimization"
-          ],
-          "jumpStory": "Went from Data Analyst at Infosys Digital to Senior Data Scientist & AI Lead at NVIDIA by mastering Vector Search (Pinecone) and LLM Fine-Tuning."
-        },
-        "availability": {
-          "days": [
-            "Tue",
-            "Thu",
-            "Sat"
-          ],
-          "timeSlots": [
-            "02:00 PM - 03:00 PM",
-            "08:00 PM - 09:00 PM"
-          ]
-        }
-      },
-      "candidateId": "prakash",
-      "candidateName": "Prakash Mahto",
-      "candidateRole": "Senior Frontend Engineer",
-      "candidateAvatar": "/avatars/prakash.jpg",
-      "candidateGoal": "Transition to Staff Level at Tier-1 FinTech",
-      "candidateEmail": "prakash.mahto@gmail.com",
-      "date": "Monday, 14 Sep 2026",
-      "timeSlot": "07:00 PM - 08:00 PM",
-      "status": "completed",
-      "meetingLink": "https://meet.shine.com/room/peerpath-rajat-1789471905098",
-      "paymentId": "pay_shine_mu2ldave_ed6j",
-      "amountPaid": 999,
-      "bookedAt": "2026-09-15T11:31:45.098Z",
-      "rating": 5,
-      "feedbackNotes": "Prakash demonstrated thorough architectural mastery of micro-frontends and state synchronization.",
-      "badgeAwarded": "Verified Tier-1 Frontend Architecture"
-    },
-    {
-      "id": "sess-1789471736763",
-      "expertId": "rajat",
-      "expert": {
-        "id": "rajat",
-        "name": "Rajat Pandey",
-        "role": "Senior Data Scientist & AI Lead",
-        "company": "NVIDIA",
-        "domain": "AI/ML",
-        "experience": "7+ Years Exp.",
-        "rating": 4.95,
-        "reviewsCount": 187,
-        "sessionsCount": 219,
-        "price": 999,
-        "location": "Mumbai, India",
-        "duration": "01:20",
-        "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
-        "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at NVIDIA",
-        "skills": [
-          "Vector Search",
-          "PyTorch",
-          "Deep Learning",
-          "MLOps",
-          "LangChain"
-        ],
-        "bio": "Senior Data Scientist & AI Lead at NVIDIA. I mentor engineers making the jump into AI/ML roles, with deep focus on Vector Search and PyTorch.",
-        "verifiedEmail": "rajat.p@nvidia.com",
-        "isVerifiedEmployer": true,
-        "trajectory": {
-          "role3YearsAgo": "Data Analyst",
-          "company3YearsAgo": "Infosys Digital",
-          "salary3YearsAgo": "₹8.4 LPA",
-          "keyJumpSkills": [
-            "Vector Search (Pinecone)",
-            "LLM Fine-Tuning",
-            "CUDA Kernel Optimization"
-          ],
-          "jumpStory": "Went from Data Analyst at Infosys Digital to Senior Data Scientist & AI Lead at NVIDIA by mastering Vector Search (Pinecone) and LLM Fine-Tuning."
-        },
-        "availability": {
-          "days": [
-            "Tue",
-            "Thu",
-            "Sat"
-          ],
-          "timeSlots": [
-            "02:00 PM - 03:00 PM",
-            "08:00 PM - 09:00 PM"
-          ]
-        }
-      },
-      "candidateId": "prakash",
-      "candidateName": "Prakash Mahto",
-      "candidateRole": "Senior Frontend Engineer",
-      "candidateAvatar": "/avatars/prakash.jpg",
-      "candidateGoal": "Transition to Staff Level at Tier-1 FinTech",
-      "candidateEmail": "prakash.mahto@gmail.com",
-      "date": "Monday, 14 Sep 2026",
-      "timeSlot": "07:00 PM - 08:00 PM",
-      "status": "completed",
-      "meetingLink": "https://meet.shine.com/room/peerpath-rajat-1789471736763",
-      "paymentId": "pay_shine_mu2l9ozf_pggn",
-      "amountPaid": 999,
-      "bookedAt": "2026-09-15T11:28:56.763Z",
-      "rating": 5,
-      "feedbackNotes": "Prakash demonstrated thorough architectural mastery of micro-frontends and state synchronization.",
-      "badgeAwarded": "Verified Tier-1 Frontend Architecture"
-    },
-    {
-      "id": "sess-1789113569351",
-      "expertId": "ishaan2",
-      "expert": {
-        "id": "ishaan2",
-        "name": "Ishaan Singh",
-        "role": "Senior Full-Stack Engineer",
-        "company": "Swiggy",
-        "domain": "Full-Stack",
-        "experience": "9+ Years Exp.",
-        "rating": 4.86,
-        "reviewsCount": 181,
-        "sessionsCount": 383,
-        "price": 1399,
-        "location": "Chennai, India",
-        "duration": "01:13",
-        "avatar": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80",
-        "videoPoster": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
-        "teaserTitle": "Teaser: How I Became Senior Full-Stack Engineer at Swiggy",
-        "skills": [
-          "GraphQL",
-          "Module Federation",
-          "Next.js",
-          "Kubernetes",
-          "Node.js",
-          "Micro-Frontends"
-        ],
-        "bio": "Senior Full-Stack Engineer at Swiggy. I mentor engineers making the jump into Full-Stack roles, with deep focus on GraphQL and Module Federation.",
-        "verifiedEmail": "ishaan.s@swiggy.com",
-        "isVerifiedEmployer": true,
-        "trajectory": {
-          "role3YearsAgo": "Full-Stack Developer",
-          "company3YearsAgo": "Cognizant Technology Solutions",
-          "salary3YearsAgo": "₹4.6 LPA",
-          "keyJumpSkills": [
-            "Large-Scale System Design",
-            "Web Vitals Performance",
-            "Micro-Frontends Architecture"
-          ],
-          "jumpStory": "Went from Full-Stack Developer at Cognizant Technology Solutions to Senior Full-Stack Engineer at Swiggy by mastering Large-Scale System Design and Web Vitals Performance."
-        },
-        "availability": {
-          "days": [
-            "Tue",
-            "Thu",
-            "Sun"
-          ],
-          "timeSlots": [
-            "06:00 PM - 07:00 PM",
-            "07:30 PM - 08:30 PM"
-          ]
-        }
-      },
-      "candidateId": "prakash",
-      "candidateName": "Prakash Kumar",
-      "candidateRole": "Senior frontend developer",
-      "candidateAvatar": "/avatars/prakash.jpg",
-      "candidateGoal": "Trajectory mentorship & target jump into Swiggy",
-      "candidateEmail": "prakash.mahto@gmail.com",
-      "date": "Sat, 12 Sep 2026",
-      "timeSlot": "10:00 AM - 11:00 AM",
-      "status": "upcoming",
-      "meetingLink": "https://meet.shine.com/room/peerpath-ishaan2-1789113569351",
-      "paymentId": "pay_shine_mtwo0x8n_ompm",
-      "amountPaid": 1399,
-      "bookedAt": "2026-09-11T07:59:29.351Z"
-    },
-    {
       "id": "sess-1",
       "expertId": "saheli",
       "expert": {
@@ -4680,108 +5416,6 @@
   ],
   "badges": [
     {
-      "id": "badge-1789473896333",
-      "title": "Verified Tier-1 Frontend Architecture",
-      "subtitle": "Verified by Rajat Pandey • Senior Data Scientist & AI Lead @ NVIDIA",
-      "verifierName": "Rajat Pandey",
-      "verifierRole": "Senior Data Scientist & AI Lead @ NVIDIA",
-      "verifierAvatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-      "verifierCompany": "NVIDIA",
-      "date": "Sep 15, 2026",
-      "skills": [
-        "React.js 19",
-        "Micro-Frontends",
-        "System Design"
-      ],
-      "status": "verified",
-      "verificationHash": "SHINE-PEER-MU2MJZBH-NVI"
-    },
-    {
-      "id": "badge-1789472562467",
-      "title": "Verified Tier-1 Frontend Architecture",
-      "subtitle": "Verified by Rajat Pandey • Senior Data Scientist & AI Lead @ NVIDIA",
-      "verifierName": "Rajat Pandey",
-      "verifierRole": "Senior Data Scientist & AI Lead @ NVIDIA",
-      "verifierAvatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-      "verifierCompany": "NVIDIA",
-      "date": "Sep 15, 2026",
-      "skills": [
-        "React.js 19",
-        "Micro-Frontends",
-        "System Design"
-      ],
-      "status": "verified",
-      "verificationHash": "SHINE-PEER-MU2LRE3N-NVI"
-    },
-    {
-      "id": "badge-1789472245321",
-      "title": "Verified Tier-1 Frontend Architecture",
-      "subtitle": "Verified by Rajat Pandey • Senior Data Scientist & AI Lead @ NVIDIA",
-      "verifierName": "Rajat Pandey",
-      "verifierRole": "Senior Data Scientist & AI Lead @ NVIDIA",
-      "verifierAvatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-      "verifierCompany": "NVIDIA",
-      "date": "Sep 15, 2026",
-      "skills": [
-        "React.js 19",
-        "Micro-Frontends",
-        "System Design"
-      ],
-      "status": "verified",
-      "verificationHash": "SHINE-PEER-MU2LKLE1-NVI"
-    },
-    {
-      "id": "badge-1789471996045",
-      "title": "Verified Tier-1 Frontend Architecture",
-      "subtitle": "Verified by Rajat Pandey • Senior Data Scientist & AI Lead @ NVIDIA",
-      "verifierName": "Rajat Pandey",
-      "verifierRole": "Senior Data Scientist & AI Lead @ NVIDIA",
-      "verifierAvatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-      "verifierCompany": "NVIDIA",
-      "date": "Sep 15, 2026",
-      "skills": [
-        "React.js 19",
-        "Micro-Frontends",
-        "System Design"
-      ],
-      "status": "verified",
-      "verificationHash": "SHINE-PEER-MU2LF91P-NVI"
-    },
-    {
-      "id": "badge-1789471905104",
-      "title": "Verified Tier-1 Frontend Architecture",
-      "subtitle": "Verified by Rajat Pandey • Senior Data Scientist & AI Lead @ NVIDIA",
-      "verifierName": "Rajat Pandey",
-      "verifierRole": "Senior Data Scientist & AI Lead @ NVIDIA",
-      "verifierAvatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-      "verifierCompany": "NVIDIA",
-      "date": "Sep 15, 2026",
-      "skills": [
-        "React.js 19",
-        "Micro-Frontends",
-        "System Design"
-      ],
-      "status": "verified",
-      "verificationHash": "SHINE-PEER-MU2LDAVK-NVI"
-    },
-    {
-      "id": "badge-1789471736768",
-      "title": "Verified Tier-1 Frontend Architecture",
-      "subtitle": "Verified by Rajat Pandey • Senior Data Scientist & AI Lead @ NVIDIA",
-      "verifierName": "Rajat Pandey",
-      "verifierRole": "Senior Data Scientist & AI Lead @ NVIDIA",
-      "verifierAvatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-      "verifierCompany": "NVIDIA",
-      "date": "Sep 15, 2026",
-      "skills": [
-        "React.js 19",
-        "Micro-Frontends",
-        "System Design"
-      ],
-      "status": "verified",
-      "verificationHash": "SHINE-PEER-MU2L9OZK-NVI"
-    },
-    {
       "id": "badge-pm-1",
       "title": "Tier-1 Frontend & UI Architecture",
       "subtitle": "Verified by Saheli Kanjilal • Staff Frontend Architect @ Razorpay",
@@ -4817,58 +5451,36 @@
       "verificationHash": "SHINE-VERIFY-4491-8821-HN"
     }
   ],
-  "analytics": {
-    "profileUpdatesThisMonth": 14828,
-    "newRegistrationsThisMonth": 6350,
-    "totalSessionsBooked": 2437,
-    "totalActiveCreators": 68
-  },
   "posts": [
     {
-      "id": "post-1789473896358-nxug",
-      "mentorId": "saheli",
-      "mentorName": "Saheli Kanjilal",
-      "mentorRole": "Staff Frontend Architect",
-      "mentorCompany": "Razorpay (FinTech)",
-      "mentorAvatar": "/avatars/saheli.jpg",
-      "title": "Kafka Consumer Lag Monitoring & Sub-Second DLQ Recovery",
-      "content": "When scaling backend microservices to 100k TPS, monitoring consumer lag in Kafka partition groups is essential.",
+      "id": "post-1789474758999-mntb",
+      "mentorId": "akash",
+      "mentorName": "Akash Jain",
+      "mentorRole": "Lead Product Manager @ Shine (HT Media) • Ex-Paytm, Flipkart",
+      "mentorCompany": "Shine (HT Media)",
+      "mentorAvatar": "/avatars/akash.jpg",
+      "title": "New session will be soon",
+      "content": "Hi all im decided after september again start fresh session.",
       "tags": [
-        "Kafka",
-        "System Design",
-        "Backend Architecture"
+        "Career Guidance",
+        "Tech Transition"
       ],
-      "createdAt": "2026-09-15T12:04:56.358Z",
-      "likesCount": 1,
-      "likedByCurrentUser": true,
-      "commentsCount": 1,
-      "comments": [
-        {
-          "id": "c-1789473896362-lpre",
-          "postId": "post-1789473896358-nxug",
-          "parentCommentId": null,
-          "authorId": "prakash",
-          "authorName": "Prakash Mahto",
-          "authorRole": "Senior Frontend Engineer",
-          "authorAvatar": "/avatars/prakash.jpg",
-          "authorIsMentor": false,
-          "content": "How do you handle dynamic partition rebalancing in Kafka without temporary consumer pause?",
-          "createdAt": "2026-09-15T12:04:56.362Z",
-          "likesCount": 0,
-          "likedByCurrentUser": false
-        }
-      ],
+      "createdAt": "2026-09-15T12:19:18.999Z",
+      "likesCount": 0,
+      "likedByCurrentUser": false,
+      "commentsCount": 0,
+      "comments": [],
       "analytics": {
         "impressions": 120,
         "reach": 95,
-        "engagements": 3,
+        "engagements": 1,
         "engagementRate": "1.2%",
         "reactionsBreakdown": {
-          "likes": 1,
+          "likes": 0,
           "hearts": 0,
           "insightful": 0
         },
-        "commentsCount": 1,
+        "commentsCount": 0,
         "repliesCount": 0,
         "sharesCount": 0,
         "profileClicks": 4,
@@ -4890,497 +5502,7 @@
         ],
         "topAudienceCompanies": [
           {
-            "company": "Razorpay (FinTech)",
-            "percentage": 30
-          },
-          {
-            "company": "Swiggy",
-            "percentage": 25
-          },
-          {
-            "company": "Razorpay",
-            "percentage": 20
-          },
-          {
-            "company": "Infosys",
-            "percentage": 15
-          }
-        ],
-        "topLocations": [
-          {
-            "city": "Bengaluru",
-            "percentage": 50
-          },
-          {
-            "city": "Hyderabad",
-            "percentage": 30
-          },
-          {
-            "city": "Pune",
-            "percentage": 20
-          }
-        ]
-      }
-    },
-    {
-      "id": "post-1789472562499-5vhe",
-      "mentorId": "saheli",
-      "mentorName": "Saheli Kanjilal",
-      "mentorRole": "Staff Frontend Architect",
-      "mentorCompany": "Razorpay (FinTech)",
-      "mentorAvatar": "/avatars/saheli.jpg",
-      "title": "Kafka Consumer Lag Monitoring & Sub-Second DLQ Recovery",
-      "content": "When scaling backend microservices to 100k TPS, monitoring consumer lag in Kafka partition groups is essential.",
-      "tags": [
-        "Kafka",
-        "System Design",
-        "Backend Architecture"
-      ],
-      "createdAt": "2026-09-15T11:42:42.499Z",
-      "likesCount": 1,
-      "likedByCurrentUser": true,
-      "commentsCount": 1,
-      "comments": [
-        {
-          "id": "c-1789472562503-tx1l",
-          "postId": "post-1789472562499-5vhe",
-          "parentCommentId": null,
-          "authorId": "prakash",
-          "authorName": "Prakash Mahto",
-          "authorRole": "Senior Frontend Engineer",
-          "authorAvatar": "/avatars/prakash.jpg",
-          "authorIsMentor": false,
-          "content": "How do you handle dynamic partition rebalancing in Kafka without temporary consumer pause?",
-          "createdAt": "2026-09-15T11:42:42.503Z",
-          "likesCount": 0,
-          "likedByCurrentUser": false
-        }
-      ],
-      "analytics": {
-        "impressions": 120,
-        "reach": 95,
-        "engagements": 3,
-        "engagementRate": "1.2%",
-        "reactionsBreakdown": {
-          "likes": 1,
-          "hearts": 0,
-          "insightful": 0
-        },
-        "commentsCount": 1,
-        "repliesCount": 0,
-        "sharesCount": 0,
-        "profileClicks": 4,
-        "bookingsGenerated": 0,
-        "revenueGenerated": 0,
-        "topAudienceTitles": [
-          {
-            "title": "Senior Software Engineer",
-            "percentage": 45
-          },
-          {
-            "title": "Transitioning Engineer",
-            "percentage": 35
-          },
-          {
-            "title": "Technical Lead",
-            "percentage": 20
-          }
-        ],
-        "topAudienceCompanies": [
-          {
-            "company": "Razorpay (FinTech)",
-            "percentage": 30
-          },
-          {
-            "company": "Swiggy",
-            "percentage": 25
-          },
-          {
-            "company": "Razorpay",
-            "percentage": 20
-          },
-          {
-            "company": "Infosys",
-            "percentage": 15
-          }
-        ],
-        "topLocations": [
-          {
-            "city": "Bengaluru",
-            "percentage": 50
-          },
-          {
-            "city": "Hyderabad",
-            "percentage": 30
-          },
-          {
-            "city": "Pune",
-            "percentage": 20
-          }
-        ]
-      }
-    },
-    {
-      "id": "post-1789472245345-0ryw",
-      "mentorId": "saheli",
-      "mentorName": "Saheli Kanjilal",
-      "mentorRole": "Staff Frontend Architect",
-      "mentorCompany": "Razorpay (FinTech)",
-      "mentorAvatar": "/avatars/saheli.jpg",
-      "title": "Kafka Consumer Lag Monitoring & Sub-Second DLQ Recovery",
-      "content": "When scaling backend microservices to 100k TPS, monitoring consumer lag in Kafka partition groups is essential.",
-      "tags": [
-        "Kafka",
-        "System Design",
-        "Backend Architecture"
-      ],
-      "createdAt": "2026-09-15T11:37:25.345Z",
-      "likesCount": 1,
-      "likedByCurrentUser": true,
-      "commentsCount": 1,
-      "comments": [
-        {
-          "id": "c-1789472245349-olvx",
-          "postId": "post-1789472245345-0ryw",
-          "parentCommentId": null,
-          "authorId": "prakash",
-          "authorName": "Prakash Mahto",
-          "authorRole": "Senior Frontend Engineer",
-          "authorAvatar": "/avatars/prakash.jpg",
-          "authorIsMentor": false,
-          "content": "How do you handle dynamic partition rebalancing in Kafka without temporary consumer pause?",
-          "createdAt": "2026-09-15T11:37:25.349Z",
-          "likesCount": 0,
-          "likedByCurrentUser": false
-        }
-      ],
-      "analytics": {
-        "impressions": 120,
-        "reach": 95,
-        "engagements": 3,
-        "engagementRate": "1.2%",
-        "reactionsBreakdown": {
-          "likes": 1,
-          "hearts": 0,
-          "insightful": 0
-        },
-        "commentsCount": 1,
-        "repliesCount": 0,
-        "sharesCount": 0,
-        "profileClicks": 4,
-        "bookingsGenerated": 0,
-        "revenueGenerated": 0,
-        "topAudienceTitles": [
-          {
-            "title": "Senior Software Engineer",
-            "percentage": 45
-          },
-          {
-            "title": "Transitioning Engineer",
-            "percentage": 35
-          },
-          {
-            "title": "Technical Lead",
-            "percentage": 20
-          }
-        ],
-        "topAudienceCompanies": [
-          {
-            "company": "Razorpay (FinTech)",
-            "percentage": 30
-          },
-          {
-            "company": "Swiggy",
-            "percentage": 25
-          },
-          {
-            "company": "Razorpay",
-            "percentage": 20
-          },
-          {
-            "company": "Infosys",
-            "percentage": 15
-          }
-        ],
-        "topLocations": [
-          {
-            "city": "Bengaluru",
-            "percentage": 50
-          },
-          {
-            "city": "Hyderabad",
-            "percentage": 30
-          },
-          {
-            "city": "Pune",
-            "percentage": 20
-          }
-        ]
-      }
-    },
-    {
-      "id": "post-1789471996068-ckc7",
-      "mentorId": "saheli",
-      "mentorName": "Saheli Kanjilal",
-      "mentorRole": "Staff Frontend Architect",
-      "mentorCompany": "Razorpay (FinTech)",
-      "mentorAvatar": "/avatars/saheli.jpg",
-      "title": "Kafka Consumer Lag Monitoring & Sub-Second DLQ Recovery",
-      "content": "When scaling backend microservices to 100k TPS, monitoring consumer lag in Kafka partition groups is essential.",
-      "tags": [
-        "Kafka",
-        "System Design",
-        "Backend Architecture"
-      ],
-      "createdAt": "2026-09-15T11:33:16.068Z",
-      "likesCount": 1,
-      "likedByCurrentUser": true,
-      "commentsCount": 1,
-      "comments": [
-        {
-          "id": "c-1789471996073-os5f",
-          "postId": "post-1789471996068-ckc7",
-          "parentCommentId": null,
-          "authorId": "prakash",
-          "authorName": "Prakash Mahto",
-          "authorRole": "Senior Frontend Engineer",
-          "authorAvatar": "/avatars/prakash.jpg",
-          "authorIsMentor": false,
-          "content": "How do you handle dynamic partition rebalancing in Kafka without temporary consumer pause?",
-          "createdAt": "2026-09-15T11:33:16.073Z",
-          "likesCount": 0,
-          "likedByCurrentUser": false
-        }
-      ],
-      "analytics": {
-        "impressions": 120,
-        "reach": 95,
-        "engagements": 3,
-        "engagementRate": "1.2%",
-        "reactionsBreakdown": {
-          "likes": 1,
-          "hearts": 0,
-          "insightful": 0
-        },
-        "commentsCount": 1,
-        "repliesCount": 0,
-        "sharesCount": 0,
-        "profileClicks": 4,
-        "bookingsGenerated": 0,
-        "revenueGenerated": 0,
-        "topAudienceTitles": [
-          {
-            "title": "Senior Software Engineer",
-            "percentage": 45
-          },
-          {
-            "title": "Transitioning Engineer",
-            "percentage": 35
-          },
-          {
-            "title": "Technical Lead",
-            "percentage": 20
-          }
-        ],
-        "topAudienceCompanies": [
-          {
-            "company": "Razorpay (FinTech)",
-            "percentage": 30
-          },
-          {
-            "company": "Swiggy",
-            "percentage": 25
-          },
-          {
-            "company": "Razorpay",
-            "percentage": 20
-          },
-          {
-            "company": "Infosys",
-            "percentage": 15
-          }
-        ],
-        "topLocations": [
-          {
-            "city": "Bengaluru",
-            "percentage": 50
-          },
-          {
-            "city": "Hyderabad",
-            "percentage": 30
-          },
-          {
-            "city": "Pune",
-            "percentage": 20
-          }
-        ]
-      }
-    },
-    {
-      "id": "post-1789471905130-mua4",
-      "mentorId": "saheli",
-      "mentorName": "Saheli Kanjilal",
-      "mentorRole": "Staff Frontend Architect",
-      "mentorCompany": "Razorpay (FinTech)",
-      "mentorAvatar": "/avatars/saheli.jpg",
-      "title": "Kafka Consumer Lag Monitoring & Sub-Second DLQ Recovery",
-      "content": "When scaling backend microservices to 100k TPS, monitoring consumer lag in Kafka partition groups is essential.",
-      "tags": [
-        "Kafka",
-        "System Design",
-        "Backend Architecture"
-      ],
-      "createdAt": "2026-09-15T11:31:45.130Z",
-      "likesCount": 1,
-      "likedByCurrentUser": true,
-      "commentsCount": 1,
-      "comments": [
-        {
-          "id": "c-1789471905135-uhaz",
-          "postId": "post-1789471905130-mua4",
-          "parentCommentId": null,
-          "authorId": "prakash",
-          "authorName": "Prakash Mahto",
-          "authorRole": "Senior Frontend Engineer",
-          "authorAvatar": "/avatars/prakash.jpg",
-          "authorIsMentor": false,
-          "content": "How do you handle dynamic partition rebalancing in Kafka without temporary consumer pause?",
-          "createdAt": "2026-09-15T11:31:45.135Z",
-          "likesCount": 0,
-          "likedByCurrentUser": false
-        }
-      ],
-      "analytics": {
-        "impressions": 120,
-        "reach": 95,
-        "engagements": 3,
-        "engagementRate": "1.2%",
-        "reactionsBreakdown": {
-          "likes": 1,
-          "hearts": 0,
-          "insightful": 0
-        },
-        "commentsCount": 1,
-        "repliesCount": 0,
-        "sharesCount": 0,
-        "profileClicks": 4,
-        "bookingsGenerated": 0,
-        "revenueGenerated": 0,
-        "topAudienceTitles": [
-          {
-            "title": "Senior Software Engineer",
-            "percentage": 45
-          },
-          {
-            "title": "Transitioning Engineer",
-            "percentage": 35
-          },
-          {
-            "title": "Technical Lead",
-            "percentage": 20
-          }
-        ],
-        "topAudienceCompanies": [
-          {
-            "company": "Razorpay (FinTech)",
-            "percentage": 30
-          },
-          {
-            "company": "Swiggy",
-            "percentage": 25
-          },
-          {
-            "company": "Razorpay",
-            "percentage": 20
-          },
-          {
-            "company": "Infosys",
-            "percentage": 15
-          }
-        ],
-        "topLocations": [
-          {
-            "city": "Bengaluru",
-            "percentage": 50
-          },
-          {
-            "city": "Hyderabad",
-            "percentage": 30
-          },
-          {
-            "city": "Pune",
-            "percentage": 20
-          }
-        ]
-      }
-    },
-    {
-      "id": "post-1789471736791-8nrt",
-      "mentorId": "saheli",
-      "mentorName": "Saheli Kanjilal",
-      "mentorRole": "Staff Frontend Architect",
-      "mentorCompany": "Razorpay (FinTech)",
-      "mentorAvatar": "/avatars/saheli.jpg",
-      "title": "Kafka Consumer Lag Monitoring & Sub-Second DLQ Recovery",
-      "content": "When scaling backend microservices to 100k TPS, monitoring consumer lag in Kafka partition groups is essential.",
-      "tags": [
-        "Kafka",
-        "System Design",
-        "Backend Architecture"
-      ],
-      "createdAt": "2026-09-15T11:28:56.791Z",
-      "likesCount": 1,
-      "likedByCurrentUser": true,
-      "commentsCount": 1,
-      "comments": [
-        {
-          "id": "c-1789471736795-ww9e",
-          "postId": "post-1789471736791-8nrt",
-          "parentCommentId": null,
-          "authorId": "prakash",
-          "authorName": "Prakash Mahto",
-          "authorRole": "Senior Frontend Engineer",
-          "authorAvatar": "/avatars/prakash.jpg",
-          "authorIsMentor": false,
-          "content": "How do you handle dynamic partition rebalancing in Kafka without temporary consumer pause?",
-          "createdAt": "2026-09-15T11:28:56.795Z",
-          "likesCount": 0,
-          "likedByCurrentUser": false
-        }
-      ],
-      "analytics": {
-        "impressions": 120,
-        "reach": 95,
-        "engagements": 3,
-        "engagementRate": "1.2%",
-        "reactionsBreakdown": {
-          "likes": 1,
-          "hearts": 0,
-          "insightful": 0
-        },
-        "commentsCount": 1,
-        "repliesCount": 0,
-        "sharesCount": 0,
-        "profileClicks": 4,
-        "bookingsGenerated": 0,
-        "revenueGenerated": 0,
-        "topAudienceTitles": [
-          {
-            "title": "Senior Software Engineer",
-            "percentage": 45
-          },
-          {
-            "title": "Transitioning Engineer",
-            "percentage": 35
-          },
-          {
-            "title": "Technical Lead",
-            "percentage": 20
-          }
-        ],
-        "topAudienceCompanies": [
-          {
-            "company": "Razorpay (FinTech)",
+            "company": "Shine (HT Media)",
             "percentage": 30
           },
           {
@@ -5427,7 +5549,7 @@
         "Kafka",
         "Interview Prep"
       ],
-      "createdAt": "2026-09-15T09:28:54.901Z",
+      "createdAt": "2026-09-15T10:08:25.839Z",
       "likesCount": 52,
       "likedByCurrentUser": false,
       "commentsCount": 3,
@@ -5441,7 +5563,7 @@
           "authorAvatar": "/avatars/prakash.jpg",
           "authorIsMentor": false,
           "content": "In the Outbox pattern, how do you prevent duplicated messages in Kafka if the polling worker crashes after pushing to the broker but before committing the database transaction status?",
-          "createdAt": "2026-09-15T10:28:54.901Z",
+          "createdAt": "2026-09-15T11:08:25.839Z",
           "likesCount": 6,
           "likedByCurrentUser": false
         },
@@ -5454,7 +5576,7 @@
           "authorAvatar": "/avatars/saheli.jpg",
           "authorIsMentor": true,
           "content": "@Prakash Great question! You should always design the downstream consumer to be idempotent. Relying on \"exactly-once\" delivery across broker boundaries introduces high latency. Consumer-side deduplication via an idempotency table is the industry gold standard.",
-          "createdAt": "2026-09-15T10:43:54.901Z",
+          "createdAt": "2026-09-15T11:23:25.839Z",
           "likesCount": 14,
           "likedByCurrentUser": true
         },
@@ -5467,7 +5589,7 @@
           "authorAvatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
           "authorIsMentor": false,
           "content": "Bookmarked! Just scheduled a 1:1 session with you next Tuesday for my Razorpay interview prep!",
-          "createdAt": "2026-09-15T11:08:54.901Z",
+          "createdAt": "2026-09-15T11:48:25.839Z",
           "likesCount": 3,
           "likedByCurrentUser": false
         }
@@ -5563,7 +5685,7 @@
         "Web Vitals",
         "System Design"
       ],
-      "createdAt": "2026-09-14T11:28:54.901Z",
+      "createdAt": "2026-09-14T12:08:25.839Z",
       "likesCount": 84,
       "likedByCurrentUser": true,
       "commentsCount": 2,
@@ -5577,7 +5699,7 @@
           "authorAvatar": "/avatars/prakash.jpg",
           "authorIsMentor": false,
           "content": "We noticed a huge INP penalty when large data tables re-render on user filter inputs. Is startTransition enough, or should we use virtualization?",
-          "createdAt": "2026-09-14T17:28:54.901Z",
+          "createdAt": "2026-09-14T18:08:25.839Z",
           "likesCount": 8,
           "likedByCurrentUser": false
         },
@@ -5590,7 +5712,7 @@
           "authorAvatar": "/avatars/ishita.jpg",
           "authorIsMentor": true,
           "content": "@Prakash Virtualization (e.g. TanStack Virtual) solves the DOM node ceiling. startTransition only prioritizes input responsiveness. You should combine both for sub-50ms INP!",
-          "createdAt": "2026-09-14T19:28:54.901Z",
+          "createdAt": "2026-09-14T20:08:25.839Z",
           "likesCount": 11,
           "likedByCurrentUser": false
         }
@@ -5678,7 +5800,7 @@
         "RAG Pipelines",
         "Machine Learning"
       ],
-      "createdAt": "2026-09-13T11:28:54.901Z",
+      "createdAt": "2026-09-13T12:08:25.839Z",
       "likesCount": 112,
       "likedByCurrentUser": false,
       "commentsCount": 2,
@@ -5692,7 +5814,7 @@
           "authorAvatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
           "authorIsMentor": false,
           "content": "Spot on Dr. Nair. We spent 3 weeks fine-tuning before realizing semantic chunking solved our retrieval miss rate.",
-          "createdAt": "2026-09-14T11:28:54.901Z",
+          "createdAt": "2026-09-14T12:08:25.839Z",
           "likesCount": 9,
           "likedByCurrentUser": false
         },
@@ -5705,7 +5827,7 @@
           "authorAvatar": "/avatars/prakash.jpg",
           "authorIsMentor": false,
           "content": "Dr. Raghavan, what vector DB latency do you consider acceptable in production for sub-100ms end-to-end response times?",
-          "createdAt": "2026-09-14T15:28:54.901Z",
+          "createdAt": "2026-09-14T16:08:25.839Z",
           "likesCount": 5,
           "likedByCurrentUser": false
         }
@@ -5793,7 +5915,7 @@
         "Tech to PM",
         "Leadership"
       ],
-      "createdAt": "2026-09-12T11:28:54.901Z",
+      "createdAt": "2026-09-12T12:08:25.839Z",
       "likesCount": 76,
       "likedByCurrentUser": false,
       "commentsCount": 1,
@@ -5807,7 +5929,7 @@
           "authorAvatar": "/avatars/prakash.jpg",
           "authorIsMentor": false,
           "content": "Akash, do you recommend technical PMs take Scrum Master or PMP certifications, or focus directly on product teardowns and case studies?",
-          "createdAt": "2026-09-13T11:28:54.901Z",
+          "createdAt": "2026-09-13T12:08:25.839Z",
           "likesCount": 7,
           "likedByCurrentUser": false
         }
@@ -5887,312 +6009,18 @@
   ],
   "notifications": [
     {
-      "id": "notif-1789473896367-5zgv",
-      "recipientId": "saheli",
-      "type": "post_like",
-      "title": "New Like on your Post",
-      "message": "Prakash Mahto liked your insight: \"Kafka Consumer Lag Monitoring & Sub-Second DLQ Rec...\"",
-      "actorId": "prakash",
-      "actorName": "Prakash Mahto",
-      "actorAvatar": "/avatars/prakash.jpg",
-      "postId": "post-1789473896358-nxug",
-      "createdAt": "2026-09-15T12:04:56.367Z",
-      "isRead": false,
-      "actionUrl": "/community#post-1789473896358-nxug"
-    },
-    {
-      "id": "notif-1789473896363-jik1",
-      "recipientId": "saheli",
-      "type": "comment_reply",
-      "title": "New Comment on your Post",
-      "message": "Prakash Mahto commented: \"How do you handle dynamic partition rebalancing in Kafka ...\"",
-      "actorId": "prakash",
-      "actorName": "Prakash Mahto",
-      "actorAvatar": "/avatars/prakash.jpg",
-      "postId": "post-1789473896358-nxug",
-      "createdAt": "2026-09-15T12:04:56.363Z",
-      "isRead": false,
-      "actionUrl": "/community#post-1789473896358-nxug"
-    },
-    {
-      "id": "notif-1789473896359-pmnu",
+      "id": "notif-1789474759006-6dt5",
       "recipientId": "prakash",
       "type": "mentor_post",
       "title": "New Technical Post",
-      "message": "Saheli Kanjilal posted: \"Kafka Consumer Lag Monitoring & Sub-Second DLQ Recovery\"",
-      "mentorId": "saheli",
-      "mentorName": "Saheli Kanjilal",
-      "mentorAvatar": "/avatars/saheli.jpg",
-      "postId": "post-1789473896358-nxug",
-      "createdAt": "2026-09-15T12:04:56.359Z",
+      "message": "Akash Jain posted: \"New session will be soon\"",
+      "mentorId": "akash",
+      "mentorName": "Akash Jain",
+      "mentorAvatar": "/avatars/akash.jpg",
+      "postId": "post-1789474758999-mntb",
+      "createdAt": "2026-09-15T12:19:19.006Z",
       "isRead": true,
-      "actionUrl": "/community#post-1789473896358-nxug"
-    },
-    {
-      "id": "notif-1789473896328-t4s2",
-      "recipientId": "prakash",
-      "type": "session_booking",
-      "title": "Mentorship Slot Confirmed! 🚀",
-      "message": "Your 1:1 session with Rajat Pandey (NVIDIA) on Monday, 14 Sep 2026 is confirmed.",
-      "mentorId": "rajat",
-      "mentorName": "Rajat Pandey",
-      "mentorAvatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-      "sessionId": "sess-1789473896325",
-      "createdAt": "2026-09-15T12:04:56.328Z",
-      "isRead": true,
-      "actionUrl": "/sessions"
-    },
-    {
-      "id": "notif-1789473896327-t54w",
-      "recipientId": "rajat",
-      "type": "session_booking",
-      "title": "New 1:1 Session Booked! 🎉",
-      "message": "Prakash Mahto booked a 1:1 session on Monday, 14 Sep 2026 at 07:00 PM - 08:00 PM.",
-      "actorId": "prakash",
-      "actorName": "Prakash Mahto",
-      "actorAvatar": "/avatars/prakash.jpg",
-      "sessionId": "sess-1789473896325",
-      "createdAt": "2026-09-15T12:04:56.327Z",
-      "isRead": false,
-      "actionUrl": "/mentor-dashboard"
-    },
-    {
-      "id": "notif-1789472562507-p8nq",
-      "recipientId": "saheli",
-      "type": "post_like",
-      "title": "New Like on your Post",
-      "message": "Prakash Mahto liked your insight: \"Kafka Consumer Lag Monitoring & Sub-Second DLQ Rec...\"",
-      "actorId": "prakash",
-      "actorName": "Prakash Mahto",
-      "actorAvatar": "/avatars/prakash.jpg",
-      "postId": "post-1789472562499-5vhe",
-      "createdAt": "2026-09-15T11:42:42.507Z",
-      "isRead": false,
-      "actionUrl": "/community#post-1789472562499-5vhe"
-    },
-    {
-      "id": "notif-1789472562504-8gxu",
-      "recipientId": "saheli",
-      "type": "comment_reply",
-      "title": "New Comment on your Post",
-      "message": "Prakash Mahto commented: \"How do you handle dynamic partition rebalancing in Kafka ...\"",
-      "actorId": "prakash",
-      "actorName": "Prakash Mahto",
-      "actorAvatar": "/avatars/prakash.jpg",
-      "postId": "post-1789472562499-5vhe",
-      "createdAt": "2026-09-15T11:42:42.504Z",
-      "isRead": false,
-      "actionUrl": "/community#post-1789472562499-5vhe"
-    },
-    {
-      "id": "notif-1789472562500-kd2c",
-      "recipientId": "prakash",
-      "type": "mentor_post",
-      "title": "New Technical Post",
-      "message": "Saheli Kanjilal posted: \"Kafka Consumer Lag Monitoring & Sub-Second DLQ Recovery\"",
-      "mentorId": "saheli",
-      "mentorName": "Saheli Kanjilal",
-      "mentorAvatar": "/avatars/saheli.jpg",
-      "postId": "post-1789472562499-5vhe",
-      "createdAt": "2026-09-15T11:42:42.500Z",
-      "isRead": true,
-      "actionUrl": "/community#post-1789472562499-5vhe"
-    },
-    {
-      "id": "notif-1789472562460-qk8o",
-      "recipientId": "prakash",
-      "type": "session_booking",
-      "title": "Mentorship Slot Confirmed! 🚀",
-      "message": "Your 1:1 session with Rajat Pandey (NVIDIA) on Monday, 14 Sep 2026 is confirmed.",
-      "mentorId": "rajat",
-      "mentorName": "Rajat Pandey",
-      "mentorAvatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
-      "sessionId": "sess-1789472562458",
-      "createdAt": "2026-09-15T11:42:42.460Z",
-      "isRead": true,
-      "actionUrl": "/sessions"
-    },
-    {
-      "id": "notif-1789472562459-fqfi",
-      "recipientId": "rajat",
-      "type": "session_booking",
-      "title": "New 1:1 Session Booked! 🎉",
-      "message": "Prakash Mahto booked a 1:1 session on Monday, 14 Sep 2026 at 07:00 PM - 08:00 PM.",
-      "actorId": "prakash",
-      "actorName": "Prakash Mahto",
-      "actorAvatar": "/avatars/prakash.jpg",
-      "sessionId": "sess-1789472562458",
-      "createdAt": "2026-09-15T11:42:42.459Z",
-      "isRead": false,
-      "actionUrl": "/mentor-dashboard"
-    },
-    {
-      "id": "notif-1789472245353-lrmm",
-      "recipientId": "saheli",
-      "type": "post_like",
-      "title": "New Like on your Post",
-      "message": "Prakash Mahto liked your insight: \"Kafka Consumer Lag Monitoring & Sub-Second DLQ Rec...\"",
-      "actorId": "prakash",
-      "actorName": "Prakash Mahto",
-      "actorAvatar": "/avatars/prakash.jpg",
-      "postId": "post-1789472245345-0ryw",
-      "createdAt": "2026-09-15T11:37:25.353Z",
-      "isRead": false,
-      "actionUrl": "/community#post-1789472245345-0ryw"
-    },
-    {
-      "id": "notif-1789472245350-u0lv",
-      "recipientId": "saheli",
-      "type": "comment_reply",
-      "title": "New Comment on your Post",
-      "message": "Prakash Mahto commented: \"How do you handle dynamic partition rebalancing in Kafka ...\"",
-      "actorId": "prakash",
-      "actorName": "Prakash Mahto",
-      "actorAvatar": "/avatars/prakash.jpg",
-      "postId": "post-1789472245345-0ryw",
-      "createdAt": "2026-09-15T11:37:25.350Z",
-      "isRead": false,
-      "actionUrl": "/community#post-1789472245345-0ryw"
-    },
-    {
-      "id": "notif-1789472245346-uw1h",
-      "recipientId": "prakash",
-      "type": "mentor_post",
-      "title": "New Technical Post",
-      "message": "Saheli Kanjilal posted: \"Kafka Consumer Lag Monitoring & Sub-Second DLQ Recovery\"",
-      "mentorId": "saheli",
-      "mentorName": "Saheli Kanjilal",
-      "mentorAvatar": "/avatars/saheli.jpg",
-      "postId": "post-1789472245345-0ryw",
-      "createdAt": "2026-09-15T11:37:25.346Z",
-      "isRead": true,
-      "actionUrl": "/community#post-1789472245345-0ryw"
-    },
-    {
-      "id": "notif-1789471996080-0buh",
-      "recipientId": "saheli",
-      "type": "post_like",
-      "title": "New Like on your Post",
-      "message": "Prakash Mahto liked your insight: \"Kafka Consumer Lag Monitoring & Sub-Second DLQ Rec...\"",
-      "actorId": "prakash",
-      "actorName": "Prakash Mahto",
-      "actorAvatar": "/avatars/prakash.jpg",
-      "postId": "post-1789471996068-ckc7",
-      "createdAt": "2026-09-15T11:33:16.080Z",
-      "isRead": false,
-      "actionUrl": "/community#post-1789471996068-ckc7"
-    },
-    {
-      "id": "notif-1789471996074-4rw1",
-      "recipientId": "saheli",
-      "type": "comment_reply",
-      "title": "New Comment on your Post",
-      "message": "Prakash Mahto commented: \"How do you handle dynamic partition rebalancing in Kafka ...\"",
-      "actorId": "prakash",
-      "actorName": "Prakash Mahto",
-      "actorAvatar": "/avatars/prakash.jpg",
-      "postId": "post-1789471996068-ckc7",
-      "createdAt": "2026-09-15T11:33:16.074Z",
-      "isRead": false,
-      "actionUrl": "/community#post-1789471996068-ckc7"
-    },
-    {
-      "id": "notif-1789471996070-89sl",
-      "recipientId": "prakash",
-      "type": "mentor_post",
-      "title": "New Technical Post",
-      "message": "Saheli Kanjilal posted: \"Kafka Consumer Lag Monitoring & Sub-Second DLQ Recovery\"",
-      "mentorId": "saheli",
-      "mentorName": "Saheli Kanjilal",
-      "mentorAvatar": "/avatars/saheli.jpg",
-      "postId": "post-1789471996068-ckc7",
-      "createdAt": "2026-09-15T11:33:16.070Z",
-      "isRead": true,
-      "actionUrl": "/community#post-1789471996068-ckc7"
-    },
-    {
-      "id": "notif-1789471905140-sfhg",
-      "recipientId": "saheli",
-      "type": "post_like",
-      "title": "New Like on your Post",
-      "message": "Prakash Mahto liked your insight: \"Kafka Consumer Lag Monitoring & Sub-Second DLQ Rec...\"",
-      "actorId": "prakash",
-      "actorName": "Prakash Mahto",
-      "actorAvatar": "/avatars/prakash.jpg",
-      "postId": "post-1789471905130-mua4",
-      "createdAt": "2026-09-15T11:31:45.140Z",
-      "isRead": false,
-      "actionUrl": "/community#post-1789471905130-mua4"
-    },
-    {
-      "id": "notif-1789471905136-iibe",
-      "recipientId": "saheli",
-      "type": "comment_reply",
-      "title": "New Comment on your Post",
-      "message": "Prakash Mahto commented: \"How do you handle dynamic partition rebalancing in Kafka ...\"",
-      "actorId": "prakash",
-      "actorName": "Prakash Mahto",
-      "actorAvatar": "/avatars/prakash.jpg",
-      "postId": "post-1789471905130-mua4",
-      "createdAt": "2026-09-15T11:31:45.136Z",
-      "isRead": false,
-      "actionUrl": "/community#post-1789471905130-mua4"
-    },
-    {
-      "id": "notif-1789471905132-sulx",
-      "recipientId": "prakash",
-      "type": "mentor_post",
-      "title": "New Technical Post",
-      "message": "Saheli Kanjilal posted: \"Kafka Consumer Lag Monitoring & Sub-Second DLQ Recovery\"",
-      "mentorId": "saheli",
-      "mentorName": "Saheli Kanjilal",
-      "mentorAvatar": "/avatars/saheli.jpg",
-      "postId": "post-1789471905130-mua4",
-      "createdAt": "2026-09-15T11:31:45.132Z",
-      "isRead": true,
-      "actionUrl": "/community#post-1789471905130-mua4"
-    },
-    {
-      "id": "notif-1789471736803-1ysm",
-      "recipientId": "saheli",
-      "type": "post_like",
-      "title": "New Like on your Post",
-      "message": "Prakash Mahto liked your insight: \"Kafka Consumer Lag Monitoring & Sub-Second DLQ Rec...\"",
-      "actorId": "prakash",
-      "actorName": "Prakash Mahto",
-      "actorAvatar": "/avatars/prakash.jpg",
-      "postId": "post-1789471736791-8nrt",
-      "createdAt": "2026-09-15T11:28:56.803Z",
-      "isRead": false,
-      "actionUrl": "/community#post-1789471736791-8nrt"
-    },
-    {
-      "id": "notif-1789471736797-2iiu",
-      "recipientId": "saheli",
-      "type": "comment_reply",
-      "title": "New Comment on your Post",
-      "message": "Prakash Mahto commented: \"How do you handle dynamic partition rebalancing in Kafka ...\"",
-      "actorId": "prakash",
-      "actorName": "Prakash Mahto",
-      "actorAvatar": "/avatars/prakash.jpg",
-      "postId": "post-1789471736791-8nrt",
-      "createdAt": "2026-09-15T11:28:56.797Z",
-      "isRead": false,
-      "actionUrl": "/community#post-1789471736791-8nrt"
-    },
-    {
-      "id": "notif-1789471736792-kyqb",
-      "recipientId": "prakash",
-      "type": "mentor_post",
-      "title": "New Technical Post",
-      "message": "Saheli Kanjilal posted: \"Kafka Consumer Lag Monitoring & Sub-Second DLQ Recovery\"",
-      "mentorId": "saheli",
-      "mentorName": "Saheli Kanjilal",
-      "mentorAvatar": "/avatars/saheli.jpg",
-      "postId": "post-1789471736791-8nrt",
-      "createdAt": "2026-09-15T11:28:56.792Z",
-      "isRead": true,
-      "actionUrl": "/community#post-1789471736791-8nrt"
+      "actionUrl": "/community#post-1789474758999-mntb"
     },
     {
       "id": "notif-1",
@@ -6204,7 +6032,7 @@
       "postId": "post-1",
       "title": "New Technical Post",
       "message": "Saheli Kanjilal posted: \"Distributed Transactions & Outbox Pattern: What we evaluate in 40LPA+ Backend Interviews\"",
-      "createdAt": "2026-09-15T09:28:54.901Z",
+      "createdAt": "2026-09-15T10:08:25.839Z",
       "isRead": true,
       "actionUrl": "/community#post-1"
     },
@@ -6218,7 +6046,7 @@
       "postId": "post-2",
       "title": "New Technical Post",
       "message": "Ishita Sharma posted: \"The SDE-2 to Frontend Staff Transition: Micro-Frontends, INP Optimization & Design Systems\"",
-      "createdAt": "2026-09-14T11:28:54.901Z",
+      "createdAt": "2026-09-14T12:08:25.839Z",
       "isRead": true,
       "actionUrl": "/community#post-2"
     },
@@ -6232,7 +6060,7 @@
       "postId": "post-1",
       "title": "Mentor Replied to You",
       "message": "Saheli Kanjilal replied to your question on Outbox pattern.",
-      "createdAt": "2026-09-15T10:43:54.901Z",
+      "createdAt": "2026-09-15T11:23:25.839Z",
       "isRead": true,
       "actionUrl": "/community#post-1"
     },
@@ -6246,59 +6074,16 @@
       "postId": "post-3",
       "title": "New Technical Post",
       "message": "Dr. Raghavan Nair posted: \"Production RAG vs Fine-Tuning in 2026: Why Enterprise Teams Don’t Fine-Tune First\"",
-      "createdAt": "2026-09-13T11:28:54.901Z",
+      "createdAt": "2026-09-13T12:08:25.839Z",
       "isRead": true,
       "actionUrl": "/community#post-3"
     }
   ],
-  "reactions": [
-    {
-      "id": "rx-1789471736802-ox3mk",
-      "targetType": "post",
-      "targetId": "post-1789471736791-8nrt",
-      "userId": "prakash",
-      "reactionType": "like",
-      "createdAt": "2026-09-15T11:28:56.802Z"
-    },
-    {
-      "id": "rx-1789471905139-dsn1s",
-      "targetType": "post",
-      "targetId": "post-1789471905130-mua4",
-      "userId": "prakash",
-      "reactionType": "like",
-      "createdAt": "2026-09-15T11:31:45.139Z"
-    },
-    {
-      "id": "rx-1789471996078-72pu9",
-      "targetType": "post",
-      "targetId": "post-1789471996068-ckc7",
-      "userId": "prakash",
-      "reactionType": "like",
-      "createdAt": "2026-09-15T11:33:16.078Z"
-    },
-    {
-      "id": "rx-1789472245353-4s15x",
-      "targetType": "post",
-      "targetId": "post-1789472245345-0ryw",
-      "userId": "prakash",
-      "reactionType": "like",
-      "createdAt": "2026-09-15T11:37:25.353Z"
-    },
-    {
-      "id": "rx-1789472562506-imdbd",
-      "targetType": "post",
-      "targetId": "post-1789472562499-5vhe",
-      "userId": "prakash",
-      "reactionType": "like",
-      "createdAt": "2026-09-15T11:42:42.506Z"
-    },
-    {
-      "id": "rx-1789473896366-0x1lp",
-      "targetType": "post",
-      "targetId": "post-1789473896358-nxug",
-      "userId": "prakash",
-      "reactionType": "like",
-      "createdAt": "2026-09-15T12:04:56.366Z"
-    }
-  ]
+  "reactions": [],
+  "analytics": {
+    "profileUpdatesThisMonth": 14821,
+    "newRegistrationsThisMonth": 6350,
+    "totalSessionsBooked": 2430,
+    "totalActiveCreators": 93
+  }
 }

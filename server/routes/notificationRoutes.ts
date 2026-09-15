@@ -120,6 +120,41 @@ router.post('/mark-all-read', (req: Request, res: Response) => {
   }
 });
 
+// DELETE /api/notifications/:id - Delete single notification
+router.delete('/:id', (req: Request<{ id: string }>, res: Response) => {
+  try {
+    const notificationId = req.params.id;
+    const deleted = notificationService.deleteNotification(notificationId);
+    if (!deleted) {
+      return res.status(404).json({ success: false, error: `Notification ${notificationId} not found` });
+    }
+    return res.json({
+      success: true,
+      message: 'Notification deleted successfully'
+    });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, error: error.message || 'Error deleting notification' });
+  }
+});
+
+// POST /api/notifications/clear-all OR DELETE /api/notifications - Clear all notifications for user
+const handleClearAll = (req: Request, res: Response) => {
+  try {
+    const userId = (req.body?.userId || req.query?.userId || 'prakash') as string;
+    const clearedCount = notificationService.clearAll(userId);
+    return res.json({
+      success: true,
+      data: { clearedCount },
+      message: `${clearedCount} notifications cleared`
+    });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, error: error.message || 'Error clearing notifications' });
+  }
+};
+
+router.post('/clear-all', handleClearAll);
+router.delete('/', handleClearAll);
+
 // POST /api/notifications/broadcast - Broadcast system announcement to all users
 router.post('/broadcast', (req: Request, res: Response) => {
   try {

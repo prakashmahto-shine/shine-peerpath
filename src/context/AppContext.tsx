@@ -139,6 +139,7 @@ interface AppContextType {
   unreadNotificationsCount: number;
   markNotificationAsRead: (notificationId: string) => void;
   markAllNotificationsAsRead: () => void;
+  deleteNotification: (notificationId: string) => void;
   clearAllNotifications: () => void;
 }
 
@@ -1416,8 +1417,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showToast('All caught up!', 'All notifications marked as read.', 'info');
   };
 
+  const deleteNotification = (notificationId: string) => {
+    setNotifications(prev => prev.filter(n => n.id !== notificationId));
+    fetch(`/api/notifications/${notificationId}`, { method: 'DELETE' }).catch(() => {});
+  };
+
   const clearAllNotifications = () => {
     setNotifications([]);
+    fetch('/api/notifications/clear-all', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: currentUser?.id || 'prakash' })
+    }).catch(() => {});
+    showToast('Notifications Cleared', 'All community & mentor alerts have been removed.', 'info');
   };
 
   // View Navigation with URL sync & Smooth Scroll
@@ -1985,6 +1997,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         unreadNotificationsCount,
         markNotificationAsRead,
         markAllNotificationsAsRead,
+        deleteNotification,
         clearAllNotifications
       }}
     >

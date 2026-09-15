@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Eye, EyeOff, ShieldCheck, User, Sparkles, RotateCcw, MessageSquare, Mail, ArrowRight, Compass, CheckCircle, Star, TrendingUp } from 'lucide-react';
+import { Eye, EyeOff, ShieldCheck, User, Sparkles, MessageSquare, Mail, ArrowRight, Compass, CheckCircle, Star, TrendingUp } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 interface ShowcaseMentor {
@@ -463,83 +463,6 @@ export const LoginView: React.FC = () => {
                   </form>
                 )
               )}
-
-              {/* Quick 1-Click Demo Accounts Selector */}
-              <div className="shine-demo-accounts-box">
-                <div className="demo-accounts-header-row">
-                  <span className="demo-accounts-header">⚡ 1-Click Demo Login:</span>
-                  <span className="demo-accounts-hint">Click persona to instant-login</span>
-                </div>
-                <div className="demo-cards-row">
-                  <button 
-                    type="button"
-                    className="btn-demo-account-chip chip-candidate"
-                    onClick={() => {
-                      setIdentifier('prakash');
-                      setPassword('shine@123');
-                      login('prakash', 'shine@123');
-                    }}
-                    title="Sign in as Candidate Prakash"
-                  >
-                    <div className="demo-chip-header">
-                      <img src="/avatars/prakash.jpg" alt="Prakash" className="demo-chip-av" />
-                      <strong className="demo-chip-name">Prakash</strong>
-                    </div>
-                    <div className="demo-chip-meta">
-                      <span className="demo-role-badge badge-cand">Candidate</span>
-                      <span className="demo-sub-role">Junior SDE</span>
-                    </div>
-                  </button>
-
-                  <button 
-                    type="button"
-                    className="btn-demo-account-chip chip-nisha"
-                    onClick={() => {
-                      setIdentifier('nisha');
-                      setPassword('shine@123');
-                      login('nisha', 'shine@123');
-                    }}
-                    title="Sign in as Pitch Target Nisha"
-                  >
-                    <div className="demo-chip-header">
-                      <img src="/avatars/nisha.jpg" alt="Nisha" className="demo-chip-av" />
-                      <strong className="demo-chip-name">Nisha</strong>
-                    </div>
-                    <div className="demo-chip-meta">
-                      <span className="demo-role-badge badge-lead">Pitch Lead</span>
-                      <span className="demo-sub-role">Staff @ Flipkart</span>
-                    </div>
-                  </button>
-
-                  <button 
-                    type="button"
-                    className="btn-demo-account-chip chip-mentor"
-                    onClick={() => {
-                      setIdentifier('akash');
-                      setPassword('shine@123');
-                      login('akash', 'shine@123');
-                    }}
-                    title="Sign in as Mentor Akash"
-                  >
-                    <div className="demo-chip-header">
-                      <img src="/avatars/akash.jpg" alt="Akash" className="demo-chip-av" />
-                      <strong className="demo-chip-name">Akash</strong>
-                    </div>
-                    <div className="demo-chip-meta">
-                      <span className="demo-role-badge badge-mentor">Mentor</span>
-                      <span className="demo-sub-role">Lead PM @ Shine</span>
-                    </div>
-                  </button>
-                </div>
-
-                <button 
-                  type="button" 
-                  className="btn-reset-demo-login"
-                  onClick={() => resetDemoData()}
-                >
-                  <RotateCcw size={11} /> Reset Demo Personas to Baseline
-                </button>
-              </div>
 
             </div>
 

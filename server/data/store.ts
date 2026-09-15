@@ -475,6 +475,28 @@ class Store {
     return count;
   }
 
+  public deleteNotification(id: string): boolean {
+    const initialLen = this.data.notifications.length;
+    this.data.notifications = this.data.notifications.filter(n => n.id !== id);
+    if (this.data.notifications.length !== initialLen) {
+      this.saveData();
+      return true;
+    }
+    return false;
+  }
+
+  public clearAllNotifications(userId?: string): number {
+    const initialLen = this.data.notifications.length;
+    if (userId) {
+      this.data.notifications = this.data.notifications.filter(n => n.recipientId && n.recipientId !== userId && n.recipientId !== 'all');
+    } else {
+      this.data.notifications = [];
+    }
+    const removed = initialLen - this.data.notifications.length;
+    this.saveData();
+    return removed;
+  }
+
   // Analytics
   public getAnalytics() {
     return {
