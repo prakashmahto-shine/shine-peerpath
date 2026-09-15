@@ -3076,11 +3076,11 @@
       "name": "Prakash Mahto",
       "email": "prakash.mahto@example.com",
       "phone": "+91 98000 10000",
-      "headline": "senior frontend devloper @ TCS ➔ Aspiring Full-stack Architecture @ swiggy",
-      "experienceYears": "4 Years, 2 Months",
-      "location": "Bengaluru, India",
-      "profileScore": 92,
-      "jobSearchStatus": "Serving Notice Period (30 Days)",
+      "headline": "Senior frontend developer",
+      "experienceYears": "4 yrs",
+      "location": "Gurgaon",
+      "profileScore": 90,
+      "jobSearchStatus": "Actively Looking For Jobs",
       "summary": "Senior Frontend Developer with 4+ years of hands-on experience building high-traffic, resilient web applications at scale. Specializing in React 19, TypeScript, and micro-frontends.",
       "skills": [
         "Node.Js",
@@ -3137,7 +3137,14 @@
       "recruiterSearchMultiplier": 3.8,
       "currentCompany": "TCS",
       "dreamCompany": "swiggy",
-      "resumeFileName": "resume (1).pdf"
+      "resumeFileName": "resume (1).pdf",
+      "avatar": "/avatars/prakash.jpg",
+      "noticePeriod": "2+ Months",
+      "expectedCtc": "66-70 Lacs",
+      "currentlyNotWorking": false,
+      "designation": "Senior frontend developer",
+      "startDate": "Aug 2022",
+      "resumeLastUpdated": "Updated just now"
     },
     {
       "id": "varun-venkataraman",
@@ -3752,6 +3759,73 @@
   ],
   "sessions": [
     {
+      "id": "sess-1789113569351",
+      "expertId": "ishaan2",
+      "expert": {
+        "id": "ishaan2",
+        "name": "Ishaan Singh",
+        "role": "Senior Full-Stack Engineer",
+        "company": "Swiggy",
+        "domain": "Full-Stack",
+        "experience": "9+ Years Exp.",
+        "rating": 4.86,
+        "reviewsCount": 181,
+        "sessionsCount": 383,
+        "price": 1399,
+        "location": "Chennai, India",
+        "duration": "01:13",
+        "avatar": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80",
+        "videoPoster": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80",
+        "teaserTitle": "Teaser: How I Became Senior Full-Stack Engineer at Swiggy",
+        "skills": [
+          "GraphQL",
+          "Module Federation",
+          "Next.js",
+          "Kubernetes",
+          "Node.js",
+          "Micro-Frontends"
+        ],
+        "bio": "Senior Full-Stack Engineer at Swiggy. I mentor engineers making the jump into Full-Stack roles, with deep focus on GraphQL and Module Federation.",
+        "verifiedEmail": "ishaan.s@swiggy.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Full-Stack Developer",
+          "company3YearsAgo": "Cognizant Technology Solutions",
+          "salary3YearsAgo": "₹4.6 LPA",
+          "keyJumpSkills": [
+            "Large-Scale System Design",
+            "Web Vitals Performance",
+            "Micro-Frontends Architecture"
+          ],
+          "jumpStory": "Went from Full-Stack Developer at Cognizant Technology Solutions to Senior Full-Stack Engineer at Swiggy by mastering Large-Scale System Design and Web Vitals Performance."
+        },
+        "availability": {
+          "days": [
+            "Tue",
+            "Thu",
+            "Sun"
+          ],
+          "timeSlots": [
+            "06:00 PM - 07:00 PM",
+            "07:30 PM - 08:30 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash",
+      "candidateName": "Prakash Kumar",
+      "candidateRole": "Senior frontend developer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Trajectory mentorship & target jump into Swiggy",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "Sat, 12 Sep 2026",
+      "timeSlot": "10:00 AM - 11:00 AM",
+      "status": "upcoming",
+      "meetingLink": "https://meet.shine.com/room/peerpath-ishaan2-1789113569351",
+      "paymentId": "pay_shine_mtwo0x8n_ompm",
+      "amountPaid": 1399,
+      "bookedAt": "2026-09-11T07:59:29.351Z"
+    },
+    {
       "id": "sess-1",
       "expertId": "saheli",
       "expert": {
@@ -3929,9 +4003,9 @@
     }
   ],
   "analytics": {
-    "profileUpdatesThisMonth": 14821,
+    "profileUpdatesThisMonth": 14822,
     "newRegistrationsThisMonth": 6350,
-    "totalSessionsBooked": 2430,
+    "totalSessionsBooked": 2431,
     "totalActiveCreators": 62
   }
 }

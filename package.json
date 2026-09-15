@@ -5,12 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:frontend": "vite",
+    "dev:backend": "tsx watch server/index.ts",
+    "dev:all": "tsx server/index.ts & vite",
     "server": "tsx server/index.ts",
     "server:dev": "tsx watch server/index.ts",
     "start:all": "tsx server/index.ts & vite",
     "build": "tsc && vite build",
+    "build:frontend": "tsc && vite build",
     "preview": "vite preview",
-    "start": "tsx server/index.ts"
+    "start": "tsx server/index.ts",
+    "test:api": "node server/test-api.mjs"
   },
   "dependencies": {
     "@huggingface/transformers": "^4.2.0",
