@@ -1,102 +1,269 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Clock, FileText, ShieldCheck, User, X, Zap, Award, Mic, MicOff, Video, VideoOff, ScreenShare, PhoneOff, Camera } from 'lucide-react';
+import { 
+  Clock, FileText, ShieldCheck, User, X, Zap, Award, 
+  Mic, MicOff, Video, VideoOff, ScreenShare, PhoneOff, Camera, 
+  Wifi, Download, AlertCircle, Sparkles, CheckCircle2
+} from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { WebRTCService, PeerState } from '../../services/webrtcService';
 
 export const LiveVideoCallView: React.FC = () => {
-  const { activeSession, selectedExpert, navigate, userProfile } = useApp();
-  const expert = activeSession?.expert || selectedExpert;
+  const { 
+    activeSession, 
+    selectedExpert, 
+    navigate, 
+    userProfile, 
+    currentUser, 
+    isCreatorMode,
+    completeSession,
+    awardBadge,
+    showToast 
+  } = useApp();
 
-  const [seconds, setSeconds] = useState<number>(28 * 60 + 15);
+  const isMentor = isCreatorMode || currentUser?.role === 'mentor';
+  const expert = activeSession?.expert || selectedExpert;
+  const candidateName = activeSession?.candidateName || userProfile?.name || 'Prakash Mahto';
+  const candidateRole = activeSession?.candidateRole || 'Senior Frontend Engineer';
+
+  const sessionId = activeSession?.id || `sess-${expert.id || 'mentor'}-live`;
+  const roomId = `peerpath-room-${sessionId.replace(/^peerpath-/, '').replace(/^sess-/, '')}`;
+
+  // Call timer
+  const [seconds, setSeconds] = useState<number>(0);
+
+  // Local media states
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [isVideoOff, setIsVideoOff] = useState<boolean>(false);
   const [isSharingScreen, setIsSharingScreen] = useState<boolean>(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [rubricApproved, setRubricApproved] = useState<boolean>(false);
   const [cameraError, setCameraError] = useState<boolean>(false);
 
-  const localVideoRef = useRef<HTMLVideoElement | null>(null);
-  const screenVideoRef = useRef<HTMLVideoElement | null>(null);
-  const webcamStreamRef = useRef<MediaStream | null>(null);
-  const screenStreamRef = useRef<MediaStream | null>(null);
+  // Remote peer states
+  const [isPeerConnected, setIsPeerConnected] = useState<boolean>(false);
+  const [peerState, setPeerState] = useState<PeerState>({
+    isMuted: false,
+    isVideoOff: false,
+    isSharingScreen: false,
+    name: isMentor ? candidateName : expert.name
+  });
 
+  // Recording states
+  const [isRecording, setIsRecording] = useState<boolean>(true);
+  const [recordingBlob, setRecordingBlob] = useState<Blob | null>(null);
+  const [recordingDownloadUrl, setRecordingDownloadUrl] = useState<string | null>(null);
+  const [recordingUploaded, setRecordingUploaded] = useState<boolean>(false);
+
+  // Drawer & Assessment
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [rubricApproved, setRubricApproved] = useState<boolean>(false);
+  const [connectionQuality, setConnectionQuality] = useState<'good' | 'connecting' | 'reconnecting'>('connecting');
+
+  // Video element refs
+  const localVideoRef = useRef<HTMLVideoElement | null>(null);
+  const remoteVideoRef = useRef<HTMLVideoElement | null>(null);
+  const screenVideoRef = useRef<HTMLVideoElement | null>(null);
+
+  // Stream & Service refs
+  const localStreamRef = useRef<MediaStream | null>(null);
+  const screenStreamRef = useRef<MediaStream | null>(null);
+  const webrtcServiceRef = useRef<WebRTCService | null>(null);
+
+  // Timer counter
   useEffect(() => {
     const interval = setInterval(() => {
-      setSeconds((prev) => prev + 1);
+      setSeconds(prev => prev + 1);
     }, 1000);
     return () => clearInterval(interval);
   }, []);
 
+  // WebRTC Initialization & Media Setup
   useEffect(() => {
-    const enableWebcam = async () => {
+    let isMounted = true;
+
+    const initWebRTC = async () => {
       try {
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-          const userMediaStream = await navigator.mediaDevices.getUserMedia({
-            video: { width: { ideal: 1280 }, height: { ideal: 720 } },
-            audio: false,
-          });
-          webcamStreamRef.current = userMediaStream;
-          if (localVideoRef.current && !isSharingScreen) {
-            localVideoRef.current.srcObject = userMediaStream;
-            localVideoRef.current.play().catch(() => {});
+        // 1. Get local webcam + audio stream
+        let stream: MediaStream | null = null;
+        try {
+          if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            stream = await navigator.mediaDevices.getUserMedia({
+              video: { width: { ideal: 1280 }, height: { ideal: 720 } },
+              audio: true
+            });
+            localStreamRef.current = stream;
+            if (localVideoRef.current && isMounted) {
+              localVideoRef.current.srcObject = stream;
+              localVideoRef.current.play().catch(() => {});
+            }
+            setCameraError(false);
           }
-          setCameraError(false);
+        } catch (err) {
+          console.warn('[WebRTC] Camera/Mic access denied or unavailable:', err);
+          setCameraError(true);
         }
-      } catch (err) {
-        setCameraError(true);
+
+        // 2. Initialize WebRTC Service with callbacks
+        const service = new WebRTCService({
+          onRemoteStream: (remoteStream) => {
+            console.log('[WebRTC UI] Setting remote stream to video element');
+            setIsPeerConnected(true);
+            setConnectionQuality('good');
+            if (remoteVideoRef.current) {
+              remoteVideoRef.current.srcObject = remoteStream;
+              remoteVideoRef.current.play().catch(e => console.warn('Autoplay error:', e));
+            }
+          },
+          onRemoteStreamRemoved: () => {
+            setIsPeerConnected(false);
+            if (remoteVideoRef.current) {
+              remoteVideoRef.current.srcObject = null;
+            }
+          },
+          onPeerJoined: (peerInfo) => {
+            setIsPeerConnected(true);
+            setConnectionQuality('good');
+            setPeerState(prev => ({
+              ...prev,
+              name: peerInfo.userName || (isMentor ? candidateName : expert.name),
+              avatar: peerInfo.avatar
+            }));
+            showToast(`Connected with ${peerInfo.userName || 'peer'}`, 'Live 1:1 video & audio session is active.', 'success');
+          },
+          onPeerLeft: (peerName) => {
+            setIsPeerConnected(false);
+            setConnectionQuality('connecting');
+            showToast(`${peerName || 'Participant'} left the room`, 'Waiting for peer to reconnect...', 'info');
+          },
+          onConnectionStateChange: (state) => {
+            if (state === 'connected') {
+              setConnectionQuality('good');
+            } else if (state === 'connecting') {
+              setConnectionQuality('connecting');
+            } else if (state === 'disconnected' || state === 'failed') {
+              setConnectionQuality('reconnecting');
+            }
+          },
+          onRecordingStateChange: (recStatus) => {
+            setIsRecording(recStatus);
+          },
+          onPeerMediaStateChange: (state) => {
+            setPeerState(prev => ({ ...prev, ...state }));
+          }
+        });
+
+        webrtcServiceRef.current = service;
+
+        // 3. Connect to room
+        await service.joinRoom({
+          roomId,
+          userId: currentUser?.id || (isMentor ? expert.id : 'prakash'),
+          userName: isMentor ? expert.name : (userProfile?.name || 'Prakash Mahto'),
+          userRole: isMentor ? 'mentor' : 'candidate',
+          avatar: isMentor ? expert.avatar : (currentUser?.avatar || '/avatars/prakash.jpg'),
+          localStream: stream || undefined
+        });
+
+        // 4. Start auto-recording
+        setTimeout(() => {
+          if (service && isMounted) {
+            service.startRecording();
+          }
+        }, 1500);
+
+      } catch (err: any) {
+        console.error('[WebRTC UI Init Error]:', err);
       }
     };
 
-    enableWebcam();
+    initWebRTC();
 
     return () => {
-      if (webcamStreamRef.current) {
-        webcamStreamRef.current.getTracks().forEach((t) => t.stop());
+      isMounted = false;
+      if (webrtcServiceRef.current) {
+        webrtcServiceRef.current.leaveRoom();
+      }
+      if (localStreamRef.current) {
+        localStreamRef.current.getTracks().forEach(t => t.stop());
       }
       if (screenStreamRef.current) {
-        screenStreamRef.current.getTracks().forEach((t) => t.stop());
+        screenStreamRef.current.getTracks().forEach(t => t.stop());
       }
     };
-  }, []);
+  }, [roomId]);
 
+  // Toggle Mute (Audio)
+  const toggleMute = () => {
+    const nextState = !isMuted;
+    setIsMuted(nextState);
+    if (localStreamRef.current) {
+      const audioTrack = localStreamRef.current.getAudioTracks()[0];
+      if (audioTrack) {
+        audioTrack.enabled = !nextState;
+      }
+    }
+    webrtcServiceRef.current?.broadcastMediaState({ isMuted: nextState });
+  };
+
+  // Toggle Camera (Video)
   const toggleCamera = () => {
     const nextState = !isVideoOff;
     setIsVideoOff(nextState);
-    if (webcamStreamRef.current) {
-      const videoTrack = webcamStreamRef.current.getVideoTracks()[0];
+    if (localStreamRef.current) {
+      const videoTrack = localStreamRef.current.getVideoTracks()[0];
       if (videoTrack) {
         videoTrack.enabled = !nextState;
       }
     }
+    webrtcServiceRef.current?.broadcastMediaState({ isVideoOff: nextState });
   };
 
+  // Toggle Screen Share
   const toggleScreenShare = async () => {
     if (isSharingScreen) {
+      // Stop Screen Share
       if (screenStreamRef.current) {
-        screenStreamRef.current.getTracks().forEach((t) => t.stop());
+        screenStreamRef.current.getTracks().forEach(t => t.stop());
         screenStreamRef.current = null;
       }
       setIsSharingScreen(false);
+
+      // Restore camera video track in WebRTC sender
+      if (localStreamRef.current) {
+        const camVideoTrack = localStreamRef.current.getVideoTracks()[0];
+        if (camVideoTrack && webrtcServiceRef.current) {
+          await webrtcServiceRef.current.replaceVideoTrack(camVideoTrack);
+        }
+      }
+
+      webrtcServiceRef.current?.broadcastMediaState({ isSharingScreen: false });
+
       setTimeout(() => {
-        if (localVideoRef.current && webcamStreamRef.current) {
-          localVideoRef.current.srcObject = webcamStreamRef.current;
+        if (localVideoRef.current && localStreamRef.current) {
+          localVideoRef.current.srcObject = localStreamRef.current;
           localVideoRef.current.play().catch(() => {});
         }
       }, 100);
     } else {
+      // Start Screen Share
       try {
         if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
           const displayStream = await navigator.mediaDevices.getDisplayMedia({
             video: true,
-            audio: false,
+            audio: false
           });
           screenStreamRef.current = displayStream;
           setIsSharingScreen(true);
 
-          displayStream.getVideoTracks()[0].onended = () => {
-            setIsSharingScreen(false);
-            if (localVideoRef.current && webcamStreamRef.current) {
-              localVideoRef.current.srcObject = webcamStreamRef.current;
-            }
+          const screenTrack = displayStream.getVideoTracks()[0];
+
+          // Replace track in active WebRTC connection
+          if (screenTrack && webrtcServiceRef.current) {
+            await webrtcServiceRef.current.replaceVideoTrack(screenTrack);
+          }
+
+          webrtcServiceRef.current?.broadcastMediaState({ isSharingScreen: true });
+
+          screenTrack.onended = () => {
+            toggleScreenShare();
           };
 
           setTimeout(() => {
@@ -107,33 +274,122 @@ export const LiveVideoCallView: React.FC = () => {
           }, 100);
         }
       } catch (err) {
+        console.warn('Screen share cancelled or failed:', err);
       }
     }
   };
 
+  // Toggle Recording manually
+  const toggleRecording = async () => {
+    if (!webrtcServiceRef.current) return;
+    if (isRecording) {
+      const result = await webrtcServiceRef.current.stopRecording();
+      setIsRecording(false);
+      if (result.blob) {
+        setRecordingBlob(result.blob);
+        setRecordingDownloadUrl(result.downloadUrl);
+        showToast('Recording Stopped', 'Session recording ready for download.', 'info');
+      }
+    } else {
+      const started = webrtcServiceRef.current.startRecording();
+      if (started) {
+        setIsRecording(true);
+        showToast('Recording Started', 'Session is being recorded in HD.', 'success');
+      }
+    }
+  };
+
+  // Format timer HH:MM:SS
   const formatTimer = (s: number) => {
     const mins = Math.floor(s / 60);
     const secs = s % 60;
     return `00:${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
-  const handleEnd = () => {
-    if (webcamStreamRef.current) {
-      webcamStreamRef.current.getTracks().forEach((t) => t.stop());
+  // End Call & Complete Session
+  const handleEnd = async () => {
+    let finalBlob: Blob | null = recordingBlob;
+    let finalDuration = seconds;
+
+    // Finalize recording if active
+    if (webrtcServiceRef.current && isRecording) {
+      const rec = await webrtcServiceRef.current.stopRecording();
+      if (rec.blob) {
+        finalBlob = rec.blob;
+        finalDuration = rec.durationSeconds || seconds;
+        setRecordingBlob(rec.blob);
+        setRecordingDownloadUrl(rec.downloadUrl);
+      }
     }
-    if (screenStreamRef.current) {
-      screenStreamRef.current.getTracks().forEach((t) => t.stop());
+
+    // Auto-upload recording to backend
+    if (webrtcServiceRef.current && finalBlob && activeSession?.id) {
+      webrtcServiceRef.current.uploadRecording(activeSession.id, finalBlob, finalDuration);
+      setRecordingUploaded(true);
     }
+
+    // Award badge if mentor approved rubric
+    if (rubricApproved) {
+      awardBadge({
+        id: `badge-${Date.now()}`,
+        title: `Peer-Verified ${expert.domain} Architecture`,
+        subtitle: `Verified 1:1 by ${expert.name} (${expert.company})`,
+        verifierName: expert.name,
+        verifierRole: expert.role,
+        verifierCompany: expert.company,
+        verifierAvatar: expert.avatar,
+        date: 'Today',
+        skills: expert.skills.slice(0, 3),
+        status: 'verified'
+      });
+    }
+
+    // Complete session in state
+    if (activeSession?.id) {
+      completeSession(
+        activeSession.id,
+        5,
+        `1:1 ${expert.domain} Guidance call with ${expert.name}. Candidate verified across core system design and domain rubrics.`,
+        rubricApproved ? `Verified ${expert.domain} Architecture` : undefined
+      );
+    }
+
+    // Leave room
+    if (webrtcServiceRef.current) {
+      webrtcServiceRef.current.leaveRoom();
+    }
+
+    showToast('Session Completed', 'Your session feedback and recording have been synced.', 'success');
     navigate('post-session-view');
   };
 
+  const otherParticipantName = isMentor ? candidateName : expert.name;
+  const otherParticipantRole = isMentor ? candidateRole : `${expert.role} • ${expert.company}`;
+  const otherParticipantAvatar = isMentor ? (activeSession?.candidateAvatar || '/avatars/prakash.jpg') : expert.avatar;
+
   return (
     <div className="video-call-fullscreen-wrapper">
+      {/* Top Bar */}
       <div className="call-top-bar">
         <div className="call-title-left">
-          <span className="call-recording-pill"><span className="red-pulse-dot"></span> REC</span>
+          <button 
+            type="button" 
+            onClick={toggleRecording}
+            className={`call-recording-pill ${isRecording ? 'active' : ''}`}
+            title="Click to toggle session recording"
+            style={{ cursor: 'pointer', border: 'none' }}
+          >
+            <span className={isRecording ? 'red-pulse-dot' : ''} style={{ background: isRecording ? '#EF4444' : '#64748B' }}></span>
+            <span>{isRecording ? 'REC' : 'PAUSED'}</span>
+          </button>
+
           <span className="call-session-title">
-            {expert.domain} Guidance with <strong>{expert.name}</strong> ({expert.company})
+            <strong>{expert.domain} Guidance:</strong> {candidateName} ⇄ {expert.name} ({expert.company})
+          </span>
+
+          <span className="sc-confirmed-chip ml-3" style={{ background: 'rgba(255,255,255,0.08)', color: '#94A3B8', fontSize: '11px' }}>
+            <Wifi size={11} className={connectionQuality === 'good' ? 'text-emerald-400' : 'text-amber-400'} />
+            <span>{isPeerConnected ? 'Live P2P Encrypted' : 'Waiting for Peer...'}</span>
           </span>
         </div>
         
@@ -148,17 +404,59 @@ export const LiveVideoCallView: React.FC = () => {
         </div>
       </div>
 
+      {/* Main Stage Grid (2 Video Feeds) */}
       <div className="call-main-stage">
+        
+        {/* PEER FEED (Left Video Box) */}
         <div className="video-feed-box mentor-feed">
-          <img src={expert.avatar} alt="Mentor Live Feed" className="feed-bg-img" />
+          {isPeerConnected ? (
+            <>
+              <video
+                ref={remoteVideoRef}
+                autoPlay
+                playsInline
+                className="feed-bg-img feed-webcam-stream"
+                style={{ objectFit: 'cover' }}
+              />
+              {peerState.isMuted && (
+                <div style={{ position: 'absolute', top: '16px', right: '16px', background: 'rgba(239,68,68,0.85)', color: '#fff', fontSize: '11px', padding: '4px 8px', borderRadius: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <MicOff size={12} /> Peer Muted
+                </div>
+              )}
+            </>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', background: '#0B1120', color: '#94A3B8', gap: '14px', textAlign: 'center', padding: '20px' }}>
+              <div style={{ position: 'relative' }}>
+                <img 
+                  src={otherParticipantAvatar} 
+                  alt={otherParticipantName} 
+                  style={{ width: '84px', height: '84px', borderRadius: '50%', objectFit: 'cover', border: '3px solid #6366F1' }} 
+                />
+                <span className="live-cam-pulse-dot" style={{ position: 'absolute', bottom: '2px', right: '2px', width: '16px', height: '16px', background: '#10B981' }}></span>
+              </div>
+              <div>
+                <h4 style={{ color: '#FFFFFF', fontSize: '16px', fontWeight: 700, margin: '0 0 4px 0' }}>
+                  Waiting for {otherParticipantName} to join...
+                </h4>
+                <p style={{ fontSize: '12px', color: '#64748B', margin: 0 }}>
+                  Room ID: <code style={{ color: '#818CF8' }}>{roomId}</code> (Invite link active)
+                </p>
+              </div>
+            </div>
+          )}
+
           <div className="feed-user-label">
-            <ShieldCheck size={16} className="text-brand-gold" /> {expert.name} ({expert.company})
+            <ShieldCheck size={16} className="text-brand-gold" /> {otherParticipantName} ({otherParticipantRole})
           </div>
-          <div className="sound-wave-indicator">
-            <span></span><span></span><span></span><span></span>
-          </div>
+          
+          {isPeerConnected && !peerState.isMuted && (
+            <div className="sound-wave-indicator">
+              <span></span><span></span><span></span><span></span>
+            </div>
+          )}
         </div>
 
+        {/* LOCAL FEED (Right Video Box) */}
         <div className="video-feed-box candidate-feed">
           {isSharingScreen ? (
             <div style={{ position: 'relative', width: '100%', height: '100%', background: '#000' }}>
@@ -176,17 +474,17 @@ export const LiveVideoCallView: React.FC = () => {
           ) : isVideoOff ? (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', background: '#0f172a', color: '#94a3b8', gap: '10px' }}>
               <VideoOff size={48} />
-              <span style={{ fontSize: '14px', fontWeight: 600 }}>Camera is turned off</span>
+              <span style={{ fontSize: '14px', fontWeight: 600 }}>Your Camera is turned off</span>
             </div>
           ) : cameraError ? (
             <>
               <img 
-                src="/avatars/prakash.jpg" 
+                src={currentUser?.avatar || '/avatars/prakash.jpg'} 
                 alt="Candidate Feed" 
                 className="feed-bg-img" 
               />
               <div style={{ position: 'absolute', top: '16px', left: '16px', background: 'rgba(0,0,0,0.65)', color: '#FFD200', fontSize: '11px', padding: '4px 8px', borderRadius: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <Camera size={12} /> Camera Ready
+                <Camera size={12} /> Camera Inactive (Voice Mode)
               </div>
             </>
           ) : (
@@ -201,10 +499,17 @@ export const LiveVideoCallView: React.FC = () => {
           )}
 
           <div className="feed-user-label">
-            <User size={15} /> You ({userProfile.name} - Candidate)
+            <User size={15} /> You ({isMentor ? expert.name : userProfile.name} - {isMentor ? 'Mentor Host' : 'Candidate'})
           </div>
+
+          {isMuted && (
+            <div style={{ position: 'absolute', top: '16px', right: '16px', background: 'rgba(239,68,68,0.85)', color: '#fff', fontSize: '11px', padding: '4px 8px', borderRadius: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <MicOff size={12} /> Muted
+            </div>
+          )}
         </div>
 
+        {/* Side Drawer: Pre-Loaded CV Gap Analysis & Rubric */}
         {isDrawerOpen && (
           <div className="cv-gap-drawer">
             <div className="drawer-header">
@@ -213,7 +518,7 @@ export const LiveVideoCallView: React.FC = () => {
             </div>
             <div className="drawer-body">
               <div className="candidate-brief">
-                <strong>{userProfile.name}</strong> • 4 Yrs Experience ➔ Target: {expert.domain}
+                <strong>{candidateName}</strong> • {candidateRole} ➔ Target: {expert.domain}
               </div>
               <div className="rubric-checklist-box">
                 <span className="rubric-subtitle">Mentor Evaluation Rubric (Auto-Generated by Shine AI):</span>
@@ -232,22 +537,39 @@ export const LiveVideoCallView: React.FC = () => {
               </div>
               
               <button 
-                className="btn-shine-gold w-100 mt-3" 
-                onClick={() => { setRubricApproved(true); }}
+                type="button"
+                className={`btn-shine-gold w-100 mt-3 ${rubricApproved ? 'active' : ''}`}
+                onClick={() => { 
+                  setRubricApproved(true);
+                  showToast('Badge Approved!', `Peer-verified badge queued for ${candidateName}.`, 'success');
+                }}
               >
-                <Award size={16} /> {rubricApproved ? 'Badge Approved ✓' : 'Approve Peer-Verified Badge'}
+                <Award size={16} /> {rubricApproved ? 'Peer-Verified Badge Approved ✓' : 'Approve Peer-Verified Badge'}
               </button>
+
+              {recordingDownloadUrl && (
+                <a 
+                  href={recordingDownloadUrl} 
+                  download={`shine-peerpath-session-${sessionId}.webm`}
+                  className="btn-ghost-sm w-100 mt-2" 
+                  style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px', background: 'rgba(255,255,255,0.06)', color: '#fff', padding: '8px 12px', borderRadius: '6px', textDecoration: 'none', fontSize: '12px' }}
+                >
+                  <Download size={14} /> Download Live Recording (.webm)
+                </a>
+              )}
             </div>
           </div>
         )}
 
       </div>
 
+      {/* Bottom Controls Bar */}
       <div className="call-bottom-controls-bar">
         <div className="call-ctrl-group">
           <button 
+            type="button"
             className={`call-action-btn ${isMuted ? 'btn-active-muted' : ''}`} 
-            onClick={() => setIsMuted(!isMuted)}
+            onClick={toggleMute}
             title={isMuted ? 'Unmute Mic' : 'Mute Mic'}
           >
             <div className="btn-icon-circle">
@@ -257,6 +579,7 @@ export const LiveVideoCallView: React.FC = () => {
           </button>
           
           <button 
+            type="button"
             className={`call-action-btn ${isVideoOff ? 'btn-active-muted' : ''}`} 
             onClick={toggleCamera}
             title={isVideoOff ? 'Turn Camera On' : 'Turn Camera Off'}
@@ -268,35 +591,35 @@ export const LiveVideoCallView: React.FC = () => {
           </button>
           
           <button 
+            type="button"
             className={`call-action-btn ${isSharingScreen ? 'btn-active-screenshare' : ''}`} 
             onClick={toggleScreenShare}
             title={isSharingScreen ? 'Stop Screen Sharing' : 'Share Screen / Resume'}
           >
             <div className="btn-icon-circle">
-              <ScreenShare size={18} />
+              {isSharingScreen ? <ScreenShare size={18} /> : <ScreenShare size={18} />}
             </div>
             <span className="btn-label">{isSharingScreen ? 'Stop Share' : 'Share Screen'}</span>
           </button>
           
           <button 
+            type="button"
             className={`call-action-btn ${isDrawerOpen ? 'btn-active-drawer' : ''}`} 
             onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-            title="Mentee Gap Sheet"
+            title="Mentee Gap Sheet & Badge Rubric"
           >
             <div className="btn-icon-circle">
               <FileText size={18} />
             </div>
             <span className="btn-label">CV Gap Sheet</span>
           </button>
-
         </div>
         
         <div className="call-end-group">
-          <button className="btn-end-call-prominent" onClick={handleEnd}>
+          <button type="button" className="btn-end-call-prominent" onClick={handleEnd}>
             <PhoneOff size={18} /> End Session & Complete Review
           </button>
         </div>
-
       </div>
     </div>
   );

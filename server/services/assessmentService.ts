@@ -144,6 +144,30 @@ export class AssessmentService {
       recruiterVisibilityBoost: '3.4x Higher Visibility in Recruiter Talent Search'
     };
   }
+
+  /**
+   * Candidate submits rating & review for the mentor post-session
+   */
+  public submitCandidateFeedback(sessionId: string, payload: {
+    rating: number;
+    reviewText: string;
+  }) {
+    const session = store.getSessionById(sessionId);
+    if (!session) {
+      throw new Error(`Session ${sessionId} not found`);
+    }
+
+    const updatedSession = store.updateSession(sessionId, {
+      rating: payload.rating,
+      feedbackNotes: payload.reviewText,
+      status: 'completed'
+    });
+
+    // Update mentor rating in database store
+    store.updateCreatorRating(session.expertId, payload.rating);
+
+    return updatedSession;
+  }
 }
 
 export const assessmentService = new AssessmentService();

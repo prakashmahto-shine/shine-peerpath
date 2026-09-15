@@ -1,0 +1,144 @@
+import React from 'react';
+import { useApp } from '../context/AppContext';
+
+// Page / View Components
+import { CareerGuidanceView } from '../components/views/CareerGuidanceView';
+import { ProfileView } from '../components/views/ProfileView';
+import { JobsView } from '../components/views/JobsView';
+import { ExpertsGalleryView } from '../components/views/ExpertsGalleryView';
+import { ExpertProfileView } from '../components/views/ExpertProfileView';
+import { CommunityView } from '../components/views/CommunityView';
+import { PaymentView } from '../components/views/PaymentView';
+import { ConfirmedView } from '../components/views/ConfirmedView';
+import { MySessionsView } from '../components/views/MySessionsView';
+import { LiveVideoCallView } from '../components/views/LiveVideoCallView';
+import { PostSessionView } from '../components/views/PostSessionView';
+import { RecruiterView } from '../components/views/RecruiterView';
+import { MentorDashboardView } from '../components/views/MentorDashboardView';
+import { LoginView } from '../components/views/LoginView';
+
+interface ViewRouterProps {
+  onSelectExpert?: (expertId: string) => void;
+  onOpenBooking?: (expertId: string) => void;
+}
+
+/**
+ * ViewRouter Component
+ * Renders the active page view based on the current URL path & user state
+ */
+export const ViewRouter: React.FC<ViewRouterProps> = ({
+  onSelectExpert: customSelectExpert,
+  onOpenBooking: customOpenBooking
+}) => {
+  const { 
+    currentView, 
+    navigate, 
+    experts, 
+    selectedExpert, 
+    selectExpertById, 
+    setIsBookingModalOpen 
+  } = useApp();
+
+  const handleSelectExpert = (expertId: string) => {
+    if (customSelectExpert) {
+      customSelectExpert(expertId);
+    } else {
+      selectExpertById(expertId);
+      navigate('expert-profile-view', `/expert/${expertId}`);
+    }
+  };
+
+  const handleOpenBooking = (expertId: string) => {
+    if (customOpenBooking) {
+      customOpenBooking(expertId);
+    } else {
+      selectExpertById(expertId);
+      setIsBookingModalOpen(true);
+    }
+  };
+
+  switch (currentView) {
+    // 1. Core Discovery & Career Trajectory
+    case 'guidance-view':
+    case 'dashboard-view':
+      return (
+        <CareerGuidanceView
+          onNavigate={navigate}
+          onSelectExpert={handleSelectExpert}
+          experts={experts}
+        />
+      );
+
+    case 'profile-view':
+      return <ProfileView />;
+
+    case 'jobs-view':
+      return (
+        <JobsView
+          onNavigate={navigate}
+          onSelectExpert={handleSelectExpert}
+        />
+      );
+
+    // 2. 1:1 Mentorship & Experts Gallery
+    case 'experts-view':
+      return (
+        <ExpertsGalleryView
+          experts={experts}
+          onSelectExpert={handleSelectExpert}
+          onOpenBooking={handleOpenBooking}
+          onNavigate={navigate}
+        />
+      );
+
+    case 'expert-profile-view':
+      return (
+        <ExpertProfileView
+          expert={selectedExpert}
+          onNavigate={navigate}
+          onOpenBooking={handleOpenBooking}
+        />
+      );
+
+    // 3. Technical Community & Mentor Discussions
+    case 'community-view':
+      return <CommunityView />;
+
+    // 4. Booking, Checkout & Schedule
+    case 'payment-view':
+      return <PaymentView />;
+
+    case 'confirmed-view':
+      return <ConfirmedView />;
+
+    case 'sessions-view':
+      return <MySessionsView />;
+
+    // 5. Live WebRTC Video Room & Evaluation
+    case 'live-call-view':
+      return <LiveVideoCallView />;
+
+    case 'post-session-view':
+      return <PostSessionView />;
+
+    // 6. Recruiter & Mentor Dashboards
+    case 'recruiter-view':
+      return <RecruiterView onNavigate={navigate} />;
+
+    case 'mentor-dashboard-view':
+      return <MentorDashboardView />;
+
+    // 7. Authentication
+    case 'login-view':
+      return <LoginView />;
+
+    default:
+      return (
+        <CareerGuidanceView
+          onNavigate={navigate}
+          onSelectExpert={handleSelectExpert}
+          experts={experts}
+        />
+      );
+  }
+};

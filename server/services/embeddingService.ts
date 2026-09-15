@@ -24,7 +24,9 @@ async function getExtractor(): Promise<any> {
         const moduleName = '@huggingface/transformers';
         const mod = await import(moduleName);
         if (mod && mod.pipeline) {
-          return await mod.pipeline('feature-extraction', MODEL_NAME);
+          const pipePromise = mod.pipeline('feature-extraction', MODEL_NAME);
+          const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('pipeline timeout')), 1000));
+          return await Promise.race([pipePromise, timeoutPromise]);
         }
       } catch (_e) {
         // Fallback gracefully without crashing server

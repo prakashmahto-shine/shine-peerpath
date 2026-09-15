@@ -188,6 +188,104 @@ async function runTests() {
     }
   });
 
+  // 11. Community Feed & Tag Filtering
+  let testPostId = '';
+  await test('GET /api/community/posts?tag=System Design', async () => {
+    const res = await fetch(`${BASE_URL}/api/community/posts?tag=System%20Design`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if (!json.success || !Array.isArray(json.data) || json.data.length === 0) {
+      throw new Error('Expected community posts matching tag "System Design"');
+    }
+    testPostId = json.data[0].id;
+  });
+
+  // 12. Create Mentor Technical Insight Post
+  let createdPostId = '';
+  await test('POST /api/community/posts (Mentor Publishing & Notification Trigger)', async () => {
+    const res = await fetch(`${BASE_URL}/api/community/posts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        mentorId: 'saheli',
+        mentorName: 'Saheli Kanjilal',
+        title: 'Kafka Consumer Lag Monitoring & Sub-Second DLQ Recovery',
+        content: 'When scaling backend microservices to 100k TPS, monitoring consumer lag in Kafka partition groups is essential.',
+        tags: ['Kafka', 'System Design', 'Backend Architecture']
+      })
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if (!json.success || !json.data.id || json.data.title !== 'Kafka Consumer Lag Monitoring & Sub-Second DLQ Recovery') {
+      throw new Error('Failed to create mentor post');
+    }
+    createdPostId = json.data.id;
+  });
+
+  // 13. Discussion Thread Comments
+  await test('POST /api/community/posts/:id/comments (Discussion & Author Alert)', async () => {
+    const res = await fetch(`${BASE_URL}/api/community/posts/${createdPostId || testPostId}/comments`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        authorId: 'prakash',
+        authorName: 'Prakash Mahto',
+        authorRole: 'Senior Frontend Engineer',
+        content: 'How do you handle dynamic partition rebalancing in Kafka without temporary consumer pause?'
+      })
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if (!json.success || !json.data.id || !json.data.content.includes('rebalancing')) {
+      throw new Error('Failed to post comment to discussion');
+    }
+  });
+
+  // 14. Post Like & Engagement Analytics
+  await test('POST /api/community/posts/:id/like (Reaction Toggle)', async () => {
+    const res = await fetch(`${BASE_URL}/api/community/posts/${createdPostId || testPostId}/like`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: 'prakash' })
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if (!json.success || typeof json.data.liked !== 'boolean') {
+      throw new Error('Failed to toggle post like');
+    }
+  });
+
+  // 15. User Notifications & Unread Counter
+  await test('GET /api/notifications?userId=prakash & /unread-count', async () => {
+    const res = await fetch(`${BASE_URL}/api/notifications?userId=prakash`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if (!json.success || !Array.isArray(json.data)) {
+      throw new Error('Failed to fetch user notifications');
+    }
+
+    const countRes = await fetch(`${BASE_URL}/api/notifications/unread-count?userId=prakash`);
+    if (!countRes.ok) throw new Error(`HTTP ${countRes.status}`);
+    const countJson = await countRes.json();
+    if (!countJson.success || typeof countJson.data.unreadCount !== 'number') {
+      throw new Error('Failed to fetch unread notification count');
+    }
+  });
+
+  // 16. Mark All Notifications As Read
+  await test('POST /api/notifications/mark-all-read', async () => {
+    const res = await fetch(`${BASE_URL}/api/notifications/mark-all-read`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: 'prakash' })
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if (!json.success || typeof json.data.markedCount !== 'number') {
+      throw new Error('Failed to mark all notifications as read');
+    }
+  });
+
   console.log(`\n========================================`);
   console.log(`Results: ${passed} Passed, ${failed} Failed`);
   console.log(`========================================\n`);
@@ -199,3 +297,4 @@ runTests().catch(err => {
   console.error('Fatal test error:', err);
   process.exit(1);
 });
+

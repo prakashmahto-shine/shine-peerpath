@@ -3,7 +3,7 @@ import { assessmentService } from '../services/assessmentService';
 
 const router = Router();
 
-const handleBriefing = (req: Request, res: Response) => {
+const handleBriefing = (req: Request<{ id: string }>, res: Response) => {
   try {
     const briefing = assessmentService.getZeroPrepDossier(req.params.id);
     return res.json({
@@ -16,7 +16,7 @@ const handleBriefing = (req: Request, res: Response) => {
   }
 };
 
-const handleAssess = (req: Request, res: Response) => {
+const handleAssess = (req: Request<{ id: string }>, res: Response) => {
   try {
     const { rating, feedbackNotes, badgeTitle, skillsVerified, interviewReadinessScore } = req.body;
     
@@ -42,6 +42,28 @@ const handleAssess = (req: Request, res: Response) => {
   }
 };
 
+const handleFeedback = (req: Request<{ id: string }>, res: Response) => {
+  try {
+    const { rating, reviewText } = req.body;
+    if (!rating) {
+      return res.status(400).json({ error: 'rating is required' });
+    }
+
+    const result = assessmentService.submitCandidateFeedback(req.params.id, {
+      rating: Number(rating),
+      reviewText: reviewText || ''
+    });
+
+    return res.json({
+      success: true,
+      message: 'Candidate review & rating submitted successfully',
+      data: result
+    });
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message || 'Error submitting review' });
+  }
+};
+
 // Handle both /sessions/:id/briefing and /:id/briefing
 router.get('/sessions/:id/briefing', handleBriefing);
 router.get('/:id/briefing', handleBriefing);
@@ -49,5 +71,9 @@ router.get('/:id/briefing', handleBriefing);
 // Handle both /sessions/:id/assess and /:id/assess
 router.post('/sessions/:id/assess', handleAssess);
 router.post('/:id/assess', handleAssess);
+
+// Handle candidate review submission
+router.post('/sessions/:id/feedback', handleFeedback);
+router.post('/:id/feedback', handleFeedback);
 
 export default router;

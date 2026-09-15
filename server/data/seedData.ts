@@ -1,4 +1,4 @@
-import { Creator, CandidateProfile, MentorshipSession, PeerVerifiedBadge } from '../types';
+import { Creator, CandidateProfile, MentorshipSession, PeerVerifiedBadge, CommunityPost, CommunityNotification } from '../types';
 
 export const SEED_CREATORS: Creator[] = [
   {
@@ -5179,3 +5179,392 @@ export const INITIAL_SESSIONS: MentorshipSession[] = [
     bookedAt: "2026-08-25T14:30:00Z"
   }
 ];
+
+export const SEED_COMMUNITY_POSTS: CommunityPost[] = [
+  {
+    id: 'post-1',
+    mentorId: 'saheli',
+    mentorName: 'Saheli Kanjilal',
+    mentorRole: 'Staff Backend & Cloud Engineer',
+    mentorCompany: 'Razorpay',
+    mentorAvatar: '/avatars/saheli.jpg',
+    title: 'Distributed Transactions & Outbox Pattern: What we evaluate in 40LPA+ Backend Interviews',
+    content: `When engineers interview for Senior Backend / Staff positions, 80% struggle to explain how to maintain consistency across microservices without distributed 2PC locks.
+
+Here is what we look for when designing resilient payment and checkout services:
+1. Idempotency Key architecture at the API gateway layer with Redis caching + database lock.
+2. Transactional Outbox Pattern with Debezium CDC (Change Data Capture) or Kafka Connect.
+3. Dead Letter Queues (DLQ) paired with automated exponential backoff retry workers.
+4. Handling split-brain network partitions using fencing tokens.
+
+If you are preparing for backend system design rounds this month, drop your architecture questions below and I'll break down common pitfalls!`,
+    tags: ['System Design', 'Backend Architecture', 'Kafka', 'Interview Prep'],
+    createdAt: new Date(Date.now() - 2 * 3600000).toISOString(),
+    likesCount: 52,
+    likedByCurrentUser: false,
+    commentsCount: 3,
+    comments: [
+      {
+        id: 'c-1',
+        postId: 'post-1',
+        authorId: 'prakash',
+        authorName: 'Prakash Mahto',
+        authorRole: 'Senior Frontend Engineer (Transitioning to Fullstack)',
+        authorAvatar: '/avatars/prakash.jpg',
+        authorIsMentor: false,
+        content: 'In the Outbox pattern, how do you prevent duplicated messages in Kafka if the polling worker crashes after pushing to the broker but before committing the database transaction status?',
+        createdAt: new Date(Date.now() - 1 * 3600000).toISOString(),
+        likesCount: 6,
+        likedByCurrentUser: false
+      },
+      {
+        id: 'c-2',
+        postId: 'post-1',
+        authorId: 'saheli',
+        authorName: 'Saheli Kanjilal',
+        authorRole: 'Staff Backend & Cloud Engineer',
+        authorAvatar: '/avatars/saheli.jpg',
+        authorIsMentor: true,
+        content: '@Prakash Great question! You should always design the downstream consumer to be idempotent. Relying on "exactly-once" delivery across broker boundaries introduces high latency. Consumer-side deduplication via an idempotency table is the industry gold standard.',
+        createdAt: new Date(Date.now() - 45 * 60000).toISOString(),
+        likesCount: 14,
+        likedByCurrentUser: true
+      },
+      {
+        id: 'c-3',
+        postId: 'post-1',
+        authorId: 'c-amit',
+        authorName: 'Amit Verma',
+        authorRole: 'SDE-2 @ Infosys',
+        authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+        authorIsMentor: false,
+        content: 'Bookmarked! Just scheduled a 1:1 session with you next Tuesday for my Razorpay interview prep!',
+        createdAt: new Date(Date.now() - 20 * 60000).toISOString(),
+        likesCount: 3,
+        likedByCurrentUser: false
+      }
+    ],
+    analytics: {
+      impressions: 3420,
+      reach: 2180,
+      engagements: 142,
+      engagementRate: '4.8%',
+      reactionsBreakdown: { likes: 44, hearts: 6, insightful: 2 },
+      commentsCount: 3,
+      repliesCount: 1,
+      sharesCount: 12,
+      profileClicks: 64,
+      bookingsGenerated: 4,
+      revenueGenerated: 3596,
+      topAudienceTitles: [
+        { title: 'Senior Software Engineer', percentage: 42 },
+        { title: 'Backend / Cloud Engineer', percentage: 28 },
+        { title: 'Tech Lead & Architect', percentage: 18 },
+        { title: 'Data Scientist / ML Engineer', percentage: 12 }
+      ],
+      topAudienceCompanies: [
+        { company: 'Amazon', percentage: 22 },
+        { company: 'Swiggy', percentage: 18 },
+        { company: 'Razorpay', percentage: 16 },
+        { company: 'TCS', percentage: 14 },
+        { company: 'Microsoft', percentage: 12 }
+      ],
+      topLocations: [
+        { city: 'Bengaluru', percentage: 48 },
+        { city: 'Hyderabad', percentage: 24 },
+        { city: 'Pune', percentage: 16 },
+        { city: 'Delhi NCR', percentage: 12 }
+      ]
+    }
+  },
+  {
+    id: 'post-2',
+    mentorId: 'ishita',
+    mentorName: 'Ishita Sharma',
+    mentorRole: 'Senior Frontend Architect',
+    mentorCompany: 'Swiggy',
+    mentorAvatar: '/avatars/ishita.jpg',
+    title: 'The SDE-2 to Frontend Staff Transition: Micro-Frontends, INP Optimization & Design Systems',
+    content: `A common myth: "Frontend interviews are just LeetCode trees and building a todo app in React."
+
+In top product teams, candidate evaluation at Staff/Architect level focuses heavily on:
+• Module Federation orchestration and independent versioning without duplicate React runtimes.
+• INP (Interaction to Next Paint) debugging: Breaking long tasks using scheduler.yield() or React 19 useTransition.
+• Zero-runtime CSS vs CSS Modules trade-offs on mobile web viewports.
+• Cross-team Design System governance and headless accessibility (ARIA patterns).
+
+I'll be hosting a 1:1 roadmap teardown for candidates aiming for Tier-1 product jumps. Ask anything below regarding UI performance audits!`,
+    tags: ['Frontend Architecture', 'React 19', 'Web Vitals', 'System Design'],
+    createdAt: new Date(Date.now() - 24 * 3600000).toISOString(),
+    likesCount: 84,
+    likedByCurrentUser: true,
+    commentsCount: 2,
+    comments: [
+      {
+        id: 'c-4',
+        postId: 'post-2',
+        authorId: 'prakash',
+        authorName: 'Prakash Mahto',
+        authorRole: 'Senior Frontend Engineer',
+        authorAvatar: '/avatars/prakash.jpg',
+        authorIsMentor: false,
+        content: 'We noticed a huge INP penalty when large data tables re-render on user filter inputs. Is startTransition enough, or should we use virtualization?',
+        createdAt: new Date(Date.now() - 18 * 3600000).toISOString(),
+        likesCount: 8,
+        likedByCurrentUser: false
+      },
+      {
+        id: 'c-5',
+        postId: 'post-2',
+        authorId: 'ishita',
+        authorName: 'Ishita Sharma',
+        authorRole: 'Senior Frontend Architect',
+        authorAvatar: '/avatars/ishita.jpg',
+        authorIsMentor: true,
+        content: '@Prakash Virtualization (e.g. TanStack Virtual) solves the DOM node ceiling. startTransition only prioritizes input responsiveness. You should combine both for sub-50ms INP!',
+        createdAt: new Date(Date.now() - 16 * 3600000).toISOString(),
+        likesCount: 11,
+        likedByCurrentUser: false
+      }
+    ],
+    analytics: {
+      impressions: 4890,
+      reach: 3120,
+      engagements: 216,
+      engagementRate: '5.2%',
+      reactionsBreakdown: { likes: 72, hearts: 9, insightful: 3 },
+      commentsCount: 2,
+      repliesCount: 1,
+      sharesCount: 18,
+      profileClicks: 92,
+      bookingsGenerated: 6,
+      revenueGenerated: 5394,
+      topAudienceTitles: [
+        { title: 'Senior Frontend Engineer', percentage: 46 },
+        { title: 'Fullstack Architect', percentage: 26 },
+        { title: 'UI Lead & Design Systems', percentage: 18 },
+        { title: 'Product Engineer', percentage: 10 }
+      ],
+      topAudienceCompanies: [
+        { company: 'Swiggy', percentage: 24 },
+        { company: 'Flipkart', percentage: 20 },
+        { company: 'Uber', percentage: 16 },
+        { company: 'Infosys', percentage: 12 }
+      ],
+      topLocations: [
+        { city: 'Bengaluru', percentage: 52 },
+        { city: 'Delhi NCR', percentage: 20 },
+        { city: 'Hyderabad', percentage: 16 }
+      ]
+    }
+  },
+  {
+    id: 'post-3',
+    mentorId: 'raghavan',
+    mentorName: 'Dr. Raghavan Nair',
+    mentorRole: 'Principal AI/ML Researcher & Platform Lead',
+    mentorCompany: 'Qualcomm',
+    mentorAvatar: '/avatars/raghavan.jpg',
+    title: 'Production RAG vs Fine-Tuning in 2026: Why Enterprise Teams Don’t Fine-Tune First',
+    content: `Almost every candidate I mentor asks: "Should I fine-tune Llama 3 for my company's domain or build a RAG pipeline?"
+
+Here is what actual production metrics show across Indian tech enterprises:
+1. Fine-tuning solves style and syntax, NOT fresh factual grounding. You still get hallucinations.
+2. Hybrid search (Dense Embeddings + BM25 keyword matching) with a Cross-Encoder reranker yields 88%+ precision at a fraction of training compute.
+3. Context chunking strategies (semantic chunking with parent-document retrievers) matter 5x more than embedding vector dimensions.
+
+Engineers moving into Applied AI & LLM Systems: What architectures are you building right now? Share below!`,
+    tags: ['Generative AI', 'LLM Architectures', 'RAG Pipelines', 'Machine Learning'],
+    createdAt: new Date(Date.now() - 48 * 3600000).toISOString(),
+    likesCount: 112,
+    likedByCurrentUser: false,
+    commentsCount: 2,
+    comments: [
+      {
+        id: 'c-6',
+        postId: 'post-3',
+        authorId: 'c-kavita',
+        authorName: 'Kavita Menon',
+        authorRole: 'Data Engineer @ Fractal',
+        authorAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
+        authorIsMentor: false,
+        content: 'Spot on Dr. Nair. We spent 3 weeks fine-tuning before realizing semantic chunking solved our retrieval miss rate.',
+        createdAt: new Date(Date.now() - 24 * 3600000).toISOString(),
+        likesCount: 9,
+        likedByCurrentUser: false
+      },
+      {
+        id: 'c-7',
+        postId: 'post-3',
+        authorId: 'prakash',
+        authorName: 'Prakash Mahto',
+        authorRole: 'Candidate',
+        authorAvatar: '/avatars/prakash.jpg',
+        authorIsMentor: false,
+        content: 'Dr. Raghavan, what vector DB latency do you consider acceptable in production for sub-100ms end-to-end response times?',
+        createdAt: new Date(Date.now() - 20 * 3600000).toISOString(),
+        likesCount: 5,
+        likedByCurrentUser: false
+      }
+    ],
+    analytics: {
+      impressions: 6240,
+      reach: 4350,
+      engagements: 340,
+      engagementRate: '6.1%',
+      reactionsBreakdown: { likes: 98, hearts: 10, insightful: 4 },
+      commentsCount: 2,
+      repliesCount: 0,
+      sharesCount: 34,
+      profileClicks: 148,
+      bookingsGenerated: 9,
+      revenueGenerated: 14391,
+      topAudienceTitles: [
+        { title: 'AI / ML Engineer', percentage: 48 },
+        { title: 'Data Scientist', percentage: 28 },
+        { title: 'Principal Researcher', percentage: 14 },
+        { title: 'Software Engineer', percentage: 10 }
+      ],
+      topAudienceCompanies: [
+        { company: 'Qualcomm', percentage: 26 },
+        { company: 'NVIDIA', percentage: 22 },
+        { company: 'Google', percentage: 18 },
+        { company: 'Fractal', percentage: 14 }
+      ],
+      topLocations: [
+        { city: 'Bengaluru', percentage: 46 },
+        { city: 'Hyderabad', percentage: 32 },
+        { city: 'Chennai', percentage: 12 }
+      ]
+    }
+  },
+  {
+    id: 'post-4',
+    mentorId: 'akash',
+    mentorName: 'Akash Jain',
+    mentorRole: 'Lead Product Manager',
+    mentorCompany: 'Shine (HT Media)',
+    mentorAvatar: '/avatars/akash.jpg',
+    title: 'Breaking Into High-Impact Product Management: What Your Tech Background Brings to the Table',
+    content: `When engineers transition to Product Management, their biggest superpower is Technical Empathy. You already understand system constraints, API latency budgets, and engineering estimation complexities.
+
+However, the transition bottleneck is shifting from "HOW to build" to "WHY build and WHAT is the ROI".
+In your transition interviews, focus on:
+1. North Star Metrics vs Guardrail Metrics.
+2. PRDs with clear user problem validation rather than architectural solutions.
+3. First-principles unit economics and churn reduction.
+
+Comment your current tech stack or career stage, and I will share recommended PM case frameworks!`,
+    tags: ['Product Management', 'Career Transition', 'Tech to PM', 'Leadership'],
+    createdAt: new Date(Date.now() - 72 * 3600000).toISOString(),
+    likesCount: 76,
+    likedByCurrentUser: false,
+    commentsCount: 1,
+    comments: [
+      {
+        id: 'c-8',
+        postId: 'post-4',
+        authorId: 'prakash',
+        authorName: 'Prakash Mahto',
+        authorRole: 'Candidate',
+        authorAvatar: '/avatars/prakash.jpg',
+        authorIsMentor: false,
+        content: 'Akash, do you recommend technical PMs take Scrum Master or PMP certifications, or focus directly on product teardowns and case studies?',
+        createdAt: new Date(Date.now() - 48 * 3600000).toISOString(),
+        likesCount: 7,
+        likedByCurrentUser: false
+      }
+    ],
+    analytics: {
+      impressions: 5120,
+      reach: 3480,
+      engagements: 278,
+      engagementRate: '5.8%',
+      reactionsBreakdown: { likes: 66, hearts: 7, insightful: 3 },
+      commentsCount: 1,
+      repliesCount: 0,
+      sharesCount: 15,
+      profileClicks: 84,
+      bookingsGenerated: 5,
+      revenueGenerated: 4495,
+      topAudienceTitles: [
+        { title: 'Senior Software Engineer (Transitioning to PM)', percentage: 44 },
+        { title: 'Associate Product Manager', percentage: 28 },
+        { title: 'Engineering Manager', percentage: 16 },
+        { title: 'Technical Lead', percentage: 12 }
+      ],
+      topAudienceCompanies: [
+        { company: 'Shine (HT Media)', percentage: 20 },
+        { company: 'Paytm', percentage: 18 },
+        { company: 'Flipkart', percentage: 16 },
+        { company: 'Wipro', percentage: 14 },
+        { company: 'TCS', percentage: 12 }
+      ],
+      topLocations: [
+        { city: 'Bengaluru', percentage: 44 },
+        { city: 'Delhi NCR', percentage: 28 },
+        { city: 'Mumbai', percentage: 18 }
+      ]
+    }
+  }
+];
+
+export const SEED_NOTIFICATIONS: CommunityNotification[] = [
+  {
+    id: 'notif-1',
+    type: 'mentor_post',
+    recipientId: 'prakash',
+    mentorId: 'saheli',
+    mentorName: 'Saheli Kanjilal',
+    mentorAvatar: '/avatars/saheli.jpg',
+    postId: 'post-1',
+    title: 'New Technical Post',
+    message: 'Saheli Kanjilal posted: "Distributed Transactions & Outbox Pattern: What we evaluate in 40LPA+ Backend Interviews"',
+    createdAt: new Date(Date.now() - 2 * 3600000).toISOString(),
+    isRead: false,
+    actionUrl: '/community#post-1'
+  },
+  {
+    id: 'notif-2',
+    type: 'mentor_post',
+    recipientId: 'prakash',
+    mentorId: 'ishita',
+    mentorName: 'Ishita Sharma',
+    mentorAvatar: '/avatars/ishita.jpg',
+    postId: 'post-2',
+    title: 'New Technical Post',
+    message: 'Ishita Sharma posted: "The SDE-2 to Frontend Staff Transition: Micro-Frontends, INP Optimization & Design Systems"',
+    createdAt: new Date(Date.now() - 24 * 3600000).toISOString(),
+    isRead: false,
+    actionUrl: '/community#post-2'
+  },
+  {
+    id: 'notif-3',
+    type: 'comment_reply',
+    recipientId: 'prakash',
+    mentorId: 'saheli',
+    mentorName: 'Saheli Kanjilal',
+    mentorAvatar: '/avatars/saheli.jpg',
+    postId: 'post-1',
+    title: 'Mentor Replied to You',
+    message: 'Saheli Kanjilal replied to your question on Outbox pattern.',
+    createdAt: new Date(Date.now() - 45 * 60000).toISOString(),
+    isRead: false,
+    actionUrl: '/community#post-1'
+  },
+  {
+    id: 'notif-4',
+    type: 'mentor_post',
+    recipientId: 'prakash',
+    mentorId: 'raghavan',
+    mentorName: 'Dr. Raghavan Nair',
+    mentorAvatar: '/avatars/raghavan.jpg',
+    postId: 'post-3',
+    title: 'New Technical Post',
+    message: 'Dr. Raghavan Nair posted: "Production RAG vs Fine-Tuning in 2026: Why Enterprise Teams Don’t Fine-Tune First"',
+    createdAt: new Date(Date.now() - 48 * 3600000).toISOString(),
+    isRead: true,
+    actionUrl: '/community#post-3'
+  }
+];
+

@@ -72,6 +72,9 @@ export interface MentorshipSession {
   feedbackNotes?: string;
   rating?: number;
   meetingLink?: string;
+  recordingUrl?: string;
+  recordingDuration?: number;
+  hasRecording?: boolean;
 }
 
 export interface PeerVerifiedBadge {

@@ -5,6 +5,7 @@ import {
   CommunityPost, CommunityComment, CommunityNotification
 } from '../types';
 import { peerpathApi } from '../services/api';
+import { pathToView, viewToPath } from '../routes';
 
 export interface ToastMessage {
   id: string;
@@ -818,37 +819,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const getInitialRoute = () => {
     try {
-      const clean = window.location.pathname.replace(/\/$/, '') || '/';
-      const search = window.location.search;
-      const urlParams = new URLSearchParams(search);
-      const utmSource = urlParams.get('utm_source');
-      const campaign = urlParams.get('campaign') || urlParams.get('utm_campaign');
-
-      if (clean === '/login' || clean === '/signin' || clean === '/pages/myshine/login') return { view: 'login-view' as ViewType };
-      if (clean === '/profile' || clean === '/my-profile' || clean === '/candidate-profile') return { view: 'profile-view' as ViewType };
-      if (clean === '/' || clean === '/peerpath' || clean === '/guidance' || clean === '/career-guidance' || clean === '/dashboard' || clean === '/myshine') return { view: 'guidance-view' as ViewType };
-      if (clean === '/jobs' || clean === '/job-search' || clean === '/matching-jobs') return { view: 'jobs-view' as ViewType };
-      if (clean === '/experts' || clean === '/mentors') return { view: 'experts-view' as ViewType };
-      if (clean.startsWith('/expert/') || clean.startsWith('/mentor/')) {
-        const id = clean.split('/')[2];
-        return { view: 'expert-profile-view' as ViewType, expertId: id };
-      }
-      if (clean === '/expert' || clean === '/expert-profile') return { view: 'expert-profile-view' as ViewType };
-      if (clean === '/payment' || clean === '/checkout') return { view: 'payment-view' as ViewType };
-      if (clean === '/confirmed' || clean === '/success') return { view: 'confirmed-view' as ViewType };
-      if (clean === '/sessions' || clean === '/my-sessions' || clean === '/bookings') return { view: 'sessions-view' as ViewType };
-      if (clean === '/live-call' || clean === '/call' || clean === '/room/peerpath-session' || clean.startsWith('/room/')) return { view: 'live-call-view' as ViewType };
-      if (clean === '/session/feedback' || clean === '/post-session' || clean === '/feedback' || clean === '/review') return { view: 'post-session-view' as ViewType };
-      if (clean === '/recruiter' || clean === '/recruiters') return { view: 'recruiter-view' as ViewType };
-      if (clean === '/mentor-dashboard' || clean === '/mentor' || clean === '/creator-studio') return { view: 'mentor-dashboard-view' as ViewType };
-      if (clean === '/community' || clean === '/feed' || clean === '/discussions') return { view: 'community-view' as ViewType };
-
-      // If landing via Email / WhatsApp / Peerpath campaign link
-      if (utmSource || campaign) {
-        return { view: 'guidance-view' as ViewType };
-      }
-    } catch {}
-    return null;
+      const parsed = pathToView(window.location.pathname);
+      return parsed;
+    } catch {
+      return null;
+    }
   };
 
   // Navigation
@@ -1205,6 +1180,37 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>(INITIAL_COMMUNITY_POSTS);
   const [notifications, setNotifications] = useState<CommunityNotification[]>(INITIAL_NOTIFICATIONS);
 
+  // Initial load from backend API if available
+  useEffect(() => {
+    const fetchInitialCommunityData = async () => {
+      try {
+        const postsRes = await fetch('/api/community/posts?userId=' + (currentUser?.id || 'prakash'));
+        if (postsRes.ok) {
+          const json = await postsRes.json();
+          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+            setCommunityPosts(json.data);
+          }
+        }
+      } catch {
+        // Fallback to local state if offline
+      }
+
+      try {
+        const notifRes = await fetch('/api/notifications?userId=' + (currentUser?.id || 'prakash'));
+        if (notifRes.ok) {
+          const notifJson = await notifRes.json();
+          if (notifJson.success && Array.isArray(notifJson.data) && notifJson.data.length > 0) {
+            setNotifications(notifJson.data);
+          }
+        }
+      } catch {
+        // Fallback to local state if offline
+      }
+    };
+
+    fetchInitialCommunityData();
+  }, [currentUser?.id]);
+
   const createMentorPost = (postData: { title: string; content: string; tags: string[] }) => {
     const isMentor = currentUser?.role === 'mentor' || isCreatorMode;
     if (!isMentor || !currentUser) {
@@ -1256,6 +1262,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
 
     setCommunityPosts(prev => [newPost, ...prev]);
+
+    // Async sync with backend API
+    fetch('/api/community/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        mentorId: currentUser.id,
+        mentorName: currentUser.name,
+        mentorRole: newPost.mentorRole,
+        mentorCompany: newPost.mentorCompany,
+        mentorAvatar: newPost.mentorAvatar,
+        title: postData.title,
+        content: postData.content,
+        tags: newPost.tags
+      })
+    }).catch(() => {});
 
     // Create notification for followers
     const newNotif: CommunityNotification = {
@@ -1309,6 +1331,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       return p;
     }));
 
+    // Async backend call
+    fetch(`/api/community/posts/${postId}/comments`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        authorId: currentUser.id,
+        authorName: currentUser.name,
+        authorRole: newComment.authorRole,
+        authorAvatar: newComment.authorAvatar,
+        authorIsMentor: isMentor,
+        content: content.trim()
+      })
+    }).catch(() => {});
+
     showToast('💬 Comment Added', 'Your response has been posted to the mentor discussion thread.', 'success');
     return newComment;
   };
@@ -1325,6 +1361,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
       return p;
     }));
+
+    // Async backend sync
+    fetch(`/api/community/posts/${postId}/like`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: currentUser?.id || 'prakash' })
+    }).catch(() => {});
   };
 
   const toggleCommentLike = (postId: string, commentId: string) => {
@@ -1347,16 +1390,29 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
       return p;
     }));
+
+    // Async backend sync
+    fetch(`/api/community/posts/${postId}/comments/${commentId}/like`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: currentUser?.id || 'prakash' })
+    }).catch(() => {});
   };
 
   const unreadNotificationsCount = notifications.filter(n => !n.isRead).length;
 
   const markNotificationAsRead = (notificationId: string) => {
     setNotifications(prev => prev.map(n => n.id === notificationId ? { ...n, isRead: true } : n));
+    fetch(`/api/notifications/${notificationId}/read`, { method: 'PATCH' }).catch(() => {});
   };
 
   const markAllNotificationsAsRead = () => {
     setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+    fetch('/api/notifications/mark-all-read', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: currentUser?.id || 'prakash' })
+    }).catch(() => {});
     showToast('All caught up!', 'All notifications marked as read.', 'info');
   };
 
@@ -1369,30 +1425,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setPreviousView(currentView);
     setCurrentView(view);
 
-    const routeMap: Record<ViewType, string> = {
-      'guidance-view': '/peerpath',
-      'experts-view': '/experts',
-      'expert-profile-view': selectedExpert ? `/expert/${selectedExpert.id}` : '/experts',
-      'payment-view': '/checkout',
-      'confirmed-view': '/confirmed',
-      'sessions-view': '/sessions',
-      'dashboard-view': '/peerpath',
-      'profile-view': '/profile',
-      'live-call-view': '/room/peerpath-session',
-      'post-session-view': '/session/feedback',
-      'recruiter-view': '/recruiter',
-      'jobs-view': '/jobs',
-      'login-view': '/pages/myshine/login',
-      'mentor-dashboard-view': '/creator-studio',
-      'community-view': '/community'
-    };
-
     let pathToPush = customPath;
     if (!pathToPush) {
       if (view === 'expert-profile-view' && (window.location.pathname.startsWith('/expert/') || window.location.pathname.startsWith('/mentor/'))) {
         pathToPush = window.location.pathname;
       } else {
-        pathToPush = routeMap[view] || '/peerpath';
+        pathToPush = viewToPath(view, { expertId: selectedExpert?.id });
       }
     }
 

@@ -3,7 +3,8 @@ import {
   Video, Plus, Calendar, FileCheck, CheckCircle2, 
   Award, Clock, AlertCircle, ArrowLeft, RotateCcw, 
   XCircle, ShieldCheck, Sparkles, Star, User, Settings,
-  DollarSign, Briefcase, Trash2, X, FileText, UploadCloud
+  DollarSign, Briefcase, Trash2, X, FileText, UploadCloud,
+  Play, Download
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -58,6 +59,7 @@ export const MySessionsView: React.FC = () => {
   const [rescheduleDate, setRescheduleDate] = useState<string>('Tomorrow, 6 Sep');
   const [rescheduleTime, setRescheduleTime] = useState<string>('06:00 PM - 07:00 PM');
   const [preJoinCheckSession, setPreJoinCheckSession] = useState<typeof sessions[0] | null>(null);
+  const [selectedRecordingSession, setSelectedRecordingSession] = useState<typeof sessions[0] | null>(null);
 
   const isCandidateCvSynced = Boolean(
     userProfile?.resumeLastUpdated && 
@@ -662,13 +664,22 @@ export const MySessionsView: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="sc-footer-actions sc-completed-footer">
+                <div className="sc-footer-actions sc-completed-footer" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                   <button 
                     type="button" 
                     className="btn-sc-view-assessment" 
                     onClick={() => navigate('post-session-view')}
                   >
-                    <Award size={15} /> View Full Assessment & Verified Badge
+                    <Award size={15} /> View Full Assessment &amp; Verified Badge
+                  </button>
+
+                  <button 
+                    type="button" 
+                    className="btn-sc-view-recording" 
+                    onClick={() => setSelectedRecordingSession(sess)}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#F5F3FF', border: '1px solid #DDD6FE', color: '#7C3AED', padding: '8px 14px', borderRadius: '8px', fontSize: '13px', fontWeight: 700, cursor: 'pointer', transition: 'all 0.15s ease' }}
+                  >
+                    <Play size={14} /> Watch Session Recording
                   </button>
                 </div>
               </div>
@@ -723,7 +734,7 @@ export const MySessionsView: React.FC = () => {
                   }}
                 >
                   <Sparkles size={16} />
-                  <span>⚡ 1-Click Sync Latest CV & Enter Video Room</span>
+                  <span>⚡ 1-Click Sync Latest CV &amp; Enter Video Room</span>
                 </button>
 
                 <button 
@@ -739,6 +750,76 @@ export const MySessionsView: React.FC = () => {
                   <span>Continue to Video Room with Existing Profile →</span>
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Session Recording Video Player Modal */}
+      {selectedRecordingSession && (
+        <div className="app-modal-backdrop open" onClick={() => setSelectedRecordingSession(null)}>
+          <div 
+            className="app-modal-card" 
+            style={{ maxWidth: '680px', width: '92%', borderRadius: '16px', overflow: 'hidden', padding: '0', background: '#0F172A', color: '#FFFFFF', border: '1px solid #334155' }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div style={{ padding: '16px 20px', background: '#1E293B', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #334155' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#7C3AED', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Video size={16} color="#fff" />
+                </div>
+                <div>
+                  <h4 style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: '#fff' }}>
+                    1:1 Guidance Session Recording
+                  </h4>
+                  <span style={{ fontSize: '12px', color: '#94A3B8' }}>
+                    {selectedRecordingSession.expert.name} ({selectedRecordingSession.expert.company}) ⇄ {selectedRecordingSession.candidateName}
+                  </span>
+                </div>
+              </div>
+
+              <button 
+                type="button" 
+                onClick={() => setSelectedRecordingSession(null)}
+                style={{ background: 'transparent', border: 'none', color: '#94A3B8', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px' }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Video Player Box */}
+            <div style={{ background: '#000000', position: 'relative', width: '100%', minHeight: '340px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <video
+                controls
+                autoPlay
+                playsInline
+                style={{ width: '100%', maxHeight: '420px', objectFit: 'contain' }}
+                src={selectedRecordingSession.recordingUrl || `/api/sessions/${selectedRecordingSession.id.replace(/^sess-/, '')}/recording`}
+                poster={selectedRecordingSession.expert.videoPoster || selectedRecordingSession.expert.avatar}
+              >
+                Your browser does not support HTML5 video streaming.
+              </video>
+            </div>
+
+            {/* Modal Footer with Actions & Metadata */}
+            <div style={{ padding: '16px 20px', background: '#1E293B', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+              <div>
+                <span style={{ fontSize: '12.5px', color: '#10B981', fontWeight: 700, display: 'block' }}>
+                  ✓ Verified Rubric: {selectedRecordingSession.badgeAwarded || 'Tier-1 Architecture Competency'}
+                </span>
+                <span style={{ fontSize: '11.5px', color: '#94A3B8' }}>
+                  Recorded on {selectedRecordingSession.date} • Session ID: {selectedRecordingSession.id}
+                </span>
+              </div>
+
+              <a
+                href={selectedRecordingSession.recordingUrl || `/api/sessions/${selectedRecordingSession.id.replace(/^sess-/, '')}/recording`}
+                download={`shine-peerpath-${selectedRecordingSession.id}.webm`}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#2563EB', color: '#fff', padding: '8px 16px', borderRadius: '8px', fontSize: '12.5px', fontWeight: 700, textDecoration: 'none' }}
+              >
+                <Download size={14} /> Download (.webm)
+              </a>
             </div>
           </div>
         </div>

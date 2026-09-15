@@ -1,5 +1,6 @@
 import { store } from '../data/store';
 import { MentorshipSession } from '../types';
+import { notificationService } from './notificationService';
 
 export interface CheckoutPayload {
   expertId: string;
@@ -66,6 +67,33 @@ export class BookingService {
     };
 
     store.addSession(newSession);
+
+    // Dispatch instant notifications to Mentor and Candidate
+    try {
+      notificationService.sendNotification({
+        recipientId: expert.id,
+        type: 'session_booking',
+        actorId: newSession.candidateId,
+        actorName: newSession.candidateName,
+        actorAvatar: newSession.candidateAvatar,
+        sessionId: newSession.id,
+        title: 'New 1:1 Session Booked! 🎉',
+        message: `${newSession.candidateName} booked a 1:1 session on ${payload.date} at ${payload.timeSlot}.`,
+        actionUrl: '/mentor-dashboard'
+      });
+
+      notificationService.sendNotification({
+        recipientId: newSession.candidateId,
+        type: 'session_booking',
+        mentorId: expert.id,
+        mentorName: expert.name,
+        mentorAvatar: expert.avatar,
+        sessionId: newSession.id,
+        title: 'Mentorship Slot Confirmed! 🚀',
+        message: `Your 1:1 session with ${expert.name} (${expert.company}) on ${payload.date} is confirmed.`,
+        actionUrl: '/sessions'
+      });
+    } catch {}
 
     return {
       success: true,

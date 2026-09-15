@@ -94,6 +94,9 @@ export interface MentorshipSession {
   paymentId?: string;
   amountPaid?: number;
   bookedAt: string;
+  recordingUrl?: string;
+  recordingDuration?: number;
+  hasRecording?: boolean;
 }
 
 export interface TrajectoryMatch {
@@ -147,3 +150,113 @@ export interface ZeroPrepDossier {
   }[];
   quickDiscussionPrompts: string[];
 }
+
+// ==============================================================================
+// Community & Notification Data Models (Enterprise Decoupled Schema)
+// ==============================================================================
+
+export interface CommunityComment {
+  id: string;
+  postId: string;
+  parentCommentId?: string | null;
+  authorId: string;
+  authorName: string;
+  authorRole: string;
+  authorAvatar: string;
+  authorIsMentor?: boolean;
+  content: string;
+  createdAt: string;
+  likesCount: number;
+  likedByCurrentUser?: boolean;
+}
+
+export interface PostAnalytics {
+  impressions: number;
+  reach: number;
+  engagements: number;
+  engagementRate: string;
+  reactionsBreakdown: {
+    likes: number;
+    hearts: number;
+    insightful: number;
+  };
+  commentsCount: number;
+  repliesCount: number;
+  sharesCount: number;
+  profileClicks: number;
+  bookingsGenerated: number;
+  revenueGenerated: number;
+  topAudienceTitles: { title: string; percentage: number }[];
+  topAudienceCompanies: { company: string; percentage: number }[];
+  topLocations: { city: string; percentage: number }[];
+}
+
+export interface CommunityPost {
+  id: string;
+  mentorId: string;
+  mentorName: string;
+  mentorRole: string;
+  mentorCompany: string;
+  mentorAvatar: string;
+  title: string;
+  content: string;
+  tags: string[];
+  createdAt: string;
+  likesCount: number;
+  likedByCurrentUser?: boolean;
+  commentsCount: number;
+  comments: CommunityComment[];
+  analytics?: PostAnalytics;
+}
+
+export interface CommunityReaction {
+  id: string;
+  targetType: 'post' | 'comment';
+  targetId: string;
+  userId: string;
+  reactionType: 'like' | 'heart' | 'insightful';
+  createdAt: string;
+}
+
+export type NotificationType = 
+  | 'mentor_post' 
+  | 'comment_reply' 
+  | 'post_like' 
+  | 'comment_like' 
+  | 'session_booking' 
+  | 'system_announcement';
+
+export interface CommunityNotification {
+  id: string;
+  recipientId?: string; // Target user or 'all'
+  type: NotificationType;
+  mentorId?: string;
+  mentorName?: string;
+  mentorAvatar?: string;
+  actorId?: string;
+  actorName?: string;
+  actorAvatar?: string;
+  postId?: string;
+  sessionId?: string;
+  title: string;
+  message: string;
+  createdAt: string;
+  isRead: boolean;
+  actionUrl?: string;
+}
+
+// Standard API Response Envelope
+export interface ApiResponse<T = any> {
+  success: boolean;
+  data?: T;
+  message?: string;
+  error?: string;
+  meta?: {
+    total?: number;
+    page?: number;
+    limit?: number;
+    unreadCount?: number;
+    [key: string]: any;
+  };
+}
+

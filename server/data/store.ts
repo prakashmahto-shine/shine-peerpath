@@ -1,7 +1,23 @@
 import fs from 'fs';
 import path from 'path';
-import { Creator, CandidateProfile, MentorshipSession, PeerVerifiedBadge } from '../types';
-import { SEED_CREATORS, SEED_CANDIDATES, INITIAL_SESSIONS } from './seedData';
+import { 
+  Creator, 
+  CandidateProfile, 
+  MentorshipSession, 
+  PeerVerifiedBadge, 
+  CommunityPost, 
+  CommunityComment, 
+  CommunityNotification, 
+  CommunityReaction,
+  PostAnalytics 
+} from '../types';
+import { 
+  SEED_CREATORS, 
+  SEED_CANDIDATES, 
+  INITIAL_SESSIONS, 
+  SEED_COMMUNITY_POSTS, 
+  SEED_NOTIFICATIONS 
+} from './seedData';
 import { normalizeDomain } from '../services/mentorMatchTaxonomy';
 
 interface DbSchema {
@@ -9,6 +25,9 @@ interface DbSchema {
   candidates: CandidateProfile[];
   sessions: MentorshipSession[];
   badges: PeerVerifiedBadge[];
+  posts: CommunityPost[];
+  notifications: CommunityNotification[];
+  reactions: CommunityReaction[];
   analytics: {
     profileUpdatesThisMonth: number;
     newRegistrationsThisMonth: number;
@@ -31,8 +50,17 @@ class Store {
       if (fs.existsSync(DB_PATH)) {
         const raw = fs.readFileSync(DB_PATH, 'utf-8');
         const parsed = JSON.parse(raw);
-        // Validate basic integrity
+        // Validate basic integrity and backfill community collections if missing
         if (parsed.creators && parsed.sessions && parsed.candidates) {
+          if (!parsed.posts || !Array.isArray(parsed.posts) || parsed.posts.length === 0) {
+            parsed.posts = JSON.parse(JSON.stringify(SEED_COMMUNITY_POSTS));
+          }
+          if (!parsed.notifications || !Array.isArray(parsed.notifications) || parsed.notifications.length === 0) {
+            parsed.notifications = JSON.parse(JSON.stringify(SEED_NOTIFICATIONS));
+          }
+          if (!parsed.reactions || !Array.isArray(parsed.reactions)) {
+            parsed.reactions = [];
+          }
           return parsed;
         }
       }
@@ -45,6 +73,9 @@ class Store {
       candidates: JSON.parse(JSON.stringify(SEED_CANDIDATES)),
       sessions: JSON.parse(JSON.stringify(INITIAL_SESSIONS)),
       badges: JSON.parse(JSON.stringify(SEED_CANDIDATES[0].badges)),
+      posts: JSON.parse(JSON.stringify(SEED_COMMUNITY_POSTS)),
+      notifications: JSON.parse(JSON.stringify(SEED_NOTIFICATIONS)),
+      reactions: [],
       analytics: {
         profileUpdatesThisMonth: 14820,
         newRegistrationsThisMonth: 6350,
@@ -107,6 +138,20 @@ class Store {
     }
     this.saveData();
     return newCreator;
+  }
+
+  public updateCreatorRating(creatorId: string, newRating: number): Creator | undefined {
+    const creator = this.getCreatorById(creatorId);
+    if (creator) {
+      const currentReviews = creator.reviewsCount || 1;
+      const currentRating = creator.rating || 4.9;
+      const totalScore = (currentRating * currentReviews) + newRating;
+      creator.reviewsCount = currentReviews + 1;
+      creator.rating = Number((totalScore / creator.reviewsCount).toFixed(2));
+      this.saveData();
+      return creator;
+    }
+    return undefined;
   }
 
   public updateCreatorAvailability(creatorId: string, days: string[], timeSlots: string[]): Creator | undefined {
@@ -201,6 +246,225 @@ class Store {
     return undefined;
   }
 
+  // ==============================================================================
+  // Community Posts, Comments, Reactions & Analytics Repository
+  // ==============================================================================
+
+  public getCommunityPosts(options?: {
+    tag?: string;
+    mentorId?: string;
+    search?: string;
+    userId?: string;
+    limit?: number;
+    page?: number;
+  }): { posts: CommunityPost[]; total: number } {
+    let posts = [...this.data.posts];
+
+    if (options?.mentorId) {
+      posts = posts.filter(p => p.mentorId.toLowerCase() === options.mentorId!.toLowerCase());
+    }
+
+    if (options?.tag && options.tag !== 'All Topics' && options.tag !== 'all') {
+      const targetTag = options.tag.toLowerCase();
+      posts = posts.filter(p => p.tags.some(t => t.toLowerCase() === targetTag || t.toLowerCase().includes(targetTag)));
+    }
+
+    if (options?.search) {
+      const q = options.search.toLowerCase();
+      posts = posts.filter(p => 
+        p.title.toLowerCase().includes(q) ||
+        p.content.toLowerCase().includes(q) ||
+        p.mentorName.toLowerCase().includes(q) ||
+        p.tags.some(t => t.toLowerCase().includes(q))
+      );
+    }
+
+    const total = posts.length;
+
+    // Set likedByCurrentUser flag based on reactions
+    const currentUserId = options?.userId || 'prakash';
+    const userLikedPostIds = new Set(
+      this.data.reactions
+        .filter(r => r.userId === currentUserId && r.targetType === 'post')
+        .map(r => r.targetId)
+    );
+
+    const mappedPosts = posts.map(p => {
+      const isLiked = userLikedPostIds.has(p.id) || !!p.likedByCurrentUser;
+      return {
+        ...p,
+        likedByCurrentUser: isLiked
+      };
+    });
+
+    return { posts: mappedPosts, total };
+  }
+
+  public getPostById(postId: string, userId?: string): CommunityPost | undefined {
+    const post = this.data.posts.find(p => p.id === postId);
+    if (!post) return undefined;
+
+    const currentUserId = userId || 'prakash';
+    const isLiked = this.data.reactions.some(r => r.userId === currentUserId && r.targetType === 'post' && r.targetId === postId);
+
+    return {
+      ...post,
+      likedByCurrentUser: isLiked || !!post.likedByCurrentUser
+    };
+  }
+
+  public createCommunityPost(post: CommunityPost): CommunityPost {
+    this.data.posts.unshift(post);
+    this.saveData();
+    return post;
+  }
+
+  public togglePostLike(postId: string, userId: string): { post: CommunityPost; liked: boolean } | undefined {
+    const post = this.data.posts.find(p => p.id === postId);
+    if (!post) return undefined;
+
+    const existingIndex = this.data.reactions.findIndex(
+      r => r.targetType === 'post' && r.targetId === postId && r.userId === userId
+    );
+
+    let liked = false;
+    if (existingIndex >= 0) {
+      this.data.reactions.splice(existingIndex, 1);
+      post.likesCount = Math.max(0, post.likesCount - 1);
+      post.likedByCurrentUser = false;
+      liked = false;
+    } else {
+      this.data.reactions.push({
+        id: `rx-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+        targetType: 'post',
+        targetId: postId,
+        userId,
+        reactionType: 'like',
+        createdAt: new Date().toISOString()
+      });
+      post.likesCount += 1;
+      post.likedByCurrentUser = true;
+      liked = true;
+
+      // Update analytics reach/reactions if available
+      if (post.analytics) {
+        post.analytics.engagements += 1;
+        if (post.analytics.reactionsBreakdown) {
+          post.analytics.reactionsBreakdown.likes += 1;
+        }
+      }
+    }
+
+    this.saveData();
+    return { post, liked };
+  }
+
+  public addComment(postId: string, comment: CommunityComment): CommunityComment | undefined {
+    const post = this.data.posts.find(p => p.id === postId);
+    if (!post) return undefined;
+
+    if (!post.comments) post.comments = [];
+    post.comments.push(comment);
+    post.commentsCount = post.comments.length;
+
+    if (post.analytics) {
+      post.analytics.commentsCount = post.comments.length;
+      post.analytics.engagements += 1;
+    }
+
+    this.saveData();
+    return comment;
+  }
+
+  public toggleCommentLike(postId: string, commentId: string, userId: string): { comment: CommunityComment; liked: boolean } | undefined {
+    const post = this.data.posts.find(p => p.id === postId);
+    if (!post) return undefined;
+
+    const comment = post.comments.find(c => c.id === commentId);
+    if (!comment) return undefined;
+
+    const existingIndex = this.data.reactions.findIndex(
+      r => r.targetType === 'comment' && r.targetId === commentId && r.userId === userId
+    );
+
+    let liked = false;
+    if (existingIndex >= 0) {
+      this.data.reactions.splice(existingIndex, 1);
+      comment.likesCount = Math.max(0, comment.likesCount - 1);
+      comment.likedByCurrentUser = false;
+      liked = false;
+    } else {
+      this.data.reactions.push({
+        id: `rx-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+        targetType: 'comment',
+        targetId: commentId,
+        userId,
+        reactionType: 'like',
+        createdAt: new Date().toISOString()
+      });
+      comment.likesCount += 1;
+      comment.likedByCurrentUser = true;
+      liked = true;
+    }
+
+    this.saveData();
+    return { comment, liked };
+  }
+
+  public getPostAnalytics(postId: string): PostAnalytics | undefined {
+    const post = this.data.posts.find(p => p.id === postId);
+    return post?.analytics;
+  }
+
+  // ==============================================================================
+  // Notifications Repository
+  // ==============================================================================
+
+  public getNotifications(userId?: string, unreadOnly: boolean = false): CommunityNotification[] {
+    let list = this.data.notifications;
+    if (userId) {
+      list = list.filter(n => !n.recipientId || n.recipientId === userId || n.recipientId === 'all');
+    }
+    if (unreadOnly) {
+      list = list.filter(n => !n.isRead);
+    }
+    return list;
+  }
+
+  public getUnreadNotificationCount(userId?: string): number {
+    return this.getNotifications(userId, true).length;
+  }
+
+  public createNotification(notification: CommunityNotification): CommunityNotification {
+    this.data.notifications.unshift(notification);
+    this.saveData();
+    return notification;
+  }
+
+  public markNotificationAsRead(id: string): CommunityNotification | undefined {
+    const notif = this.data.notifications.find(n => n.id === id);
+    if (notif) {
+      notif.isRead = true;
+      this.saveData();
+      return notif;
+    }
+    return undefined;
+  }
+
+  public markAllNotificationsAsRead(userId: string): number {
+    let count = 0;
+    this.data.notifications.forEach(n => {
+      if ((!n.recipientId || n.recipientId === userId || n.recipientId === 'all') && !n.isRead) {
+        n.isRead = true;
+        count++;
+      }
+    });
+    if (count > 0) {
+      this.saveData();
+    }
+    return count;
+  }
+
   // Analytics
   public getAnalytics() {
     return {
@@ -209,6 +473,7 @@ class Store {
       upcomingSessionsCount: this.data.sessions.filter(s => s.status === 'upcoming').length,
       completedSessionsCount: this.data.sessions.filter(s => s.status === 'completed').length,
       totalBadgesIssued: this.data.badges.length,
+      totalCommunityPosts: this.data.posts.length,
       domainsCovered: ['Full-Stack', 'AI/ML', 'Semiconductor', 'Cybersecurity', 'SaaS Sales', 'Marketing'],
       growthStats: {
         profileUpdateRateGain: '+68% vs baseline jobs platform',
@@ -224,6 +489,9 @@ class Store {
       candidates: JSON.parse(JSON.stringify(SEED_CANDIDATES)),
       sessions: JSON.parse(JSON.stringify(INITIAL_SESSIONS)),
       badges: JSON.parse(JSON.stringify(SEED_CANDIDATES[0].badges)),
+      posts: JSON.parse(JSON.stringify(SEED_COMMUNITY_POSTS)),
+      notifications: JSON.parse(JSON.stringify(SEED_NOTIFICATIONS)),
+      reactions: [],
       analytics: {
         profileUpdatesThisMonth: 14820,
         newRegistrationsThisMonth: 6350,
@@ -237,3 +505,4 @@ class Store {
 }
 
 export const store = new Store();
+
