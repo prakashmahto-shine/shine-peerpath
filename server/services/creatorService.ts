@@ -70,6 +70,10 @@ export class CreatorService {
   public updateAvailability(creatorId: string, days: string[], timeSlots: string[]): Creator | undefined {
     return store.updateCreatorAvailability(creatorId, days, timeSlots);
   }
+
+  public update(creatorId: string, updates: Partial<Creator>): Creator | undefined {
+    return store.updateCreator(creatorId, updates);
+  }
 }
 
 export const creatorService = new CreatorService();

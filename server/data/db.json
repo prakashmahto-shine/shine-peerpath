@@ -1,6 +1,53 @@
 {
   "creators": [
     {
+      "id": "exp-1789473896315",
+      "name": "Nisha Kumari",
+      "role": "Staff Frontend Architect & UI Lead",
+      "company": "Flipkart",
+      "domain": "Full-Stack",
+      "experience": "6+ Years Exp.",
+      "rating": 5,
+      "reviewsCount": 1,
+      "sessionsCount": 0,
+      "price": 1299,
+      "location": "Bengaluru / Remote",
+      "duration": "01:15",
+      "avatar": "/avatars/nisha.jpg",
+      "videoPoster": "/avatars/nisha.jpg",
+      "teaserTitle": "Teaser: How I Jumped into Staff Frontend Architect & UI Lead at Flipkart",
+      "skills": [
+        "React 19",
+        "Micro-Frontends",
+        "System Design"
+      ],
+      "bio": "Staff Architect at Flipkart leading core web checkout teams.",
+      "verifiedEmail": "@flipkart.com",
+      "isVerifiedEmployer": true,
+      "trajectory": {
+        "role3YearsAgo": "Senior Software Engineer",
+        "company3YearsAgo": "Mid-tier Technology Firm",
+        "salary3YearsAgo": "₹8 LPA",
+        "keyJumpSkills": [
+          "React 19",
+          "Micro-Frontends",
+          "System Design"
+        ],
+        "jumpStory": "Bridged core architecture and system design requirements to land role at Flipkart."
+      },
+      "availability": {
+        "days": [
+          "Wed",
+          "Sat",
+          "Sun"
+        ],
+        "timeSlots": [
+          "07:00 PM - 08:00 PM",
+          "08:30 PM - 09:30 PM"
+        ]
+      }
+    },
+    {
       "id": "exp-1789472562454",
       "name": "Nisha Kumari",
       "role": "Staff Frontend Architect & UI Lead",
@@ -1688,10 +1735,10 @@
       "sessionsCount": 219,
       "price": 999,
       "location": "Mumbai, India",
-      "duration": "01:20",
+      "duration": "01:00",
       "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
       "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
-      "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at NVIDIA",
+      "teaserTitle": "Mastering System Design for Tier-1 Tech",
       "skills": [
         "Vector Search",
         "PyTorch",
@@ -3334,7 +3381,7 @@
       "domain": "Full-Stack",
       "badges": [
         {
-          "id": "badge-1789472562467",
+          "id": "badge-1789473896333",
           "title": "Verified Tier-1 Frontend Architecture",
           "subtitle": "Verified by Rajat Pandey • Senior Data Scientist & AI Lead @ NVIDIA",
           "verifierName": "Rajat Pandey",
@@ -3348,7 +3395,7 @@
             "System Design"
           ],
           "status": "verified",
-          "verificationHash": "SHINE-PEER-MU2LRE3N-NVI"
+          "verificationHash": "SHINE-PEER-MU2MJZBH-NVI"
         },
         {
           "id": "badge-pm-1",
@@ -4011,6 +4058,75 @@
   ],
   "sessions": [
     {
+      "id": "sess-1789473896325",
+      "expertId": "rajat",
+      "expert": {
+        "id": "rajat",
+        "name": "Rajat Pandey",
+        "role": "Senior Data Scientist & AI Lead",
+        "company": "NVIDIA",
+        "domain": "AI/ML",
+        "experience": "7+ Years Exp.",
+        "rating": 4.95,
+        "reviewsCount": 187,
+        "sessionsCount": 219,
+        "price": 999,
+        "location": "Mumbai, India",
+        "duration": "01:00",
+        "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
+        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+        "teaserTitle": "Mastering System Design for Tier-1 Tech",
+        "skills": [
+          "Vector Search",
+          "PyTorch",
+          "Deep Learning",
+          "MLOps",
+          "LangChain"
+        ],
+        "bio": "Senior Data Scientist & AI Lead at NVIDIA. I mentor engineers making the jump into AI/ML roles, with deep focus on Vector Search and PyTorch.",
+        "verifiedEmail": "rajat.p@nvidia.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Data Analyst",
+          "company3YearsAgo": "Infosys Digital",
+          "salary3YearsAgo": "₹8.4 LPA",
+          "keyJumpSkills": [
+            "Vector Search (Pinecone)",
+            "LLM Fine-Tuning",
+            "CUDA Kernel Optimization"
+          ],
+          "jumpStory": "Went from Data Analyst at Infosys Digital to Senior Data Scientist & AI Lead at NVIDIA by mastering Vector Search (Pinecone) and LLM Fine-Tuning."
+        },
+        "availability": {
+          "days": [
+            "Tue",
+            "Thu",
+            "Sat"
+          ],
+          "timeSlots": [
+            "02:00 PM - 03:00 PM",
+            "08:00 PM - 09:00 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash",
+      "candidateName": "Prakash Mahto",
+      "candidateRole": "Senior Frontend Engineer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Transition to Staff Level at Tier-1 FinTech",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "Monday, 14 Sep 2026",
+      "timeSlot": "07:00 PM - 08:00 PM",
+      "status": "completed",
+      "meetingLink": "https://meet.shine.com/room/peerpath-rajat-1789473896325",
+      "paymentId": "pay_shine_mu2mjzb9_36ot",
+      "amountPaid": 999,
+      "bookedAt": "2026-09-15T12:04:56.325Z",
+      "rating": 5,
+      "feedbackNotes": "Prakash demonstrated thorough architectural mastery of micro-frontends and state synchronization.",
+      "badgeAwarded": "Verified Tier-1 Frontend Architecture"
+    },
+    {
       "id": "sess-1789472562458",
       "expertId": "rajat",
       "expert": {
@@ -4564,6 +4680,23 @@
   ],
   "badges": [
     {
+      "id": "badge-1789473896333",
+      "title": "Verified Tier-1 Frontend Architecture",
+      "subtitle": "Verified by Rajat Pandey • Senior Data Scientist & AI Lead @ NVIDIA",
+      "verifierName": "Rajat Pandey",
+      "verifierRole": "Senior Data Scientist & AI Lead @ NVIDIA",
+      "verifierAvatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
+      "verifierCompany": "NVIDIA",
+      "date": "Sep 15, 2026",
+      "skills": [
+        "React.js 19",
+        "Micro-Frontends",
+        "System Design"
+      ],
+      "status": "verified",
+      "verificationHash": "SHINE-PEER-MU2MJZBH-NVI"
+    },
+    {
       "id": "badge-1789472562467",
       "title": "Verified Tier-1 Frontend Architecture",
       "subtitle": "Verified by Rajat Pandey • Senior Data Scientist & AI Lead @ NVIDIA",
@@ -4685,12 +4818,110 @@
     }
   ],
   "analytics": {
-    "profileUpdatesThisMonth": 14827,
+    "profileUpdatesThisMonth": 14828,
     "newRegistrationsThisMonth": 6350,
-    "totalSessionsBooked": 2436,
-    "totalActiveCreators": 67
+    "totalSessionsBooked": 2437,
+    "totalActiveCreators": 68
   },
   "posts": [
+    {
+      "id": "post-1789473896358-nxug",
+      "mentorId": "saheli",
+      "mentorName": "Saheli Kanjilal",
+      "mentorRole": "Staff Frontend Architect",
+      "mentorCompany": "Razorpay (FinTech)",
+      "mentorAvatar": "/avatars/saheli.jpg",
+      "title": "Kafka Consumer Lag Monitoring & Sub-Second DLQ Recovery",
+      "content": "When scaling backend microservices to 100k TPS, monitoring consumer lag in Kafka partition groups is essential.",
+      "tags": [
+        "Kafka",
+        "System Design",
+        "Backend Architecture"
+      ],
+      "createdAt": "2026-09-15T12:04:56.358Z",
+      "likesCount": 1,
+      "likedByCurrentUser": true,
+      "commentsCount": 1,
+      "comments": [
+        {
+          "id": "c-1789473896362-lpre",
+          "postId": "post-1789473896358-nxug",
+          "parentCommentId": null,
+          "authorId": "prakash",
+          "authorName": "Prakash Mahto",
+          "authorRole": "Senior Frontend Engineer",
+          "authorAvatar": "/avatars/prakash.jpg",
+          "authorIsMentor": false,
+          "content": "How do you handle dynamic partition rebalancing in Kafka without temporary consumer pause?",
+          "createdAt": "2026-09-15T12:04:56.362Z",
+          "likesCount": 0,
+          "likedByCurrentUser": false
+        }
+      ],
+      "analytics": {
+        "impressions": 120,
+        "reach": 95,
+        "engagements": 3,
+        "engagementRate": "1.2%",
+        "reactionsBreakdown": {
+          "likes": 1,
+          "hearts": 0,
+          "insightful": 0
+        },
+        "commentsCount": 1,
+        "repliesCount": 0,
+        "sharesCount": 0,
+        "profileClicks": 4,
+        "bookingsGenerated": 0,
+        "revenueGenerated": 0,
+        "topAudienceTitles": [
+          {
+            "title": "Senior Software Engineer",
+            "percentage": 45
+          },
+          {
+            "title": "Transitioning Engineer",
+            "percentage": 35
+          },
+          {
+            "title": "Technical Lead",
+            "percentage": 20
+          }
+        ],
+        "topAudienceCompanies": [
+          {
+            "company": "Razorpay (FinTech)",
+            "percentage": 30
+          },
+          {
+            "company": "Swiggy",
+            "percentage": 25
+          },
+          {
+            "company": "Razorpay",
+            "percentage": 20
+          },
+          {
+            "company": "Infosys",
+            "percentage": 15
+          }
+        ],
+        "topLocations": [
+          {
+            "city": "Bengaluru",
+            "percentage": 50
+          },
+          {
+            "city": "Hyderabad",
+            "percentage": 30
+          },
+          {
+            "city": "Pune",
+            "percentage": 20
+          }
+        ]
+      }
+    },
     {
       "id": "post-1789472562499-5vhe",
       "mentorId": "saheli",
@@ -5656,6 +5887,76 @@
   ],
   "notifications": [
     {
+      "id": "notif-1789473896367-5zgv",
+      "recipientId": "saheli",
+      "type": "post_like",
+      "title": "New Like on your Post",
+      "message": "Prakash Mahto liked your insight: \"Kafka Consumer Lag Monitoring & Sub-Second DLQ Rec...\"",
+      "actorId": "prakash",
+      "actorName": "Prakash Mahto",
+      "actorAvatar": "/avatars/prakash.jpg",
+      "postId": "post-1789473896358-nxug",
+      "createdAt": "2026-09-15T12:04:56.367Z",
+      "isRead": false,
+      "actionUrl": "/community#post-1789473896358-nxug"
+    },
+    {
+      "id": "notif-1789473896363-jik1",
+      "recipientId": "saheli",
+      "type": "comment_reply",
+      "title": "New Comment on your Post",
+      "message": "Prakash Mahto commented: \"How do you handle dynamic partition rebalancing in Kafka ...\"",
+      "actorId": "prakash",
+      "actorName": "Prakash Mahto",
+      "actorAvatar": "/avatars/prakash.jpg",
+      "postId": "post-1789473896358-nxug",
+      "createdAt": "2026-09-15T12:04:56.363Z",
+      "isRead": false,
+      "actionUrl": "/community#post-1789473896358-nxug"
+    },
+    {
+      "id": "notif-1789473896359-pmnu",
+      "recipientId": "prakash",
+      "type": "mentor_post",
+      "title": "New Technical Post",
+      "message": "Saheli Kanjilal posted: \"Kafka Consumer Lag Monitoring & Sub-Second DLQ Recovery\"",
+      "mentorId": "saheli",
+      "mentorName": "Saheli Kanjilal",
+      "mentorAvatar": "/avatars/saheli.jpg",
+      "postId": "post-1789473896358-nxug",
+      "createdAt": "2026-09-15T12:04:56.359Z",
+      "isRead": true,
+      "actionUrl": "/community#post-1789473896358-nxug"
+    },
+    {
+      "id": "notif-1789473896328-t4s2",
+      "recipientId": "prakash",
+      "type": "session_booking",
+      "title": "Mentorship Slot Confirmed! 🚀",
+      "message": "Your 1:1 session with Rajat Pandey (NVIDIA) on Monday, 14 Sep 2026 is confirmed.",
+      "mentorId": "rajat",
+      "mentorName": "Rajat Pandey",
+      "mentorAvatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
+      "sessionId": "sess-1789473896325",
+      "createdAt": "2026-09-15T12:04:56.328Z",
+      "isRead": true,
+      "actionUrl": "/sessions"
+    },
+    {
+      "id": "notif-1789473896327-t54w",
+      "recipientId": "rajat",
+      "type": "session_booking",
+      "title": "New 1:1 Session Booked! 🎉",
+      "message": "Prakash Mahto booked a 1:1 session on Monday, 14 Sep 2026 at 07:00 PM - 08:00 PM.",
+      "actorId": "prakash",
+      "actorName": "Prakash Mahto",
+      "actorAvatar": "/avatars/prakash.jpg",
+      "sessionId": "sess-1789473896325",
+      "createdAt": "2026-09-15T12:04:56.327Z",
+      "isRead": false,
+      "actionUrl": "/mentor-dashboard"
+    },
+    {
       "id": "notif-1789472562507-p8nq",
       "recipientId": "saheli",
       "type": "post_like",
@@ -5990,6 +6291,14 @@
       "userId": "prakash",
       "reactionType": "like",
       "createdAt": "2026-09-15T11:42:42.506Z"
+    },
+    {
+      "id": "rx-1789473896366-0x1lp",
+      "targetType": "post",
+      "targetId": "post-1789473896358-nxug",
+      "userId": "prakash",
+      "reactionType": "like",
+      "createdAt": "2026-09-15T12:04:56.366Z"
     }
   ]
 }

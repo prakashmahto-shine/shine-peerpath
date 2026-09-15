@@ -164,6 +164,16 @@ class Store {
     return undefined;
   }
 
+  public updateCreator(creatorId: string, updates: Partial<Creator>): Creator | undefined {
+    const creator = this.getCreatorById(creatorId);
+    if (creator) {
+      Object.assign(creator, updates);
+      this.saveData();
+      return creator;
+    }
+    return undefined;
+  }
+
   // Sessions & Bookings
   public getSessions(userId?: string, role?: 'candidate' | 'mentor'): MentorshipSession[] {
     if (!userId) return this.data.sessions;

@@ -14,8 +14,7 @@
     "build": "tsc && vite build",
     "build:frontend": "tsc && vite build",
     "preview": "vite preview",
-    "start": "tsx server/index.ts",
-    "test:api": "node server/test-api.mjs"
+    "start": "tsx server/index.ts"
   },
   "dependencies": {
     "@huggingface/transformers": "^4.2.0",
