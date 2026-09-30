@@ -252,12 +252,11 @@ export class TrajectoryService {
       if (qualified.length > 0) {
         finalMatches.push(...qualified);
       } else if (group.length > 0) {
-        // Fallback: take top 2 mentors from this domain and calibrate score
-        const fallbacks = group.slice(0, 2).map((m, idx) => ({
-          ...m,
-          trajectorySimilarityScore: Math.max(65, 70 - idx * 3)
-        }));
-        finalMatches.push(...fallbacks);
+        // Fallback: if no mentor cleared 60%, take top mentor so track is not completely empty
+        finalMatches.push({
+          ...group[0],
+          trajectorySimilarityScore: 68
+        });
       }
     }
 

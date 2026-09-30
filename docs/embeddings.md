@@ -103,26 +103,50 @@ The "4-Way Alignment" mentor-match score blends two independent signals:
 
 ### 2.1 What gets embedded
 
-Four pieces of text per match attempt, two for the candidate (computed once) and two per
-mentor (computed per creator in the loop):
+**Eight** embedding calls per match attempt — two pairs for the candidate (computed once
+per request) and two pairs per mentor (computed per creator in the loop). Each side has both
+a "mixed" text (role + company + skills, for overall trajectory feel) and a "role-only" text
+(just the bare title, for a clean role-to-role comparison):
 
 ```
-candidateBaselineText = currentRole + currentCompany + skills
-candidateTargetText   = dreamRole + targetCompany + domain + skills
+candidateBaselineText = currentRole + currentCompany + skills      →  candBaselineVec
+candidateTargetText   = dreamRole + targetCompany + domain + skills →  candTargetVec
+input.currentRole      (bare title only)                            →  candRoleVec
+dreamRole               (bare title only)                            →  candTargetRoleVec
 
-creatorPastText    = mentor.trajectory.role3YearsAgo + company3YearsAgo + keyJumpSkills
-creatorCurrentText = mentor.role + mentor.company + mentor.skills
+creatorPastText    = role3YearsAgo + company3YearsAgo + keyJumpSkills →  creatorPastVec
+creatorCurrentText = mentor.role + mentor.company + mentor.skills     →  creatorCurrentVec
+creator.trajectory.role3YearsAgo  (bare title only)                   →  creatorPastRoleVec
+creator.role                       (bare title only)                   →  creatorCurrentRoleVec
 ```
 
 ```
-originSemanticSim = cosineSim(candidateBaselineVec, creatorPastVec)     // "did they start like me?"
-destSemanticSim   = cosineSim(candidateTargetVec,   creatorCurrentVec)  // "are they where I want to be?"
+originSemanticSim     = cosineSim(candBaselineVec, creatorPastVec)         // mixed text: "did their whole situation look like mine?"
+destSemanticSim       = cosineSim(candTargetVec,   creatorCurrentVec)      // mixed text: "is their whole situation now where I want to be?"
+originRoleEmbeddingSim = cosineSim(candRoleVec,      creatorPastRoleVec)    // bare titles only: "was their job title like mine?"
+destRoleEmbeddingSim   = cosineSim(candTargetRoleVec, creatorCurrentRoleVec) // bare titles only: "is their job title my dream title?"
 ```
+
+**Why both a mixed and a role-only pair exist:** the mixed text embeds company name alongside
+the role, so two people who share an employer (e.g. both texts contain the literal token
+"TCS") can score as spuriously similar even when their actual *roles* have nothing in common —
+a Product Manager and a Software Engineer who both passed through TCS is not evidence they're
+in the same career track. The role-only pair strips that out entirely, so the role-match logic
+(§2.2) sees a clean signal. This was a same-day fix — earlier, `originSemanticSim`/
+`destSemanticSim` fed `roleMatchScore` directly, and a candidate's current company coinciding
+with an unrelated mentor's past company was enough to nudge that mentor above the relevance
+threshold.
+
+Note the mixed `originSemanticSim`/`destSemanticSim` pair is **not** dead code — it still
+feeds the 30% "dense semantic" term of the composite score directly (§2.3) and the
+`matchReasons` debug string, so company-name overlap can still have a (smaller, indirect)
+effect there.
 
 ### 2.2 How the semantic score feeds the taxonomy score
 
 It's not a separate weighted term — it's blended **into** `roleMatchScore` as a boost on top
-of the rule-based family match, via an optional 5th parameter:
+of the rule-based family match, via an optional 5th parameter. As of today this parameter is
+the **role-only** similarity, not the mixed one:
 
 ```ts
 // mentorMatchTaxonomy.ts
@@ -138,9 +162,10 @@ export function roleMatchScore(roleA, roleB, domainA, domainB, semanticSim) {
 
 Called as:
 ```ts
-roleMatchScore(dreamRole, creator.role, domain, creator.domain, destSemanticSim)
-roleMatchScore(currentRole, creator.trajectory.role3YearsAgo, domain, creator.domain, originSemanticSim)
+roleMatchScore(dreamRole, creator.role, domain, creator.domain, destRoleEmbeddingSim)
+roleMatchScore(currentRole, creator.trajectory.role3YearsAgo, domain, creator.domain, originRoleEmbeddingSim)
 ```
+→ producing `dreamRoleScore` and `currentRoleScore` respectively.
 
 So embeddings can only ever **raise** the family-based score (`Math.max(baseScore, ...)`),
 never lower it — a strong semantic match can lift a "different family" 0.3 up toward 1.0, but
@@ -149,13 +174,11 @@ a weak/zero semantic match never drags a same-family 0.7 down.
 ### 2.3 Final composite score
 
 ```
-taxonomyScore = wDreamRole·RoleMatch + wCurrentRole·RoleMatch
-              + wDreamCompany·CompanyMatch + wCurrentCompany·CompanyMatch
-              + wTransition·TransitionMatch
+taxonomyScore = wDreamRole·dreamRoleScore + wCurrentRole·currentRoleScore
+              + wDreamCompany·dreamCompanyScore + wCurrentCompany·currentCompanyScore
+              + wTransition·transitionScore
 
 compositeTrajectory = taxonomyScore · 0.70  +  avg(originSemanticSim, destSemanticSim) · 0.30
-
-trajectorySimilarityScore = clamp(round(compositeTrajectory · 100), 52, 99)
 ```
 
 The `w*` weights are **dynamically rebalanced** when the candidate hasn't supplied a current
@@ -163,9 +186,94 @@ or dream company (redistributing the company weight into role/transition — see
 `hasDreamCompany`/`hasCurrentCompany` branch in `trajectoryService.ts`), but the 70/30
 taxonomy/semantic split at the top level is fixed.
 
+#### 2.3.1 Origin gating — a multiplier on top of everything above
+
+`currentRoleScore` (candidate's current role vs. the mentor's *own* past role) is applied a
+second time, as a multiplier on the whole composite score — not just as one weighted term
+among five inside `taxonomyScore`. This exists because a mentor's excellent *destination*
+(great current role/company) could otherwise fully offset a poor *origin* match, letting
+someone whose own career start looks nothing like the candidate's (e.g. a Computer Vision
+Developer, for a candidate who is a Product Manager) score close to a mentor who actually made
+that candidate's exact jump:
+
+```ts
+const originGate = currentRoleScore < 0.50 ? 0.35 : (0.55 + 0.45 * currentRoleScore);
+const gatedTrajectory = compositeTrajectory * originGate;
+```
+
+This is a hard cliff, not a smooth curve: any `currentRoleScore` below 0.50 (origin role in a
+different family, with no strong semantic rescue) gets slammed to a flat **0.35×** multiplier
+regardless of how close to 0.50 it was. At or above 0.50 the multiplier scales smoothly from
+0.55 up to 1.0 (a perfect origin match costs nothing).
+
+#### 2.3.2 Display scaling
+
+```ts
+const displayTrajectory = Math.sqrt(Math.max(0, Math.min(1, gatedTrajectory)));
+const trajectorySimilarityScore = Math.min(99, Math.round(displayTrajectory * 100));
+```
+
+`sqrt()` is applied before converting to a percentage so the displayed number isn't a harsh
+linear read on `gatedTrajectory` — a linear scale bottoms out looking like "50/50 coin flip"
+even for the *best available* mentor on a genuinely hard cross-domain jump, since raw semantic
+similarity is naturally low across unrelated domains. `sqrt` is monotonic (never changes
+relative ranking) but lifts mid/low scores into a more legible range. There is **no lower
+clamp** at this stage anymore — a score can display arbitrarily low; the floor behavior lives
+in post-processing instead (§2.4), not in the per-mentor formula.
+
+#### 2.3.3 Exact-match classification
+
+```ts
+if (dreamRoleScore >= 0.80 && dreamCompanyScore === 1 && currentRoleScore >= 0.70) matchType = 'exact-dream';
+else if (dreamCompanyScore === 1 && currentRoleScore >= 0.70) matchType = 'exact-company';
+else if (dreamRoleScore >= 0.80 && currentRoleScore >= 0.70) matchType = 'exact-role';
+else matchType = 'aligned';
+```
+
+All three "exact" classifications now require `currentRoleScore >= 0.70` in addition to the
+destination-side condition — this is deliberate: earlier, a mentor could be badged "Exact
+Match" purely because their *current* company happened to equal the candidate's dream company
+(e.g. "Staff Backend Architect @ Google" for anyone dreaming of Google), even when that
+mentor's own origin had nothing to do with the candidate's background. Requiring a genuine
+origin match too means the "Exact Match" badge now means "made your exact jump," not just
+"currently works at your dream company."
+
 The match-reasons text also surfaces the raw semantic number directly:
 `"Dense Semantic Sim {round(avg(origin,dest)*100)}%"` — visible in the API response's
-`matchReasons` array for debugging/transparency.
+`matchReasons` array for debugging/transparency. (This uses the **mixed** `originSemanticSim`/
+`destSemanticSim`, not the role-only pair — see the caveat in §2.1.)
+
+### 2.4 Post-processing: per-domain relevance filtering
+
+After every mentor gets a `trajectorySimilarityScore`, the raw list goes through one more
+pass before being returned — grouped by `creator.domain`, so a candidate's fit in one field is
+never judged against how well they happen to fit a completely different one (comparing a
+Semiconductor score to an AI/ML score head-to-head doesn't mean anything):
+
+```ts
+const byDomain = groupBy(uniqueMatches, m => m.creator.domain);
+
+for (const group of byDomain.values()) {
+  const qualified = group.filter(m => m.trajectorySimilarityScore >= 60);
+  if (qualified.length > 0) {
+    finalMatches.push(...qualified);
+  } else {
+    // fallback: take the single best-scoring mentor in this domain and
+    // override their displayed score to a flat 68%, so the track is never empty
+    finalMatches.push({ ...group[0], trajectorySimilarityScore: 68 });
+  }
+}
+```
+
+**Note — this fallback re-introduces a "never show zero mentors" guarantee.** Earlier the
+same day, this exact behavior was removed on purpose (a Software Engineer candidate exploring
+the Semiconductor track was surfacing RTL/FPGA/Layout-engineer mentors — real people, but with
+an origin that has nothing to do with "software engineer" — just to avoid an empty list; the
+fix at the time was to let a track go honestly empty rather than show a misleading filler
+match). The code as it stands now has moved back to always showing at least one mentor per
+domain, with its score forced to 68% rather than whatever the formula actually computed. This
+is worth a deliberate decision either way (always-something vs. honestly-empty) — flagging it
+here rather than silently changing it back.
 
 ---
 

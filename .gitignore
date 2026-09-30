@@ -4,5 +4,11 @@ dist-ssr
 *.local
 .DS_Store
 .env
+.venv
 .env.*
 !.env.example
+__pycache__/
+*.pyc
+milvus_data/
+*.db
+*.db.sock

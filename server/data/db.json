@@ -29,7 +29,7 @@
       "trajectory": {
         "role3YearsAgo": "Senior Backend Software Engineer",
         "company3YearsAgo": "InfoEdge / Naukri",
-        "salary3YearsAgo": "₹8.8 LPA",
+        "salary3YearsAgo": "\u20b98.8 LPA",
         "keyJumpSkills": [
           "PRD Discovery",
           "Growth Funnel Analytics",
@@ -78,7 +78,7 @@
       "trajectory": {
         "role3YearsAgo": "Associate PM",
         "company3YearsAgo": "PolicyBazaar",
-        "salary3YearsAgo": "₹8.0 LPA",
+        "salary3YearsAgo": "\u20b98.0 LPA",
         "keyJumpSkills": [
           "PRD Discovery",
           "Growth Metrics",
@@ -128,7 +128,7 @@
       "trajectory": {
         "role3YearsAgo": "Senior Frontend Developer",
         "company3YearsAgo": "TCS (Tata Consultancy Services)",
-        "salary3YearsAgo": "₹7.5 LPA",
+        "salary3YearsAgo": "\u20b97.5 LPA",
         "keyJumpSkills": [
           "Technical PRDs",
           "Product Strategy",
@@ -177,7 +177,7 @@
       "trajectory": {
         "role3YearsAgo": "Frontend Developer",
         "company3YearsAgo": "Wipro",
-        "salary3YearsAgo": "₹6.8 LPA",
+        "salary3YearsAgo": "\u20b96.8 LPA",
         "keyJumpSkills": [
           "Product Analytics",
           "Feature Prioritization",
@@ -226,7 +226,7 @@
       "trajectory": {
         "role3YearsAgo": "Senior Java/Search Engineer",
         "company3YearsAgo": "Cognizant",
-        "salary3YearsAgo": "₹7.5 LPA",
+        "salary3YearsAgo": "\u20b97.5 LPA",
         "keyJumpSkills": [
           "Solr Cluster Sharding",
           "Sub-10ms Inverted Indexing",
@@ -275,7 +275,7 @@
       "trajectory": {
         "role3YearsAgo": "Backend SDE",
         "company3YearsAgo": "Mindtree",
-        "salary3YearsAgo": "₹6.5 LPA",
+        "salary3YearsAgo": "\u20b96.5 LPA",
         "keyJumpSkills": [
           "Solr Index Sharding",
           "Distributed Systems",
@@ -310,7 +310,7 @@
       "duration": "01:15",
       "avatar": "/avatars/saheli.jpg",
       "videoPoster": "/avatars/saheli.jpg",
-      "teaserTitle": "Teaser: How I Jumped from ₹6L to ₹26L Staff Frontend Architect",
+      "teaserTitle": "Teaser: How I Jumped from \u20b96L to \u20b926L Staff Frontend Architect",
       "skills": [
         "React.js",
         "TypeScript",
@@ -325,7 +325,7 @@
       "trajectory": {
         "role3YearsAgo": "Senior Frontend Developer",
         "company3YearsAgo": "TCS / Mid-tier Services",
-        "salary3YearsAgo": "₹6.2 LPA",
+        "salary3YearsAgo": "\u20b96.2 LPA",
         "keyJumpSkills": [
           "Module Federation",
           "Micro-Frontends",
@@ -376,7 +376,7 @@
       "trajectory": {
         "role3YearsAgo": "Frontend Developer",
         "company3YearsAgo": "HCL Technologies",
-        "salary3YearsAgo": "₹7.1 LPA",
+        "salary3YearsAgo": "\u20b97.1 LPA",
         "keyJumpSkills": [
           "GraphQL Federation",
           "Micro-Frontends Architecture",
@@ -425,7 +425,7 @@
       "trajectory": {
         "role3YearsAgo": "Full-Stack Developer",
         "company3YearsAgo": "Tech Mahindra",
-        "salary3YearsAgo": "₹7.3 LPA",
+        "salary3YearsAgo": "\u20b97.3 LPA",
         "keyJumpSkills": [
           "Web Vitals Performance",
           "Large-Scale System Design",
@@ -474,7 +474,7 @@
       "trajectory": {
         "role3YearsAgo": "Full-Stack Developer",
         "company3YearsAgo": "TCS (Tata Consultancy Services)",
-        "salary3YearsAgo": "₹8.2 LPA",
+        "salary3YearsAgo": "\u20b98.2 LPA",
         "keyJumpSkills": [
           "Web Vitals Performance",
           "Distributed Systems Design",
@@ -523,7 +523,7 @@
       "trajectory": {
         "role3YearsAgo": "Full-Stack Developer",
         "company3YearsAgo": "TCS (Tata Consultancy Services)",
-        "salary3YearsAgo": "₹4.5 LPA",
+        "salary3YearsAgo": "\u20b94.5 LPA",
         "keyJumpSkills": [
           "Module Federation",
           "Kubernetes Orchestration",
@@ -572,7 +572,7 @@
       "trajectory": {
         "role3YearsAgo": "Web Developer",
         "company3YearsAgo": "LTIMindtree",
-        "salary3YearsAgo": "₹7.4 LPA",
+        "salary3YearsAgo": "\u20b97.4 LPA",
         "keyJumpSkills": [
           "Distributed Systems Design",
           "Kubernetes Orchestration",
@@ -622,7 +622,7 @@
       "trajectory": {
         "role3YearsAgo": "Associate Software Engineer",
         "company3YearsAgo": "LTIMindtree",
-        "salary3YearsAgo": "₹4.9 LPA",
+        "salary3YearsAgo": "\u20b94.9 LPA",
         "keyJumpSkills": [
           "GraphQL Federation",
           "Distributed Systems Design",
@@ -672,7 +672,7 @@
       "trajectory": {
         "role3YearsAgo": "Full-Stack Developer",
         "company3YearsAgo": "Capgemini",
-        "salary3YearsAgo": "₹8 LPA",
+        "salary3YearsAgo": "\u20b98 LPA",
         "keyJumpSkills": [
           "Web Vitals Performance",
           "Distributed Systems Design",
@@ -722,7 +722,7 @@
       "trajectory": {
         "role3YearsAgo": "Associate Software Engineer",
         "company3YearsAgo": "HCL Technologies",
-        "salary3YearsAgo": "₹8.6 LPA",
+        "salary3YearsAgo": "\u20b98.6 LPA",
         "keyJumpSkills": [
           "Web Vitals Performance",
           "Module Federation",
@@ -771,7 +771,7 @@
       "trajectory": {
         "role3YearsAgo": "Software Engineer",
         "company3YearsAgo": "Cognizant Technology Solutions",
-        "salary3YearsAgo": "₹7.8 LPA",
+        "salary3YearsAgo": "\u20b97.8 LPA",
         "keyJumpSkills": [
           "Micro-Frontends Architecture",
           "Kubernetes Orchestration",
@@ -821,7 +821,7 @@
       "trajectory": {
         "role3YearsAgo": "Full-Stack Developer",
         "company3YearsAgo": "LTIMindtree",
-        "salary3YearsAgo": "₹4.7 LPA",
+        "salary3YearsAgo": "\u20b94.7 LPA",
         "keyJumpSkills": [
           "Micro-Frontends Architecture",
           "Large-Scale System Design",
@@ -871,7 +871,7 @@
       "trajectory": {
         "role3YearsAgo": "Full-Stack Developer",
         "company3YearsAgo": "Cognizant Technology Solutions",
-        "salary3YearsAgo": "₹4.6 LPA",
+        "salary3YearsAgo": "\u20b94.6 LPA",
         "keyJumpSkills": [
           "Large-Scale System Design",
           "Web Vitals Performance",
@@ -921,7 +921,7 @@
       "trajectory": {
         "role3YearsAgo": "Web Developer",
         "company3YearsAgo": "TCS (Tata Consultancy Services)",
-        "salary3YearsAgo": "₹4.9 LPA",
+        "salary3YearsAgo": "\u20b94.9 LPA",
         "keyJumpSkills": [
           "Large-Scale System Design",
           "Module Federation",
@@ -970,7 +970,7 @@
       "trajectory": {
         "role3YearsAgo": "React Developer",
         "company3YearsAgo": "Infosys",
-        "salary3YearsAgo": "₹6.4 LPA",
+        "salary3YearsAgo": "\u20b96.4 LPA",
         "keyJumpSkills": [
           "Web Vitals Performance",
           "Micro-Frontends Architecture",
@@ -1019,7 +1019,7 @@
       "trajectory": {
         "role3YearsAgo": "UI Developer",
         "company3YearsAgo": "Capgemini",
-        "salary3YearsAgo": "₹5.8 LPA",
+        "salary3YearsAgo": "\u20b95.8 LPA",
         "keyJumpSkills": [
           "Design Systems at Scale",
           "Module Federation",
@@ -1068,7 +1068,7 @@
       "trajectory": {
         "role3YearsAgo": "Frontend Developer",
         "company3YearsAgo": "Wipro",
-        "salary3YearsAgo": "₹5.5 LPA",
+        "salary3YearsAgo": "\u20b95.5 LPA",
         "keyJumpSkills": [
           "Micro-Frontends Architecture",
           "Web Vitals Performance",
@@ -1117,7 +1117,7 @@
       "trajectory": {
         "role3YearsAgo": "Backend Developer",
         "company3YearsAgo": "TCS",
-        "salary3YearsAgo": "₹6.8 LPA",
+        "salary3YearsAgo": "\u20b96.8 LPA",
         "keyJumpSkills": [
           "Distributed Systems Design",
           "Microservices Architecture",
@@ -1166,7 +1166,7 @@
       "trajectory": {
         "role3YearsAgo": "Java Developer",
         "company3YearsAgo": "Infosys",
-        "salary3YearsAgo": "₹6.1 LPA",
+        "salary3YearsAgo": "\u20b96.1 LPA",
         "keyJumpSkills": [
           "Large-Scale System Design",
           "Kafka Streaming Pipelines",
@@ -1215,7 +1215,7 @@
       "trajectory": {
         "role3YearsAgo": "Backend Engineer",
         "company3YearsAgo": "Cognizant",
-        "salary3YearsAgo": "₹7.2 LPA",
+        "salary3YearsAgo": "\u20b97.2 LPA",
         "keyJumpSkills": [
           "Payment Systems Architecture",
           "Microservices Architecture",
@@ -1264,7 +1264,7 @@
       "trajectory": {
         "role3YearsAgo": "Java Developer",
         "company3YearsAgo": "HCL Technologies",
-        "salary3YearsAgo": "₹6.6 LPA",
+        "salary3YearsAgo": "\u20b96.6 LPA",
         "keyJumpSkills": [
           "Distributed Systems Design",
           "High-Throughput Messaging",
@@ -1313,7 +1313,7 @@
       "trajectory": {
         "role3YearsAgo": "Android Developer",
         "company3YearsAgo": "Tech Mahindra",
-        "salary3YearsAgo": "₹6.3 LPA",
+        "salary3YearsAgo": "\u20b96.3 LPA",
         "keyJumpSkills": [
           "Modular App Architecture",
           "Mobile Performance Tuning",
@@ -1362,7 +1362,7 @@
       "trajectory": {
         "role3YearsAgo": "iOS Developer",
         "company3YearsAgo": "Capgemini",
-        "salary3YearsAgo": "₹5.9 LPA",
+        "salary3YearsAgo": "\u20b95.9 LPA",
         "keyJumpSkills": [
           "Modular App Architecture",
           "Mobile Performance Tuning",
@@ -1411,7 +1411,7 @@
       "trajectory": {
         "role3YearsAgo": "Mobile Engineer",
         "company3YearsAgo": "LTIMindtree",
-        "salary3YearsAgo": "₹6.7 LPA",
+        "salary3YearsAgo": "\u20b96.7 LPA",
         "keyJumpSkills": [
           "Offline-First Sync",
           "Modular App Architecture",
@@ -1460,7 +1460,7 @@
       "trajectory": {
         "role3YearsAgo": "Android Developer",
         "company3YearsAgo": "Wipro",
-        "salary3YearsAgo": "₹5.6 LPA",
+        "salary3YearsAgo": "\u20b95.6 LPA",
         "keyJumpSkills": [
           "Mobile Performance Tuning",
           "Modular App Architecture",
@@ -1509,7 +1509,7 @@
       "trajectory": {
         "role3YearsAgo": "QA Engineer",
         "company3YearsAgo": "Infosys",
-        "salary3YearsAgo": "₹5.7 LPA",
+        "salary3YearsAgo": "\u20b95.7 LPA",
         "keyJumpSkills": [
           "Test Automation Framework Design",
           "CI/CD Test Pipelines",
@@ -1558,7 +1558,7 @@
       "trajectory": {
         "role3YearsAgo": "SDET",
         "company3YearsAgo": "Cognizant",
-        "salary3YearsAgo": "₹6.9 LPA",
+        "salary3YearsAgo": "\u20b96.9 LPA",
         "keyJumpSkills": [
           "Test Automation Framework Design",
           "API Contract Testing",
@@ -1607,7 +1607,7 @@
       "trajectory": {
         "role3YearsAgo": "Test Engineer",
         "company3YearsAgo": "TCS",
-        "salary3YearsAgo": "₹5.4 LPA",
+        "salary3YearsAgo": "\u20b95.4 LPA",
         "keyJumpSkills": [
           "Test Automation Framework Design",
           "Performance Test Engineering",
@@ -1656,7 +1656,7 @@
       "trajectory": {
         "role3YearsAgo": "SDET",
         "company3YearsAgo": "HCL Technologies",
-        "salary3YearsAgo": "₹6.2 LPA",
+        "salary3YearsAgo": "\u20b96.2 LPA",
         "keyJumpSkills": [
           "Test Automation Framework Design",
           "CI/CD Test Pipelines",
@@ -1705,7 +1705,7 @@
       "trajectory": {
         "role3YearsAgo": "DevOps Engineer",
         "company3YearsAgo": "Wipro",
-        "salary3YearsAgo": "₹6.9 LPA",
+        "salary3YearsAgo": "\u20b96.9 LPA",
         "keyJumpSkills": [
           "Kubernetes Orchestration",
           "Infrastructure as Code",
@@ -1754,7 +1754,7 @@
       "trajectory": {
         "role3YearsAgo": "Site Reliability Engineer",
         "company3YearsAgo": "Tech Mahindra",
-        "salary3YearsAgo": "₹7.1 LPA",
+        "salary3YearsAgo": "\u20b97.1 LPA",
         "keyJumpSkills": [
           "Observability at Scale",
           "Kubernetes Orchestration",
@@ -1803,7 +1803,7 @@
       "trajectory": {
         "role3YearsAgo": "Infra Engineer",
         "company3YearsAgo": "LTIMindtree",
-        "salary3YearsAgo": "₹6.5 LPA",
+        "salary3YearsAgo": "\u20b96.5 LPA",
         "keyJumpSkills": [
           "Infrastructure as Code",
           "Kubernetes Orchestration",
@@ -1852,7 +1852,7 @@
       "trajectory": {
         "role3YearsAgo": "DevOps Engineer",
         "company3YearsAgo": "Capgemini",
-        "salary3YearsAgo": "₹7.4 LPA",
+        "salary3YearsAgo": "\u20b97.4 LPA",
         "keyJumpSkills": [
           "Observability at Scale",
           "Infrastructure as Code",
@@ -1902,7 +1902,7 @@
       "trajectory": {
         "role3YearsAgo": "Computer Vision Developer",
         "company3YearsAgo": "Mindtree",
-        "salary3YearsAgo": "₹6.1 LPA",
+        "salary3YearsAgo": "\u20b96.1 LPA",
         "keyJumpSkills": [
           "Multi-Modal Model Serving",
           "PyTorch Production Pipelines",
@@ -1952,7 +1952,7 @@
       "trajectory": {
         "role3YearsAgo": "BI Analyst",
         "company3YearsAgo": "TCS (Tata Consultancy Services)",
-        "salary3YearsAgo": "₹6.5 LPA",
+        "salary3YearsAgo": "\u20b96.5 LPA",
         "keyJumpSkills": [
           "Vector Search (Pinecone)",
           "CUDA Kernel Optimization",
@@ -2002,7 +2002,7 @@
       "trajectory": {
         "role3YearsAgo": "BI Analyst",
         "company3YearsAgo": "Mu Sigma",
-        "salary3YearsAgo": "₹8.3 LPA",
+        "salary3YearsAgo": "\u20b98.3 LPA",
         "keyJumpSkills": [
           "PyTorch Production Pipelines",
           "Vector Search (Pinecone)",
@@ -2051,7 +2051,7 @@
       "trajectory": {
         "role3YearsAgo": "Computer Vision Developer",
         "company3YearsAgo": "Mu Sigma",
-        "salary3YearsAgo": "₹6.3 LPA",
+        "salary3YearsAgo": "\u20b96.3 LPA",
         "keyJumpSkills": [
           "Vector Search (Pinecone)",
           "CUDA Kernel Optimization",
@@ -2101,7 +2101,7 @@
       "trajectory": {
         "role3YearsAgo": "Computer Vision Developer",
         "company3YearsAgo": "TCS (Tata Consultancy Services)",
-        "salary3YearsAgo": "₹4.3 LPA",
+        "salary3YearsAgo": "\u20b94.3 LPA",
         "keyJumpSkills": [
           "PyTorch Production Pipelines",
           "Distributed Model Training",
@@ -2150,7 +2150,7 @@
       "trajectory": {
         "role3YearsAgo": "Computer Vision Developer",
         "company3YearsAgo": "TCS (Tata Consultancy Services)",
-        "salary3YearsAgo": "₹5.1 LPA",
+        "salary3YearsAgo": "\u20b95.1 LPA",
         "keyJumpSkills": [
           "Distributed Model Training",
           "Vector Search (Pinecone)",
@@ -2200,7 +2200,7 @@
       "trajectory": {
         "role3YearsAgo": "Computer Vision Developer",
         "company3YearsAgo": "Wipro Technologies",
-        "salary3YearsAgo": "₹8.2 LPA",
+        "salary3YearsAgo": "\u20b98.2 LPA",
         "keyJumpSkills": [
           "CUDA Kernel Optimization",
           "Distributed Model Training",
@@ -2250,7 +2250,7 @@
       "trajectory": {
         "role3YearsAgo": "Data Science Associate",
         "company3YearsAgo": "Mu Sigma",
-        "salary3YearsAgo": "₹4.9 LPA",
+        "salary3YearsAgo": "\u20b94.9 LPA",
         "keyJumpSkills": [
           "CUDA Kernel Optimization",
           "Multi-Modal Model Serving",
@@ -2300,7 +2300,7 @@
       "trajectory": {
         "role3YearsAgo": "Data Science Associate",
         "company3YearsAgo": "Wipro Technologies",
-        "salary3YearsAgo": "₹9 LPA",
+        "salary3YearsAgo": "\u20b99 LPA",
         "keyJumpSkills": [
           "Distributed Model Training",
           "CUDA Kernel Optimization",
@@ -2350,7 +2350,7 @@
       "trajectory": {
         "role3YearsAgo": "Junior ML Engineer",
         "company3YearsAgo": "Wipro Technologies",
-        "salary3YearsAgo": "₹4.8 LPA",
+        "salary3YearsAgo": "\u20b94.8 LPA",
         "keyJumpSkills": [
           "LLM Fine-Tuning",
           "Distributed Model Training",
@@ -2400,7 +2400,7 @@
       "trajectory": {
         "role3YearsAgo": "Data Science Associate",
         "company3YearsAgo": "TCS (Tata Consultancy Services)",
-        "salary3YearsAgo": "₹6 LPA",
+        "salary3YearsAgo": "\u20b96 LPA",
         "keyJumpSkills": [
           "CUDA Kernel Optimization",
           "LLM Fine-Tuning",
@@ -2450,7 +2450,7 @@
       "trajectory": {
         "role3YearsAgo": "Junior ML Engineer",
         "company3YearsAgo": "Infosys Digital",
-        "salary3YearsAgo": "₹7.8 LPA",
+        "salary3YearsAgo": "\u20b97.8 LPA",
         "keyJumpSkills": [
           "LLM Fine-Tuning",
           "Distributed Model Training",
@@ -2499,7 +2499,7 @@
       "trajectory": {
         "role3YearsAgo": "Data Analyst",
         "company3YearsAgo": "Infosys Digital",
-        "salary3YearsAgo": "₹8.4 LPA",
+        "salary3YearsAgo": "\u20b98.4 LPA",
         "keyJumpSkills": [
           "Vector Search (Pinecone)",
           "LLM Fine-Tuning",
@@ -2548,7 +2548,7 @@
       "trajectory": {
         "role3YearsAgo": "Data Analyst",
         "company3YearsAgo": "Mu Sigma",
-        "salary3YearsAgo": "₹5.6 LPA",
+        "salary3YearsAgo": "\u20b95.6 LPA",
         "keyJumpSkills": [
           "Statistical Model Deployment",
           "Vector Search (Pinecone)",
@@ -2591,13 +2591,13 @@
         "Python",
         "Stakeholder Mgmt"
       ],
-      "bio": "Staff GenAI Product Engineer at Google. I guide Product Managers making the exact jump I made — from managing roadmaps to shipping GenAI features hands-on.",
+      "bio": "Staff GenAI Product Engineer at Google. I guide Product Managers making the exact jump I made \u2014 from managing roadmaps to shipping GenAI features hands-on.",
       "verifiedEmail": "rohit.m@google.com",
       "isVerifiedEmployer": true,
       "trajectory": {
         "role3YearsAgo": "Product Manager",
         "company3YearsAgo": "TCS",
-        "salary3YearsAgo": "₹9 LPA",
+        "salary3YearsAgo": "\u20b99 LPA",
         "keyJumpSkills": [
           "Prompt Engineering",
           "LLM Evaluation",
@@ -2646,7 +2646,7 @@
       "trajectory": {
         "role3YearsAgo": "Senior Product Manager",
         "company3YearsAgo": "Infosys",
-        "salary3YearsAgo": "₹11 LPA",
+        "salary3YearsAgo": "\u20b911 LPA",
         "keyJumpSkills": [
           "LLM Fine-Tuning",
           "Vector Databases",
@@ -2696,7 +2696,7 @@
       "trajectory": {
         "role3YearsAgo": "Senior Frontend Developer",
         "company3YearsAgo": "TCS (Tata Consultancy Services)",
-        "salary3YearsAgo": "₹7.2 LPA",
+        "salary3YearsAgo": "\u20b97.2 LPA",
         "keyJumpSkills": [
           "LangChain & Vector Search",
           "LLM Streaming Architecture",
@@ -2746,7 +2746,7 @@
       "trajectory": {
         "role3YearsAgo": "Frontend Developer",
         "company3YearsAgo": "Infosys",
-        "salary3YearsAgo": "₹6.5 LPA",
+        "salary3YearsAgo": "\u20b96.5 LPA",
         "keyJumpSkills": [
           "Azure OpenAI Services",
           "RAG Architectures",
@@ -2795,7 +2795,7 @@
       "trajectory": {
         "role3YearsAgo": "Full-Stack Developer",
         "company3YearsAgo": "TCS (Tata Consultancy Services)",
-        "salary3YearsAgo": "₹7.8 LPA",
+        "salary3YearsAgo": "\u20b97.8 LPA",
         "keyJumpSkills": [
           "ML Inference Pipelines",
           "Model Fine-Tuning",
@@ -2845,7 +2845,7 @@
       "trajectory": {
         "role3YearsAgo": "RTL Design Engineer",
         "company3YearsAgo": "SmartSoC Solutions",
-        "salary3YearsAgo": "₹6.4 LPA",
+        "salary3YearsAgo": "\u20b96.4 LPA",
         "keyJumpSkills": [
           "Constrained Random Verification",
           "Clock Domain Crossing (CDC)",
@@ -2894,7 +2894,7 @@
       "trajectory": {
         "role3YearsAgo": "Junior Layout Engineer",
         "company3YearsAgo": "TCS (Tata Consultancy Services)",
-        "salary3YearsAgo": "₹5 LPA",
+        "salary3YearsAgo": "\u20b95 LPA",
         "keyJumpSkills": [
           "Formal Mathematical Proofs",
           "Constrained Random Verification",
@@ -2943,7 +2943,7 @@
       "trajectory": {
         "role3YearsAgo": "FPGA Design Engineer",
         "company3YearsAgo": "L&T Technology Services",
-        "salary3YearsAgo": "₹6.1 LPA",
+        "salary3YearsAgo": "\u20b96.1 LPA",
         "keyJumpSkills": [
           "Constrained Random Verification",
           "UVM Testbench Architecture",
@@ -2992,7 +2992,7 @@
       "trajectory": {
         "role3YearsAgo": "FPGA Validation Engineer",
         "company3YearsAgo": "Wipro VLSI Practice",
-        "salary3YearsAgo": "₹4.4 LPA",
+        "salary3YearsAgo": "\u20b94.4 LPA",
         "keyJumpSkills": [
           "UVM Testbench Architecture",
           "Static Timing Closure",
@@ -3042,7 +3042,7 @@
       "trajectory": {
         "role3YearsAgo": "FPGA Validation Engineer",
         "company3YearsAgo": "L&T Technology Services",
-        "salary3YearsAgo": "₹6.7 LPA",
+        "salary3YearsAgo": "\u20b96.7 LPA",
         "keyJumpSkills": [
           "Clock Domain Crossing (CDC)",
           "Formal Mathematical Proofs",
@@ -3092,7 +3092,7 @@
       "trajectory": {
         "role3YearsAgo": "FPGA Design Engineer",
         "company3YearsAgo": "SmartSoC Solutions",
-        "salary3YearsAgo": "₹7.6 LPA",
+        "salary3YearsAgo": "\u20b97.6 LPA",
         "keyJumpSkills": [
           "Clock Domain Crossing (CDC)",
           "UVM Testbench Architecture",
@@ -3142,7 +3142,7 @@
       "trajectory": {
         "role3YearsAgo": "FPGA Design Engineer",
         "company3YearsAgo": "Mindtree",
-        "salary3YearsAgo": "₹5.7 LPA",
+        "salary3YearsAgo": "\u20b95.7 LPA",
         "keyJumpSkills": [
           "Multi-Corner Multi-Mode (MCMM)",
           "Constrained Random Verification",
@@ -3191,7 +3191,7 @@
       "trajectory": {
         "role3YearsAgo": "FPGA Validation Engineer",
         "company3YearsAgo": "Mindtree",
-        "salary3YearsAgo": "₹7 LPA",
+        "salary3YearsAgo": "\u20b97 LPA",
         "keyJumpSkills": [
           "Multi-Corner Multi-Mode (MCMM)",
           "UVM Testbench Architecture",
@@ -3241,7 +3241,7 @@
       "trajectory": {
         "role3YearsAgo": "FPGA Design Engineer",
         "company3YearsAgo": "SmartSoC Solutions",
-        "salary3YearsAgo": "₹5.2 LPA",
+        "salary3YearsAgo": "\u20b95.2 LPA",
         "keyJumpSkills": [
           "Static Timing Closure",
           "Clock Domain Crossing (CDC)",
@@ -3291,7 +3291,7 @@
       "trajectory": {
         "role3YearsAgo": "Junior Layout Engineer",
         "company3YearsAgo": "Wipro VLSI Practice",
-        "salary3YearsAgo": "₹4.5 LPA",
+        "salary3YearsAgo": "\u20b94.5 LPA",
         "keyJumpSkills": [
           "Formal Mathematical Proofs",
           "UVM Testbench Architecture",
@@ -3341,7 +3341,7 @@
       "trajectory": {
         "role3YearsAgo": "FPGA Design Engineer",
         "company3YearsAgo": "TCS (Tata Consultancy Services)",
-        "salary3YearsAgo": "₹9.5 LPA",
+        "salary3YearsAgo": "\u20b99.5 LPA",
         "keyJumpSkills": [
           "Formal Mathematical Proofs",
           "UVM Testbench Architecture",
@@ -3390,7 +3390,7 @@
       "trajectory": {
         "role3YearsAgo": "FPGA Design Engineer",
         "company3YearsAgo": "Mindtree",
-        "salary3YearsAgo": "₹6.7 LPA",
+        "salary3YearsAgo": "\u20b96.7 LPA",
         "keyJumpSkills": [
           "Static Timing Closure",
           "Formal Mathematical Proofs",
@@ -3440,7 +3440,7 @@
       "trajectory": {
         "role3YearsAgo": "Software Engineer",
         "company3YearsAgo": "TCS (Tata Consultancy Services)",
-        "salary3YearsAgo": "₹6.8 LPA",
+        "salary3YearsAgo": "\u20b96.8 LPA",
         "keyJumpSkills": [
           "Hardware-Software Co-Design",
           "Post-Silicon Validation",
@@ -3489,7 +3489,7 @@
       "trajectory": {
         "role3YearsAgo": "Frontend Developer",
         "company3YearsAgo": "Wipro",
-        "salary3YearsAgo": "₹6.2 LPA",
+        "salary3YearsAgo": "\u20b96.2 LPA",
         "keyJumpSkills": [
           "Hardware Telemetry UIs",
           "WebAssembly Silicon Simulators",
@@ -3538,7 +3538,7 @@
       "trajectory": {
         "role3YearsAgo": "Junior Vulnerability Analyst",
         "company3YearsAgo": "TCS Cybersecurity",
-        "salary3YearsAgo": "₹7.2 LPA",
+        "salary3YearsAgo": "\u20b97.2 LPA",
         "keyJumpSkills": [
           "YARA Rule Engineering",
           "STRIDE Threat Modeling",
@@ -3588,7 +3588,7 @@
       "trajectory": {
         "role3YearsAgo": "SOC Monitoring Analyst",
         "company3YearsAgo": "Capgemini",
-        "salary3YearsAgo": "₹4.4 LPA",
+        "salary3YearsAgo": "\u20b94.4 LPA",
         "keyJumpSkills": [
           "YARA Rule Engineering",
           "Kubernetes Security Policies",
@@ -3637,7 +3637,7 @@
       "trajectory": {
         "role3YearsAgo": "Linux System Administrator",
         "company3YearsAgo": "Infosys Security Practice",
-        "salary3YearsAgo": "₹8.4 LPA",
+        "salary3YearsAgo": "\u20b98.4 LPA",
         "keyJumpSkills": [
           "STRIDE Threat Modeling",
           "Advanced Threat Hunting",
@@ -3687,7 +3687,7 @@
       "trajectory": {
         "role3YearsAgo": "Linux System Administrator",
         "company3YearsAgo": "Infosys Security Practice",
-        "salary3YearsAgo": "₹7.1 LPA",
+        "salary3YearsAgo": "\u20b97.1 LPA",
         "keyJumpSkills": [
           "Zero Trust Identity",
           "YARA Rule Engineering",
@@ -3736,7 +3736,7 @@
       "trajectory": {
         "role3YearsAgo": "Security Analyst",
         "company3YearsAgo": "TCS Cybersecurity",
-        "salary3YearsAgo": "₹8.4 LPA",
+        "salary3YearsAgo": "\u20b98.4 LPA",
         "keyJumpSkills": [
           "OAuth/OIDC Attack Chains",
           "Kubernetes Security Policies",
@@ -3785,7 +3785,7 @@
       "trajectory": {
         "role3YearsAgo": "Security Analyst",
         "company3YearsAgo": "HCL Technologies",
-        "salary3YearsAgo": "₹5.3 LPA",
+        "salary3YearsAgo": "\u20b95.3 LPA",
         "keyJumpSkills": [
           "Advanced Threat Hunting",
           "OAuth/OIDC Attack Chains",
@@ -3835,7 +3835,7 @@
       "trajectory": {
         "role3YearsAgo": "Security Analyst",
         "company3YearsAgo": "Tech Mahindra",
-        "salary3YearsAgo": "₹4.4 LPA",
+        "salary3YearsAgo": "\u20b94.4 LPA",
         "keyJumpSkills": [
           "Advanced Threat Hunting",
           "Zero Trust Identity",
@@ -3884,7 +3884,7 @@
       "trajectory": {
         "role3YearsAgo": "Junior Vulnerability Analyst",
         "company3YearsAgo": "Wipro Managed Security",
-        "salary3YearsAgo": "₹9.3 LPA",
+        "salary3YearsAgo": "\u20b99.3 LPA",
         "keyJumpSkills": [
           "Advanced Threat Hunting",
           "Kubernetes Security Policies",
@@ -3934,7 +3934,7 @@
       "trajectory": {
         "role3YearsAgo": "SOC Monitoring Analyst",
         "company3YearsAgo": "Capgemini",
-        "salary3YearsAgo": "₹7.3 LPA",
+        "salary3YearsAgo": "\u20b97.3 LPA",
         "keyJumpSkills": [
           "Advanced Threat Hunting",
           "Kubernetes Security Policies",
@@ -3983,7 +3983,7 @@
       "trajectory": {
         "role3YearsAgo": "SOC Monitoring Analyst",
         "company3YearsAgo": "Tech Mahindra",
-        "salary3YearsAgo": "₹8.2 LPA",
+        "salary3YearsAgo": "\u20b98.2 LPA",
         "keyJumpSkills": [
           "Advanced Threat Hunting",
           "OAuth/OIDC Attack Chains",
@@ -4032,7 +4032,7 @@
       "trajectory": {
         "role3YearsAgo": "Security Analyst",
         "company3YearsAgo": "Tech Mahindra",
-        "salary3YearsAgo": "₹5 LPA",
+        "salary3YearsAgo": "\u20b95 LPA",
         "keyJumpSkills": [
           "Zero Trust Identity",
           "YARA Rule Engineering",
@@ -4081,7 +4081,7 @@
       "trajectory": {
         "role3YearsAgo": "SOC Monitoring Analyst",
         "company3YearsAgo": "Infosys Security Practice",
-        "salary3YearsAgo": "₹9.1 LPA",
+        "salary3YearsAgo": "\u20b99.1 LPA",
         "keyJumpSkills": [
           "YARA Rule Engineering",
           "Zero Trust Identity",
@@ -4131,7 +4131,7 @@
       "trajectory": {
         "role3YearsAgo": "Frontend Developer",
         "company3YearsAgo": "TCS (Tata Consultancy Services)",
-        "salary3YearsAgo": "₹6.5 LPA",
+        "salary3YearsAgo": "\u20b96.5 LPA",
         "keyJumpSkills": [
           "Frontend Vulnerability Scanning",
           "OAuth2 & Token Hardening",
@@ -4180,7 +4180,7 @@
       "trajectory": {
         "role3YearsAgo": "Software Engineer",
         "company3YearsAgo": "Infosys",
-        "salary3YearsAgo": "₹7.0 LPA",
+        "salary3YearsAgo": "\u20b97.0 LPA",
         "keyJumpSkills": [
           "Kubernetes Hardening",
           "IAM Architecture",
@@ -4229,7 +4229,7 @@
       "trajectory": {
         "role3YearsAgo": "Business Development Executive",
         "company3YearsAgo": "Local IT Consultancy",
-        "salary3YearsAgo": "₹4.5 LPA",
+        "salary3YearsAgo": "\u20b94.5 LPA",
         "keyJumpSkills": [
           "MEDDIC Deal Qualification",
           "Enterprise Account Mapping",
@@ -4278,7 +4278,7 @@
       "trajectory": {
         "role3YearsAgo": "Inside Sales Representative",
         "company3YearsAgo": "Naukri.com",
-        "salary3YearsAgo": "₹5.0 LPA",
+        "salary3YearsAgo": "\u20b95.0 LPA",
         "keyJumpSkills": [
           "MEDDPICC Deal Qualification",
           "C-Level Executive Pitching",
@@ -4327,7 +4327,7 @@
       "trajectory": {
         "role3YearsAgo": "Account Coordinator",
         "company3YearsAgo": "Justdial",
-        "salary3YearsAgo": "₹6.0 LPA",
+        "salary3YearsAgo": "\u20b96.0 LPA",
         "keyJumpSkills": [
           "Product-Led Growth Playbooks",
           "Expansion Sales Modeling",
@@ -4376,7 +4376,7 @@
       "trajectory": {
         "role3YearsAgo": "Telesales Executive",
         "company3YearsAgo": "IndiaMART",
-        "salary3YearsAgo": "₹3.8 LPA",
+        "salary3YearsAgo": "\u20b93.8 LPA",
         "keyJumpSkills": [
           "Consultative Selling",
           "Enterprise Account Mapping",
@@ -4425,7 +4425,7 @@
       "trajectory": {
         "role3YearsAgo": "Digital Marketing Associate",
         "company3YearsAgo": "Ogilvy India",
-        "salary3YearsAgo": "₹5.2 LPA",
+        "salary3YearsAgo": "\u20b95.2 LPA",
         "keyJumpSkills": [
           "Full-Funnel Growth Marketing",
           "Marketing Mix Modeling",
@@ -4474,7 +4474,7 @@
       "trajectory": {
         "role3YearsAgo": "Social Media Executive",
         "company3YearsAgo": "WATConsult",
-        "salary3YearsAgo": "₹4.8 LPA",
+        "salary3YearsAgo": "\u20b94.8 LPA",
         "keyJumpSkills": [
           "Brand Building Frameworks",
           "Influencer Strategy at Scale",
@@ -4523,7 +4523,7 @@
       "trajectory": {
         "role3YearsAgo": "Performance Marketing Analyst",
         "company3YearsAgo": "Interactive Avenues",
-        "salary3YearsAgo": "₹5.5 LPA",
+        "salary3YearsAgo": "\u20b95.5 LPA",
         "keyJumpSkills": [
           "Performance Marketing at Scale",
           "Attribution Modeling",
@@ -4572,7 +4572,7 @@
       "trajectory": {
         "role3YearsAgo": "Content Marketing Associate",
         "company3YearsAgo": "TCS (Tata Consultancy Services)",
-        "salary3YearsAgo": "₹4.2 LPA",
+        "salary3YearsAgo": "\u20b94.2 LPA",
         "keyJumpSkills": [
           "Content-Led Growth Loops",
           "Marketing Automation Workflows",
@@ -4602,7 +4602,7 @@
       "headline": "java @ TCS ➔ Aspiring Full-stack Architecture @ google",
       "experienceYears": "4 Years, 2 Months",
       "location": "Bengaluru, India",
-      "profileScore": 92,
+      "profileScore": 100,
       "jobSearchStatus": "Serving Notice Period (30 Days)",
       "summary": "Senior Frontend Developer with 4+ years of hands-on experience building high-traffic, resilient web applications at scale. Specializing in React 19, TypeScript, and micro-frontends.",
       "skills": [
@@ -4624,7 +4624,7 @@
         {
           "id": "badge-pm-1",
           "title": "Tier-1 Frontend & UI Architecture",
-          "subtitle": "Verified by Saheli Kanjilal • Staff Frontend Architect @ Razorpay",
+          "subtitle": "Verified by Saheli Kanjilal \u2022 Staff Frontend Architect @ Razorpay",
           "verifierName": "Saheli Kanjilal",
           "verifierRole": "Staff Frontend Architect @ Razorpay",
           "verifierAvatar": "/avatars/saheli.jpg",
@@ -4642,7 +4642,7 @@
         {
           "id": "badge-solr-1",
           "title": "Distributed Search & Lucene Indexing",
-          "subtitle": "Verified by Saheli Kanjilal • Staff Frontend Architect @ Razorpay",
+          "subtitle": "Verified by Saheli Kanjilal \u2022 Staff Frontend Architect @ Razorpay",
           "verifierName": "Saheli Kanjilal",
           "verifierRole": "Staff Frontend Architect @ Razorpay",
           "verifierAvatar": "/avatars/saheli.jpg",
@@ -4667,7 +4667,7 @@
       "name": "Varun Venkataraman",
       "email": "varun.venkataraman@example.com",
       "phone": "+91 9853757334",
-      "headline": "Web Developer • 5.5 Years • Mumbai",
+      "headline": "Web Developer \u2022 5.5 Years \u2022 Mumbai",
       "experienceYears": "5.5 Years",
       "location": "Mumbai, India",
       "profileScore": 79,
@@ -4681,8 +4681,8 @@
         "Web Performance",
         "Micro-Frontends"
       ],
-      "currentCtc": "₹8.7 LPA",
-      "targetCtc": "₹23 - 32 LPA",
+      "currentCtc": "\u20b98.7 LPA",
+      "targetCtc": "\u20b923 - 32 LPA",
       "targetRole": "Staff Frontend Architect",
       "targetCompany": "Razorpay (FinTech)",
       "pastCompany": "Tech Mahindra",
@@ -4698,7 +4698,7 @@
       "name": "Diya Joshi",
       "email": "diya.joshi@example.com",
       "phone": "+91 9373655977",
-      "headline": "Web Developer • 3 Years • Hyderabad",
+      "headline": "Web Developer \u2022 3 Years \u2022 Hyderabad",
       "experienceYears": "3 Years",
       "location": "Hyderabad, India",
       "profileScore": 81,
@@ -4713,8 +4713,8 @@
         "Module Federation",
         "Go (Golang)"
       ],
-      "currentCtc": "₹7.7 LPA",
-      "targetCtc": "₹18 - 26 LPA",
+      "currentCtc": "\u20b97.7 LPA",
+      "targetCtc": "\u20b918 - 26 LPA",
       "targetRole": "Principal Software Engineer",
       "targetCompany": "PhonePe",
       "pastCompany": "LTIMindtree",
@@ -4730,7 +4730,7 @@
       "name": "Arjun Reddy",
       "email": "arjun.reddy@example.com",
       "phone": "+91 9387145024",
-      "headline": "Frontend Developer • 5.5 Years • Mumbai",
+      "headline": "Frontend Developer \u2022 5.5 Years \u2022 Mumbai",
       "experienceYears": "5.5 Years",
       "location": "Mumbai, India",
       "profileScore": 80,
@@ -4745,8 +4745,8 @@
         "Docker",
         "Web Performance"
       ],
-      "currentCtc": "₹6.2 LPA",
-      "targetCtc": "₹16 - 24 LPA",
+      "currentCtc": "\u20b96.2 LPA",
+      "targetCtc": "\u20b916 - 24 LPA",
       "targetRole": "Senior Full-Stack Engineer",
       "targetCompany": "Meesho",
       "pastCompany": "TCS (Tata Consultancy Services)",
@@ -4762,7 +4762,7 @@
       "name": "Ravi Kapoor",
       "email": "ravi.kapoor@example.com",
       "phone": "+91 9984606228",
-      "headline": "Web Developer • 3 Years • Bengaluru / Remote",
+      "headline": "Web Developer \u2022 3 Years \u2022 Bengaluru / Remote",
       "experienceYears": "3 Years",
       "location": "Bengaluru / Remote",
       "profileScore": 87,
@@ -4778,8 +4778,8 @@
         "System Design",
         "Web Performance"
       ],
-      "currentCtc": "₹7.6 LPA",
-      "targetCtc": "₹17 - 21 LPA",
+      "currentCtc": "\u20b97.6 LPA",
+      "targetCtc": "\u20b917 - 21 LPA",
       "targetRole": "Lead Frontend Engineer",
       "targetCompany": "Meesho",
       "pastCompany": "Tech Mahindra",
@@ -4795,7 +4795,7 @@
       "name": "Ishaan Sharma",
       "email": "ishaan.sharma@example.com",
       "phone": "+91 9125141332",
-      "headline": "Junior ML Engineer • 3 Years • Bengaluru",
+      "headline": "Junior ML Engineer \u2022 3 Years \u2022 Bengaluru",
       "experienceYears": "3 Years",
       "location": "Bengaluru, India",
       "profileScore": 84,
@@ -4810,8 +4810,8 @@
         "Python",
         "Vector Search"
       ],
-      "currentCtc": "₹6.4 LPA",
-      "targetCtc": "₹17 - 24 LPA",
+      "currentCtc": "\u20b96.4 LPA",
+      "targetCtc": "\u20b917 - 24 LPA",
       "targetRole": "Senior Data Scientist & AI Lead",
       "targetCompany": "Zomato",
       "pastCompany": "TCS (Tata Consultancy Services)",
@@ -4827,7 +4827,7 @@
       "name": "Neelam Nambiar",
       "email": "neelam.nambiar@example.com",
       "phone": "+91 9739391479",
-      "headline": "Computer Vision Developer • 5 Years • Hyderabad",
+      "headline": "Computer Vision Developer \u2022 5 Years \u2022 Hyderabad",
       "experienceYears": "5 Years",
       "location": "Hyderabad, India",
       "profileScore": 83,
@@ -4842,8 +4842,8 @@
         "Scikit-Learn",
         "CUDA"
       ],
-      "currentCtc": "₹7.6 LPA",
-      "targetCtc": "₹18 - 24 LPA",
+      "currentCtc": "\u20b97.6 LPA",
+      "targetCtc": "\u20b918 - 24 LPA",
       "targetRole": "Senior Staff GenAI Researcher",
       "targetCompany": "Adobe",
       "pastCompany": "TCS (Tata Consultancy Services)",
@@ -4859,7 +4859,7 @@
       "name": "Priya Verma",
       "email": "priya.verma@example.com",
       "phone": "+91 9719838583",
-      "headline": "Computer Vision Developer • 2.5 Years • Chennai",
+      "headline": "Computer Vision Developer \u2022 2.5 Years \u2022 Chennai",
       "experienceYears": "2.5 Years",
       "location": "Chennai, India",
       "profileScore": 91,
@@ -4874,8 +4874,8 @@
         "NLP",
         "RAG Systems"
       ],
-      "currentCtc": "₹4.5 LPA",
-      "targetCtc": "₹11 - 15 LPA",
+      "currentCtc": "\u20b94.5 LPA",
+      "targetCtc": "\u20b911 - 15 LPA",
       "targetRole": "Staff Machine Learning Engineer",
       "targetCompany": "Microsoft",
       "pastCompany": "Cognizant Technology Solutions",
@@ -4891,7 +4891,7 @@
       "name": "Manish Khanna",
       "email": "manish.khanna@example.com",
       "phone": "+91 9689991986",
-      "headline": "Data Science Associate • 2.5 Years • Gurugram",
+      "headline": "Data Science Associate \u2022 2.5 Years \u2022 Gurugram",
       "experienceYears": "2.5 Years",
       "location": "Gurugram, India",
       "profileScore": 83,
@@ -4907,8 +4907,8 @@
         "Deep Learning",
         "FastAPI"
       ],
-      "currentCtc": "₹6.3 LPA",
-      "targetCtc": "₹18 - 27 LPA",
+      "currentCtc": "\u20b96.3 LPA",
+      "targetCtc": "\u20b918 - 27 LPA",
       "targetRole": "Senior Data Scientist & AI Lead",
       "targetCompany": "Adobe",
       "pastCompany": "TCS (Tata Consultancy Services)",
@@ -4924,7 +4924,7 @@
       "name": "Aarti Chandra",
       "email": "aarti.chandra@example.com",
       "phone": "+91 9688854973",
-      "headline": "Computer Vision Developer • 3 Years • Bengaluru / Remote",
+      "headline": "Computer Vision Developer \u2022 3 Years \u2022 Bengaluru / Remote",
       "experienceYears": "3 Years",
       "location": "Bengaluru / Remote",
       "profileScore": 82,
@@ -4939,8 +4939,8 @@
         "PyTorch",
         "MLOps"
       ],
-      "currentCtc": "₹5.9 LPA",
-      "targetCtc": "₹15 - 20 LPA",
+      "currentCtc": "\u20b95.9 LPA",
+      "targetCtc": "\u20b915 - 20 LPA",
       "targetRole": "Principal AI Systems Architect",
       "targetCompany": "Google DeepMind",
       "pastCompany": "Cognizant Technology Solutions",
@@ -4956,7 +4956,7 @@
       "name": "Siddharth Krishnamurthy",
       "email": "siddharth.krishnamurthy@example.com",
       "phone": "+91 9807941183",
-      "headline": "Junior Layout Engineer • 4.5 Years • Pune / Remote",
+      "headline": "Junior Layout Engineer \u2022 4.5 Years \u2022 Pune / Remote",
       "experienceYears": "4.5 Years",
       "location": "Pune / Remote",
       "profileScore": 93,
@@ -4970,8 +4970,8 @@
         "Cadence Innovus",
         "UVM Methodology"
       ],
-      "currentCtc": "₹9.4 LPA",
-      "targetCtc": "₹23 - 32 LPA",
+      "currentCtc": "\u20b99.4 LPA",
+      "targetCtc": "\u20b923 - 32 LPA",
       "targetRole": "Lead Silicon Verification Architect",
       "targetCompany": "Synopsys",
       "pastCompany": "L&T Technology Services",
@@ -4987,7 +4987,7 @@
       "name": "Amit Khanna",
       "email": "amit.khanna@example.com",
       "phone": "+91 9732877972",
-      "headline": "FPGA Design Engineer • 4.5 Years • Hyderabad",
+      "headline": "FPGA Design Engineer \u2022 4.5 Years \u2022 Hyderabad",
       "experienceYears": "4.5 Years",
       "location": "Hyderabad, India",
       "profileScore": 79,
@@ -5002,8 +5002,8 @@
         "PCIe Gen5",
         "Static Timing Analysis (STA)"
       ],
-      "currentCtc": "₹6.2 LPA",
-      "targetCtc": "₹17 - 23 LPA",
+      "currentCtc": "\u20b96.2 LPA",
+      "targetCtc": "\u20b917 - 23 LPA",
       "targetRole": "Staff ASIC Physical Design Lead",
       "targetCompany": "Micron",
       "pastCompany": "Wipro VLSI Practice",
@@ -5019,7 +5019,7 @@
       "name": "Preeti Bhat",
       "email": "preeti.bhat@example.com",
       "phone": "+91 9843710045",
-      "headline": "FPGA Design Engineer • 6 Years • Hyderabad",
+      "headline": "FPGA Design Engineer \u2022 6 Years \u2022 Hyderabad",
       "experienceYears": "6 Years",
       "location": "Hyderabad, India",
       "profileScore": 88,
@@ -5033,8 +5033,8 @@
         "ASIC Physical Design",
         "Static Timing Analysis (STA)"
       ],
-      "currentCtc": "₹8.8 LPA",
-      "targetCtc": "₹25 - 32 LPA",
+      "currentCtc": "\u20b98.8 LPA",
+      "targetCtc": "\u20b925 - 32 LPA",
       "targetRole": "Principal Silicon Architect",
       "targetCompany": "NVIDIA",
       "pastCompany": "SmartSoC Solutions",
@@ -5050,7 +5050,7 @@
       "name": "Saurabh Chauhan",
       "email": "saurabh.chauhan@example.com",
       "phone": "+91 9194999524",
-      "headline": "Junior Layout Engineer • 2.5 Years • Bengaluru",
+      "headline": "Junior Layout Engineer \u2022 2.5 Years \u2022 Bengaluru",
       "experienceYears": "2.5 Years",
       "location": "Bengaluru, India",
       "profileScore": 78,
@@ -5066,8 +5066,8 @@
         "Static Timing Analysis (STA)",
         "SoC Architecture"
       ],
-      "currentCtc": "₹5.6 LPA",
-      "targetCtc": "₹15 - 22 LPA",
+      "currentCtc": "\u20b95.6 LPA",
+      "targetCtc": "\u20b915 - 22 LPA",
       "targetRole": "Principal Silicon Architect",
       "targetCompany": "Qualcomm",
       "pastCompany": "Wipro VLSI Practice",
@@ -5083,7 +5083,7 @@
       "name": "Ishaan Mehta",
       "email": "ishaan.mehta@example.com",
       "phone": "+91 9706711426",
-      "headline": "FPGA Design Engineer • 1.5 Years • Chennai",
+      "headline": "FPGA Design Engineer \u2022 1.5 Years \u2022 Chennai",
       "experienceYears": "1.5 Years",
       "location": "Chennai, India",
       "profileScore": 93,
@@ -5099,8 +5099,8 @@
         "Cadence Innovus",
         "UVM Methodology"
       ],
-      "currentCtc": "₹4.6 LPA",
-      "targetCtc": "₹12 - 19 LPA",
+      "currentCtc": "\u20b94.6 LPA",
+      "targetCtc": "\u20b912 - 19 LPA",
       "targetRole": "Lead Silicon Verification Architect",
       "targetCompany": "Synopsys",
       "pastCompany": "L&T Technology Services",
@@ -5116,7 +5116,7 @@
       "name": "Pooja Sethi",
       "email": "pooja.sethi@example.com",
       "phone": "+91 9294510188",
-      "headline": "IT Support Engineer • 2.5 Years • Hyderabad",
+      "headline": "IT Support Engineer \u2022 2.5 Years \u2022 Hyderabad",
       "experienceYears": "2.5 Years",
       "location": "Hyderabad, India",
       "profileScore": 86,
@@ -5131,8 +5131,8 @@
         "Zero Trust Architecture",
         "Threat Hunting"
       ],
-      "currentCtc": "₹7.5 LPA",
-      "targetCtc": "₹18 - 25 LPA",
+      "currentCtc": "\u20b97.5 LPA",
+      "targetCtc": "\u20b918 - 25 LPA",
       "targetRole": "Staff SOC & Threat Hunting Architect",
       "targetCompany": "Palo Alto Networks",
       "pastCompany": "Tech Mahindra",
@@ -5148,7 +5148,7 @@
       "name": "Tanya Yadav",
       "email": "tanya.yadav@example.com",
       "phone": "+91 9760502110",
-      "headline": "Junior Vulnerability Analyst • 5 Years • Bengaluru / Remote",
+      "headline": "Junior Vulnerability Analyst \u2022 5 Years \u2022 Bengaluru / Remote",
       "experienceYears": "5 Years",
       "location": "Bengaluru / Remote",
       "profileScore": 94,
@@ -5162,8 +5162,8 @@
         "Cloud Security",
         "Terraform"
       ],
-      "currentCtc": "₹3.8 LPA",
-      "targetCtc": "₹10 - 15 LPA",
+      "currentCtc": "\u20b93.8 LPA",
+      "targetCtc": "\u20b910 - 15 LPA",
       "targetRole": "Principal Threat Intelligence Lead",
       "targetCompany": "Microsoft",
       "pastCompany": "Capgemini",
@@ -5179,7 +5179,7 @@
       "name": "Anusha Bhardwaj",
       "email": "anusha.bhardwaj@example.com",
       "phone": "+91 9347079344",
-      "headline": "IT Support Engineer • 3.5 Years • Noida",
+      "headline": "IT Support Engineer \u2022 3.5 Years \u2022 Noida",
       "experienceYears": "3.5 Years",
       "location": "Noida, India",
       "profileScore": 85,
@@ -5195,8 +5195,8 @@
         "Zero Trust Architecture",
         "DevSecOps"
       ],
-      "currentCtc": "₹4.7 LPA",
-      "targetCtc": "₹14 - 21 LPA",
+      "currentCtc": "\u20b94.7 LPA",
+      "targetCtc": "\u20b914 - 21 LPA",
       "targetRole": "Lead Cloud Security & DevSecOps",
       "targetCompany": "McAfee",
       "pastCompany": "HCL Technologies",
@@ -5212,7 +5212,7 @@
       "name": "Sneha Patel",
       "email": "sneha.patel@example.com",
       "phone": "+91 9285343434",
-      "headline": "Junior Vulnerability Analyst • 1.5 Years • Pune",
+      "headline": "Junior Vulnerability Analyst \u2022 1.5 Years \u2022 Pune",
       "experienceYears": "1.5 Years",
       "location": "Pune, India",
       "profileScore": 80,
@@ -5228,8 +5228,8 @@
         "Splunk SIEM",
         "Threat Hunting"
       ],
-      "currentCtc": "₹8.7 LPA",
-      "targetCtc": "₹23 - 28 LPA",
+      "currentCtc": "\u20b98.7 LPA",
+      "targetCtc": "\u20b923 - 28 LPA",
       "targetRole": "Staff SOC & Threat Hunting Architect",
       "targetCompany": "Check Point",
       "pastCompany": "Infosys Security Practice",
@@ -5245,7 +5245,7 @@
       "name": "Varun Khanna",
       "email": "varun.khanna@example.com",
       "phone": "+91 9548398968",
-      "headline": "Linux System Administrator • 1.5 Years • Mumbai",
+      "headline": "Linux System Administrator \u2022 1.5 Years \u2022 Mumbai",
       "experienceYears": "1.5 Years",
       "location": "Mumbai, India",
       "profileScore": 79,
@@ -5260,8 +5260,8 @@
         "Kubernetes Hardening",
         "Splunk SIEM"
       ],
-      "currentCtc": "₹5 LPA",
-      "targetCtc": "₹13 - 18 LPA",
+      "currentCtc": "\u20b95 LPA",
+      "targetCtc": "\u20b913 - 18 LPA",
       "targetRole": "Staff Cloud Security Architect",
       "targetCompany": "CrowdStrike",
       "pastCompany": "Infosys Security Practice",
@@ -5292,7 +5292,7 @@
         "duration": "01:15",
         "avatar": "/avatars/saheli.jpg",
         "videoPoster": "/avatars/saheli.jpg",
-        "teaserTitle": "Teaser: How I Jumped from ₹6L to ₹26L Staff Frontend Architect",
+        "teaserTitle": "Teaser: How I Jumped from \u20b96L to \u20b926L Staff Frontend Architect",
         "skills": [
           "React.js",
           "TypeScript",
@@ -5307,7 +5307,7 @@
         "trajectory": {
           "role3YearsAgo": "Senior Frontend Developer",
           "company3YearsAgo": "TCS / Mid-tier Services",
-          "salary3YearsAgo": "₹6.2 LPA",
+          "salary3YearsAgo": "\u20b96.2 LPA",
           "keyJumpSkills": [
             "Module Federation",
             "Micro-Frontends",
@@ -5332,7 +5332,7 @@
       "candidateName": "Prakash Mahto",
       "candidateRole": "Senior Frontend Engineer",
       "candidateAvatar": "/avatars/prakash.jpg",
-      "candidateGoal": "Transition to Staff Frontend Architect at Razorpay (₹22L-30L) & Module Federation Teardown",
+      "candidateGoal": "Transition to Staff Frontend Architect at Razorpay (\u20b922L-30L) & Module Federation Teardown",
       "candidateEmail": "prakash.mahto@gmail.com",
       "date": "Saturday, 12 Sep 2026",
       "timeSlot": "06:30 PM - 07:30 PM",
@@ -5360,7 +5360,7 @@
         "duration": "01:15",
         "avatar": "/avatars/saheli.jpg",
         "videoPoster": "/avatars/saheli.jpg",
-        "teaserTitle": "Teaser: How I Jumped from ₹6L to ₹26L Staff Frontend Architect",
+        "teaserTitle": "Teaser: How I Jumped from \u20b96L to \u20b926L Staff Frontend Architect",
         "skills": [
           "React.js",
           "TypeScript",
@@ -5375,7 +5375,7 @@
         "trajectory": {
           "role3YearsAgo": "Senior Frontend Developer",
           "company3YearsAgo": "TCS / Mid-tier Services",
-          "salary3YearsAgo": "₹6.2 LPA",
+          "salary3YearsAgo": "\u20b96.2 LPA",
           "keyJumpSkills": [
             "Module Federation",
             "Micro-Frontends",
@@ -5418,7 +5418,7 @@
     {
       "id": "badge-pm-1",
       "title": "Tier-1 Frontend & UI Architecture",
-      "subtitle": "Verified by Saheli Kanjilal • Staff Frontend Architect @ Razorpay",
+      "subtitle": "Verified by Saheli Kanjilal \u2022 Staff Frontend Architect @ Razorpay",
       "verifierName": "Saheli Kanjilal",
       "verifierRole": "Staff Frontend Architect @ Razorpay",
       "verifierAvatar": "/avatars/saheli.jpg",
@@ -5436,7 +5436,7 @@
     {
       "id": "badge-solr-1",
       "title": "Distributed Search & Lucene Indexing",
-      "subtitle": "Verified by Saheli Kanjilal • Staff Frontend Architect @ Razorpay",
+      "subtitle": "Verified by Saheli Kanjilal \u2022 Staff Frontend Architect @ Razorpay",
       "verifierName": "Saheli Kanjilal",
       "verifierRole": "Staff Frontend Architect @ Razorpay",
       "verifierAvatar": "/avatars/saheli.jpg",

@@ -1,130 +1,92 @@
-# 🧭 Shine Peerpath
+# Shine Peerpath — Python & Milvus Architecture
 
-> **1:1 Trajectory Mentorship & Career Transition Marketplace for Shine.com (HT Media Group)**
-
-Shine Peerpath bridges high-growth domain career transitions (AI/ML, Semiconductor, Cybersecurity, Full-Stack, SaaS Sales) by connecting ambitious candidates directly with verified industry leaders through 1:1 guidance calls, structured gap assessments, and recruiter priority verification.
+1:1 Career Guidance & Expert Mentorship Marketplace for Shine.com powered by **FastAPI** and **Milvus Vector Database**.
 
 ---
 
-## 📂 Project Structure & Architecture
+## 🌟 Overview & Key Features
 
-This repository is structured as a **clean, production-ready Full-Stack Monorepo**:
+- **Milvus Vector-Powered Trajectory Matching**: Matches candidates against mentors who had their exact CV 3 years ago and successfully made the jump to Tier-1 product companies using dense 384-dimensional vector embeddings (`all-MiniLM-L6-v2`) and Milvus cosine similarity.
+- **4-Way Career Alignment**: Combines dense vector similarity with role family taxonomy, company tiers (S&P 500, Indian Unicorns, NSE-listed), and transition classification.
+- **CV Gap Analysis & Dynamic Booster Scores**: Identifies missing high-leverage booster skills across 6+ underserved verticals (AI/ML, Semiconductor, Cybersecurity, Full-Stack, Product Management, Search & Data Infra).
+- **Zero-Prep Mentor Dossier**: Pre-loads STAR interview rubrics and tailored focus areas for seamless 1:1 sessions.
+- **Peer-Verified Badges & Recruiter Search**: Issues tamper-proof peer credentials and neural candidate search for recruiters.
 
-```text
+---
+
+## 🏗️ Architecture
+
+```
 shine-peerpath/
-├── src/                        # 🌐 FRONTEND APPLICATION (React 18 + Vite + TS)
-│   ├── components/             # Reusable UI components & modals
-│   │   ├── layout/             # Header, Navigation, Footer
-│   │   ├── modals/             # BookingModal, TrajectoryCalibrationModal, etc.
-│   │   └── views/              # Main view screens:
-│   │       ├── LoginView.tsx           # Shine SSO / 1-Click Persona Login
-│   │       ├── CareerGuidanceView.tsx  # Calibrated Trajectory Feed & Mentors
-│   │       ├── ExpertsMarketplaceView.tsx # Mentor Directory & Filters
-│   │       ├── CommunityView.tsx       # Live Peer Discussions & Threads
-│   │       ├── MySessionsView.tsx      # Video Calls & Schedule Manager
-│   │       └── ...
-│   ├── context/                # Global state (AppContext.tsx)
-│   ├── services/               # API clients & retry mechanisms (api.ts)
-│   ├── styles/                 # Theme tokens & CSS (index.css)
-│   ├── types/                  # Shared UI TypeScript interfaces
-│   └── main.tsx & App.tsx      # Frontend Entry points
-│
-├── server/                     # ⚙️ BACKEND API SERVICE (Node.js + Express + TS)
-│   ├── data/                   # Persistent storage & seed state (db.json)
-│   ├── routes/                 # Express API routing controllers:
-│   │   ├── cvRoutes.ts         # CV Parsing & Textract heuristic extractor
-│   │   ├── trajectoryRoutes.ts # AI career trajectory matching engine
-│   │   ├── creatorRoutes.ts    # Creator onboarding & profile sync
-│   │   ├── candidateRoutes.ts  # Candidate profile management
-│   │   ├── bookingRoutes.ts    # 1:1 Session slot bookings & payments
-│   │   ├── assessmentRoutes.ts # Session rubrics & peer badges
-│   │   ├── recruiterRoutes.ts  # Recruiter talent discovery pipeline
-│   │   ├── analyticsRoutes.ts  # Shine ecosystem metrics & telemetry
-│   │   └── jobRoutes.ts        # Direct job board integrations
-│   ├── services/               # Backend business logic & scoring
-│   ├── types.ts                # Backend data models & API contracts
-│   └── index.ts                # Express API server entry & static dist fallback
-│
-├── public/                     # Static public assets (avatars, icons)
-├── docs/                       # Technical specifications & Deployment guides
-│   ├── DEPLOYMENT.md           # Step-by-step production deployment manual
-│   └── embeddings.md           # AI Trajectory vector matching docs
-│
-├── .env.example                # Sample environment configuration
-├── Dockerfile                  # Production multi-stage Docker build
-├── docker-compose.yml          # Container orchestration configuration
-├── ecosystem.config.cjs        # PM2 process manager configuration for VMs
-├── package.json                # Orchestration scripts for Frontend & Backend
-└── tsconfig.json               # TypeScript compiler options
+├── backend/                  # Python FastAPI Backend
+│   ├── main.py               # App entrypoint & Milvus lifespan manager
+│   ├── config.py             # Server & Milvus configs
+│   ├── models/schemas.py     # Pydantic data schemas
+│   ├── data/
+│   │   ├── store.py          # Data access layer & persistence
+│   │   ├── company_tiers.py  # Tier-0, Tier-1, Tier-2 classification sets
+│   │   └── jobs_db.py        # Verified Shine jobs database
+│   ├── services/
+│   │   ├── milvus_service.py # PyMilvus vector database integration
+│   │   ├── embedding_service.py # SentenceTransformers (all-MiniLM-L6-v2)
+│   │   ├── trajectory_service.py # 4-Way Career Alignment + Milvus matching
+│   │   ├── cv_service.py     # CV parsing & gap analysis
+│   │   ├── recruiter_service.py # Neural candidate matching
+│   │   ├── assessment_service.py# Zero-prep dossier & badge issuance
+│   │   ├── booking_service.py# Checkout & session scheduling
+│   │   ├── creator_service.py# Mentor onboarding & availability
+│   │   └── analytics_service.py # Marketplace KPIs
+│   └── routers/              # FastAPI APIRouters (/api/*)
+├── src/                      # React Frontend (Vite + TypeScript)
+├── requirements.txt          # Python dependencies
+└── package.json              # NPM scripts & frontend dependencies
 ```
 
 ---
 
-## ⚡ Quick Start
+## 🚀 Getting Started
 
-### Prerequisites
-- **Node.js**: v18.0.0 or higher
-- **npm**: v9.0.0 or higher
-
-### 1. Install Dependencies
+### 1. Setup Python Environment
 ```bash
-npm install
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
-### 2. Run in Development Mode
-You can run both Frontend and Backend concurrently with a single command:
+### 2. Start Python Backend (FastAPI + Milvus)
 ```bash
-npm run start:all
+# Option A: using npm script
+npm run server
+
+# Option B: using python runner
+python3 run_backend.py
 ```
-- 🌐 **Frontend (Vite)**: `http://localhost:4242`
-- ⚙️ **Backend API**: `http://localhost:5001/api`
-- 🩺 **Health Check**: `http://localhost:5001/api/health`
+The API server starts on `http://localhost:5001` with Milvus Vector Database running and collections initialized.
 
-### Individual Service Scripts:
+### 3. Start Frontend (Vite)
 ```bash
-# Run only Frontend Dev Server (port 4242)
-npm run dev:frontend
+npm run dev
+```
+The frontend starts on `http://localhost:4242` and proxies `/api` calls directly to the Python backend on `5001`.
 
-# Run only Backend API Server with hot reload (port 5001)
-npm run dev:backend
-
-# Run API test suite
-npm run test:api
+### 4. Run Python Backend Test Suite
+```bash
+source .venv/bin/activate
+python3 test_python_backend.py
 ```
 
 ---
 
-## 🚀 Production Build & Deployment
+## 🔌 API Endpoints
 
-### Build Frontend Bundle
-```bash
-npm run build
-```
-This outputs minified production assets to the `dist/` directory.
-
-### Start Production Server (Unified)
-```bash
-npm run start
-```
-The Express backend automatically serves `/api/*` endpoints and serves the static `dist/index.html` single-page application for all client routes.
-
-For containerized (Docker), PM2, or decoupled CDN deployment guides, refer to [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
-
----
-
-## 🔒 Environment Configuration
-
-Copy `.env.example` to `.env` to customize settings:
-```bash
-cp .env.example .env
-```
-| Key | Default | Description |
-| :--- | :--- | :--- |
-| `PORT` | `5001` | Backend API Server Port |
-| `NODE_ENV` | `development` | Environment mode (`development` / `production`) |
-| `VITE_API_URL` | *(empty)* | Optional remote API URL for decoupled CDN builds |
-
----
-
-## 📄 License & Enterprise Ownership
-Proprietary — Developed for **Shine.com (HT Media Group)**.
+- `GET /api/health` — Service health & Milvus vector status
+- `POST /api/trajectory/match` — Vector-powered trajectory matching with Milvus
+- `POST /api/cv/gap-analysis` — 5-domain CV gap analysis & booster recommendations
+- `POST /api/cv/parse` — Raw resume text parser
+- `GET /api/creators` — Filtered mentor listing
+- `POST /api/creators/register` — Mentor onboarding with auto-vectorization into Milvus
+- `POST /api/payments/checkout` — Mock UPI/Card checkout & instant session booking
+- `GET /api/creator/sessions/{id}/briefing` — Zero-prep mentor dossier
+- `POST /api/sessions/{id}/assess` — Badge issuance & profile score boost
+- `POST /api/recruiter/match` — Neural candidate search for recruiters
+- `GET /api/jobs` — Verified job listings
