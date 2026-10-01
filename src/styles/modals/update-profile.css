@@ -1044,8 +1044,9 @@
   border-radius: 20px;
   width: 100%;
   max-width: 580px;
-  max-height: 90vh;
-  overflow-y: auto;
+  max-height: 88vh;
+  height: auto;
+  overflow: hidden;
   box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
@@ -1068,19 +1069,34 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 24px 14px;
-  position: sticky;
-  top: 0;
+  padding: 16px 24px;
   background: #FFFFFF;
   z-index: 10;
   border-bottom: 1px solid #F1F5F9;
+  flex-shrink: 0;
+}
+
+.sup-header-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .sup-title {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 800;
   color: #0F172A;
   margin: 0;
+  line-height: 1.25;
+}
+
+.sup-checkout-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6D28D9;
 }
 
 .btn-sup-close {
@@ -1088,12 +1104,13 @@
   border: none;
   color: #64748B;
   cursor: pointer;
-  padding: 4px;
+  padding: 5px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.15s ease;
+  flex-shrink: 0;
 }
 
 .btn-sup-close:hover {
@@ -1101,11 +1118,33 @@
   color: #0F172A;
 }
 
-.sup-form-body {
-  padding: 20px 24px 28px;
+.sup-form-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sup-form-body {
+  padding: 18px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E1 transparent;
+}
+
+.sup-form-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sup-form-body::-webkit-scrollbar-thumb {
+  background-color: #CBD5E1;
+  border-radius: 9999px;
 }
 
 /* Update Profile Photo */
@@ -1799,30 +1838,104 @@
   text-decoration: underline;
 }
 
-/* Modal Submit Footer */
+/* Sticky Modal Submit Footer (Pinned at bottom, always visible) */
 .sup-footer {
   display: flex;
-  justify-content: center;
-  padding-top: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 24px;
+  background: #FFFFFF;
+  border-top: 1px solid #F1F5F9;
+  box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.06);
+  z-index: 20;
+  flex-shrink: 0;
+}
+
+.sup-footer-checkout-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 16px;
+}
+
+.sup-footer-default-row {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.sup-footer-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sup-f-lbl {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.sup-f-price-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sup-f-amount {
+  font-size: 18px;
+  font-weight: 850;
+  color: #0F172A;
+}
+
+.sup-f-dot {
+  color: #CBD5E1;
+  font-size: 12px;
+}
+
+.sup-f-type {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #4338CA;
+  background: #EEF2FF;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  white-space: nowrap;
 }
 
 .btn-sup-submit {
-  background: #6366F1;
+  background: #4F46E5;
   color: #FFFFFF;
   border: none;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 800;
-  padding: 10px 48px;
-  border-radius: 8px;
+  padding: 10px 24px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .btn-sup-submit:hover {
-  background: #4F46E5;
+  background: #4338CA;
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.4);
+}
+
+.btn-sup-checkout {
+  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+.btn-sup-checkout:hover {
+  background: linear-gradient(135deg, #1D4ED8 0%, #1E40AF 100%);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
 }
 
 /* ==========================================================================
@@ -2294,5 +2407,36 @@
 .btn-skip-cv:hover {
   color: #0F172A;
   text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .shine-update-profile-surface {
+    width: 95%;
+    max-height: 92vh;
+    border-radius: 16px;
+  }
+  .sup-header {
+    padding: 14px 16px;
+  }
+  .sup-form-body {
+    padding: 14px 16px 20px;
+  }
+  .sup-footer {
+    padding: 12px 16px;
+  }
+  .sup-footer-checkout-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .sup-footer-summary {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .btn-sup-submit {
+    width: 100%;
+    justify-content: center;
+  }
 }
 

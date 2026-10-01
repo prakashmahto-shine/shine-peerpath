@@ -309,7 +309,17 @@ export const UpdateProfileModal: React.FC = () => {
         
         {/* Modal Header */}
         <div className="sup-header">
-          <h2 className="sup-title">Hi {userProfile.name}, update your profile</h2>
+          <div className="sup-header-titles">
+            <h2 className="sup-title">
+              {pendingBookingCheckout ? `Confirm Details for 1:1 Session` : `Hi ${userProfile.name}, update your profile`}
+            </h2>
+            {pendingBookingCheckout && (
+              <span className="sup-checkout-badge">
+                <Sparkles size={12} className="text-amber-500" />
+                <span>Quick candidate verification before checkout</span>
+              </span>
+            )}
+          </div>
           <button 
             type="button" 
             className="btn-sup-close"
@@ -320,8 +330,11 @@ export const UpdateProfileModal: React.FC = () => {
           </button>
         </div>
 
-        {/* Modal Body */}
-        <form onSubmit={handleSubmit} className="sup-form-body">
+        {/* Modal Form Wrapper */}
+        <form onSubmit={handleSubmit} className="sup-form-wrapper">
+
+          {/* Modal Scrollable Body */}
+          <div className="sup-form-body">
 
           {/* Section 1: Update Profile Photo */}
           <div className="sup-section-photo">
@@ -718,14 +731,39 @@ export const UpdateProfileModal: React.FC = () => {
             )}
           </div>
 
-          {/* Section 6: Centered Purple Submit Button */}
+          </div>
+          {/* End of sup-form-body */}
+
+          {/* Sticky Modal Pinned Footer (Always 100% Visible) */}
           <div className="sup-footer">
-            <button 
-              type="submit" 
-              className="btn-sup-submit"
-            >
-              {pendingBookingCheckout ? `Submit & Continue to Pay (₹${bookingDraft?.amount || 899})` : 'Submit'}
-            </button>
+            {pendingBookingCheckout ? (
+              <div className="sup-footer-checkout-row">
+                <div className="sup-footer-summary">
+                  <span className="sup-f-lbl">Payable Amount</span>
+                  <div className="sup-f-price-line">
+                    <span className="sup-f-amount">₹{bookingDraft?.amount || 1399}</span>
+                    <span className="sup-f-dot">•</span>
+                    <span className="sup-f-type">{bookingDraft?.sessionType || '1:1 Session'}</span>
+                  </div>
+                </div>
+                <button 
+                  type="submit" 
+                  className="btn-sup-submit btn-sup-checkout"
+                >
+                  <span>Submit & Continue to Pay</span>
+                  <ArrowRight size={15} />
+                </button>
+              </div>
+            ) : (
+              <div className="sup-footer-default-row">
+                <button 
+                  type="submit" 
+                  className="btn-sup-submit"
+                >
+                  Save & Update Profile
+                </button>
+              </div>
+            )}
           </div>
 
         </form>

@@ -2,7 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { 
   X, Video, Clock, ArrowRight, Lock, 
   CheckCircle2, Calendar, RefreshCw, 
-  TrendingUp, FileText, Sparkles, Compass
+  TrendingUp, FileText, Sparkles, Compass, Check
 } from 'lucide-react';
 import { Expert } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -148,30 +148,42 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       {
         id: 'career-guidance',
         title: 'Career Guidance & Strategy',
+        tagline: '90-Day Roadmap & Referrals',
         icon: Compass,
         duration: '30 Mins',
         price: base,
+        iconColor: '#7C3AED',
+        iconBg: '#F5F3FF'
       },
       {
         id: 'interview-prep',
         title: '1:1 Mock Interview & Scorecard',
+        tagline: 'Coding & Architecture Round',
         icon: Video,
         duration: '30 Mins',
         price: base,
+        iconColor: '#059669',
+        iconBg: '#ECFDF5'
       },
       {
         id: 'resume-review',
         title: 'CV Audit & ATS Teardown',
+        tagline: 'Impact Rewrites & Keywords',
         icon: FileText,
         duration: '30 Mins',
         price: Math.max(499, Math.round((base * 0.7) / 50) * 50 - 1),
+        iconColor: '#D97706',
+        iconBg: '#FEF3C7'
       },
       {
         id: 'salary-negotiation',
         title: 'Salary & Offer Negotiation',
+        tagline: 'Tier-1 Benchmarks & Counter-Offers',
         icon: TrendingUp,
         duration: '30 Mins',
         price: Math.max(699, Math.round((base * 0.85) / 50) * 50 - 1),
+        iconColor: '#2563EB',
+        iconBg: '#EFF6FF'
       }
     ];
   }, [expertPrice]);
@@ -250,12 +262,18 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           </button>
         </div>
 
-        {/* Service Segmented Switcher (Compact Goal Selector) */}
+        {/* Enhanced Interactive Session Goal Selector */}
         <div className="bfm-services-selector">
-          <span className="bfm-services-label">
-            <Sparkles size={12} className="text-amber-500" />
-            <span>Session Goal:</span>
-          </span>
+          <div className="bfm-services-header-row">
+            <span className="bfm-services-label">
+              <Sparkles size={12} className="text-amber-500" />
+              <span>Select Session Goal</span>
+            </span>
+            <span className="bfm-services-meta-badge">
+              <Clock size={11} className="text-indigo-600" />
+              <span>30 Mins Live Mentorship</span>
+            </span>
+          </div>
           <div className="bfm-services-chips">
             {sessionOfferings.map((session) => {
               const isSelected = selectedSessionId === session.id;
@@ -267,9 +285,18 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   className={`bfm-service-chip ${isSelected ? 'active' : ''}`}
                   onClick={() => setSelectedSessionId(session.id)}
                 >
-                  <IconComp size={12} />
-                  <span className="bfm-sc-name">{session.title}</span>
-                  <span className="bfm-sc-price">₹{session.price}</span>
+                  <div className="bfm-sc-icon-wrap" style={{ background: session.iconBg, color: session.iconColor }}>
+                    <IconComp size={15} />
+                  </div>
+                  <div className="bfm-sc-info">
+                    <span className="bfm-sc-name">{session.title}</span>
+                    <span className="bfm-sc-price">₹{session.price}</span>
+                  </div>
+                  {isSelected && (
+                    <div className="bfm-sc-check-badge">
+                      <Check size={9} strokeWidth={3} />
+                    </div>
+                  )}
                 </button>
               );
             })}

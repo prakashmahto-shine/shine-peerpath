@@ -4599,11 +4599,11 @@
       "name": "Prakash Mahto",
       "email": "prakash.mahto@example.com",
       "phone": "+91 98000 10000",
-      "headline": "java @ TCS \u2794 Aspiring Full-stack Architecture @ google",
-      "experienceYears": "4 Years, 2 Months",
-      "location": "Bengaluru, India",
-      "profileScore": 100,
-      "jobSearchStatus": "Serving Notice Period (30 Days)",
+      "headline": "Senior frontend developer",
+      "experienceYears": "4 yrs",
+      "location": "Gurgaon",
+      "profileScore": 90,
+      "jobSearchStatus": "Actively Looking For Jobs",
       "summary": "Senior Frontend Developer with 4+ years of hands-on experience building high-traffic, resilient web applications at scale. Specializing in React 19, TypeScript, and micro-frontends.",
       "skills": [
         "Node.Js",
@@ -4709,7 +4709,14 @@
       "recruiterSearchMultiplier": 5.0,
       "currentCompany": "TCS",
       "dreamCompany": "google",
-      "resumeFileName": "resume (1).pdf"
+      "resumeFileName": "resume (1).pdf",
+      "avatar": "/avatars/prakash.jpg",
+      "noticePeriod": "2+ Months",
+      "expectedCtc": "66-70 Lacs",
+      "currentlyNotWorking": false,
+      "designation": "Senior frontend developer",
+      "startDate": "Aug 2022",
+      "resumeLastUpdated": "Updated just now"
     },
     {
       "id": "varun-venkataraman",
@@ -5323,6 +5330,75 @@
     }
   ],
   "sessions": [
+    {
+      "id": "sess-1790846929185",
+      "expertId": "deepika-pm",
+      "expert": {
+        "id": "deepika-pm",
+        "name": "Deepika Sen",
+        "role": "Senior Technical Product Manager",
+        "company": "Google",
+        "domain": "Product Management",
+        "experience": "7+ Years Exp.",
+        "rating": 4.93,
+        "reviewsCount": 154,
+        "sessionsCount": 312,
+        "price": 1399,
+        "location": "Bengaluru, India",
+        "duration": "01:15",
+        "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80",
+        "videoPoster": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1000&auto=format&fit=crop&q=80",
+        "teaserTitle": "Teaser: Transitioning from Frontend Engineering to Google Technical Product Management",
+        "skills": [
+          "Technical Product Strategy",
+          "PRD & Discovery",
+          "API & Systems Design",
+          "Roadmapping",
+          "A/B Testing"
+        ],
+        "bio": "Senior Technical Product Manager at Google. I help frontend and full-stack developers transition into high-impact Product Management, master technical PRDs, and crack Google PM interviews.",
+        "verifiedEmail": "deepika.sen@google.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Senior Frontend Developer",
+          "company3YearsAgo": "TCS (Tata Consultancy Services)",
+          "salary3YearsAgo": "\u20b97.5 LPA",
+          "keyJumpSkills": [
+            "Technical PRDs",
+            "Product Strategy",
+            "System Architecture"
+          ],
+          "jumpStory": "Transitioned from 4 years as a Frontend Developer at TCS into high-scale developer platform Product Management at Google."
+        },
+        "availability": {
+          "days": [
+            "Tue",
+            "Thu",
+            "Sat"
+          ],
+          "timeSlots": [
+            "07:00 PM - 08:00 PM",
+            "08:30 PM - 09:30 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash",
+      "candidateName": "Prakash Kumar",
+      "candidateRole": "Senior frontend developer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Trajectory mentorship & target jump into Google",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "Fri, 2 Oct 2026",
+      "timeSlot": "07:00 PM - 08:00 PM",
+      "status": "upcoming",
+      "meetingLink": "https://meet.shine.com/room/peerpath-deepika-pm-29185",
+      "badgeAwarded": null,
+      "feedbackNotes": null,
+      "rating": null,
+      "paymentId": "pay_shine_1790846929185_1378",
+      "amountPaid": 1399,
+      "bookedAt": "2026-10-01T09:28:49.185956Z"
+    },
     {
       "id": "sess-1790833968667",
       "expertId": "deepak",
@@ -7037,9 +7113,9 @@
   ],
   "reactions": [],
   "analytics": {
-    "profileUpdatesThisMonth": 14833,
+    "profileUpdatesThisMonth": 14837,
     "newRegistrationsThisMonth": 6350,
-    "totalSessionsBooked": 2440,
+    "totalSessionsBooked": 2441,
     "totalActiveCreators": 93
   }
 }

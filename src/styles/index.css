@@ -11,6 +11,7 @@
 @import './views/community.css';
 @import './views/jobs.css';
 @import './views/login.css';
+@import './views/payment.css';
 
 /* 3. Interactive Modals */
 @import './modals/booking-modal.css';
