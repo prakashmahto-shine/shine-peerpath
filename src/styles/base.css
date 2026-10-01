@@ -37,6 +37,7 @@
   --radius-full: 9999px;
   --header-height: 72px;
   --demo-bar-height: 48px;
+  --container-max: 1240px;
 }
 
 *, *::before, *::after {
@@ -275,13 +276,15 @@ button {
 }
 
 .myshine-nav-container {
-  max-width: var(--container-max);
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 20px;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .myshine-nav-left {
@@ -354,6 +357,17 @@ button {
   color: #ffffff;
 }
 
+.peerpath-brand-symbol-new {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.peerpath-brand-logo-wrap:hover .peerpath-brand-symbol-new {
+  transform: translateY(-1px) scale(1.04);
+}
+
 .peerpath-brand-text-col {
   display: flex;
   flex-direction: column;
@@ -364,23 +378,74 @@ button {
   font-size: 16px;
   font-weight: 900;
   letter-spacing: 0.8px;
-  background: linear-gradient(135deg, #0F172A 0%, #312E81 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #0C3B6E;
+  white-space: nowrap;
+  font-family: 'Plus Jakarta Sans', 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .peerpath-brand-sub {
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 600;
   color: #64748B;
   letter-spacing: 0.2px;
+  white-space: nowrap;
 }
 
 .peerpath-brand-sub .shine-mark {
-  color: #6366F1;
+  color: #0C3B6E;
   font-weight: 800;
   letter-spacing: 0.3px;
+}
+
+/* ==========================================================================
+   PEERPATH LOGO HOVER MICRO-ANIMATION (Star Glow & Blink)
+   ========================================================================== */
+.peerpath-star-element,
+.star-element {
+  transform-origin: 75px 24px;
+  transition: all 0.3s ease;
+}
+
+/* Jab mouse logo par jayega (Hover), tab star blink + gold/cyan glow karega */
+.peerpath-brand-logo-wrap:hover .star-element,
+.peerpath-brand-logo-wrap:hover .peerpath-star-element,
+.peerpath-logo:hover .star-element {
+  animation: starBlink 0.75s infinite alternate ease-in-out;
+}
+
+/* Blink & Golden/Cyan Glow Keyframes */
+@keyframes starBlink {
+  0% {
+    opacity: 0.4;
+    transform: scale(0.85);
+    filter: drop-shadow(0 0 2px #228B96);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 6px #FFD700) drop-shadow(0 0 10px #38BDF8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.3);
+    fill: #FFD700;
+    filter: drop-shadow(0 0 8px #FFD700) drop-shadow(0 0 14px #F59E0B);
+  }
+}
+
+/* Arrow momentum micro-animation on hover */
+.peerpath-arrow-lead,
+.peerpath-arrow-teal,
+.peerpath-arrow-left {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.peerpath-brand-logo-wrap:hover .peerpath-arrow-lead {
+  transform: translate(2px, -2px);
+}
+
+.peerpath-brand-logo-wrap:hover .peerpath-arrow-teal {
+  transform: translate(1px, -1px);
 }
 
 /* 💼 Back to Shine Jobs Switcher Button (On Peerpath) */

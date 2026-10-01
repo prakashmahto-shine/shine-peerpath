@@ -656,14 +656,11 @@
 }
 
 .fb-peerpath-icon {
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
-  background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #FFFFFF;
 }
 
 .fb-brand-name {

@@ -5331,6 +5331,75 @@
   ],
   "sessions": [
     {
+      "id": "sess-1790854917818",
+      "expertId": "deepika-pm",
+      "expert": {
+        "id": "deepika-pm",
+        "name": "Deepika Sen",
+        "role": "Senior Technical Product Manager",
+        "company": "Google",
+        "domain": "Product Management",
+        "experience": "7+ Years Exp.",
+        "rating": 4.93,
+        "reviewsCount": 154,
+        "sessionsCount": 312,
+        "price": 1399,
+        "location": "Bengaluru, India",
+        "duration": "01:15",
+        "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80",
+        "videoPoster": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1000&auto=format&fit=crop&q=80",
+        "teaserTitle": "Teaser: Transitioning from Frontend Engineering to Google Technical Product Management",
+        "skills": [
+          "Technical Product Strategy",
+          "PRD & Discovery",
+          "API & Systems Design",
+          "Roadmapping",
+          "A/B Testing"
+        ],
+        "bio": "Senior Technical Product Manager at Google. I help frontend and full-stack developers transition into high-impact Product Management, master technical PRDs, and crack Google PM interviews.",
+        "verifiedEmail": "deepika.sen@google.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Senior Frontend Developer",
+          "company3YearsAgo": "TCS (Tata Consultancy Services)",
+          "salary3YearsAgo": "\u20b97.5 LPA",
+          "keyJumpSkills": [
+            "Technical PRDs",
+            "Product Strategy",
+            "System Architecture"
+          ],
+          "jumpStory": "Transitioned from 4 years as a Frontend Developer at TCS into high-scale developer platform Product Management at Google."
+        },
+        "availability": {
+          "days": [
+            "Tue",
+            "Thu",
+            "Sat"
+          ],
+          "timeSlots": [
+            "07:00 PM - 08:00 PM",
+            "08:30 PM - 09:30 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash",
+      "candidateName": "Prakash Kumar",
+      "candidateRole": "Senior frontend developer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Trajectory mentorship & target jump into Google",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "Fri, 2 Oct 2026",
+      "timeSlot": "10:00 AM - 11:00 AM",
+      "status": "upcoming",
+      "meetingLink": "https://meet.shine.com/room/peerpath-deepika-pm-17818",
+      "badgeAwarded": null,
+      "feedbackNotes": null,
+      "rating": null,
+      "paymentId": "pay_shine_1790854917818_207b",
+      "amountPaid": 1399,
+      "bookedAt": "2026-10-01T11:41:57.818542Z"
+    },
+    {
       "id": "sess-1790848824161",
       "expertId": "deepika-pm",
       "expert": {
@@ -7247,83 +7316,12 @@
       }
     }
   ],
-  "notifications": [
-    {
-      "id": "notif-1789474759006-6dt5",
-      "recipientId": "prakash",
-      "type": "mentor_post",
-      "title": "New Technical Post",
-      "message": "Akash Jain posted: \"New session will be soon\"",
-      "mentorId": "akash",
-      "mentorName": "Akash Jain",
-      "mentorAvatar": "/avatars/akash.jpg",
-      "postId": "post-1789474758999-mntb",
-      "createdAt": "2026-09-15T12:19:19.006Z",
-      "isRead": true,
-      "actionUrl": "/community#post-1789474758999-mntb"
-    },
-    {
-      "id": "notif-1",
-      "type": "mentor_post",
-      "recipientId": "prakash",
-      "mentorId": "saheli",
-      "mentorName": "Saheli Kanjilal",
-      "mentorAvatar": "/avatars/saheli.jpg",
-      "postId": "post-1",
-      "title": "New Technical Post",
-      "message": "Saheli Kanjilal posted: \"Distributed Transactions & Outbox Pattern: What we evaluate in 40LPA+ Backend Interviews\"",
-      "createdAt": "2026-09-15T10:08:25.839Z",
-      "isRead": true,
-      "actionUrl": "/community#post-1"
-    },
-    {
-      "id": "notif-2",
-      "type": "mentor_post",
-      "recipientId": "prakash",
-      "mentorId": "ishita",
-      "mentorName": "Ishita Sharma",
-      "mentorAvatar": "/avatars/ishita.jpg",
-      "postId": "post-2",
-      "title": "New Technical Post",
-      "message": "Ishita Sharma posted: \"The SDE-2 to Frontend Staff Transition: Micro-Frontends, INP Optimization & Design Systems\"",
-      "createdAt": "2026-09-14T12:08:25.839Z",
-      "isRead": true,
-      "actionUrl": "/community#post-2"
-    },
-    {
-      "id": "notif-3",
-      "type": "comment_reply",
-      "recipientId": "prakash",
-      "mentorId": "saheli",
-      "mentorName": "Saheli Kanjilal",
-      "mentorAvatar": "/avatars/saheli.jpg",
-      "postId": "post-1",
-      "title": "Mentor Replied to You",
-      "message": "Saheli Kanjilal replied to your question on Outbox pattern.",
-      "createdAt": "2026-09-15T11:23:25.839Z",
-      "isRead": true,
-      "actionUrl": "/community#post-1"
-    },
-    {
-      "id": "notif-4",
-      "type": "mentor_post",
-      "recipientId": "prakash",
-      "mentorId": "raghavan",
-      "mentorName": "Dr. Raghavan Nair",
-      "mentorAvatar": "/avatars/raghavan.jpg",
-      "postId": "post-3",
-      "title": "New Technical Post",
-      "message": "Dr. Raghavan Nair posted: \"Production RAG vs Fine-Tuning in 2026: Why Enterprise Teams Don\u2019t Fine-Tune First\"",
-      "createdAt": "2026-09-13T12:08:25.839Z",
-      "isRead": true,
-      "actionUrl": "/community#post-3"
-    }
-  ],
+  "notifications": [],
   "reactions": [],
   "analytics": {
     "profileUpdatesThisMonth": 14837,
     "newRegistrationsThisMonth": 6350,
-    "totalSessionsBooked": 2444,
+    "totalSessionsBooked": 2445,
     "totalActiveCreators": 93
   }
 }

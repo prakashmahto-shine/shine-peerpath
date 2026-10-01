@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { ViewType } from '../../types';
 import { useApp } from '../../context/AppContext';
+import { PeerpathLogo } from '../common/PeerpathLogo';
 
 interface HeaderProps {
   currentView: ViewType;
@@ -93,20 +94,13 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Left Side: Brand Logo + Contextual Navigation Links */}
         <div className="myshine-nav-left">
           {isPeerpathView ? (
-            /* Standalone Peerpath Brand Identity (Zomato / Blinkit model) */
+            /* Standalone Peerpath Brand Identity */
             <div 
               onClick={() => onNavigate(isAlreadyMentor && isCreatorMode ? 'mentor-dashboard-view' : 'guidance-view')} 
-              className="peerpath-brand-logo-wrap" 
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
               title="Peerpath by Shine • Verified 1:1 Mentorship"
             >
-              <div className="peerpath-brand-symbol">
-                <Compass size={20} className="peerpath-symbol-icon" />
-              </div>
-              <div className="peerpath-brand-text-col">
-                <span className="peerpath-brand-title">PEERPATH</span>
-                <span className="peerpath-brand-sub">by <strong className="shine-mark">shine.com</strong></span>
-              </div>
+              <PeerpathLogo size={36} />
             </div>
           ) : (
             /* Shine Official Job Board Logo */

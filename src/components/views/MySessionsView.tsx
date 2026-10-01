@@ -125,7 +125,7 @@ export const MySessionsView: React.FC = () => {
       <div className="sessions-hero-card">
         <div className="sessions-hero-content">
           <div className="sessions-hero-badge">
-            <Sparkles size={13} className="text-amber-500" />
+            <Sparkles size={12} className="text-amber-500" />
             <span>{isMentor ? 'Peerpath Verified Mentor Studio' : 'Peerpath Mentorship Dashboard'}</span>
           </div>
           <h1 className="sessions-hero-title">
@@ -143,15 +143,15 @@ export const MySessionsView: React.FC = () => {
           {isMentor ? (
             <>
               <div className="sh-stat-card">
-                <div className="sh-stat-icon-wrap icon-purple"><Video size={18} /></div>
+                <div className="sh-stat-icon-wrap icon-purple"><Video size={16} /></div>
                 <div>
                   <strong className="sh-stat-num">{mentorHostedUpcoming.length}</strong>
-                  <span className="sh-stat-label">Candidate Calls Booked</span>
+                  <span className="sh-stat-label">Calls Booked</span>
                 </div>
               </div>
 
               <div className="sh-stat-card">
-                <div className="sh-stat-icon-wrap icon-emerald"><DollarSign size={18} /></div>
+                <div className="sh-stat-icon-wrap icon-emerald"><DollarSign size={16} /></div>
                 <div>
                   <strong className="sh-stat-num">₹{(userProfile.mentorEarnings || 47952).toLocaleString('en-IN')}</strong>
                   <span className="sh-stat-label">Total Earned</span>
@@ -159,36 +159,36 @@ export const MySessionsView: React.FC = () => {
               </div>
 
               <div className="sh-stat-card">
-                <div className="sh-stat-icon-wrap icon-amber"><ShieldCheck size={18} /></div>
+                <div className="sh-stat-icon-wrap icon-amber"><ShieldCheck size={16} /></div>
                 <div>
                   <strong className="sh-stat-num">{userProfile.mentorSessionsCount || 48}</strong>
-                  <span className="sh-stat-label">Candidates Mentored ({userProfile.mentorRating || 4.9}★)</span>
+                  <span className="sh-stat-label">Mentored ({userProfile.mentorRating || 4.9}★)</span>
                 </div>
               </div>
             </>
           ) : (
             <>
               <div className="sh-stat-card">
-                <div className="sh-stat-icon-wrap icon-purple"><Video size={18} /></div>
+                <div className="sh-stat-icon-wrap icon-purple"><Video size={16} /></div>
                 <div>
                   <strong className="sh-stat-num">{candidateBookedUpcoming.length}</strong>
-                  <span className="sh-stat-label">Upcoming Sessions</span>
+                  <span className="sh-stat-label">Upcoming</span>
                 </div>
               </div>
 
               <div className="sh-stat-card">
-                <div className="sh-stat-icon-wrap icon-emerald"><CheckCircle2 size={18} /></div>
+                <div className="sh-stat-icon-wrap icon-emerald"><CheckCircle2 size={16} /></div>
                 <div>
                   <strong className="sh-stat-num">{candidateBookedCompleted.length}</strong>
-                  <span className="sh-stat-label">Completed Sessions</span>
+                  <span className="sh-stat-label">Completed</span>
                 </div>
               </div>
 
               <div className="sh-stat-card">
-                <div className="sh-stat-icon-wrap icon-amber"><ShieldCheck size={18} /></div>
+                <div className="sh-stat-icon-wrap icon-amber"><ShieldCheck size={16} /></div>
                 <div>
                   <strong className="sh-stat-num">1</strong>
-                  <span className="sh-stat-label">Skill Badge Earned</span>
+                  <span className="sh-stat-label">Skill Badge</span>
                 </div>
               </div>
             </>
@@ -206,7 +206,7 @@ export const MySessionsView: React.FC = () => {
                 className={`s-tab-btn ${activeTab === 'hosted' ? 'active' : ''}`}
                 onClick={() => setActiveTab('hosted')}
               >
-                <Video size={15} />
+                <Video size={14} />
                 <span>Candidate Calls (Hosted)</span>
                 <span className="s-tab-pill">{mentorHostedUpcoming.length}</span>
               </button>
@@ -216,7 +216,7 @@ export const MySessionsView: React.FC = () => {
                 className={`s-tab-btn ${activeTab === 'upcoming' ? 'active' : ''}`}
                 onClick={() => setActiveTab('upcoming')}
               >
-                <Calendar size={15} />
+                <Calendar size={14} />
                 <span>My Booked Calls</span>
                 <span className="s-tab-pill">{candidateBookedUpcoming.length}</span>
               </button>
@@ -226,7 +226,7 @@ export const MySessionsView: React.FC = () => {
                 className={`s-tab-btn ${activeTab === 'completed' ? 'active' : ''}`}
                 onClick={() => setActiveTab('completed')}
               >
-                <Award size={15} />
+                <Award size={14} />
                 <span>Completed Calls</span>
                 <span className="s-tab-pill">{mentorHostedCompleted.length}</span>
               </button>
@@ -238,7 +238,7 @@ export const MySessionsView: React.FC = () => {
                 className={`s-tab-btn ${activeTab === 'upcoming' ? 'active' : ''}`}
                 onClick={() => setActiveTab('upcoming')}
               >
-                <Calendar size={15} />
+                <Calendar size={14} />
                 <span>Upcoming Sessions</span>
                 <span className="s-tab-pill">{candidateBookedUpcoming.length}</span>
               </button>
@@ -248,8 +248,8 @@ export const MySessionsView: React.FC = () => {
                 className={`s-tab-btn ${activeTab === 'completed' ? 'active' : ''}`}
                 onClick={() => setActiveTab('completed')}
               >
-                <Award size={15} />
-                <span>Completed & Badges</span>
+                <Award size={14} />
+                <span>Completed &amp; Badges</span>
                 <span className="s-tab-pill">{candidateBookedCompleted.length}</span>
               </button>
             </>
@@ -266,57 +266,71 @@ export const MySessionsView: React.FC = () => {
               <h3>No candidate bookings scheduled</h3>
               <p>Your availability is active on Peerpath. Candidates will book calls based on your available schedule.</p>
               <button className="btn-shine-gold" onClick={() => navigateToCreatorStudio('availability')}>
-                <Settings size={16} /> Manage Availability & Pricing
+                <Settings size={16} /> Manage Availability &amp; Pricing
               </button>
             </div>
           ) : (
             mentorHostedUpcoming.map((sess) => (
-              <div key={sess.id} className="session-card-modern" style={{ borderLeft: '3.5px solid #8B5CF6' }}>
+              <div key={sess.id} className="session-card-compact" style={{ borderLeft: '3px solid #8B5CF6' }}>
                 
-                {/* Card Top: Candidate Info */}
-                <div className="sc-header-row">
-                  <div className="sc-mentor-profile">
-                    <div className="sc-avatar-wrap">
-                      <img src={sess.candidateAvatar || '/avatars/prakash.jpg'} alt={sess.candidateName} className="sc-mentor-avatar" />
-                      <span className="sc-verified-check" style={{ background: '#3B82F6' }}><User size={12} color="#fff" /></span>
+                {/* Row 1: Candidate Info + Schedule + Host Room CTA */}
+                <div className="scc-main-row">
+                  <div className="scc-mentor-profile">
+                    <div className="scc-avatar-wrap">
+                      <img src={sess.candidateAvatar || '/avatars/prakash.jpg'} alt={sess.candidateName} className="scc-avatar" />
+                      <span className="scc-verified-check" style={{ background: '#3B82F6' }}><User size={10} color="#fff" /></span>
                     </div>
 
-                    <div className="sc-mentor-info">
-                      <div className="sc-name-row">
-                        <h3 className="sc-mentor-name">{sess.candidateName}</h3>
-                        <span className="sc-confirmed-chip">
-                          <span className="sc-pulse-dot"></span> Confirmed Candidate
+                    <div className="scc-mentor-info">
+                      <div className="scc-name-row">
+                        <h3 className="scc-mentor-name">{sess.candidateName}</h3>
+                        <span className="scc-confirmed-chip">
+                          <span className="scc-pulse-dot"></span> Confirmed Candidate
                         </span>
                       </div>
-                      <p className="sc-mentor-role">{sess.candidateRole || 'Senior Frontend Engineer'} • <strong>Goal: {sess.candidateGoal}</strong></p>
-                      <div className="sc-rating-row">
-                        <span style={{ fontSize: '11.5px', color: '#059669', fontWeight: 700 }}>
-                          💰 Session Fee: ₹{userProfile.mentorRate || 499} ({userProfile.mentorDuration || 30} mins)
-                        </span>
-                      </div>
+                      <p className="scc-mentor-role">{sess.candidateRole || 'Senior Frontend Engineer'} • <strong>Goal: {sess.candidateGoal}</strong></p>
                     </div>
                   </div>
 
-                  <span className="sc-type-badge" style={{ background: '#F5F3FF', color: '#7C3AED', borderColor: '#DDD6FE' }}>
-                    <Video size={14} /> 1:1 Candidate Guidance (You are Host)
-                  </span>
+                  <div className="scc-schedule-pill">
+                    <div className="scc-sched-item">
+                      <Calendar size={13} className="text-blue-600" />
+                      <span>{sess.date}</span>
+                    </div>
+                    <span className="scc-sched-divider">•</span>
+                    <div className="scc-sched-item">
+                      <Clock size={13} className="text-amber-600" />
+                      <span>{sess.timeSlot}</span>
+                    </div>
+                  </div>
+
+                  <div className="scc-action-cta">
+                    <button 
+                      type="button" 
+                      className="btn-scc-join host-btn" 
+                      onClick={() => handleJoinCall(sess)}
+                    >
+                      <span className="live-cam-pulse-dot"></span>
+                      <Video size={14} />
+                      <span>Start Video Call</span>
+                    </button>
+                  </div>
                 </div>
 
-                {/* Card Middle: Time & Meta Strip */}
-                <div className="sc-meta-strip">
-                  <div className="sc-meta-item">
-                    <Calendar size={15} className="sc-meta-icon text-blue-600" />
-                    <span><strong>Date:</strong> {sess.date}</span>
-                  </div>
+                {/* Row 2: Secondary Bar */}
+                <div className="scc-secondary-bar">
+                  <span className="scc-fee-tag">
+                    💰 Session Fee: <strong>₹{userProfile.mentorRate || 499}</strong> ({userProfile.mentorDuration || 30} mins)
+                  </span>
 
-                  <div className="sc-meta-item">
-                    <Clock size={15} className="sc-meta-icon text-amber-600" />
-                    <span><strong>Time:</strong> {sess.timeSlot}</span>
-                  </div>
-
-                  <div className="sc-meta-item">
-                    <FileCheck size={15} className="sc-meta-icon text-emerald-600" />
-                    <span>Candidate Profile & Target Goals Pre-Loaded</span>
+                  <div className="scc-secondary-actions">
+                    <button 
+                      type="button" 
+                      className="btn-scc-link" 
+                      onClick={() => setReschedulingId(sess.id)}
+                    >
+                      <RotateCcw size={12} /> Reschedule
+                    </button>
                   </div>
                 </div>
 
@@ -324,9 +338,9 @@ export const MySessionsView: React.FC = () => {
                 {reschedulingId === sess.id && (
                   <div className="reschedule-drawer-card">
                     <div className="rd-header">
-                      <h4><RotateCcw size={15} /> Propose New Date & Time for {sess.candidateName}</h4>
+                      <h4><RotateCcw size={14} /> Propose New Date &amp; Time for {sess.candidateName}</h4>
                       <button className="btn-close-rd" onClick={() => setReschedulingId(null)}>
-                        <XCircle size={16} />
+                        <XCircle size={15} />
                       </button>
                     </div>
 
@@ -364,10 +378,10 @@ export const MySessionsView: React.FC = () => {
                           className="btn-confirm-reschedule" 
                           onClick={() => handleConfirmReschedule(sess.id)}
                         >
-                          Confirm Reschedule
+                          Confirm
                         </button>
                         <button 
-                          type="button"
+                          type="button" 
                           className="btn-cancel-rd" 
                           onClick={() => setReschedulingId(null)}
                         >
@@ -377,29 +391,6 @@ export const MySessionsView: React.FC = () => {
                     </div>
                   </div>
                 )}
-
-                {/* Card Actions Row */}
-                <div className="sc-footer-actions">
-                  <div className="sc-left-actions">
-                    <button 
-                      type="button"
-                      className="btn-sc-reschedule" 
-                      onClick={() => setReschedulingId(sess.id)}
-                    >
-                      <RotateCcw size={14} /> Reschedule
-                    </button>
-                  </div>
-
-                  <button 
-                    type="button" 
-                    className="btn-sc-join-room" 
-                    onClick={() => handleJoinCall(sess)}
-                  >
-                    <span className="live-cam-pulse-dot"></span>
-                    <Video size={16} />
-                    <span>Start Video Call (Host Room)</span>
-                  </button>
-                </div>
 
               </div>
             ))
@@ -421,100 +412,98 @@ export const MySessionsView: React.FC = () => {
             </div>
           ) : (
             candidateBookedUpcoming.map((sess) => (
-              <div key={sess.id} className="session-card-modern">
+              <div key={sess.id} className="session-card-compact">
                 
-                {/* Card Top: Mentor Header + Session Type Badge */}
-                <div className="sc-header-row">
-                  <div className="sc-mentor-profile">
-                    <div className="sc-avatar-wrap">
-                      <img src={sess.expert.avatar} alt={sess.expert.name} className="sc-mentor-avatar" />
-                      <span className="sc-verified-check"><CheckCircle2 size={13} /></span>
+                {/* Row 1: Mentor Profile + Schedule Badge + Join Room Action */}
+                <div className="scc-main-row">
+                  <div className="scc-mentor-profile">
+                    <div className="scc-avatar-wrap">
+                      <img src={sess.expert.avatar} alt={sess.expert.name} className="scc-avatar" />
+                      <span className="scc-verified-check"><CheckCircle2 size={10} /></span>
                     </div>
 
-                    <div className="sc-mentor-info">
-                      <div className="sc-name-row">
-                        <h3 className="sc-mentor-name">{sess.expert.name}</h3>
-                        <span className="sc-confirmed-chip">
-                          <span className="sc-pulse-dot"></span> Confirmed & Ready
+                    <div className="scc-mentor-info">
+                      <div className="scc-name-row">
+                        <h3 className="scc-mentor-name">{sess.expert.name}</h3>
+                        <span className="scc-confirmed-chip">
+                          <span className="scc-pulse-dot"></span> Confirmed &amp; Ready
                         </span>
                       </div>
-                      <p className="sc-mentor-role">{sess.expert.role} • <strong>{sess.expert.company}</strong></p>
-                      <div className="sc-rating-row">
-                        <Star size={12} className="star-gold" />
-                        <span><strong>{sess.expert.rating}</strong> ({sess.expert.reviewsCount} reviews)</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <span className="sc-type-badge">
-                    <Video size={14} /> 1:1 Video Mentorship
-                  </span>
-                </div>
-
-                {/* Card Middle: Time & Meta Strip */}
-                <div className="sc-meta-strip">
-                  <div className="sc-meta-item">
-                    <Calendar size={15} className="sc-meta-icon text-blue-600" />
-                    <span><strong>Date:</strong> {sess.date}</span>
-                  </div>
-
-                  <div className="sc-meta-item">
-                    <Clock size={15} className="sc-meta-icon text-amber-600" />
-                    <span><strong>Time:</strong> {sess.timeSlot}</span>
-                  </div>
-
-                  <div className="sc-meta-item">
-                    <FileCheck size={15} className="sc-meta-icon text-emerald-600" />
-                    <span>Profile & Goals Summary Pre-Loaded for Mentor</span>
-                  </div>
-                </div>
-
-                {/* CV Attachment & Pre-Call Readiness Strip */}
-                <div className={`sc-cv-nudge-box ${isCandidateCvSynced ? 'sc-cv-synced' : 'sc-cv-pending'}`}>
-                  <div className="sc-cv-nudge-left">
-                    {isCandidateCvSynced ? (
-                      <CheckCircle2 size={16} className="text-emerald-600 flex-shrink-0" />
-                    ) : (
-                      <AlertCircle size={16} className="text-amber-600 flex-shrink-0" />
-                    )}
-                    <div>
-                      <div className="sc-cv-title-row">
-                        <strong>{isCandidateCvSynced ? `✨ Latest CV Attached (${userProfile.resumeFileName || 'Resume.pdf'})` : '⚠️ Latest CV Pending for Mentor'}</strong>
-                        <span className={isCandidateCvSynced ? 'sc-pill-synced' : 'sc-pill-pending'}>
-                          {isCandidateCvSynced ? 'Ready for 1:1' : 'Upload for 2x Advice'}
-                        </span>
-                      </div>
-                      <p className="sc-cv-desc">
-                        {isCandidateCvSynced 
-                          ? `${sess.expert.name} has your latest skills & recent projects loaded in her zero-prep dossier.`
-                          : `Upload your latest CV so ${sess.expert.name} can give tailored mock feedback and salary guidance.`}
+                      <p className="scc-mentor-role">
+                        {sess.expert.role} • <strong>{sess.expert.company}</strong>
+                        <span className="scc-meta-dot">•</span>
+                        <span className="scc-rating"><Star size={11} className="star-gold" /> {sess.expert.rating}</span>
                       </p>
                     </div>
                   </div>
-                  
-                  <div className="sc-cv-nudge-actions">
+
+                  {/* Clean Schedule Pill */}
+                  <div className="scc-schedule-pill">
+                    <div className="scc-sched-item">
+                      <Calendar size={13} className="text-blue-600" />
+                      <span>{sess.date}</span>
+                    </div>
+                    <span className="scc-sched-divider">•</span>
+                    <div className="scc-sched-item">
+                      <Clock size={13} className="text-amber-600" />
+                      <span>{sess.timeSlot}</span>
+                    </div>
+                  </div>
+
+                  {/* Primary CTA */}
+                  <div className="scc-action-cta">
                     <button 
                       type="button" 
-                      className="btn-sc-cv-primary"
-                      onClick={() => setIsCvSyncModalOpen(true)}
+                      className="btn-scc-join" 
+                      onClick={() => handleJoinCall(sess)}
                     >
-                      <Sparkles size={12} />
-                      <span>{isCandidateCvSynced ? 'Change CV' : 'Upload Latest CV'}</span>
+                      <span className="live-cam-pulse-dot"></span>
+                      <Video size={14} />
+                      <span>Join Video Room</span>
                     </button>
-                    {isCandidateCvSynced && (
-                      <button 
-                        type="button" 
-                        className="btn-sc-cv-delete"
-                        onClick={() => {
-                          if (window.confirm('Are you sure you want to remove your attached CV for this session?')) {
-                            removeCandidateResume();
-                          }
-                        }}
-                        title="Remove attached CV"
-                      >
-                        <Trash2 size={12} />
-                      </button>
+                  </div>
+                </div>
+
+                {/* Row 2: Slim CV Readiness Strip + Secondary Actions */}
+                <div className="scc-secondary-bar">
+                  <div className="scc-cv-status-box">
+                    {isCandidateCvSynced ? (
+                      <div className="scc-cv-synced-pill">
+                        <CheckCircle2 size={12} className="text-emerald-600 flex-shrink-0" />
+                        <span><strong>CV Attached:</strong> {userProfile.resumeFileName || 'Resume.pdf'} (Synced for {sess.expert.name})</span>
+                        <button type="button" className="btn-scc-cv-link" onClick={() => setIsCvSyncModalOpen(true)}>Change</button>
+                      </div>
+                    ) : (
+                      <div className="scc-cv-pending-pill">
+                        <AlertCircle size={12} className="text-amber-600 flex-shrink-0" />
+                        <span><strong>Latest CV Pending:</strong> Attach recent CV for tailored feedback</span>
+                        <button type="button" className="btn-scc-cv-upload-btn" onClick={() => setIsCvSyncModalOpen(true)}>
+                          <Sparkles size={11} /> Upload Latest CV
+                        </button>
+                      </div>
                     )}
+                  </div>
+
+                  <div className="scc-secondary-actions">
+                    <button 
+                      type="button" 
+                      className="btn-scc-link" 
+                      onClick={() => setReschedulingId(sess.id)}
+                    >
+                      <RotateCcw size={12} /> Reschedule
+                    </button>
+                    <span className="scc-action-sep">•</span>
+                    <button 
+                      type="button" 
+                      className="btn-scc-link text-danger" 
+                      onClick={() => {
+                        if (window.confirm(`Are you sure you want to cancel your session with ${sess.expert.name}? 100% refund will be credited.`)) {
+                          cancelSession(sess.id);
+                        }
+                      }}
+                    >
+                      Cancel Booking
+                    </button>
                   </div>
                 </div>
 
@@ -522,9 +511,9 @@ export const MySessionsView: React.FC = () => {
                 {reschedulingId === sess.id && (
                   <div className="reschedule-drawer-card">
                     <div className="rd-header">
-                      <h4><RotateCcw size={15} /> Select New Date & Time for {sess.expert.name}</h4>
+                      <h4><RotateCcw size={14} /> Select New Date &amp; Time for {sess.expert.name}</h4>
                       <button className="btn-close-rd" onClick={() => setReschedulingId(null)}>
-                        <XCircle size={16} />
+                        <XCircle size={15} />
                       </button>
                     </div>
 
@@ -566,7 +555,7 @@ export const MySessionsView: React.FC = () => {
                           Confirm Reschedule
                         </button>
                         <button 
-                          type="button"
+                          type="button" 
                           className="btn-cancel-rd" 
                           onClick={() => setReschedulingId(null)}
                         >
@@ -576,41 +565,6 @@ export const MySessionsView: React.FC = () => {
                     </div>
                   </div>
                 )}
-
-                {/* Card Actions Row */}
-                <div className="sc-footer-actions">
-                  <div className="sc-left-actions">
-                    <button 
-                      type="button"
-                      className="btn-sc-reschedule" 
-                      onClick={() => setReschedulingId(sess.id)}
-                    >
-                      <RotateCcw size={14} /> Reschedule
-                    </button>
-                    
-                    <button 
-                      type="button"
-                      className="btn-sc-cancel" 
-                      onClick={() => {
-                        if (window.confirm(`Are you sure you want to cancel your session with ${sess.expert.name}? 100% refund will be credited.`)) {
-                          cancelSession(sess.id);
-                        }
-                      }}
-                    >
-                      <XCircle size={14} /> Cancel Booking
-                    </button>
-                  </div>
-
-                  <button 
-                    type="button"
-                    className="btn-sc-join-room" 
-                    onClick={() => handleJoinCall(sess)}
-                  >
-                    <span className="live-cam-pulse-dot"></span>
-                    <Video size={16} />
-                    <span>Join Video Room (Room Open)</span>
-                  </button>
-                </div>
 
               </div>
             ))
@@ -629,59 +583,53 @@ export const MySessionsView: React.FC = () => {
             </div>
           ) : (
             (isMentor ? mentorHostedCompleted : candidateBookedCompleted).map((sess) => (
-              <div key={sess.id} className="session-card-modern sc-completed-style">
-                <div className="sc-header-row">
-                  <div className="sc-mentor-profile">
-                    <div className="sc-avatar-wrap">
+              <div key={sess.id} className="session-card-compact sc-completed-compact">
+                <div className="scc-main-row">
+                  <div className="scc-mentor-profile">
+                    <div className="scc-avatar-wrap">
                       <img 
                         src={isMentor ? (sess.candidateAvatar || '/avatars/prakash.jpg') : sess.expert.avatar} 
                         alt={isMentor ? sess.candidateName : sess.expert.name} 
-                        className="sc-mentor-avatar" 
+                        className="scc-avatar" 
                       />
-                      <span className="sc-verified-check"><CheckCircle2 size={13} /></span>
+                      <span className="scc-verified-check"><CheckCircle2 size={10} /></span>
                     </div>
-                    <div className="sc-mentor-info">
-                      <h3 className="sc-mentor-name">{isMentor ? sess.candidateName : sess.expert.name}</h3>
-                      <p className="sc-mentor-role">
+                    <div className="scc-mentor-info">
+                      <div className="scc-name-row">
+                        <h3 className="scc-mentor-name">{isMentor ? sess.candidateName : sess.expert.name}</h3>
+                        <span className="sc-badge-completed">
+                          <CheckCircle2 size={11} /> Completed on {sess.date}
+                        </span>
+                      </div>
+                      <p className="scc-mentor-role">
                         {isMentor ? (sess.candidateRole || 'Candidate') : `${sess.expert.role} at ${sess.expert.company}`}
                       </p>
                     </div>
                   </div>
 
-                  <span className="sc-badge-completed">
-                    <CheckCircle2 size={14} /> Completed on {sess.date}
-                  </span>
-                </div>
-
-                <div className="sc-outcome-highlight-box">
-                  <div className="sc-outcome-icon-wrap">
-                    <Award size={24} className="text-amber-500" />
+                  <div className="scc-outcome-pill">
+                    <Award size={14} className="text-amber-500 flex-shrink-0" />
+                    <span><strong>Badge:</strong> "{sess.badgeAwarded || 'System Architecture'}" Verified</span>
                   </div>
-                  <div>
-                    <h4 className="sc-outcome-title">Outcome: "{sess.badgeAwarded || 'System Architecture'}" Skill Badge Verified</h4>
-                    <p className="sc-outcome-notes">
-                      {sess.feedbackNotes || `${sess.expert.name} verified proficiency in architecture design & performance tuning. This verified badge is attached to the candidate's Shine profile.`}
-                    </p>
+
+                  <div className="scc-action-cta" style={{ display: 'flex', gap: '8px' }}>
+                    <button 
+                      type="button" 
+                      className="btn-scc-view-assessment" 
+                      onClick={() => navigate('post-session-view')}
+                    >
+                      <Award size={13} /> <span>View Scorecard</span>
+                    </button>
+                    <button 
+                      type="button" 
+                      className="btn-scc-recording" 
+                      onClick={() => setSelectedRecordingSession(sess)}
+                      title="Watch session recording"
+                    >
+                      <Play size={12} fill="currentColor" />
+                      <span>Recording</span>
+                    </button>
                   </div>
-                </div>
-
-                <div className="sc-footer-actions sc-completed-footer" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                  <button 
-                    type="button" 
-                    className="btn-sc-view-assessment" 
-                    onClick={() => navigate('post-session-view')}
-                  >
-                    <Award size={15} /> View Full Assessment &amp; Verified Badge
-                  </button>
-
-                  <button 
-                    type="button" 
-                    className="btn-sc-view-recording" 
-                    onClick={() => setSelectedRecordingSession(sess)}
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#F5F3FF', border: '1px solid #DDD6FE', color: '#7C3AED', padding: '8px 14px', borderRadius: '8px', fontSize: '13px', fontWeight: 700, cursor: 'pointer', transition: 'all 0.15s ease' }}
-                  >
-                    <Play size={14} /> Watch Session Recording
-                  </button>
                 </div>
               </div>
             ))

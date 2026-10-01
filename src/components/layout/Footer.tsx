@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronUp, ChevronDown, ArrowUpRight, Sparkles, Compass, Briefcase, Award, TrendingUp, Users } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { PeerpathLogo, PeerpathSymbolSvg } from '../common/PeerpathLogo';
 
 export const Footer: React.FC = () => {
   const { navigate, currentView } = useApp();
@@ -46,15 +47,7 @@ export const Footer: React.FC = () => {
             <div className="ftbs-left">
               {isPeerpathView ? (
                 <div className="ftbs-peerpath-brand">
-                  <div className="peerpath-brand-logo-wrap">
-                    <div className="peerpath-brand-symbol">
-                      <Compass size={20} className="peerpath-symbol-icon" />
-                    </div>
-                    <div className="peerpath-brand-text-col">
-                      <span className="peerpath-brand-title" style={{ color: '#FFFFFF', fontSize: '18px' }}>PEERPATH</span>
-                      <span className="peerpath-brand-sub" style={{ color: '#CBD5E1' }}>by <strong className="shine-mark" style={{ color: '#FCD34D' }}>shine.com</strong></span>
-                    </div>
-                  </div>
+                  <PeerpathLogo size={38} textColor="#FFFFFF" subTextColor="#CBD5E1" theme="dark" />
                 </div>
               ) : (
                 <div className="ftbs-shine-brand">
@@ -328,7 +321,7 @@ export const Footer: React.FC = () => {
           <div className="fb-left">
             <div className="fb-peerpath-brand-mini">
               <div className="fb-peerpath-icon">
-                <Compass size={13} />
+                <PeerpathSymbolSvg size={18} theme="dark" />
               </div>
               <span className="fb-brand-name">PEERPATH</span>
               <span className="fb-brand-by">by <strong style={{ color: '#FCD34D' }}>shine.com</strong></span>
