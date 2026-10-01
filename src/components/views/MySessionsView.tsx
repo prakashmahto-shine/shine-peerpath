@@ -7,6 +7,7 @@ import {
   Play, Download
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { peerpathApi } from '../../services/api';
 
 export const MySessionsView: React.FC = () => {
   const { 
@@ -795,7 +796,7 @@ export const MySessionsView: React.FC = () => {
                 autoPlay
                 playsInline
                 style={{ width: '100%', maxHeight: '420px', objectFit: 'contain' }}
-                src={selectedRecordingSession.recordingUrl || `/api/sessions/${selectedRecordingSession.id.replace(/^sess-/, '')}/recording`}
+                src={selectedRecordingSession.recordingUrl || peerpathApi.getRecordingUrl(selectedRecordingSession.id)}
                 poster={selectedRecordingSession.expert.videoPoster || selectedRecordingSession.expert.avatar}
               >
                 Your browser does not support HTML5 video streaming.
@@ -814,7 +815,7 @@ export const MySessionsView: React.FC = () => {
               </div>
 
               <a
-                href={selectedRecordingSession.recordingUrl || `/api/sessions/${selectedRecordingSession.id.replace(/^sess-/, '')}/recording`}
+                href={selectedRecordingSession.recordingUrl || peerpathApi.getRecordingUrl(selectedRecordingSession.id)}
                 download={`shine-peerpath-${selectedRecordingSession.id}.webm`}
                 style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#2563EB', color: '#fff', padding: '8px 16px', borderRadius: '8px', fontSize: '12.5px', fontWeight: 700, textDecoration: 'none' }}
               >

@@ -4,7 +4,7 @@ import {
   UserAccount, PeerpathJobContext, BootcampMasterclass, NamedExpertInvite,
   CommunityPost, CommunityComment, CommunityNotification
 } from '../types';
-import { peerpathApi } from '../services/api';
+import { peerpathApi, API_BASE } from '../services/api';
 import { pathToView, viewToPath } from '../routes';
 
 export interface ToastMessage {
@@ -1185,7 +1185,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     const fetchInitialCommunityData = async () => {
       try {
-        const postsRes = await fetch('/api/community/posts?userId=' + (currentUser?.id || 'prakash'));
+        const postsRes = await fetch(`${API_BASE}/community/posts?userId=` + (currentUser?.id || 'prakash'));
         if (postsRes.ok) {
           const json = await postsRes.json();
           if (json.success && Array.isArray(json.data) && json.data.length > 0) {
@@ -1197,7 +1197,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
 
       try {
-        const notifRes = await fetch('/api/notifications?userId=' + (currentUser?.id || 'prakash'));
+        const notifRes = await fetch(`${API_BASE}/notifications?userId=` + (currentUser?.id || 'prakash'));
         if (notifRes.ok) {
           const notifJson = await notifRes.json();
           if (notifJson.success && Array.isArray(notifJson.data) && notifJson.data.length > 0) {
@@ -1265,7 +1265,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setCommunityPosts(prev => [newPost, ...prev]);
 
     // Async sync with backend API
-    fetch('/api/community/posts', {
+    fetch(`${API_BASE}/community/posts`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1333,7 +1333,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }));
 
     // Async backend call
-    fetch(`/api/community/posts/${postId}/comments`, {
+    fetch(`${API_BASE}/community/posts/${postId}/comments`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1364,7 +1364,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }));
 
     // Async backend sync
-    fetch(`/api/community/posts/${postId}/like`, {
+    fetch(`${API_BASE}/community/posts/${postId}/like`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId: currentUser?.id || 'prakash' })
@@ -1393,7 +1393,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }));
 
     // Async backend sync
-    fetch(`/api/community/posts/${postId}/comments/${commentId}/like`, {
+    fetch(`${API_BASE}/community/posts/${postId}/comments/${commentId}/like`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId: currentUser?.id || 'prakash' })
@@ -1404,12 +1404,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const markNotificationAsRead = (notificationId: string) => {
     setNotifications(prev => prev.map(n => n.id === notificationId ? { ...n, isRead: true } : n));
-    fetch(`/api/notifications/${notificationId}/read`, { method: 'PATCH' }).catch(() => {});
+    fetch(`${API_BASE}/notifications/${notificationId}/read`, { method: 'PATCH' }).catch(() => {});
   };
 
   const markAllNotificationsAsRead = () => {
     setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
-    fetch('/api/notifications/mark-all-read', {
+    fetch(`${API_BASE}/notifications/mark-all-read`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId: currentUser?.id || 'prakash' })
@@ -1419,12 +1419,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const deleteNotification = (notificationId: string) => {
     setNotifications(prev => prev.filter(n => n.id !== notificationId));
-    fetch(`/api/notifications/${notificationId}`, { method: 'DELETE' }).catch(() => {});
+    fetch(`${API_BASE}/notifications/${notificationId}`, { method: 'DELETE' }).catch(() => {});
   };
 
   const clearAllNotifications = () => {
     setNotifications([]);
-    fetch('/api/notifications/clear-all', {
+    fetch(`${API_BASE}/notifications/clear-all`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId: currentUser?.id || 'prakash' })

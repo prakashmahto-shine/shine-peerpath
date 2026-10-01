@@ -254,6 +254,25 @@ export const peerpathApi = {
     return json.data;
   },
 
+  // Video Recordings & Streaming
+  getRecordingUrl(sessionId: string): string {
+    const cleanId = (sessionId || '').replace(/^peerpath-/, '').replace(/^sess-/, '');
+    return `${API_BASE}/sessions/${cleanId}/recording`;
+  },
+
+  async uploadSessionRecording(sessionId: string, blob: Blob): Promise<{ success: boolean; recordingUrl: string; sessionId: string }> {
+    const cleanId = (sessionId || '').replace(/^peerpath-/, '').replace(/^sess-/, '');
+    const res = await fetchWithRetry(`${API_BASE}/sessions/${cleanId}/recording`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': blob.type || 'video/webm'
+      },
+      body: blob
+    });
+    if (!res.ok) throw new Error(`Failed uploading recording for session ${cleanId}`);
+    return res.json();
+  },
+
   // Creator Mode Zero-Prep Dossier
   async getZeroPrepDossier(sessionId: string): Promise<ZeroPrepDossier> {
     const res = await fetchWithRetry(`${API_BASE}/creator/sessions/${sessionId}/briefing`);

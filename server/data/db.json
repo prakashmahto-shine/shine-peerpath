@@ -4622,7 +4622,7 @@
       "domain": "Full-Stack",
       "badges": [
         {
-          "id": "badge-1790832625062",
+          "id": "badge-1790833422664",
           "title": "AI & Distributed Systems Peer-Verified",
           "subtitle": "Verified by Deepak Patel \u2022 Senior Data Scientist & AI Lead @ Zomato",
           "verifierName": "Deepak Patel",
@@ -4636,7 +4636,7 @@
             "LangChain"
           ],
           "status": "verified",
-          "verificationHash": "SHINE-PEER-1790832625062-ZOM"
+          "verificationHash": "SHINE-PEER-1790833422664-ZOM"
         },
         {
           "id": "badge-1790832192534",
@@ -5324,6 +5324,146 @@
   ],
   "sessions": [
     {
+      "id": "sess-1790833422655",
+      "expertId": "deepak",
+      "expert": {
+        "id": "deepak",
+        "name": "Deepak Patel",
+        "role": "Senior Data Scientist & AI Lead",
+        "company": "Zomato",
+        "domain": "AI/ML",
+        "experience": "7.5+ Years Exp.",
+        "rating": 4.92,
+        "reviewsCount": 194,
+        "sessionsCount": 208,
+        "price": 1299,
+        "location": "Pune, India",
+        "duration": "01:18",
+        "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+        "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at Zomato",
+        "skills": [
+          "Computer Vision",
+          "LangChain",
+          "TensorFlow",
+          "RAG Systems",
+          "Vector Search",
+          "LLMs"
+        ],
+        "bio": "Senior Data Scientist & AI Lead at Zomato. I mentor engineers making the jump into AI/ML roles, with deep focus on Computer Vision and LangChain.",
+        "verifiedEmail": "deepak.p@zomato.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Computer Vision Developer",
+          "company3YearsAgo": "Mindtree",
+          "salary3YearsAgo": "\u20b96.1 LPA",
+          "keyJumpSkills": [
+            "Multi-Modal Model Serving",
+            "PyTorch Production Pipelines",
+            "Vector Search (Pinecone)"
+          ],
+          "jumpStory": "Went from Computer Vision Developer at Mindtree to Senior Data Scientist & AI Lead at Zomato by mastering Multi-Modal Model Serving and PyTorch Production Pipelines."
+        },
+        "availability": {
+          "days": [
+            "Mon",
+            "Thu",
+            "Sat"
+          ],
+          "timeSlots": [
+            "06:00 PM - 07:00 PM",
+            "07:30 PM - 08:30 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash-mahto",
+      "candidateName": "Prakash Mahto",
+      "candidateRole": "Senior Frontend Engineer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Transition Strategy to Lead Architect",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "2026-10-05",
+      "timeSlot": "07:00 PM - 08:00 PM",
+      "status": "completed",
+      "meetingLink": "https://meet.shine.com/room/peerpath-deepak-22655",
+      "badgeAwarded": "AI & Distributed Systems Peer-Verified",
+      "feedbackNotes": "Exceptional architectural clarity on distributed systems and micro-frontends.",
+      "rating": 5.0,
+      "paymentId": "pay_shine_1790833422655_23d7",
+      "amountPaid": 999,
+      "bookedAt": "2026-10-01T05:43:42.655817Z"
+    },
+    {
+      "id": "sess-1790833221634",
+      "expertId": "deepak",
+      "expert": {
+        "id": "deepak",
+        "name": "Deepak Patel",
+        "role": "Senior Data Scientist & AI Lead",
+        "company": "Zomato",
+        "domain": "AI/ML",
+        "experience": "7.5+ Years Exp.",
+        "rating": 4.92,
+        "reviewsCount": 194,
+        "sessionsCount": 208,
+        "price": 1299,
+        "location": "Pune, India",
+        "duration": "01:18",
+        "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+        "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at Zomato",
+        "skills": [
+          "Computer Vision",
+          "LangChain",
+          "TensorFlow",
+          "RAG Systems",
+          "Vector Search",
+          "LLMs"
+        ],
+        "bio": "Senior Data Scientist & AI Lead at Zomato. I mentor engineers making the jump into AI/ML roles, with deep focus on Computer Vision and LangChain.",
+        "verifiedEmail": "deepak.p@zomato.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Computer Vision Developer",
+          "company3YearsAgo": "Mindtree",
+          "salary3YearsAgo": "\u20b96.1 LPA",
+          "keyJumpSkills": [
+            "Multi-Modal Model Serving",
+            "PyTorch Production Pipelines",
+            "Vector Search (Pinecone)"
+          ],
+          "jumpStory": "Went from Computer Vision Developer at Mindtree to Senior Data Scientist & AI Lead at Zomato by mastering Multi-Modal Model Serving and PyTorch Production Pipelines."
+        },
+        "availability": {
+          "days": [
+            "Mon",
+            "Thu",
+            "Sat"
+          ],
+          "timeSlots": [
+            "06:00 PM - 07:00 PM",
+            "07:30 PM - 08:30 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash-mahto",
+      "candidateName": "Prakash Mahto",
+      "candidateRole": "Senior Frontend Engineer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Transition Strategy to Lead Architect",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "2026-10-05",
+      "timeSlot": "07:00 PM - 08:00 PM",
+      "status": "completed",
+      "meetingLink": "https://meet.shine.com/room/peerpath-deepak-21634",
+      "badgeAwarded": "AI & Distributed Systems Peer-Verified",
+      "feedbackNotes": "Exceptional architectural clarity on distributed systems and micro-frontends.",
+      "rating": 5.0,
+      "paymentId": "pay_shine_1790833221634_1859",
+      "amountPaid": 999,
+      "bookedAt": "2026-10-01T05:40:21.634575Z"
+    },
+    {
       "id": "sess-1790832625053",
       "expertId": "deepak",
       "expert": {
@@ -5889,6 +6029,40 @@
     }
   ],
   "badges": [
+    {
+      "id": "badge-1790833422664",
+      "title": "AI & Distributed Systems Peer-Verified",
+      "subtitle": "Verified by Deepak Patel \u2022 Senior Data Scientist & AI Lead @ Zomato",
+      "verifierName": "Deepak Patel",
+      "verifierRole": "Senior Data Scientist & AI Lead @ Zomato",
+      "verifierAvatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+      "verifierCompany": "Zomato",
+      "date": "Oct 01, 2026",
+      "skills": [
+        "Micro-Frontends",
+        "Distributed Systems",
+        "LangChain"
+      ],
+      "status": "verified",
+      "verificationHash": "SHINE-PEER-1790833422664-ZOM"
+    },
+    {
+      "id": "badge-1790833221644",
+      "title": "AI & Distributed Systems Peer-Verified",
+      "subtitle": "Verified by Deepak Patel \u2022 Senior Data Scientist & AI Lead @ Zomato",
+      "verifierName": "Deepak Patel",
+      "verifierRole": "Senior Data Scientist & AI Lead @ Zomato",
+      "verifierAvatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+      "verifierCompany": "Zomato",
+      "date": "Oct 01, 2026",
+      "skills": [
+        "Micro-Frontends",
+        "Distributed Systems",
+        "LangChain"
+      ],
+      "status": "verified",
+      "verificationHash": "SHINE-PEER-1790833221644-ZOM"
+    },
     {
       "id": "badge-1790832625062",
       "title": "AI & Distributed Systems Peer-Verified",
@@ -6689,9 +6863,9 @@
   ],
   "reactions": [],
   "analytics": {
-    "profileUpdatesThisMonth": 14829,
+    "profileUpdatesThisMonth": 14831,
     "newRegistrationsThisMonth": 6350,
-    "totalSessionsBooked": 2436,
+    "totalSessionsBooked": 2438,
     "totalActiveCreators": 93
   }
 }

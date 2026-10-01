@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Star, CheckCircle2, Download, Video, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Star, CheckCircle2, Download, Video, Loader2 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { peerpathApi } from '../../services/api';
 
 export const PostSessionView: React.FC = () => {
   const { activeSession, selectedExpert, navigate, completeSession, showToast } = useApp();
@@ -10,16 +11,27 @@ export const PostSessionView: React.FC = () => {
   const [reviewText, setReviewText] = useState<string>(
     `${expert.name} completely transformed my approach to career transitions. The framework shared for handling interview loops and system design was invaluable!`
   );
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const sessionId = activeSession?.id || `sess-${expert.id}-live`;
-  const recordingDownloadUrl = activeSession?.recordingUrl || `/api/sessions/${sessionId.replace(/^sess-/, '')}/recording`;
+  const recordingDownloadUrl = activeSession?.recordingUrl || peerpathApi.getRecordingUrl(sessionId);
 
-  const handleSubmit = () => {
-    if (activeSession) {
-      completeSession(activeSession.id, rating, reviewText, `${expert.domain} Production Ready`);
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    try {
+      if (activeSession) {
+        completeSession(activeSession.id, rating, reviewText, `${expert.domain} Production Ready`);
+      }
+      showToast('Review Submitted', 'Thank you for your feedback! Your review and recording have been saved.', 'success');
+      navigate('sessions-view');
+    } catch (err: any) {
+      console.error('[PostSessionView Review Error]:', err);
+      showToast('Submission Error', 'Failed to save review. Please try again.', 'warning');
+    } finally {
+      setIsSubmitting(false);
     }
-    showToast('Review Submitted', 'Thank you for your feedback! Your review and recording have been saved.', 'success');
-    navigate('sessions-view');
   };
 
   return (
@@ -74,8 +86,22 @@ export const PostSessionView: React.FC = () => {
         </div>
 
         <div style={{ display: 'flex', gap: '12px', marginTop: '10px' }}>
-          <button type="button" className="btn-shine-gold-lg w-100" onClick={handleSubmit}>
-            <CheckCircle2 size={18} /> Submit Review &amp; Go to My Bookings
+          <button 
+            type="button" 
+            className="btn-shine-gold-lg w-100" 
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            style={{ opacity: isSubmitting ? 0.7 : 1, cursor: isSubmitting ? 'not-allowed' : 'pointer' }}
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 size={18} className="spin-animation" /> Submitting Review...
+              </>
+            ) : (
+              <>
+                <CheckCircle2 size={18} /> Submit Review &amp; Go to My Bookings
+              </>
+            )}
           </button>
         </div>
       </div>

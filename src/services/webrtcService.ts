@@ -8,6 +8,10 @@ const ICE_SERVERS: RTCConfiguration = {
   ]
 };
 
+const ENV_BACKEND_URL = typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_API_URL
+  ? String((import.meta as any).env.VITE_API_URL).replace(/\/$/, '')
+  : '';
+
 export interface PeerState {
   isMuted?: boolean;
   isVideoOff?: boolean;
@@ -67,10 +71,8 @@ export class WebRTCService {
       this.localStream = params.localStream;
     }
 
-    // Determine signaling server URL (same origin in unified, or configured backend)
-    const signalingUrl = typeof window !== 'undefined' 
-      ? window.location.origin
-      : 'http://localhost:5001';
+    // Determine signaling server URL (same origin in unified, or configured remote backend)
+    const signalingUrl = ENV_BACKEND_URL || (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5001');
 
     this.socket = io(signalingUrl, {
       transports: ['websocket', 'polling'],
@@ -385,7 +387,8 @@ export class WebRTCService {
   public async uploadRecording(sessionId: string, blob: Blob, durationSeconds: number): Promise<boolean> {
     try {
       const cleanSessionId = sessionId.replace(/^peerpath-/, '').replace(/^sess-/, '');
-      const response = await fetch(`/api/sessions/${cleanSessionId}/recording`, {
+      const apiBase = ENV_BACKEND_URL ? `${ENV_BACKEND_URL}/api` : '/api';
+      const response = await fetch(`${apiBase}/sessions/${cleanSessionId}/recording`, {
         method: 'POST',
         headers: {
           'Content-Type': blob.type || 'video/webm'
