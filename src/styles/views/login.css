@@ -1,0 +1,1696 @@
+/* ==========================================================================
+   Official Shine Login Page (Matching Image 2 /myshine/login)
+   ========================================================================== */
+.shine-official-login-container {
+  min-height: 100vh;
+  background: #ffffff;
+  display: flex;
+  align-items: stretch;
+}
+
+.shine-login-split-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  width: 100%;
+  min-height: 100vh;
+}
+
+@media (max-width: 900px) {
+  .shine-login-split-layout {
+    grid-template-columns: 1fr;
+  }
+  .shine-login-left-canvas {
+    display: none;
+  }
+}
+
+/* Left Canvas */
+.shine-login-left-canvas {
+  background: linear-gradient(145deg, #FFFDF7 0%, #FFFBEA 50%, #FEF9C3 100%);
+  border-right: 1px solid #FEF08A;
+  padding: 40px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-login-logo-wrap {
+  width: 120px;
+  z-index: 10;
+}
+
+.shine-login-official-logo {
+  width: 100%;
+  height: auto;
+}
+
+.shine-illustration-center-stage {
+  text-align: center;
+  margin: auto 0;
+  z-index: 10;
+  position: relative;
+}
+
+.shine-illustration-canvas-wrap {
+  position: relative;
+  width: 320px;
+  height: 290px;
+  margin: 0 auto 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shine-glow-circle {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.shine-glow-circle.circle-outer {
+  width: 290px;
+  height: 290px;
+  background: radial-gradient(circle, rgba(253, 224, 71, 0.4) 0%, rgba(254, 240, 138, 0.15) 60%, transparent 80%);
+}
+
+.shine-glow-circle.circle-inner {
+  width: 210px;
+  height: 210px;
+  background: #FEF08A;
+  opacity: 0.5;
+}
+
+.shine-official-user-svg {
+  position: relative;
+  z-index: 5;
+  width: 260px;
+  height: 260px;
+  object-fit: contain;
+}
+
+/* Floating Skill Badges */
+.floating-skill-chip {
+  position: absolute;
+  z-index: 12;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  animation: floatSkillChip 4s ease-in-out infinite alternate;
+}
+
+.chip-react {
+  top: 35px;
+  left: 20px;
+  border: 1.5px solid #BAE6FD;
+  animation-delay: 0s;
+}
+
+.chip-python {
+  bottom: 50px;
+  left: 10px;
+  border: 1.5px solid #FEF08A;
+  animation-delay: 1s;
+}
+
+.chip-excel {
+  top: 50px;
+  right: 20px;
+  border: 1.5px solid #BBF7D0;
+  animation-delay: 0.5s;
+}
+
+.chip-arrow {
+  bottom: 65px;
+  right: 15px;
+  border: 1.5px solid #DDD6FE;
+  animation-delay: 1.5s;
+}
+
+@keyframes floatSkillChip {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-8px) rotate(4deg); }
+}
+
+.shine-login-hero-title {
+  font-size: 30px;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: -0.5px;
+  margin: 0 0 8px 0;
+}
+
+.shine-login-hero-subtitle {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: #64748B;
+  max-width: 360px;
+  margin: 0 auto 24px auto;
+}
+
+.shine-trust-proof-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #FFF7ED;
+  border: 1px solid #FFEDD5;
+  border-radius: 9999px;
+  padding: 6px 14px;
+  margin: 0 auto;
+}
+
+.trust-avatars-group {
+  display: flex;
+  align-items: center;
+}
+
+.trust-avatar-img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  margin-left: -7px;
+}
+
+.trust-avatar-img:first-child {
+  margin-left: 0;
+}
+
+.trust-proof-text {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #C2410C;
+}
+
+/* Right Canvas */
+.shine-login-right-canvas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 32px;
+  background: #ffffff;
+}
+
+.shine-login-card-wrapper {
+  width: 100%;
+  max-width: 440px;
+}
+
+.shine-campaign-header-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  margin-bottom: 18px;
+  line-height: 1.35;
+}
+
+.shine-campaign-header-pill.whatsapp-pill {
+  background: #F0FDF4;
+  border: 1px solid #BBF7D0;
+  color: #166534;
+}
+
+.shine-campaign-header-pill.email-pill {
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  color: #1E40AF;
+}
+
+.shine-campaign-header-pill.campaign-pill {
+  background: #FFFBEB;
+  border: 1px solid #FDE68A;
+  color: #92400E;
+}
+
+.shine-login-header-group {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.shine-login-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #64748B;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.shine-login-main-heading {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+}
+
+.shine-segmented-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #F1F5F9;
+  padding: 4px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #E2E8F0;
+}
+
+.shine-seg-tab {
+  border: none;
+  background: transparent;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #64748B;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.shine-seg-tab.active {
+  background: #ffffff;
+  color: #0F172A;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.shine-login-form-card {
+  border: 1.5px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 24px 28px;
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.shine-login-error-box {
+  background: #FEF2F2;
+  border: 1px solid #FCA5A5;
+  color: #B91C1C;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.shine-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.shine-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.shine-field-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.shine-label-with-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.shine-forgot-link {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #2563EB;
+  text-decoration: none;
+}
+
+.shine-forgot-link:hover {
+  text-decoration: underline;
+}
+
+.shine-auth-input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 10px;
+  font-size: 13.5px;
+  color: #0F172A;
+  outline: none;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.shine-auth-input:focus {
+  border-color: #0F172A;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
+}
+
+.shine-password-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.shine-password-input-wrap .shine-auth-input {
+  padding-right: 42px;
+}
+
+.shine-pwd-toggle-btn {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: #64748B;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.shine-pwd-toggle-btn:hover {
+  color: #0F172A;
+}
+
+.shine-btn-proceed {
+  width: 100%;
+  padding: 13px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14.5px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 4px;
+  background: #FEF9C3;
+  color: #A16207;
+  transition: all 0.2s ease;
+}
+
+.shine-btn-proceed.active-ready {
+  background: #FACC15;
+  color: #0F172A;
+  box-shadow: 0 4px 14px rgba(250, 204, 21, 0.35);
+}
+
+.shine-btn-proceed.active-ready:hover {
+  background: #EAB308;
+  transform: translateY(-1px);
+}
+
+.shine-otp-input {
+  letter-spacing: 4px;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.shine-otp-hint {
+  font-size: 11px;
+  color: #64748B;
+  font-style: italic;
+}
+
+.shine-otp-btn-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.shine-btn-resend {
+  background: transparent;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: #2563EB;
+  cursor: pointer;
+  text-align: center;
+}
+
+.shine-btn-resend:hover {
+  text-decoration: underline;
+}
+
+/* Quick Demo Accounts */
+.shine-demo-accounts-box {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px dashed #E2E8F0;
+}
+
+.demo-accounts-header {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748B;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.demo-cards-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.btn-demo-account-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1.5px solid #E2E8F0;
+  background: #F8FAFC;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-demo-account-chip:hover {
+  border-color: #CBD5E1;
+  transform: translateY(-1px);
+}
+
+.btn-demo-account-chip.chip-candidate:hover {
+  border-color: #93C5FD;
+  background: #EFF6FF;
+}
+
+.btn-demo-account-chip.chip-mentor:hover {
+  border-color: #C4B5FD;
+  background: #F5F3FF;
+}
+
+.demo-chip-text strong {
+  display: block;
+  font-size: 11px;
+  color: #0F172A;
+}
+
+.demo-chip-text span {
+  font-size: 10px;
+  color: #64748B;
+}
+
+/* Footer / Social links */
+.shine-login-footer-links {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.shine-register-prompt {
+  font-size: 13px;
+  color: #475569;
+  margin-bottom: 14px;
+}
+
+.shine-gold-register-link {
+  font-weight: 800;
+  color: #0F172A;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.shine-gold-register-link:hover {
+  text-decoration: underline;
+}
+
+.shine-or-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.or-line {
+  flex: 1;
+  height: 1px;
+  background: #E2E8F0;
+}
+
+.or-text {
+  font-size: 11px;
+  font-weight: 800;
+  color: #94A3B8;
+}
+
+.shine-btn-google {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 220px;
+  padding: 10px 20px;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 9999px;
+  background: #ffffff;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.shine-btn-google:hover {
+  background: #F8FAFC;
+  border-color: #94A3B8;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   PEERPATH PRIMARY LOGIN STYLES (Shine as Partner SSO)
+   ========================================================================== */
+.peerpath-primary-login {
+  background: #0B0F19;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.peerpath-primary-login .shine-login-split-layout {
+  grid-template-columns: 1.15fr 1fr;
+  height: 100vh;
+  max-height: 100vh;
+}
+
+@media (max-height: 680px), (max-width: 900px) {
+  .peerpath-primary-login {
+    height: auto;
+    max-height: none;
+    overflow-y: auto;
+  }
+  .peerpath-primary-login .shine-login-split-layout {
+    height: auto;
+    max-height: none;
+  }
+}
+
+/* Left Canvas: High-tech Royal Indigo/Violet Gradient */
+.peerpath-left-canvas {
+  background: 
+    radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.22) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(139, 92, 246, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(30, 27, 75, 0.6) 0%, transparent 100%),
+    linear-gradient(155deg, #090D16 0%, #0F172A 50%, #1E1B4B 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 20px 36px 16px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  color: #ffffff;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Brand Header in Left Canvas */
+.peerpath-login-brand-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+  width: 100%;
+}
+
+.login-logo-large .peerpath-brand-symbol {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #4F46E5 100%);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.45);
+}
+
+.peerpath-left-canvas .peerpath-brand-title {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  background: linear-gradient(135deg, #FFFFFF 0%, #C7D2FE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.peerpath-left-canvas .peerpath-brand-sub {
+  font-size: 10.5px;
+  color: #94A3B8;
+  font-weight: 500;
+}
+
+.peerpath-left-canvas .shine-mark {
+  color: #FACC15;
+  font-weight: 800;
+}
+
+.peerpath-header-shine-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 4px 3px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 9999px;
+  backdrop-filter: blur(10px);
+}
+
+.phsb-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #C7D2FE;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.phsb-logo-container {
+  background: #FFFFFF;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.shine-official-header-logo {
+  height: 18px;
+  width: auto;
+  max-width: 70px;
+  object-fit: contain;
+  display: block;
+}
+
+.peerpath-partner-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #C7D2FE;
+  backdrop-filter: blur(10px);
+}
+
+.pptp-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 6px #10B981;
+  animation: pulsePptpDot 2s infinite ease-in-out;
+}
+
+@keyframes pulsePptpDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+/* Center Stage */
+.peerpath-showcase-center-stage {
+  margin: 0;
+  z-index: 10;
+  position: relative;
+  max-width: 530px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+/* Hero Headline */
+.peerpath-hero-text-block {
+  margin-bottom: 0px;
+}
+
+.peerpath-login-hero-title {
+  font-size: 21px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.4px;
+  line-height: 1.25;
+  margin: 0 0 3px 0;
+}
+
+.peerpath-title-gradient {
+  background: linear-gradient(135deg, #A5B4FC 0%, #C084FC 50%, #38BDF8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.peerpath-login-hero-subtitle {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: #94A3B8;
+  margin: 0;
+}
+
+/* Mentor Selector Switcher Tabs */
+.peerpath-mentor-switcher-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3px;
+  border-radius: 10px;
+  backdrop-filter: blur(12px);
+}
+
+.pp-switcher-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #94A3B8;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pp-switcher-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #E2E8F0;
+}
+
+.pp-switcher-btn.active {
+  background: rgba(99, 102, 241, 0.22);
+  border-color: rgba(129, 140, 248, 0.4);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+}
+
+.pp-switcher-av {
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+}
+
+.pp-switcher-name {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.pp-switcher-comp {
+  font-size: 9.5px;
+  color: #818CF8;
+  font-weight: 600;
+}
+
+/* Main Spotlight Showcase Card */
+.peerpath-spotlight-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(30, 27, 75, 0.45) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  padding: 12px 16px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35), 0 0 24px rgba(99, 102, 241, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  transition: all 0.3s ease;
+}
+
+.psc-top-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.psc-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.psc-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.psc-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #8B5CF6;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+}
+
+.psc-online-dot {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10B981;
+  border: 1.5px solid #0F172A;
+  box-shadow: 0 0 5px #10B981;
+}
+
+.psc-details {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.psc-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.psc-name {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.2px;
+}
+
+.psc-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #34D399;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 1px 5px;
+  border-radius: 9999px;
+}
+
+.psc-role {
+  font-size: 11px;
+  font-weight: 600;
+  color: #E2E8F0;
+}
+
+.psc-company {
+  font-size: 10.5px;
+  color: #94A3B8;
+}
+
+.psc-prev {
+  color: #64748B;
+}
+
+.psc-rating-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.28);
+  padding: 3px 6px;
+  border-radius: 6px;
+  font-size: 10.5px;
+  color: #FBBF24;
+  white-space: nowrap;
+}
+
+.psc-rating-badge span {
+  font-size: 9.5px;
+  color: #D1D5DB;
+}
+
+/* Visual Career Leap Path */
+.psc-career-leap-path {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 6px 12px;
+}
+
+.psc-leap-node {
+  display: flex;
+  flex-direction: column;
+  min-width: 80px;
+}
+
+.from-node {
+  text-align: left;
+}
+
+.to-node {
+  text-align: right;
+}
+
+.leap-label {
+  font-size: 8.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #64748B;
+}
+
+.to-node .leap-label {
+  color: #818CF8;
+}
+
+.leap-comp {
+  font-size: 12px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.to-node .leap-comp {
+  color: #C7D2FE;
+}
+
+.leap-level {
+  font-size: 10px;
+  font-weight: 600;
+  color: #94A3B8;
+  white-space: nowrap;
+}
+
+.to-node .leap-level {
+  color: #34D399;
+  font-weight: 700;
+}
+
+.psc-leap-trajectory {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  position: relative;
+  padding: 0 6px;
+}
+
+.leap-line {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #64748B 0%, #818CF8 50%, #10B981 100%);
+  position: relative;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.leap-pulse-beam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 25px;
+  background: #ffffff;
+  box-shadow: 0 0 6px #ffffff;
+  animation: moveLeapBeam 2.5s infinite linear;
+}
+
+@keyframes moveLeapBeam {
+  0% { transform: translateX(-25px); }
+  100% { transform: translateX(140px); }
+}
+
+.leap-center-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34D399;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+/* Tags Row */
+.psc-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.psc-skill-tag {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #C7D2FE;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+
+/* Quote Box */
+.psc-quote-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 2px solid #8B5CF6;
+  border-radius: 0 6px 6px 0;
+  padding: 4px 8px;
+}
+
+.quote-mark {
+  font-size: 16px;
+  line-height: 1;
+  color: #8B5CF6;
+  font-family: Georgia, serif;
+}
+
+.psc-quote-box p {
+  font-size: 10.5px;
+  line-height: 1.35;
+  color: #CBD5E1;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Quick 3-Metric Proof Strip */
+.peerpath-metric-strip {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 6px 12px;
+}
+
+.pms-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.pms-val {
+  font-size: 14px;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+}
+
+.pms-label {
+  font-size: 9.5px;
+  color: #94A3B8;
+  font-weight: 600;
+}
+
+.pms-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Proof Bar */
+.peerpath-partner-proof-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 8px 14px;
+  backdrop-filter: blur(8px);
+}
+
+.ppp-shine-logo-pill {
+  background: #FFFFFF;
+  padding: 4px 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.ppp-shine-logo-img {
+  height: 20px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.ppp-avatars {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.ppp-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #1E1B4B;
+  margin-left: -6px;
+}
+
+.ppp-avatar:first-child {
+  margin-left: 0;
+}
+
+.ppp-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.ppp-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.ppp-title-row strong {
+  font-size: 11.5px;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.ppp-verified-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 8.5px;
+  font-weight: 700;
+  color: #34D399;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 1px 5px;
+  border-radius: 9999px;
+}
+
+.ppp-text span {
+  font-size: 10px;
+  color: #A5B4FC;
+}
+
+/* Bottom Footer Note */
+.peerpath-left-footer-note {
+  font-size: 10.5px;
+  color: #94A3B8;
+  z-index: 10;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.plfn-logo-wrap {
+  background: #FFFFFF;
+  padding: 2px 7px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.plfn-shine-logo {
+  height: 13px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.peerpath-left-footer-note strong {
+  color: #E2E8F0;
+}
+
+/* Right Canvas Compact Overrides */
+.peerpath-primary-login .shine-login-right-canvas {
+  padding: 20px 32px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.peerpath-primary-login .shine-login-card-wrapper {
+  max-width: 420px;
+}
+
+.peerpath-primary-login .shine-login-header-group {
+  margin-bottom: 12px;
+}
+
+.login-co-brand-lockup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 5px;
+}
+
+.lcbl-brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.lcbl-symbol {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
+  border: 1px solid #C7D2FE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(99, 102, 241, 0.15);
+}
+
+.lcbl-brand-text {
+  font-size: 23px;
+  font-weight: 900;
+  color: #1E1B4B;
+  letter-spacing: -0.4px;
+}
+
+.lcbl-connector {
+  font-size: 13px;
+  font-weight: 700;
+  color: #94A3B8;
+}
+
+.lcbl-partner {
+  display: flex;
+  align-items: center;
+  padding: 4px 10px;
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.lcbl-shine-logo {
+  height: 22px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.login-partner-endorsement-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.login-partner-endorsement {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  color: #475569;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  padding: 2px 10px;
+  border-radius: 9999px;
+}
+
+.login-partner-endorsement strong {
+  color: #0F172A;
+}
+
+.peerpath-login-subheading {
+  font-size: 11.5px;
+  color: #64748B;
+  margin: 2px 0 0 0;
+  line-height: 1.35;
+}
+
+/* Segmented Tabs Active State */
+.peerpath-primary-login .shine-segmented-tabs {
+  margin-bottom: 10px;
+  padding: 3px;
+  border-radius: 10px;
+}
+
+.peerpath-primary-login .shine-seg-tab {
+  padding: 7px 12px;
+  font-size: 12px;
+}
+
+.peerpath-primary-login .shine-seg-tab.active {
+  background: #ffffff;
+  color: #4F46E5;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.12);
+}
+
+/* Form Container Card */
+.peerpath-primary-login .shine-login-form-card {
+  padding: 14px 20px;
+  border-radius: 14px;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.03);
+}
+
+.peerpath-primary-login .shine-auth-form {
+  gap: 10px;
+}
+
+.peerpath-primary-login .shine-field-group {
+  gap: 3px;
+}
+
+.peerpath-primary-login .shine-field-label {
+  font-size: 11px;
+}
+
+.peerpath-primary-login .shine-auth-input {
+  padding: 8px 12px;
+  font-size: 13px;
+  border-radius: 8px;
+}
+
+.peerpath-primary-login .shine-auth-input:focus {
+  border-color: #6366F1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+/* Proceed Button */
+.peerpath-btn-proceed {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #E0E7FF;
+  color: #4F46E5;
+  font-size: 13.5px;
+  font-weight: 800;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin-top: 2px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.peerpath-btn-proceed.active-ready {
+  background: linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #7C3AED 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+.peerpath-btn-proceed.active-ready:hover {
+  background: linear-gradient(135deg, #4338CA 0%, #4F46E5 50%, #6D28D9 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.45);
+}
+
+/* Demo Cards Row in PeerPath */
+.peerpath-primary-login .shine-demo-accounts-box {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed #E2E8F0;
+}
+
+.peerpath-primary-login .demo-accounts-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.peerpath-primary-login .demo-accounts-header {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.peerpath-primary-login .demo-accounts-hint {
+  font-size: 9.5px;
+  color: #94A3B8;
+  font-style: italic;
+}
+
+.peerpath-primary-login .demo-cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.peerpath-primary-login .btn-demo-account-chip {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 7px;
+  border-radius: 8px;
+  background: #F8FAFC;
+  border: 1.5px solid #E2E8F0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.peerpath-primary-login .btn-demo-account-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+}
+
+.peerpath-primary-login .btn-demo-account-chip.chip-candidate:hover {
+  border-color: #818CF8;
+  background: #EEF2FF;
+}
+
+.peerpath-primary-login .btn-demo-account-chip.chip-nisha:hover {
+  border-color: #FBBF24;
+  background: #FFFBEB;
+}
+
+.peerpath-primary-login .btn-demo-account-chip.chip-mentor:hover {
+  border-color: #34D399;
+  background: #ECFDF5;
+}
+
+.demo-chip-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  min-width: 0;
+}
+
+.demo-chip-av {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+}
+
+.demo-chip-name {
+  font-size: 11px;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.demo-chip-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  min-width: 0;
+}
+
+.demo-role-badge {
+  font-size: 8.5px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+  line-height: 1.2;
+  display: inline-block;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.badge-cand {
+  background: #EEF2FF;
+  color: #4338CA;
+  border: 1px solid #C7D2FE;
+}
+
+.badge-lead {
+  background: #FFFBEB;
+  color: #B45309;
+  border: 1px solid #FDE68A;
+}
+
+.badge-mentor {
+  background: #ECFDF5;
+  color: #047857;
+  border: 1px solid #A7F3D0;
+}
+
+.demo-sub-role {
+  font-size: 8.5px;
+  color: #64748B;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  line-height: 1.2;
+}
+
+.peerpath-primary-login .btn-reset-demo-login {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  background: #F8FAFC;
+  border: 1px dashed #CBD5E1;
+  color: #64748B;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 6px !important;
+}
+
+.peerpath-primary-login .btn-reset-demo-login:hover {
+  background: #F1F5F9;
+  border-color: #94A3B8;
+  color: #1E293B;
+}
+
+/* Footer Links */
+.peerpath-primary-login .shine-login-footer-links {
+  margin-top: 8px;
+}
+
+.peerpath-primary-login .shine-register-prompt {
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.peerpath-primary-login .shine-or-divider {
+  margin: 6px 0;
+}
+
+.peerpath-primary-login .shine-btn-google {
+  padding: 6px 14px;
+  font-size: 12px;
+  max-width: 200px;
+}
+
+/* SSO Guarantee */
+.peerpath-partner-sso-guarantee {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #F0FDF4;
+  border: 1px solid #BBF7D0;
+  border-radius: 9px;
+  padding: 8px 12px;
+  font-size: 10.5px;
+  color: #166534;
+  margin-top: 8px;
+  text-align: left;
+  line-height: 1.35;
+}
+
+.shine-sso-logo-wrap {
+  background: #FFFFFF;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid #DCFCE7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.shine-sso-partner-logo {
+  height: 16px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Header Guest Buttons */
+.btn-header-login-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FACC15;
+  color: #0F172A;
+  font-size: 12.5px;
+  font-weight: 800;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-header-login-gold:hover {
+  background: #EAB308;
+  transform: translateY(-1px);
+}
+
+.guest-quick-login-chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-guest-quick-chip {
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid #CBD5E1;
+  background: #ffffff;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-guest-quick-chip:hover {
+  background: #F8FAFC;
+  border-color: #94A3B8;
+}
+
+.btn-guest-quick-chip.chip-cand:hover {
+  border-color: #93C5FD;
+  color: #1D4ED8;
+}
+
+.btn-guest-quick-chip.chip-ment:hover {
+  border-color: #C4B5FD;
+  color: #6D28D9;
+}

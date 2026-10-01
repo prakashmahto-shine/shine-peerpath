@@ -5,8 +5,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_DIR = BASE_DIR / "server" / "data"
+DATA_DIR = BASE_DIR / "backend" / "data"
 DB_PATH = DATA_DIR / "db.json"
+if not DB_PATH.exists():
+    fallback_path = BASE_DIR / "server" / "data" / "db.json"
+    if fallback_path.exists():
+        DB_PATH = fallback_path
 MILVUS_DATA_DIR = BASE_DIR / "milvus_data"
 MILVUS_DB_PATH = MILVUS_DATA_DIR / "peerpath.db"
 

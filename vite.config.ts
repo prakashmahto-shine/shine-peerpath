@@ -40,5 +40,21 @@ export default defineConfig({
         }
       }
     }
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    chunkSizeWarningLimit: 800,
+    cssCodeSplit: true,
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-core': ['react', 'react-dom'],
+          'vendor-icons': ['lucide-react'],
+          'vendor-socket': ['socket.io-client']
+        }
+      }
+    }
   }
 })

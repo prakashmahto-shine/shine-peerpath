@@ -109,73 +109,76 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
   };
 
   return (
-    <div className="content-wrapper">
-      {/* 1-Row Compact Gallery Control Toolbar */}
-      <div className="gallery-compact-header-row">
-        <div className="g-title-left-wrap">
-          <h1 className="g-compact-main-title">
-            Explore Mentors
-            <span className="g-count-badge">{filteredExperts.length} Active</span>
-          </h1>
-          <button 
-            type="button" 
-            className="btn-g-matched-switch"
-            onClick={() => onNavigate('guidance-view')}
-            title="Switch to your personalized matched career pathway"
-          >
-            <TrendingUp size={13} />
-            <span>Matched for You</span>
-          </button>
-        </div>
-
-        <div className="g-controls-right-wrap">
-          <div className="g-search-filter-box-compact">
-            <Search size={14} className="g-search-icon" />
-            <input 
-              type="text" 
-              placeholder="Search mentor, skill, company..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            {searchTerm && (
-              <button 
-                type="button" 
-                className="g-search-clear-btn" 
-                onClick={() => setSearchTerm('')}
-                title="Clear search"
-              >
-                <X size={12} />
-              </button>
-            )}
+    <div className="content-wrapper gallery-page-wrapper">
+      {/* ⚡ Sticky Gallery Controls & Domain Filter Strip */}
+      <div className="gallery-sticky-top-bar">
+        {/* 1-Row Compact Gallery Control Toolbar */}
+        <div className="gallery-compact-header-row">
+          <div className="g-title-left-wrap">
+            <h1 className="g-compact-main-title">
+              Explore Mentors
+              <span className="g-count-badge">{filteredExperts.length} Active</span>
+            </h1>
+            <button 
+              type="button" 
+              className="btn-g-matched-switch"
+              onClick={() => onNavigate('guidance-view')}
+              title="Switch to your personalized matched career pathway"
+            >
+              <TrendingUp size={13} />
+              <span>Matched for You</span>
+            </button>
           </div>
 
-          <div className="g-dropdowns-compact">
-            <select className="select-pill-compact" value={expFilter} onChange={(e) => setExpFilter(e.target.value)}>
-              <option value="all">Exp: All</option>
-              <option value="3-5">3 - 5 Yrs</option>
-              <option value="6-8">6 - 8 Yrs</option>
-              <option value="9+">9+ Yrs</option>
-            </select>
-            <select className="select-pill-compact" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-              <option value="trajectory">Sort: Trajectory Fit</option>
-              <option value="rating">Sort: Highest Rating</option>
-              <option value="sessions">Sort: Most Sessions</option>
-            </select>
+          <div className="g-controls-right-wrap">
+            <div className="g-search-filter-box-compact">
+              <Search size={14} className="g-search-icon" />
+              <input 
+                type="text" 
+                placeholder="Search mentor, skill, company..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              {searchTerm && (
+                <button 
+                  type="button" 
+                  className="g-search-clear-btn" 
+                  onClick={() => setSearchTerm('')}
+                  title="Clear search"
+                >
+                  <X size={12} />
+                </button>
+              )}
+            </div>
+
+            <div className="g-dropdowns-compact">
+              <select className="select-pill-compact" value={expFilter} onChange={(e) => setExpFilter(e.target.value)}>
+                <option value="all">Exp: All</option>
+                <option value="3-5">3 - 5 Yrs</option>
+                <option value="6-8">6 - 8 Yrs</option>
+                <option value="9+">9+ Yrs</option>
+              </select>
+              <select className="select-pill-compact" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+                <option value="trajectory">Sort: Trajectory Fit</option>
+                <option value="rating">Sort: Highest Rating</option>
+                <option value="sessions">Sort: Most Sessions</option>
+              </select>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Horizontal Domain Chips Strip */}
-      <div className="gallery-domain-chips-strip">
-        {['all', ...DOMAIN_OPTIONS].map((dom) => (
-          <button
-            key={dom}
-            className={`f-pill-compact ${activeDomain.toLowerCase() === dom.toLowerCase() ? 'active' : ''}`}
-            onClick={() => setActiveDomain(dom)}
-          >
-            {dom === 'all' ? 'All Domains' : dom}
-          </button>
-        ))}
+        {/* Horizontal Domain Chips Strip */}
+        <div className="gallery-domain-chips-strip">
+          {['all', ...DOMAIN_OPTIONS].map((dom) => (
+            <button
+              key={dom}
+              className={`f-pill-compact ${activeDomain.toLowerCase() === dom.toLowerCase() ? 'active' : ''}`}
+              onClick={() => setActiveDomain(dom)}
+            >
+              {dom === 'all' ? 'All Domains' : dom}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="gallery-layout-grid">
@@ -279,7 +282,7 @@ export const ExpertsGalleryView: React.FC<ExpertsGalleryViewProps> = ({
 
                     <div className="card-stats-row">
                       <span className="card-exp">{exp.experience}</span>
-                      <span className="card-rating"><Star size={13} className="star-gold" /> {exp.rating} ({exp.reviewsCount})</span>
+                      <span className="card-rating"><Star size={13} className="star-gold" /> {exp.rating}</span>
                     </div>
 
                     <div className="card-skills-row">

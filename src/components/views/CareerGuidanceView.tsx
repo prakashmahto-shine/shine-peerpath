@@ -738,7 +738,7 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                       <div className="pm-meta-row">
                         <span className="pm-rating-text">
                           <Star size={10.5} fill="#F59E0B" color="#F59E0B" />
-                          <strong>{mentor.rating}</strong> ({mentor.reviewsCount})
+                          <strong>{mentor.rating}</strong>
                         </span>
                         <span className="pm-meta-sep">•</span>
                         <span className="pm-exp-text">{mentor.experience}</span>
@@ -769,8 +769,9 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                           <TrendingUp size={11} className="text-emerald-600" />
                           CAREER TRANSITION JOURNEY
                         </span>
-                        <span className="pm-leap-pill" title={mentor.jumpTag || 'Services ➔ Product'}>
-                          {mentor.jumpTag || 'Services ➔ Product'}
+                        <span className="pm-leap-pill-badge">
+                          <CheckCircle2 size={10} className="text-emerald-600" />
+                          Proven Pathway
                         </span>
                       </div>
 
@@ -799,9 +800,9 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                     <div className="pm-h-price-wrap">
                       <div className="pm-h-price-main">
                         <span className="pm-h-price-prefix">Starts at</span>
-                        <strong className="pm-h-price-num">₹{mentor.price || 899}</strong>
+                        <strong className="pm-h-price-num">₹{Math.max(499, Math.round(((mentor.price || 999) * 0.7) / 50) * 50 - 1)}</strong>
+                        <span className="pm-h-price-unit">/ session</span>
                       </div>
-                      <span className="pm-h-price-lbl">4 Services Available</span>
                     </div>
 
                     <div className="pm-h-actions-group">
@@ -811,9 +812,9 @@ export const CareerGuidanceView: React.FC<CareerGuidanceViewProps> = ({
                         onClick={() => handleBook1on1(mentor)}
                         title="Book 1:1 Mentorship Session"
                       >
-                        <Calendar size={12} />
+                        <Calendar size={13} />
                         <span>Book 1:1 Session</span>
-                        <ArrowRight size={12} />
+                        <ArrowRight size={13} />
                       </button>
 
                       <button

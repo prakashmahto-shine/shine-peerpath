@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  ArrowLeft, CheckCircle2, MapPin, Star, Clock, Users, Calendar, 
-  PlayCircle, Film, Play, Pause, Zap, Award, Globe, Briefcase, 
-  CircleDot, Shield, Video, Bell, UserPlus, UserCheck,
-  FileText, Sparkles, TrendingUp, X, ShieldCheck, ArrowRight, ThumbsUp,
-  GraduationCap, Target, Compass
+  CheckCircle2, MapPin, Star, Clock, Users, Calendar, 
+  Film, Play, Pause, Zap, Award, Briefcase, 
+  Video, UserPlus, UserCheck, FileText, Sparkles, TrendingUp, X, 
+  ShieldCheck, ArrowRight, ThumbsUp, GraduationCap, Compass, 
+  Check, Lock, RefreshCw
 } from 'lucide-react';
 import { Expert, ViewType } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -20,9 +20,16 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
   onNavigate,
   onOpenBooking,
 }) => {
-  const { previousView, currentUser, navigateToCreatorStudio, isFollowingMentor, toggleFollowMentor, bookingDraft, setBookingDraft } = useApp();
+  const { 
+    currentUser, 
+    navigateToCreatorStudio, 
+    isFollowingMentor, 
+    toggleFollowMentor, 
+    bookingDraft, 
+    setBookingDraft 
+  } = useApp();
 
-  const [activeTab, setActiveTab] = useState<'sessions' | 'about' | 'trajectory' | 'reviews'>('sessions');
+  const [activeTab, setActiveTab] = useState<'sessions' | 'trajectory' | 'reviews'>('sessions');
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [videoProgress, setVideoProgress] = useState<number>(35);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState<boolean>(false);
@@ -83,382 +90,545 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
 
   const skillsList = Array.isArray(expert.skills) ? expert.skills : [];
   const mentorFirstName = (expert.name || 'Mentor').split(' ')[0];
+  const basePrice = expert.price || 999;
+
+  const cleanExperience = (exp?: string) => {
+    if (!exp) return '8+ Yrs';
+    const match = exp.match(/\d+(\.\d+)?\+?/);
+    return match ? `${match[0]} Yrs` : exp;
+  };
+
+  const mentorServices = [
+    {
+      id: 'career-guidance',
+      title: 'Career Guidance & Strategy',
+      tag: 'Most Popular',
+      tagColor: '#7C3AED',
+      tagBg: '#F5F3FF',
+      icon: Compass,
+      iconColor: '#7C3AED',
+      iconBg: '#F3E8FF',
+      shortDesc: 'Personalized 1:1 strategy to map your 90-day transition roadmap, bridge skill gaps, and target senior product roles.',
+      outcomes: [
+        { icon: '🗺️', title: '90-Day Roadmap', desc: 'Custom milestone plan & skill gap analysis' },
+        { icon: '🎯', title: 'Referral Strategy', desc: 'Tier-1 company shortlist & internal hiring criteria' },
+        { icon: '💡', title: 'Live Deep-Dive', desc: 'Screen-share code, architecture & career pitch' }
+      ],
+      duration: '30 Mins',
+      price: basePrice,
+      slotInfo: 'Next slot: Today, 7:30 PM'
+    },
+    {
+      id: 'interview-prep',
+      title: '1:1 Mock Interview & Scorecard',
+      tag: 'High Impact',
+      tagColor: '#059669',
+      tagBg: '#ECFDF5',
+      icon: Video,
+      iconColor: '#059669',
+      iconBg: '#ECFDF5',
+      shortDesc: 'Simulate actual Tier-1 technical or system design interview rounds with instant rubric evaluation.',
+      outcomes: [
+        { icon: '🧪', title: 'Real Simulation', desc: 'Live Tier-1 coding / architecture problem round' },
+        { icon: '📊', title: 'Instant Scorecard', desc: 'Problem-solving, system design & communication metrics' },
+        { icon: '⚡', title: 'Actionable Critique', desc: 'Exact trade-offs & areas to improve before actual round' }
+      ],
+      duration: '30 Mins',
+      price: basePrice,
+      slotInfo: 'Next slot: Tomorrow, 6:00 PM'
+    },
+    {
+      id: 'resume-review',
+      title: 'CV Audit & ATS Teardown',
+      tag: 'Quick Win',
+      tagColor: '#D97706',
+      tagBg: '#FEF3C7',
+      icon: FileText,
+      iconColor: '#D97706',
+      iconBg: '#FEF3C7',
+      shortDesc: 'Line-by-line ATS resume breakdown and rewrite to convert generic bullets into high-impact recruiter magnets.',
+      outcomes: [
+        { icon: '🔍', title: 'ATS Screener Audit', desc: 'Keyword alignment & format optimization for Tier-1 screeners' },
+        { icon: '✍️', title: 'Impact Rewrites', desc: 'Metric-driven bullet points using the XYZ framework' },
+        { icon: '🛡️', title: 'Candidate Badge', desc: 'Verified status eligibility for Shine Job Board recruiter priority' }
+      ],
+      duration: '30 Mins',
+      price: Math.max(499, Math.round((basePrice * 0.7) / 50) * 50 - 1),
+      slotInfo: 'Next slot: Today, 9:00 PM'
+    },
+    {
+      id: 'salary-negotiation',
+      title: 'Salary & Offer Negotiation',
+      tag: 'High ROI',
+      tagColor: '#2563EB',
+      tagBg: '#EFF6FF',
+      icon: TrendingUp,
+      iconColor: '#2563EB',
+      iconBg: '#EFF6FF',
+      shortDesc: 'Accurate compensation benchmarking and counter-offer strategy to maximize fixed pay, ESOPs, and joining bonuses.',
+      outcomes: [
+        { icon: '💰', title: 'Market Benchmark', desc: 'Real Tier-1 CTC and level benchmarking for your experience' },
+        { icon: '📝', title: 'Negotiation Scripts', desc: 'Word-for-word counter-offer emails and recruiter talking points' },
+        { icon: '📈', title: 'Comp Breakdown', desc: 'Vesting schedules, strike prices, and bonus structure review' }
+      ],
+      duration: '30 Mins',
+      price: Math.max(699, Math.round((basePrice * 0.85) / 50) * 50 - 1),
+      slotInfo: 'Next slot: Tomorrow, 8:00 PM'
+    }
+  ];
+
+  const handleBookSpecificSession = (s: typeof mentorServices[0]) => {
+    if (setBookingDraft) {
+      setBookingDraft({
+        ...bookingDraft,
+        expert,
+        sessionType: s.title,
+        amount: s.price,
+        duration: s.duration
+      });
+    }
+    onOpenBooking(expert.id);
+  };
 
   return (
-    <div className="content-wrapper expert-profile-layout">
-      <div className="expert-full-profile-card">
-        <div className="profile-header-main">
-          
-          <div className="ep-avatar-container">
-            <img src={expert.avatar || '/avatars/akash.jpg'} alt={expert.name} className="ep-avatar-img" />
-            <div className="ep-avatar-company-badge">
-              <img src={(expert as any).companyLogo || '/logos/swiggy.png'} alt={expert.company} />
-            </div>
-          </div>
-
-          <div className="ep-main-details">
-            <div className="ep-title-row">
-              <h2>{expert.name}</h2>
-              <span className="ep-verified-tag"><CheckCircle2 size={14} /> Verified Practitioner</span>
-              
-              {/* Creator Mode / Self Indicator */}
-              {isSelf && (
-                <div className="self-mentor-pill">
-                  <Sparkles size={13} className="text-amber-500" />
-                  <span>Your Public Listing</span>
-                </div>
-              )}
-            </div>
-            <p className="ep-headline">{expert.role} at {expert.company}</p>
+    <div className="content-wrapper unified-profile-container">
+      
+      {/* 🌟 2-Column Unified Layout */}
+      <div className="up-layout-grid">
+        
+        {/* ====================================================================
+            LEFT COLUMN: Sticky Mentor Identity & Social Proof Card (35%)
+           ==================================================================== */}
+        <aside className="up-mentor-sidebar">
+          <div className="up-mentor-card">
             
-            <div className="ep-metrics-bar">
-              <span><MapPin size={14} /> {expert.location || 'India'}</span>
-              <span><Star size={14} className="star-gold" /> <strong>{expert.rating || 4.9}</strong> ({expert.reviewsCount || 0} Reviews)</span>
-              <span 
-                className="metric-followers-chip" 
-                onClick={() => !isSelf && toggleFollowMentor(expert.id, expert.name)}
-                title={!isSelf ? (isFollowing ? 'Click to unfollow' : 'Click to follow mentor') : undefined}
-              >
-                <Users size={14} /> <strong>{displayFollowersCount.toLocaleString()}</strong> Followers {isFollowing && <span className="metric-following-dot">● Following</span>}
+            {/* Avatar with Status */}
+            <div className="up-avatar-center-wrap">
+              <div className="up-avatar-ring">
+                <img 
+                  src={expert.avatar || '/avatars/akash.jpg'} 
+                  alt={expert.name} 
+                  className="up-avatar-img" 
+                />
+                <span className="up-status-dot" title="Available for 1:1 sessions"></span>
+              </div>
+            </div>
+
+            {/* Mentor Name & Headline */}
+            <div className="up-mentor-info">
+              <div className="up-name-badge-row">
+                <h1 className="up-mentor-name">{expert.name}</h1>
+                <span className="up-verified-icon-pill" title="Verified Practitioner">
+                  <CheckCircle2 size={15} />
+                </span>
+              </div>
+
+              <div className="up-company-role">
+                <strong>{expert.role}</strong>
+                <span className="up-company-dot">•</span>
+                <span className="up-company-tag">{expert.company}</span>
+              </div>
+
+              <span className="up-top-mentor-pill">
+                <Sparkles size={11} className="text-amber-500" />
+                <span>Top 1% Mentor on PeerPath</span>
               </span>
-              <span><Clock size={14} /> {expert.experience || '6+ Years'}</span>
-              <span><Award size={14} /> <strong>{expert.sessionsCount || 0}+</strong> Services Delivered</span>
+
+              {isSelf && <span className="up-self-tag">Your Public Profile</span>}
             </div>
 
-            <div className="ep-skills-chips">
-              {skillsList.map((s) => (
-                <span key={s} className="card-skill-tag">{s}</span>
-              ))}
+            {/* Social Proof Stats (Clean 2-Row Sleek Metrics) */}
+            <div className="up-stats-clean-box">
+              <div className="up-scb-row">
+                <div className="up-scb-cell">
+                  <Star size={14} className="star-gold-fill" />
+                  <span className="up-scb-val">{expert.rating || 4.96}</span>
+                  <span className="up-scb-sub">rating</span>
+                </div>
+                <div className="up-scb-cell">
+                  <Users size={14} className="text-blue-500" />
+                  <span className="up-scb-val">{displayFollowersCount >= 1000 ? `${(displayFollowersCount / 1000).toFixed(1)}k` : displayFollowersCount}</span>
+                  <span className="up-scb-sub">followers</span>
+                </div>
+              </div>
+
+              <div className="up-scb-row">
+                <div className="up-scb-cell">
+                  <Award size={14} className="text-emerald-600" />
+                  <span className="up-scb-val">{expert.sessionsCount || 340}+</span>
+                  <span className="up-scb-sub">sessions</span>
+                </div>
+                <div className="up-scb-cell">
+                  <Briefcase size={14} className="text-indigo-500" />
+                  <span className="up-scb-val">{cleanExperience(expert.experience)}</span>
+                  <span className="up-scb-sub">Exp</span>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div className="ep-action-box">
-            {isSelf ? (
-              <button className="btn-shine-gold-lg" onClick={() => navigateToCreatorStudio('teaser')}>
-                <Award size={18} /> Manage Your Listing
-              </button>
-            ) : (
-              <>
-                <button className="btn-shine-gold-lg" onClick={() => onOpenBooking(expert.id)}>
-                  <Calendar size={18} /> Book a Service
-                </button>
-
-                {/* High-Focus Attractive Follow / Following Button */}
+            {/* Secondary Actions (Follow & Video Teaser) */}
+            <div className="up-mentor-actions">
+              {isSelf ? (
                 <button 
                   type="button" 
-                  className={`btn-follow-profile-action ${isFollowing ? 'is-following' : ''}`}
-                  onClick={() => toggleFollowMentor(expert.id, expert.name)}
-                  title={isFollowing ? 'Click to unfollow mentor' : 'Follow to receive instant session & post updates'}
+                  className="btn-up-studio"
+                  onClick={() => navigateToCreatorStudio('teaser')}
                 >
-                  {isFollowing ? (
-                    <>
-                      <UserCheck size={16} />
-                      <span>Following</span>
-                      <span className="follow-status-pill">Active</span>
-                    </>
-                  ) : (
-                    <>
-                      <UserPlus size={16} />
-                      <span>Follow for Updates</span>
-                    </>
-                  )}
+                  <Award size={14} />
+                  <span>Manage Studio</span>
                 </button>
-              </>
-            )}
+              ) : (
+                <button 
+                  type="button" 
+                  className={`btn-up-follow ${isFollowing ? 'following' : ''}`}
+                  onClick={() => toggleFollowMentor(expert.id, expert.name)}
+                >
+                  {isFollowing ? <UserCheck size={14} /> : <UserPlus size={14} />}
+                  <span>{isFollowing ? 'Following' : 'Follow Mentor'}</span>
+                </button>
+              )}
+
+              <button 
+                type="button" 
+                className="btn-up-teaser"
+                onClick={handleOpenTeaserModal}
+                title={`Watch ${expert.name}'s Video Introduction`}
+              >
+                <Play size={12} fill="currentColor" />
+                <span>Watch Mentor Intro</span>
+              </button>
+            </div>
+
+            {/* Mentor Bio & Value Proposition */}
+            <div className="up-mentor-about-snippet">
+              <p className="up-snippet-text">
+                {expert.bio || `Senior engineering leader at ${expert.company} with 8+ years architecting distributed systems and GenAI platforms. Helping engineers master system design and transition into Tier-1 tech.`}
+              </p>
+            </div>
+
+            {/* Fast Facts / Metadata */}
+            <div className="up-mentor-facts-grid">
+              <div className="up-fact-item">
+                <MapPin size={13} className="text-slate-500" />
+                <span><strong>Location:</strong> {expert.location || 'Bengaluru, India'}</span>
+              </div>
+              <div className="up-fact-item">
+                <ShieldCheck size={13} className="text-emerald-600" />
+                <span><strong>Verification:</strong> {expert.company} Work Email</span>
+              </div>
+              <div className="up-fact-item">
+                <Video size={13} className="text-indigo-500" />
+                <span><strong>Format:</strong> 1:1 HD Video + Screen Share</span>
+              </div>
+            </div>
+
+            {/* Core Skills Chips */}
+            <div className="up-skills-wrap">
+              <span className="up-skills-title">Core Expertise</span>
+              <div className="up-skills-chips">
+                {skillsList.map((skill) => (
+                  <span key={skill} className="up-skill-chip">{skill}</span>
+                ))}
+              </div>
+            </div>
+
+            {/* Impact Banner */}
+            <div className="up-mentor-impact-card">
+              <Sparkles size={13} className="text-amber-600 flex-shrink-0" />
+              <span>98% of candidates rated their 1:1 strategy roadmap 5-stars.</span>
+            </div>
+
+          </div>
+        </aside>
+
+        {/* ====================================================================
+            RIGHT COLUMN: Main Content & Services Area (65%)
+           ==================================================================== */}
+        <main className="up-main-content">
+          
+          {/* Tabs Bar (3 Clean Focused Tabs) */}
+          <div className="up-tabs-bar">
+            <button 
+              className={`up-tab-pill ${activeTab === 'sessions' ? 'active' : ''}`}
+              onClick={() => setActiveTab('sessions')}
+            >
+              <Compass size={15} />
+              <span>Book 1:1 Session</span>
+              <span className="up-tab-count">{mentorServices.length}</span>
+            </button>
 
             <button 
-              type="button" 
-              className="btn-teaser-action" 
-              onClick={handleOpenTeaserModal}
-              title="Watch video teaser"
+              className={`up-tab-pill ${activeTab === 'trajectory' ? 'active' : ''}`}
+              onClick={() => setActiveTab('trajectory')}
             >
-              <span className="teaser-btn-icon-wrap">
-                <Play size={14} fill="currentColor" />
-              </span>
-              <span className="teaser-btn-text">
-                Watch Teaser Video
-              </span>
-              <span className="teaser-btn-duration">{expert.duration || '01:15'}</span>
+              <TrendingUp size={15} />
+              <span>Career Trajectory & Background</span>
+            </button>
+
+            <button 
+              className={`up-tab-pill ${activeTab === 'reviews' ? 'active' : ''}`}
+              onClick={() => setActiveTab('reviews')}
+            >
+              <Star size={15} />
+              <span>Verified Reviews</span>
+              <span className="up-tab-count">{expert.reviewsCount || 162}</span>
             </button>
           </div>
 
-        </div>
-
-        <div className="ep-tabs-bar expert-tabs-bar">
-          <button className={`ep-tab ${activeTab === 'sessions' ? 'active' : ''}`} onClick={() => setActiveTab('sessions')}>Services</button>
-          <button className={`ep-tab ${activeTab === 'about' ? 'active' : ''}`} onClick={() => setActiveTab('about')}>About Mentor</button>
-          <button className={`ep-tab ${activeTab === 'trajectory' ? 'active' : ''}`} onClick={() => setActiveTab('trajectory')}>Trajectory Roadmap</button>
-          <button className={`ep-tab ${activeTab === 'reviews' ? 'active' : ''}`} onClick={() => setActiveTab('reviews')}>Candidate Reviews ({expert.reviewsCount || 0})</button>
-        </div>
-
-        <div className="expert-tab-content-area">
-          <div className="tab-left-col">
-          {activeTab === 'sessions' && (() => {
-            const basePrice = expert.price || 999;
-            const mentorSessions = [
-              {
-                id: 'career-guidance',
-                title: 'Career guidance',
-                icon: Compass,
-                iconColor: '#7C3AED',
-                iconBg: '#F3E8FF',
-                isPopular: false,
-                price: basePrice,
-                duration: '30 Mins',
-                meta: [
-                  { icon: Video, label: '1:1 Live Video' },
-                  { icon: Compass, label: 'Roadmap & Action Items' }
-                ]
-              },
-              {
-                id: 'interview-prep',
-                title: 'Interview prep',
-                icon: Video,
-                iconColor: '#059669',
-                iconBg: '#ECFDF5',
-                isPopular: false,
-                price: basePrice,
-                duration: '30 Mins',
-                meta: [
-                  { icon: Video, label: 'Live Mock Simulation' },
-                  { icon: ShieldCheck, label: 'Instant Scorecard' }
-                ]
-              },
-              {
-                id: 'resume-review',
-                title: 'Portfolio / resume review',
-                icon: FileText,
-                iconColor: '#D97706',
-                iconBg: '#FEF3C7',
-                isPopular: false,
-                price: Math.max(499, Math.round((basePrice * 0.7) / 50) * 50 - 1),
-                duration: '30 Mins',
-                meta: [
-                  { icon: FileText, label: 'CV & ATS Teardown' },
-                  { icon: Sparkles, label: 'Portfolio Tuning' }
-                ]
-              },
-              {
-                id: 'salary-negotiation',
-                title: 'Salary negotiation guidance',
-                icon: TrendingUp,
-                iconColor: '#2563EB',
-                iconBg: '#EFF6FF',
-                isPopular: false,
-                price: Math.max(699, Math.round((basePrice * 0.85) / 50) * 50 - 1),
-                duration: '30 Mins',
-                meta: [
-                  { icon: TrendingUp, label: 'CTC Benchmarking' },
-                  { icon: Award, label: 'Counter-Offer Strategy' }
-                ]
-              }
-            ];
-
-            const handleBookSpecificSession = (s: typeof mentorSessions[0]) => {
-              if (setBookingDraft) {
-                setBookingDraft({
-                  ...bookingDraft,
-                  expert,
-                  sessionType: s.title,
-                  amount: s.price,
-                  duration: s.duration
-                });
-              }
-              onOpenBooking(expert.id);
-            };
-
-            return (
-              <div className="sessions-tab-wrapper">
-                <div className="sessions-tab-header">
-                  <div>
-                    <h3 className="pane-title">Available 1:1 Services ({mentorSessions.length})</h3>
-                    <p className="pane-subtitle">Book personalized mentorship, live mock interviews, CV audit or referral prep with {expert.name}.</p>
-                  </div>
-                  <div className="sessions-tab-trust-pill">
-                    <ShieldCheck size={14} className="text-emerald-600" />
-                    <span>Verified Practitioner • Instant Confirmation</span>
-                  </div>
-                </div>
-
-                <div className="session-types-horizontal-list">
-                  {mentorSessions.map((session) => {
-                    const IconComp = session.icon;
-                    return (
-                      <div 
-                        key={session.id} 
-                        className="st-card-h"
-                        style={{ '--service-accent': session.iconColor, '--service-bg': session.iconBg } as React.CSSProperties}
-                        onClick={() => !isSelf && handleBookSpecificSession(session)}
-                      >
-                        <div className="st-h-left">
-                          <div className="st-service-icon" style={{ background: session.iconBg, color: session.iconColor }}>
-                            <IconComp size={22} />
+          {/* TAB 1: 1:1 Mentorship Sessions (Modernized, Direct & Clean) */}
+          {activeTab === 'sessions' && (
+            <div className="up-services-view">
+              
+              <div className="up-services-list-stack">
+                {mentorServices.map((service) => {
+                  const IconComp = service.icon;
+                  return (
+                    <div key={service.id} className="up-service-card-modern">
+                      
+                      {/* Top Header: Title, Category, Price & CTA */}
+                      <div className="up-scm-header">
+                        <div className="up-scm-title-wrap">
+                          <div className="up-scm-icon" style={{ background: service.iconBg, color: service.iconColor }}>
+                            <IconComp size={20} />
                           </div>
-                          <div className="st-h-details">
-                            <div className="st-h-title-row">
-                              <h4 className="st-card-title">{session.title}</h4>
-                              <span className="st-h-duration-badge">
-                                <Clock size={11.5} /> {session.duration}
+                          <div className="up-scm-titles">
+                            <div className="up-scm-name-row">
+                              <h3 className="up-scm-name">{service.title}</h3>
+                              <span className="up-scm-badge" style={{ background: service.tagBg, color: service.tagColor }}>
+                                {service.tag}
                               </span>
                             </div>
-                            <div className="st-h-chips">
-                              {session.meta.map((m, idx) => {
-                                const MIcon = m.icon;
-                                return (
-                                  <span key={idx} className="st-chip">
-                                    <MIcon size={12} style={{ color: session.iconColor }} />
-                                    <span>{m.label}</span>
-                                  </span>
-                                );
-                              })}
-                            </div>
+                            <p className="up-scm-tagline">{service.shortDesc}</p>
                           </div>
                         </div>
 
-                        <div className="st-h-right">
-                          <div className="st-price-tag-wrap">
-                            <div className="st-price-main">
-                              <span className="st-currency">₹</span>
-                              <span className="st-amount">{session.price}</span>
-                            </div>
-                            <span className="st-per-session">/ session</span>
+                        {/* Price & Book CTA */}
+                        <div className="up-scm-cta-box">
+                          <div className="up-scm-price">
+                            <span className="up-scm-curr">₹</span>
+                            <span className="up-scm-amount">{service.price}</span>
+                            <span className="up-scm-unit">/ session</span>
                           </div>
 
                           {isSelf ? (
                             <button 
                               type="button" 
-                              className="btn-st-action" 
-                              onClick={(e) => { e.stopPropagation(); navigateToCreatorStudio('pricing'); }}
+                              className="btn-scm-book"
+                              onClick={() => navigateToCreatorStudio('pricing')}
                             >
                               <span>Manage</span>
-                              <ArrowRight size={13} className="st-arrow" />
                             </button>
                           ) : (
                             <button 
                               type="button" 
-                              className="btn-st-action" 
-                              onClick={(e) => { e.stopPropagation(); handleBookSpecificSession(session); }}
+                              className="btn-scm-book"
+                              onClick={() => handleBookSpecificSession(service)}
                             >
-                              <span>Book Session</span>
-                              <ArrowRight size={13} className="st-arrow" />
+                              <span>Book Slot</span>
+                              <ArrowRight size={14} />
                             </button>
                           )}
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })()}
 
-          {activeTab === 'about' && (
-            <div className="ep-about-tab">
-              {/* 1. Header Bio & Mentorship Mission */}
-              <div className="ep-about-bio-card">
-                <div className="ep-about-bio-header">
+                      {/* Direct Key Highlights (3 Clean Visual Outcome Chips) */}
+                      <div className="up-scm-highlights-grid">
+                        {service.outcomes.map((item, idx) => (
+                          <div key={idx} className="up-scm-highlight-pill">
+                            <span className="up-scm-hl-icon">{item.icon}</span>
+                            <div className="up-scm-hl-text">
+                              <strong className="up-scm-hl-bold">{item.title}:</strong> {item.desc}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Footer Meta Row (Live Slot & Guarantees) */}
+                      <div className="up-scm-footer">
+                        <div className="up-scm-meta-left">
+                          <span className="up-scm-meta-tag">
+                            <Clock size={12} className="text-slate-500" />
+                            <span>{service.duration} 1:1 Video</span>
+                          </span>
+                          <span className="up-scm-meta-tag slot-available">
+                            <span className="pulse-green-dot"></span>
+                            <span>{service.slotInfo}</span>
+                          </span>
+                        </div>
+                        <div className="up-scm-meta-right">
+                          <span className="up-scm-instant-badge">
+                            <RefreshCw size={11} className="text-emerald-600" />
+                            <span>Free Reschedule Anytime</span>
+                          </span>
+                        </div>
+                      </div>
+
+                    </div>
+                  );
+                })}
+              </div>
+
+            </div>
+          )}
+
+          {/* TAB 2: Career Trajectory, Transition Pathway & About Details */}
+          {activeTab === 'trajectory' && (
+            <div className="up-trajectory-view" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              
+              {/* 1. Proven Transition Pathway Timeline */}
+              <div className="up-white-card">
+                <div className="up-pane-header">
                   <div>
-                    <h3 className="pane-title">About Me & Mentorship Mission</h3>
-                    <p className="pane-body-text">
-                      {expert.bio || `Senior engineering leader at ${expert.company}. Guiding tech talent on career transition, system design, and interview prep.`}
-                    </p>
-                    <p className="pane-body-subtext">
-                      Over the last 7+ years, I have architected real-time dispatch algorithms and high-throughput recommendation systems serving millions of daily active users at Swiggy. Having navigated the transition from IT services into Tier-1 product tech myself, I help engineers master production-grade system design, elevate their technical pitches, and break through interview ceilings.
-                    </p>
+                    <h3 className="up-card-title">Proven Transition Pathway</h3>
+                    <p className="up-card-body-muted">How {mentorFirstName} navigated from foundational tech into {expert.role || 'Senior Leader'} at {expert.company}.</p>
+                  </div>
+                  <span className="up-path-tag">
+                    <TrendingUp size={12} />
+                    <span>Milestone Data</span>
+                  </span>
+                </div>
+
+                <div className="ep-roadmap-timeline">
+                  {/* Milestone 3: Target Role */}
+                  <div className="ep-rm-item ep-rm-present">
+                    <div className="ep-rm-indicator">
+                      <div className="ep-rm-dot current"><Sparkles size={13} /></div>
+                      <div className="ep-rm-line"></div>
+                    </div>
+                    <div className="ep-rm-card">
+                      <div className="ep-rm-card-header">
+                        <div>
+                          <div className="ep-rm-badge-row">
+                            <span className="ep-rm-status-badge present">🎯 Present Target Role</span>
+                            <span className="ep-rm-period">2022 — Present</span>
+                          </div>
+                          <h4 className="ep-rm-role">{expert.role}</h4>
+                          <span className="ep-rm-company">{expert.company} • Tier-1 Product Tech</span>
+                        </div>
+                      </div>
+                      <p className="ep-rm-story">
+                        {expert.trajectory?.jumpStory || 'Transitioned from SQL dashboards to building multi-modal LLM search algorithms and dispatch heuristics serving 2M orders daily.'}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Milestone 2: Breakthrough Bridge */}
+                  <div className="ep-rm-item ep-rm-bridge">
+                    <div className="ep-rm-indicator">
+                      <div className="ep-rm-dot bridge"><Zap size={13} /></div>
+                      <div className="ep-rm-line"></div>
+                    </div>
+                    <div className="ep-rm-card">
+                      <div className="ep-rm-card-header">
+                        <div>
+                          <div className="ep-rm-badge-row">
+                            <span className="ep-rm-status-badge bridge">⚡ Breakthrough Bridge</span>
+                            <span className="ep-rm-period">2020 — 2022</span>
+                          </div>
+                          <h4 className="ep-rm-role">{expert.trajectory?.role3YearsAgo || 'Senior Software Engineer'}</h4>
+                          <span className="ep-rm-company">{expert.trajectory?.company3YearsAgo || 'Swiggy • Consumer Internet'}</span>
+                        </div>
+                      </div>
+                      <p className="ep-rm-story">
+                        Scaled live real-time distributed microservices and event-driven data streaming clusters that unlocked Tier-1 product tech interview ceilings.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Milestone 1: Baseline Starting Point */}
+                  <div className="ep-rm-item ep-rm-baseline">
+                    <div className="ep-rm-indicator">
+                      <div className="ep-rm-dot baseline"><MapPin size={13} /></div>
+                    </div>
+                    <div className="ep-rm-card baseline-card">
+                      <div className="ep-rm-card-header">
+                        <div>
+                          <div className="ep-rm-badge-row">
+                            <span className="ep-rm-status-badge baseline">📍 Candidate Starting Point</span>
+                            <span className="ep-rm-period">2018 — 2020</span>
+                          </div>
+                          <h4 className="ep-rm-role">Software Engineer</h4>
+                          <span className="ep-rm-company">TCS / IT Services Firm</span>
+                        </div>
+                      </div>
+                      <p className="ep-rm-story">
+                        Started in foundational service firm role. Mastered backend architecture, DS-Algo problem solving, and production system design.
+                      </p>
+                    </div>
                   </div>
                 </div>
+              </div>
 
-                {/* Mentorship Philosophy Quote Callout */}
-                <div className="ep-about-quote-box">
-                  <div className="ep-about-quote-mark">“</div>
-                  <p className="ep-about-quote-text">
+              {/* 2. Mentorship Mission & Philosophy */}
+              <div className="up-white-card">
+                <h3 className="up-card-title">About Me & Mentorship Philosophy</h3>
+                <p className="up-card-body">
+                  {expert.bio || `Senior engineering leader at ${expert.company}. Guiding tech talent on career transition, production system design, and interview prep.`}
+                </p>
+                <p className="up-card-body-muted">
+                  Over the last 8+ years, I have architected high-throughput distributed systems and GenAI architectures serving millions of users. Having transitioned from IT services into Tier-1 product tech myself, I help engineers break through interview ceilings and master real-world production engineering.
+                </p>
+
+                <div className="up-quote-callout">
+                  <div className="up-quote-mark">“</div>
+                  <p className="up-quote-text">
                     My mission is to eliminate generic advice. In my 1:1 sessions, we dissect your actual code, architecture diagrams, and resume metrics so you walk into interviews as the top candidate hiring managers fight for.
                   </p>
-                  <span className="ep-about-quote-author">— {expert.name}, {expert.role} at {expert.company}</span>
+                  <span className="up-quote-sig">— {expert.name}, {expert.role} at {expert.company}</span>
                 </div>
               </div>
 
-              {/* 2. Key Mentor Impact Metrics Grid */}
-              <div className="ep-about-stats-grid">
-                <div className="ep-stat-card">
-                  <div className="ep-stat-icon-wrap stat-purple">
-                    <Briefcase size={20} />
-                  </div>
-                  <div className="ep-stat-content">
-                    <span className="ep-stat-number">{expert.experience || '7+ Years'}</span>
-                    <span className="ep-stat-title">Industry Experience</span>
-                    <p className="ep-stat-desc">Leading distributed ML & AI systems at scale</p>
-                  </div>
-                </div>
-
-                <div className="ep-stat-card">
-                  <div className="ep-stat-icon-wrap stat-amber">
-                    <Star size={20} />
-                  </div>
-                  <div className="ep-stat-content">
-                    <span className="ep-stat-number">{expert.sessionsCount || 210}+</span>
-                    <span className="ep-stat-title">1:1 Sessions Delivered</span>
-                    <p className="ep-stat-desc">{expert.rating || 4.9} ★ rating from 96+ verified mentees</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* 5. Core Technical Competencies & Specializations */}
-              <div className="ep-about-skills-section">
-                <h3 className="pane-title">Core Technical Competencies</h3>
-                <div className="ep-skill-groups-grid">
-                  <div className="ep-skill-group-card">
-                    <span className="ep-sg-title">AI / Machine Learning Stack</span>
-                    <div className="ep-sg-chips">
-                      <span className="ep-skill-chip">PyTorch</span>
-                      <span className="ep-skill-chip">LLM Fine-Tuning</span>
-                      <span className="ep-skill-chip">RAG Architectures</span>
-                      <span className="ep-skill-chip">Vector Search</span>
-                      <span className="ep-skill-chip">FastAPI</span>
+              {/* 3. Core Technical Competencies */}
+              <div className="up-white-card">
+                <h3 className="up-card-title">Core Technical Competencies</h3>
+                <div className="up-comp-grid">
+                  <div className="up-comp-box">
+                    <span className="up-cb-head">AI / Machine Learning Stack</span>
+                    <div className="up-cb-chips">
+                      <span>PyTorch</span>
+                      <span>LLM Fine-Tuning</span>
+                      <span>RAG Architectures</span>
+                      <span>Vector Search</span>
+                      <span>FastAPI</span>
                     </div>
                   </div>
 
-                  <div className="ep-skill-group-card">
-                    <span className="ep-sg-title">Distributed Systems & Scale</span>
-                    <div className="ep-sg-chips">
-                      <span className="ep-skill-chip">Microservices</span>
-                      <span className="ep-skill-chip">High-Throughput Caching</span>
-                      <span className="ep-skill-chip">Latency Optimization</span>
-                      <span className="ep-skill-chip">Real-Time Event Processing</span>
+                  <div className="up-comp-box">
+                    <span className="up-cb-head">Distributed Systems & Scale</span>
+                    <div className="up-cb-chips">
+                      <span>Microservices</span>
+                      <span>High-Throughput Caching</span>
+                      <span>Latency Optimization</span>
+                      <span>Real-Time Processing</span>
                     </div>
                   </div>
 
-                  <div className="ep-skill-group-card">
-                    <span className="ep-sg-title">Mentoring & Career Coaching</span>
-                    <div className="ep-sg-chips">
-                      <span className="ep-skill-chip">Services ➔ Product Transition</span>
-                      <span className="ep-skill-chip">SDE-2 to Senior/Lead Jump</span>
-                      <span className="ep-skill-chip">System Design Rounds</span>
-                      <span className="ep-skill-chip">Executive Pitching</span>
+                  <div className="up-comp-box">
+                    <span className="up-cb-head">Mentoring & Career Coaching</span>
+                    <div className="up-cb-chips">
+                      <span>Services ➔ Product Transition</span>
+                      <span>SDE-2 to Senior/Lead Jump</span>
+                      <span>System Design Rounds</span>
+                      <span>Executive Pitching</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* 6. Verified Credentials & Education */}
-              <div className="ep-about-credentials-bar">
-                <div className="ep-cred-item">
-                  <div className="ep-cred-icon">
-                    <GraduationCap size={18} />
-                  </div>
+              {/* 4. Verified Credentials */}
+              <div className="up-creds-grid">
+                <div className="up-cred-item">
+                  <GraduationCap size={18} className="text-indigo-600" />
                   <div>
                     <strong>B.Tech / M.Tech in Computer Science</strong>
-                    <span>Core Foundations in Distributed Algorithms & Data Structures</span>
+                    <span>Core Foundations in Algorithms & Distributed Systems</span>
                   </div>
                 </div>
-
-                <div className="ep-cred-item">
-                  <div className="ep-cred-icon verified">
-                    <ShieldCheck size={18} />
-                  </div>
+                <div className="up-cred-item">
+                  <ShieldCheck size={18} className="text-emerald-600" />
                   <div>
                     <strong>Verified Shine PeerPath Practitioner</strong>
-                    <span>Current Lead Practitioner at {expert.company} • Background & Employment Verified</span>
+                    <span>Current Practitioner at {expert.company} • Background Verified</span>
                   </div>
                 </div>
               </div>
@@ -466,115 +636,11 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
             </div>
           )}
 
-          {activeTab === 'trajectory' && (
-            <div className="ep-trajectory-tab">
-              {/* Connected Milestone Pathway */}
-              <div className="ep-roadmap-timeline">
-                
-                {/* Milestone 3: Present Target Role */}
-                <div className="ep-rm-item ep-rm-present">
-                  <div className="ep-rm-indicator">
-                    <div className="ep-rm-dot current">
-                      <Sparkles size={15} />
-                    </div>
-                    <div className="ep-rm-line"></div>
-                  </div>
-                  <div className="ep-rm-card">
-                    <div className="ep-rm-card-header">
-                      <div>
-                        <div className="ep-rm-badge-row">
-                          <span className="ep-rm-status-badge present">🎯 Present Target Role</span>
-                          <span className="ep-rm-period">2022 — Present</span>
-                        </div>
-                        <h4 className="ep-rm-role">{expert.role}</h4>
-                        <span className="ep-rm-company">{expert.company} • Tier-1 Product Tech</span>
-                      </div>
-                      <div className="ep-rm-comp-badge">
-                        <span>Staff / Lead Level</span>
-                      </div>
-                    </div>
-                    <p className="ep-rm-story">
-                      {expert.trajectory?.jumpStory || 'Transitioned from SQL dashboards to building multi-modal LLM search algorithms and dispatch heuristics serving 2M orders daily.'}
-                    </p>
-                    <div className="ep-rm-skills-row">
-                      <span className="ep-rm-skills-label">Core Production Stack:</span>
-                      {skillsList.slice(0, 4).map((s) => (
-                        <span key={s} className="ep-rm-skill-chip">{s}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Milestone 2: Transition Bridge */}
-                <div className="ep-rm-item ep-rm-bridge">
-                  <div className="ep-rm-indicator">
-                    <div className="ep-rm-dot bridge">
-                      <Zap size={15} />
-                    </div>
-                    <div className="ep-rm-line"></div>
-                  </div>
-                  <div className="ep-rm-card">
-                    <div className="ep-rm-card-header">
-                      <div>
-                        <div className="ep-rm-badge-row">
-                          <span className="ep-rm-status-badge bridge">⚡ The Breakthrough Bridge</span>
-                          <span className="ep-rm-period">2020 — 2022</span>
-                        </div>
-                        <h4 className="ep-rm-role">{expert.trajectory?.role3YearsAgo || 'BI & Data Analyst'}</h4>
-                        <span className="ep-rm-company">{expert.trajectory?.company3YearsAgo || 'Mu Sigma Services'}</span>
-                      </div>
-                      <div className="ep-rm-comp-badge bridge">
-                        <span>Mid-Level IC</span>
-                      </div>
-                    </div>
-                    <p className="ep-rm-story">
-                      Moved beyond ad-hoc analytics to building automated production ML pipelines and vector retrieval algorithms that unlocked tier-1 recruiter inbounds.
-                    </p>
-                    <div className="ep-rm-skills-row">
-                      <span className="ep-rm-skills-label">Key Jump Skills Mastered:</span>
-                      {(expert.trajectory?.keyJumpSkills || ['PyTorch Production Pipelines', 'Vector Search (Pinecone)', 'LLM Fine-Tuning']).map((s) => (
-                        <span key={s} className="ep-rm-skill-chip highlight"><CheckCircle2 size={11} /> {s}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Milestone 1: Baseline Starting Point */}
-                <div className="ep-rm-item ep-rm-baseline">
-                  <div className="ep-rm-indicator">
-                    <div className="ep-rm-dot baseline">
-                      <MapPin size={15} />
-                    </div>
-                  </div>
-                  <div className="ep-rm-card baseline-card">
-                    <div className="ep-rm-card-header">
-                      <div>
-                        <div className="ep-rm-badge-row">
-                          <span className="ep-rm-status-badge baseline">📍 Candidate Starting Point (You Are Here)</span>
-                          <span className="ep-rm-period">2018 — 2020</span>
-                        </div>
-                        <h4 className="ep-rm-role">Foundational Baseline Role</h4>
-                        <span className="ep-rm-company">IT Services / Analytics Firm</span>
-                      </div>
-                      <div className="ep-rm-comp-badge baseline">
-                        <span>Foundational IC</span>
-                      </div>
-                    </div>
-                    <p className="ep-rm-story">
-                      Started in foundational role with same baseline credentials as your current CV. Mentorship focuses on bridging the interview gap to reach Milestone 2 & 3.
-                    </p>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          )}
-
+          {/* TAB 4: Reviews */}
           {activeTab === 'reviews' && (() => {
             const candidateReviews = [
               {
                 id: 'rev-1',
-                category: 'mock',
                 name: 'Rahul Kapoor',
                 initials: 'RK',
                 avatarBg: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
@@ -589,7 +655,6 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
               },
               {
                 id: 'rev-2',
-                category: 'resume',
                 name: 'Sneha Menon',
                 initials: 'SM',
                 avatarBg: 'linear-gradient(135deg, #10B981, #047857)',
@@ -604,7 +669,6 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
               },
               {
                 id: 'rev-3',
-                category: 'roadmap',
                 name: 'Ananya Kulkarni',
                 initials: 'AK',
                 avatarBg: 'linear-gradient(135deg, #8B5CF6, #6D28D9)',
@@ -616,129 +680,77 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                 outcome: 'Successfully Transitioned into AI/ML',
                 comment: `"Bridging the gap from BI analytics into deep learning seemed overwhelming until this session. ${expert.name} mapped out the exact 3 GitHub repositories to build and what hiring managers look for in live coding. 100% worth every rupee."`,
                 helpfulCount: 31,
-              },
-              {
-                id: 'rev-4',
-                category: 'mock',
-                name: 'Vikram Grover',
-                initials: 'VG',
-                avatarBg: 'linear-gradient(135deg, #F59E0B, #D97706)',
-                role: 'AI / RAG Systems Engineer',
-                prevCompany: 'Senior Practitioner',
-                serviceType: '1:1 Technical & Live Coding Assessment',
-                rating: 5.0,
-                date: '1 month ago',
-                outcome: 'Received Tier-1 Offer Letter',
-                comment: `"Incredible depth in LLM evaluation frameworks and real-world vector database scaling. ${expert.name} simulated actual engineering trade-offs her team deals with daily. This is 10x better than any static online course."`,
-                helpfulCount: 16,
               }
             ];
 
             return (
-              <div className="ep-reviews-tab">
-                {/* Aggregate Rating & Verification Summary Card */}
-                <div className="ep-reviews-summary-card">
-                  <div className="ep-rsc-score-box">
-                    <div className="ep-rsc-big-score">
-                      <span className="score-num">{expert.rating || 4.9}</span>
-                      <div className="score-stars">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} size={18} style={{ fill: '#F59E0B', color: '#F59E0B' }} />
-                        ))}
-                      </div>
+              <div className="up-reviews-view">
+                {/* Aggregate Rating Scorecard */}
+                <div className="up-reviews-summary-card">
+                  <div className="up-rsc-score">
+                    <span className="big-num">{expert.rating || 4.96}</span>
+                    <div className="stars-row">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} size={15} fill="#F59E0B" color="#F59E0B" />
+                      ))}
                     </div>
-                    <span className="score-sub">Based on {expert.reviewsCount || 96} Verified Sessions</span>
+                    <span className="count-txt">Based on {expert.reviewsCount || 162} Verified Sessions</span>
                   </div>
 
-                  <div className="ep-rsc-bars-col">
-                    <div className="ep-rsc-bar-row">
-                      <span className="ep-rsc-bar-label">5 Star</span>
-                      <div className="ep-rsc-bar-track">
-                        <div className="ep-rsc-bar-fill" style={{ width: '94%' }}></div>
-                      </div>
-                      <span className="ep-rsc-bar-pct">94%</span>
-                    </div>
-                    <div className="ep-rsc-bar-row">
-                      <span className="ep-rsc-bar-label">4 Star</span>
-                      <div className="ep-rsc-bar-track">
-                        <div className="ep-rsc-bar-fill" style={{ width: '6%' }}></div>
-                      </div>
-                      <span className="ep-rsc-bar-pct">6%</span>
-                    </div>
-                    <div className="ep-rsc-bar-row">
-                      <span className="ep-rsc-bar-label">3 Star</span>
-                      <div className="ep-rsc-bar-track">
-                        <div className="ep-rsc-bar-fill" style={{ width: '0%' }}></div>
-                      </div>
-                      <span className="ep-rsc-bar-pct">0%</span>
-                    </div>
-                  </div>
-
-                  <div className="ep-rsc-badges-col">
-                    <div className="ep-rsc-badge-item">
-                      <div className="ep-rsc-badge-icon verified-icon">
-                        <ShieldCheck size={16} />
-                      </div>
-                      <div className="ep-rsc-badge-text">
-                        <strong>100% Verified Candidates</strong>
-                        <p>Only learners who completed a session can submit reviews</p>
+                  <div className="up-rsc-badges">
+                    <div className="up-rsc-badge-item">
+                      <ShieldCheck size={18} className="text-emerald-500" />
+                      <div>
+                        <strong>100% Verified Mentees</strong>
+                        <p>Only candidates who completed a session can review</p>
                       </div>
                     </div>
-                    <div className="ep-rsc-badge-item">
-                      <div className="ep-rsc-badge-icon sparkle-icon">
-                        <Sparkles size={16} />
-                      </div>
-                      <div className="ep-rsc-badge-text">
+                    <div className="up-rsc-badge-item">
+                      <Sparkles size={18} className="text-amber-500" />
+                      <div>
                         <strong>Top 1% Mentor Rating</strong>
-                        <p>Ranked #1 in {expert.domain || 'AI & Machine Learning'} mentoring</p>
+                        <p>Ranked #1 in {expert.domain || 'Tech'} Mentorship</p>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Reviews List Stack */}
-                <div className="reviews-list-stack">
+                {/* Reviews List */}
+                <div className="up-reviews-stack">
                   {candidateReviews.map((rev) => (
-                    <div key={rev.id} className="review-item-card">
-                      <div className="review-card-header">
-                        <div className="reviewer-profile-group">
-                          <div className="rev-avatar-circle" style={{ background: rev.avatarBg }}>
+                    <div key={rev.id} className="up-review-card">
+                      <div className="up-rc-header">
+                        <div className="up-rc-user">
+                          <div className="up-rc-avatar" style={{ background: rev.avatarBg }}>
                             {rev.initials}
                           </div>
-                          <div className="reviewer-meta-text">
-                            <div className="reviewer-name-row">
-                              <h4 className="reviewer-name">{rev.name}</h4>
-                              <span className="rev-verified-pill">
-                                <CheckCircle2 size={12} /> Verified Learner
-                              </span>
+                          <div>
+                            <div className="up-rc-name-row">
+                              <strong>{rev.name}</strong>
+                              <span className="up-rc-ver-pill"><CheckCircle2 size={11} /> Verified</span>
                             </div>
-                            <span className="reviewer-subtitle">{rev.role} • {rev.prevCompany}</span>
+                            <span className="up-rc-sub">{rev.role} • {rev.prevCompany}</span>
                           </div>
                         </div>
 
-                        <div className="review-card-rating-group">
-                          <div className="rev-rating-pill">
-                            <Star size={13} style={{ fill: '#F59E0B', color: '#F59E0B' }} />
-                            <span>{rev.rating.toFixed(1)}</span>
+                        <div className="up-rc-rating">
+                          <div className="up-rc-stars">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} size={12} fill="#F59E0B" color="#F59E0B" />
+                            ))}
                           </div>
-                          <span className="rev-date-text">{rev.date}</span>
+                          <span className="up-rc-date">{rev.date}</span>
                         </div>
                       </div>
 
-                      <div className="review-service-pill">
-                        <Briefcase size={12} />
-                        <span>{rev.serviceType}</span>
-                      </div>
+                      <p className="up-rc-comment">{rev.comment}</p>
 
-                      <p className="rev-quote-content">{rev.comment}</p>
-
-                      <div className="rev-outcome-footer">
-                        <div className="rev-outcome-pill">
-                          <Sparkles size={13} />
-                          <span>Outcome: {rev.outcome}</span>
-                        </div>
-                        <span className="rev-helpful-stat">
-                          <ThumbsUp size={12} /> {rev.helpfulCount} learners found this helpful
+                      <div className="up-rc-footer">
+                        <span className="up-rc-outcome">
+                          <Sparkles size={11} /> {rev.outcome}
+                        </span>
+                        <span className="up-rc-helpful">
+                          <ThumbsUp size={11} /> {rev.helpfulCount} found helpful
                         </span>
                       </div>
                     </div>
@@ -747,8 +759,9 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
               </div>
             );
           })()}
-          </div>
-        </div>
+
+        </main>
+
       </div>
 
       {/* Video Lightbox Modal */}
@@ -757,14 +770,14 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
           <div className="video-modal-container" onClick={(e) => e.stopPropagation()}>
             <div className="video-modal-header">
               <div className="video-modal-title-group">
-                <span className="video-badge-pill"><Film size={13} /> Trajectory Teaser</span>
+                <span className="video-badge-pill"><Film size={13} /> Mentor Video Intro</span>
                 <span className="video-modal-mentor-name">{expert.name} • {expert.role} at {expert.company}</span>
               </div>
               <button 
                 type="button" 
                 className="btn-vm-close" 
                 onClick={handleCloseTeaserModal}
-                aria-label="Close video teaser"
+                aria-label="Close video intro"
               >
                 <X size={18} />
               </button>
@@ -786,8 +799,8 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
 
               <div className="video-bottom-controls">
                 <div className="video-caption-text">
-                  <h4>{expert.teaserTitle || `Teaser: How I Grew in ${expert.domain || 'Tech'}`}</h4>
-                  <p>Learn how {mentorFirstName} transitioned into top product engineering and fast-tracked compensation.</p>
+                  <h4>{expert.teaserTitle || `Mentor Introduction: How I Grew in ${expert.domain || 'Tech'}`}</h4>
+                  <p>Learn how {mentorFirstName} transitioned into top product engineering and fast-tracked career growth.</p>
                 </div>
               </div>
             </div>
@@ -807,7 +820,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
             <div className="video-modal-footer">
               <div className="video-modal-time-indicator">
                 <span className={`status-dot ${isPlaying ? 'active' : ''}`}></span>
-                <span>{isPlaying ? 'Playing Teaser' : 'Paused'}</span>
+                <span>{isPlaying ? 'Playing Intro' : 'Paused'}</span>
                 <span className="dot">•</span>
                 <span>{expert.duration || '01:15'}</span>
               </div>
@@ -817,8 +830,8 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                     <Award size={15} /> Edit Video in Studio
                   </button>
                 ) : (
-                  <button className="btn-shine-gold" onClick={() => { handleCloseTeaserModal(); onOpenBooking(expert.id); }}>
-                    <Calendar size={15} /> Book a Service with {mentorFirstName} (₹{expert.price || 999})
+                  <button className="btn-shine-gold" onClick={() => { handleCloseTeaserModal(); handleBookSpecificSession(mentorServices[0]); }}>
+                    <Calendar size={15} /> Book 1:1 Session with {mentorFirstName} (₹{mentorServices[0].price})
                   </button>
                 )}
               </div>
@@ -826,6 +839,9 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
           </div>
         </div>
       )}
+
     </div>
   );
 };
+
+export default ExpertProfileView;

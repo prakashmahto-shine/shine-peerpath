@@ -7,15 +7,15 @@
     "dev": "vite",
     "dev:frontend": "vite",
     "dev:backend": "python3 run_backend.py",
-    "dev:backend:node": "tsx watch server/index.ts",
     "dev:all": "python3 run_backend.py & vite",
     "server": "python3 run_backend.py",
     "server:dev": "python3 run_backend.py",
     "start": "python3 run_backend.py",
     "start:all": "python3 run_backend.py & vite",
     "test:python": "python3 test_python_backend.py",
-    "build": "tsc && vite build",
+    "build": "pip install -r requirements.txt && tsc && vite build",
     "build:frontend": "tsc && vite build",
+    "postinstall": "pip install -r requirements.txt || pip3 install -r requirements.txt || true",
     "preview": "vite preview"
   },
   "dependencies": {
