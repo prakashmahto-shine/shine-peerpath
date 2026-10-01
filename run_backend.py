@@ -2,5 +2,5 @@ import uvicorn
 from backend.config import HOST, PORT
 
 if __name__ == "__main__":
-    print(f"🚀 Launching Shine Peerpath Python + Milvus backend on http://{HOST}:{PORT}")
-    uvicorn.run("backend.main:app", host=HOST, port=PORT, reload=True)
+    print(f"🚀 Launching Shine Peerpath Python + WebRTC Signaling + Milvus backend on http://{HOST}:{PORT}")
+    uvicorn.run("backend.main:socket_app", host=HOST, port=PORT, reload=True)

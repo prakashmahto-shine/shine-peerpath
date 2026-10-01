@@ -176,19 +176,75 @@ export const LiveVideoCallView: React.FC = () => {
 
     initWebRTC();
 
+    const handleWindowUnload = () => {
+      stopAllMediaHardware();
+    };
+    window.addEventListener('beforeunload', handleWindowUnload);
+
     return () => {
       isMounted = false;
-      if (webrtcServiceRef.current) {
-        webrtcServiceRef.current.leaveRoom();
-      }
-      if (localStreamRef.current) {
-        localStreamRef.current.getTracks().forEach(t => t.stop());
-      }
-      if (screenStreamRef.current) {
-        screenStreamRef.current.getTracks().forEach(t => t.stop());
-      }
+      window.removeEventListener('beforeunload', handleWindowUnload);
+      stopAllMediaHardware();
     };
   }, [roomId]);
+
+  /**
+   * Immediately releases webcam, microphone, and screen share hardware locks
+   */
+  const stopAllMediaHardware = () => {
+    // 1. Stop and disable all local webcam / audio tracks
+    if (localStreamRef.current) {
+      localStreamRef.current.getTracks().forEach(track => {
+        try {
+          track.stop();
+          track.enabled = false;
+        } catch (e) {
+          console.warn('Error stopping local track:', e);
+        }
+      });
+      localStreamRef.current = null;
+    }
+
+    // 2. Stop and disable all screen share tracks
+    if (screenStreamRef.current) {
+      screenStreamRef.current.getTracks().forEach(track => {
+        try {
+          track.stop();
+          track.enabled = false;
+        } catch (e) {
+          console.warn('Error stopping screen track:', e);
+        }
+      });
+      screenStreamRef.current = null;
+    }
+
+    // 3. Clear HTML5 video element source streams to free GPU/camera binding
+    if (localVideoRef.current) {
+      try {
+        localVideoRef.current.pause();
+        localVideoRef.current.srcObject = null;
+      } catch (e) {}
+    }
+    if (remoteVideoRef.current) {
+      try {
+        remoteVideoRef.current.pause();
+        remoteVideoRef.current.srcObject = null;
+      } catch (e) {}
+    }
+    if (screenVideoRef.current) {
+      try {
+        screenVideoRef.current.pause();
+        screenVideoRef.current.srcObject = null;
+      } catch (e) {}
+    }
+
+    // 4. Disconnect signaling socket and close WebRTC peer connection
+    if (webrtcServiceRef.current) {
+      try {
+        webrtcServiceRef.current.leaveRoom();
+      } catch (e) {}
+    }
+  };
 
   // Toggle Mute (Audio)
   const toggleMute = () => {
@@ -311,24 +367,38 @@ export const LiveVideoCallView: React.FC = () => {
     let finalBlob: Blob | null = recordingBlob;
     let finalDuration = seconds;
 
-    // Finalize recording if active
+    // 1. Finalize recording if active
     if (webrtcServiceRef.current && isRecording) {
-      const rec = await webrtcServiceRef.current.stopRecording();
-      if (rec.blob) {
-        finalBlob = rec.blob;
-        finalDuration = rec.durationSeconds || seconds;
-        setRecordingBlob(rec.blob);
-        setRecordingDownloadUrl(rec.downloadUrl);
+      try {
+        const rec = await webrtcServiceRef.current.stopRecording();
+        if (rec.blob) {
+          finalBlob = rec.blob;
+          finalDuration = rec.durationSeconds || seconds;
+          setRecordingBlob(rec.blob);
+          setRecordingDownloadUrl(rec.downloadUrl);
+        }
+      } catch (e) {
+        console.warn('Recording stop warning:', e);
       }
     }
 
-    // Auto-upload recording to backend
-    if (webrtcServiceRef.current && finalBlob && activeSession?.id) {
-      webrtcServiceRef.current.uploadRecording(activeSession.id, finalBlob, finalDuration);
+    // 2. IMMEDIATELY Release Camera, Microphone, and Screen Share Hardware
+    stopAllMediaHardware();
+
+    // 3. Background upload recording to backend
+    if (finalBlob && activeSession?.id) {
+      const cleanSessionId = activeSession.id.replace(/^peerpath-/, '').replace(/^sess-/, '');
+      fetch(`/api/sessions/${cleanSessionId}/recording`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': finalBlob.type || 'video/webm'
+        },
+        body: finalBlob
+      }).catch(err => console.warn('Background upload warning:', err));
       setRecordingUploaded(true);
     }
 
-    // Award badge if mentor approved rubric
+    // 4. Award badge if mentor approved rubric
     if (rubricApproved) {
       awardBadge({
         id: `badge-${Date.now()}`,
@@ -344,7 +414,7 @@ export const LiveVideoCallView: React.FC = () => {
       });
     }
 
-    // Complete session in state
+    // 5. Complete session in state
     if (activeSession?.id) {
       completeSession(
         activeSession.id,
@@ -352,11 +422,6 @@ export const LiveVideoCallView: React.FC = () => {
         `1:1 ${expert.domain} Guidance call with ${expert.name}. Candidate verified across core system design and domain rubrics.`,
         rubricApproved ? `Verified ${expert.domain} Architecture` : undefined
       );
-    }
-
-    // Leave room
-    if (webrtcServiceRef.current) {
-      webrtcServiceRef.current.leaveRoom();
     }
 
     showToast('Session Completed', 'Your session feedback and recording have been synced.', 'success');

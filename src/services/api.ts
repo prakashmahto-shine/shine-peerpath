@@ -1,4 +1,16 @@
-import { Expert, MentorshipSession, PeerVerifiedBadge, TrajectoryMatch, ZeroPrepDossier, GapAnalysisResult, ShineJob, UserProfileData } from '../types';
+import { 
+  Expert, 
+  MentorshipSession, 
+  PeerVerifiedBadge, 
+  TrajectoryMatch, 
+  ZeroPrepDossier, 
+  GapAnalysisResult, 
+  ShineJob, 
+  UserProfileData,
+  CommunityPost,
+  CommunityComment,
+  CommunityNotification
+} from '../types';
 
 const ENV_API_URL = typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_API_URL 
   ? String((import.meta as any).env.VITE_API_URL).replace(/\/$/, '') 
@@ -333,6 +345,103 @@ export const peerpathApi = {
   async getAnalytics() {
     const res = await fetchWithRetry(`${API_BASE}/analytics/metrics`);
     if (!res.ok) throw new Error(`Failed fetching analytics`);
+    return res.json();
+  },
+
+  // Community Posts & Discussions
+  async getCommunityPosts(params?: { tag?: string; mentorId?: string; userId?: string }): Promise<CommunityPost[]> {
+    const qs = new URLSearchParams();
+    if (params?.tag && params.tag !== 'all') qs.append('tag', params.tag);
+    if (params?.mentorId) qs.append('mentorId', params.mentorId);
+    if (params?.userId) qs.append('userId', params.userId);
+
+    const res = await fetchWithRetry(`${API_BASE}/community/posts?${qs.toString()}`);
+    if (!res.ok) throw new Error(`Failed fetching community posts`);
+    const json = await res.json();
+    return json.data;
+  },
+
+  async createCommunityPost(post: Partial<CommunityPost>): Promise<CommunityPost> {
+    const res = await fetchWithRetry(`${API_BASE}/community/posts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(post)
+    });
+    if (!res.ok) throw new Error(`Failed creating community post`);
+    const json = await res.json();
+    return json.data;
+  },
+
+  async addCommunityComment(postId: string, comment: Partial<CommunityComment>): Promise<CommunityComment> {
+    const res = await fetchWithRetry(`${API_BASE}/community/posts/${postId}/comments`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(comment)
+    });
+    if (!res.ok) throw new Error(`Failed adding comment`);
+    const json = await res.json();
+    return json.data;
+  },
+
+  async togglePostLike(postId: string, userId: string) {
+    const res = await fetchWithRetry(`${API_BASE}/community/posts/${postId}/like`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId })
+    });
+    return res.json();
+  },
+
+  async toggleCommentLike(postId: string, commentId: string, userId: string) {
+    const res = await fetchWithRetry(`${API_BASE}/community/posts/${postId}/comments/${commentId}/like`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId })
+    });
+    return res.json();
+  },
+
+  // Notifications
+  async getNotifications(userId?: string, unreadOnly?: boolean): Promise<CommunityNotification[]> {
+    const qs = new URLSearchParams();
+    if (userId) qs.append('userId', userId);
+    if (unreadOnly) qs.append('unreadOnly', 'true');
+
+    const res = await fetchWithRetry(`${API_BASE}/notifications?${qs.toString()}`);
+    if (!res.ok) throw new Error(`Failed fetching notifications`);
+    const json = await res.json();
+    return json.data;
+  },
+
+  async markNotificationRead(notificationId: string) {
+    const res = await fetchWithRetry(`${API_BASE}/notifications/${notificationId}/read`, {
+      method: 'PATCH'
+    });
+    return res.json();
+  },
+
+  async markAllNotificationsRead(userId: string) {
+    const res = await fetchWithRetry(`${API_BASE}/notifications/mark-all-read`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId })
+    });
+    return res.json();
+  },
+
+  async deleteNotification(notificationId: string) {
+    const res = await fetchWithRetry(`${API_BASE}/notifications/${notificationId}`, {
+      method: 'DELETE'
+    });
+    return res.json();
+  },
+
+  async clearAllNotifications(userId?: string) {
+    const res = await fetchWithRetry(`${API_BASE}/notifications/clear-all`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId })
+    });
     return res.json();
   },
 

@@ -266,3 +266,82 @@ class BackendJob(BaseModel):
     isActivelyHiring: Optional[bool] = True
     isEarlyApplicant: Optional[bool] = True
     description: Optional[str] = None
+
+# Community & Notification Schemas
+class CommunityComment(BaseModel):
+    id: str
+    authorId: str
+    authorName: str
+    authorRole: Optional[str] = None
+    authorAvatar: Optional[str] = None
+    authorIsMentor: Optional[bool] = False
+    content: str
+    createdAt: str
+    likes: Optional[int] = 0
+    likedBy: Optional[List[str]] = Field(default_factory=list)
+
+class CommunityPost(BaseModel):
+    id: str
+    mentorId: str
+    mentorName: str
+    mentorRole: str
+    mentorCompany: str
+    mentorAvatar: Optional[str] = None
+    title: str
+    content: str
+    tags: List[str] = Field(default_factory=list)
+    createdAt: str
+    likes: Optional[int] = 0
+    comments: Optional[List[CommunityComment]] = Field(default_factory=list)
+    likedBy: Optional[List[str]] = Field(default_factory=list)
+
+class PostCreateInput(BaseModel):
+    mentorId: str
+    mentorName: str
+    mentorRole: str
+    mentorCompany: str
+    mentorAvatar: Optional[str] = None
+    title: str
+    content: str
+    tags: List[str] = Field(default_factory=list)
+
+class CommentCreateInput(BaseModel):
+    authorId: str
+    authorName: str
+    authorRole: Optional[str] = None
+    authorAvatar: Optional[str] = None
+    authorIsMentor: Optional[bool] = False
+    content: str
+
+class CommunityNotification(BaseModel):
+    id: str
+    recipientId: str
+    type: str = 'system_announcement'
+    title: str
+    message: str
+    mentorId: Optional[str] = None
+    mentorName: Optional[str] = None
+    mentorAvatar: Optional[str] = None
+    actorId: Optional[str] = None
+    actorName: Optional[str] = None
+    actorAvatar: Optional[str] = None
+    postId: Optional[str] = None
+    sessionId: Optional[str] = None
+    createdAt: str
+    isRead: Optional[bool] = False
+    actionUrl: Optional[str] = None
+
+class NotificationSendInput(BaseModel):
+    recipientId: str
+    type: Optional[str] = 'system_announcement'
+    title: str
+    message: str
+    mentorId: Optional[str] = None
+    mentorName: Optional[str] = None
+    mentorAvatar: Optional[str] = None
+    actorId: Optional[str] = None
+    actorName: Optional[str] = None
+    actorAvatar: Optional[str] = None
+    postId: Optional[str] = None
+    sessionId: Optional[str] = None
+    actionUrl: Optional[str] = None

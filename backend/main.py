@@ -6,10 +6,12 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
+import socketio
 
 from backend.config import PORT, HOST, EMBEDDING_MODEL_NAME
 from backend.data.store import store
 from backend.services.milvus_service import milvus_service
+from backend.services.socket_service import sio
 from backend.routers import (
     cv_router,
     trajectory_router,
@@ -19,7 +21,10 @@ from backend.routers import (
     assessment_router,
     recruiter_router,
     analytics_router,
-    jobs_router
+    jobs_router,
+    community_router,
+    notifications_router,
+    sessions_router
 )
 
 START_TIME = time.time()
@@ -27,7 +32,7 @@ START_TIME = time.time()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("====================================================")
-    print("🚀 Initializing Shine Peerpath Python Backend & Milvus...")
+    print("🚀 Initializing Shine Peerpath Python Backend, WebRTC Signaling & Milvus...")
     try:
         # Initialize Milvus connection and collections
         milvus_service.connect()
@@ -39,16 +44,17 @@ async def lifespan(app: FastAPI):
         milvus_service.sync_creators(creators)
         milvus_service.sync_candidates(candidates)
         print("🎯 Milvus Vector Indexing ready for Trajectory Matching & Recruiter Neural Search!")
+        print("📹 WebRTC 1:1 Video Calling Signaling Server active via Socket.IO ASGI mount!")
     except Exception as e:
-        print(f"⚠️ Milvus startup warning: {e}")
+        print(f"⚠️ Startup warning: {e}")
     print("====================================================")
     yield
     print("🛑 Shutting down backend...")
     milvus_service.shutdown()
 
 app = FastAPI(
-    title="Shine Peerpath Backend API (Python & Milvus)",
-    description="Python FastAPI backend with Milvus Vector Database trajectory matching",
+    title="Shine Peerpath Backend API (Python, WebRTC & Milvus)",
+    description="Python FastAPI backend with WebRTC Socket.IO signaling and Milvus Vector Database",
     version="2.0.0",
     lifespan=lifespan
 )
@@ -68,7 +74,9 @@ async def log_requests(request: Request, call_next):
     start = time.time()
     response = await call_next(request)
     duration = round((time.time() - start) * 1000, 2)
-    print(f"[API] {request.method} {request.url.path} -> {response.status_code} ({duration}ms)")
+    # Skip recording upload spam from logs
+    if not (request.url.path.startswith("/api/sessions/") and request.url.path.endswith("/recording")):
+        print(f"[API] {request.method} {request.url.path} -> {response.status_code} ({duration}ms)")
     return response
 
 # Health check
@@ -79,6 +87,7 @@ def health_check():
         "service": "shine-peerpath-backend-api-python",
         "vectorDatabase": "Milvus",
         "embeddingModel": EMBEDDING_MODEL_NAME,
+        "signaling": "socket.io-webrtc-active",
         "uptimeSeconds": round(time.time() - START_TIME),
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "domainsSupported": ['AI/ML', 'Semiconductor', 'Cybersecurity', 'Full-Stack', 'SaaS Sales', 'Marketing', 'Product Management', 'Search & Data Infra'],
@@ -95,6 +104,9 @@ app.include_router(assessment_router)
 app.include_router(recruiter_router)
 app.include_router(analytics_router)
 app.include_router(jobs_router)
+app.include_router(community_router)
+app.include_router(notifications_router)
+app.include_router(sessions_router)
 
 # Serve static frontend build if dist/ exists
 dist_path = Path(__file__).resolve().parent.parent / "dist"
@@ -113,7 +125,11 @@ if dist_path.exists():
             return FileResponse(str(index_file))
         return JSONResponse(status_code=200, content={"message": "Shine Peerpath Python Backend running!"})
 
+# Mount Socket.IO on top of FastAPI ASGI app
+socket_app = socketio.ASGIApp(sio, other_asgi_app=app)
+
 if __name__ == "__main__":
     import uvicorn
-    print(f"🚀 Starting Uvicorn on {HOST}:{PORT}")
-    uvicorn.run("backend.main:app", host=HOST, port=PORT, reload=True)
+    print(f"🚀 Starting Uvicorn + WebRTC Signaling on {HOST}:{PORT}")
+    uvicorn.run("backend.main:socket_app", host=HOST, port=PORT, reload=True)
+

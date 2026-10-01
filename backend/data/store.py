@@ -3,7 +3,10 @@ import os
 from pathlib import Path
 from typing import List, Optional, Dict, Any
 from backend.config import DB_PATH
-from backend.models.schemas import Creator, CandidateProfile, MentorshipSession, PeerVerifiedBadge
+from backend.models.schemas import (
+    Creator, CandidateProfile, MentorshipSession, PeerVerifiedBadge,
+    CommunityPost, CommunityComment, CommunityNotification
+)
 
 def normalize_domain_key(domain: Optional[str]) -> Optional[str]:
     if not domain:
@@ -236,6 +239,136 @@ class Store:
                 'recruiterSearchShortlistSpeed': '3.4x faster for peer-verified candidates'
             }
         }
+
+    # Community Posts & Discussions
+    def get_posts(self, tag: Optional[str] = None, mentor_id: Optional[str] = None, user_id: Optional[str] = None) -> List[CommunityPost]:
+        posts_raw = self.data.get('posts', [])
+        posts = [CommunityPost(**p) for p in posts_raw]
+
+        if tag and tag.lower() != 'all':
+            clean_tag = tag.lower().strip()
+            posts = [p for p in posts if any(clean_tag in t.lower() for t in p.tags)]
+
+        if mentor_id:
+            posts = [p for p in posts if p.mentorId.lower() == mentor_id.lower()]
+
+        return posts
+
+    def create_post(self, new_post: CommunityPost) -> CommunityPost:
+        self.data.setdefault('posts', []).insert(0, new_post.model_dump())
+        self.save_data()
+        return new_post
+
+    def get_post_by_id(self, post_id: str) -> Optional[CommunityPost]:
+        for p in self.data.get('posts', []):
+            if p.get('id') == post_id:
+                return CommunityPost(**p)
+        return None
+
+    def add_comment_to_post(self, post_id: str, comment: CommunityComment) -> Optional[CommunityComment]:
+        for p in self.data.get('posts', []):
+            if p.get('id') == post_id:
+                p.setdefault('comments', []).append(comment.model_dump())
+                self.save_data()
+                return comment
+        return None
+
+    def toggle_post_like(self, post_id: str, user_id: str) -> Dict[str, Any]:
+        for p in self.data.get('posts', []):
+            if p.get('id') == post_id:
+                liked_by = p.setdefault('likedBy', [])
+                if user_id in liked_by:
+                    liked_by.remove(user_id)
+                    p['likes'] = max(0, p.get('likes', 1) - 1)
+                    liked = False
+                else:
+                    liked_by.append(user_id)
+                    p['likes'] = p.get('likes', 0) + 1
+                    liked = True
+                self.save_data()
+                return {"postId": post_id, "likes": p['likes'], "liked": liked}
+        return {"postId": post_id, "likes": 0, "liked": False}
+
+    def toggle_comment_like(self, post_id: str, comment_id: str, user_id: str) -> Dict[str, Any]:
+        for p in self.data.get('posts', []):
+            if p.get('id') == post_id:
+                for c in p.get('comments', []):
+                    if c.get('id') == comment_id:
+                        liked_by = c.setdefault('likedBy', [])
+                        if user_id in liked_by:
+                            liked_by.remove(user_id)
+                            c['likes'] = max(0, c.get('likes', 1) - 1)
+                            liked = False
+                        else:
+                            liked_by.append(user_id)
+                            c['likes'] = c.get('likes', 0) + 1
+                            liked = True
+                        self.save_data()
+                        return {"commentId": comment_id, "likes": c['likes'], "liked": liked}
+        return {"commentId": comment_id, "likes": 0, "liked": False}
+
+    # Notifications Repository
+    def get_notifications(self, user_id: Optional[str] = None, unread_only: bool = False) -> List[CommunityNotification]:
+        notifs_raw = self.data.get('notifications', [])
+        notifs = [CommunityNotification(**n) for n in notifs_raw]
+
+        if user_id:
+            uid = user_id.lower()
+            notifs = [n for n in notifs if not n.recipientId or n.recipientId.lower() == uid or n.recipientId.lower() == 'all']
+
+        if unread_only:
+            notifs = [n for n in notifs if not n.isRead]
+
+        return notifs
+
+    def get_unread_notification_count(self, user_id: Optional[str] = None) -> int:
+        return len(self.get_notifications(user_id=user_id, unread_only=True))
+
+    def create_notification(self, notification: CommunityNotification) -> CommunityNotification:
+        self.data.setdefault('notifications', []).insert(0, notification.model_dump())
+        self.save_data()
+        return notification
+
+    def mark_notification_as_read(self, notification_id: str) -> Optional[CommunityNotification]:
+        for n in self.data.get('notifications', []):
+            if n.get('id') == notification_id:
+                n['isRead'] = True
+                self.save_data()
+                return CommunityNotification(**n)
+        return None
+
+    def mark_all_notifications_as_read(self, user_id: str) -> int:
+        count = 0
+        uid = user_id.lower()
+        for n in self.data.get('notifications', []):
+            recip = (n.get('recipientId') or '').lower()
+            if (not recip or recip == uid or recip == 'all') and not n.get('isRead'):
+                n['isRead'] = True
+                count += 1
+        if count > 0:
+            self.save_data()
+        return count
+
+    def delete_notification(self, notification_id: str) -> bool:
+        notifs = self.data.get('notifications', [])
+        init_len = len(notifs)
+        self.data['notifications'] = [n for n in notifs if n.get('id') != notification_id]
+        if len(self.data['notifications']) != init_len:
+            self.save_data()
+            return True
+        return False
+
+    def clear_all_notifications(self, user_id: Optional[str] = None) -> int:
+        notifs = self.data.get('notifications', [])
+        init_len = len(notifs)
+        if user_id:
+            uid = user_id.lower()
+            self.data['notifications'] = [n for n in notifs if n.get('recipientId') and n.get('recipientId').lower() != uid and n.get('recipientId').lower() != 'all']
+        else:
+            self.data['notifications'] = []
+        removed = init_len - len(self.data['notifications'])
+        self.save_data()
+        return removed
 
     def reset_to_default(self) -> Dict[str, Any]:
         # Re-read initial from db.json if present

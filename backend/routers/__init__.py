@@ -7,3 +7,7 @@ from .assessment import router as assessment_router
 from .recruiter import router as recruiter_router
 from .analytics import router as analytics_router
 from .jobs import router as jobs_router
+from .community import router as community_router
+from .notifications import router as notifications_router
+from .sessions import router as sessions_router
+

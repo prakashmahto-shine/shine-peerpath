@@ -4599,7 +4599,7 @@
       "name": "Prakash Mahto",
       "email": "prakash.mahto@example.com",
       "phone": "+91 98000 10000",
-      "headline": "java @ TCS ➔ Aspiring Full-stack Architecture @ google",
+      "headline": "java @ TCS \u2794 Aspiring Full-stack Architecture @ google",
       "experienceYears": "4 Years, 2 Months",
       "location": "Bengaluru, India",
       "profileScore": 100,
@@ -4612,7 +4612,7 @@
         "Javascript"
       ],
       "currentCtc": "5.5 Lacs",
-      "targetCtc": "₹24L – ₹32L+",
+      "targetCtc": "\u20b924L \u2013 \u20b932L+",
       "targetRole": "Full-stack Architecture",
       "targetCompany": "google",
       "pastCompany": "TCS",
@@ -4621,6 +4621,55 @@
       "educationCollege": "VTU Bengaluru",
       "domain": "Full-Stack",
       "badges": [
+        {
+          "id": "badge-1790832625062",
+          "title": "AI & Distributed Systems Peer-Verified",
+          "subtitle": "Verified by Deepak Patel \u2022 Senior Data Scientist & AI Lead @ Zomato",
+          "verifierName": "Deepak Patel",
+          "verifierRole": "Senior Data Scientist & AI Lead @ Zomato",
+          "verifierAvatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+          "verifierCompany": "Zomato",
+          "date": "Oct 01, 2026",
+          "skills": [
+            "Micro-Frontends",
+            "Distributed Systems",
+            "LangChain"
+          ],
+          "status": "verified",
+          "verificationHash": "SHINE-PEER-1790832625062-ZOM"
+        },
+        {
+          "id": "badge-1790832192534",
+          "title": "Full-Stack Production Ready",
+          "subtitle": "Verified by Saheli Kanjilal \u2022 Staff Frontend Architect @ Razorpay (FinTech)",
+          "verifierName": "Saheli Kanjilal",
+          "verifierRole": "Staff Frontend Architect @ Razorpay (FinTech)",
+          "verifierAvatar": "/avatars/saheli.jpg",
+          "verifierCompany": "Razorpay (FinTech)",
+          "date": "Oct 01, 2026",
+          "skills": [
+            "System Architecture",
+            "Problem Solving"
+          ],
+          "status": "verified",
+          "verificationHash": "SHINE-PEER-1790832192534-RAZ"
+        },
+        {
+          "id": "badge-1790832190249",
+          "title": "Peer-Verified Skill Badge",
+          "subtitle": "Verified by Saheli Kanjilal \u2022 Staff Frontend Architect @ Razorpay (FinTech)",
+          "verifierName": "Saheli Kanjilal",
+          "verifierRole": "Staff Frontend Architect @ Razorpay (FinTech)",
+          "verifierAvatar": "/avatars/saheli.jpg",
+          "verifierCompany": "Razorpay (FinTech)",
+          "date": "Oct 01, 2026",
+          "skills": [
+            "System Architecture",
+            "Problem Solving"
+          ],
+          "status": "verified",
+          "verificationHash": "SHINE-PEER-1790832190249-RAZ"
+        },
         {
           "id": "badge-pm-1",
           "title": "Tier-1 Frontend & UI Architecture",
@@ -4657,7 +4706,7 @@
           "verificationHash": "SHINE-VERIFY-4491-8821-HN"
         }
       ],
-      "recruiterSearchMultiplier": 3.8,
+      "recruiterSearchMultiplier": 5.0,
       "currentCompany": "TCS",
       "dreamCompany": "google",
       "resumeFileName": "resume (1).pdf"
@@ -5275,6 +5324,426 @@
   ],
   "sessions": [
     {
+      "id": "sess-1790832625053",
+      "expertId": "deepak",
+      "expert": {
+        "id": "deepak",
+        "name": "Deepak Patel",
+        "role": "Senior Data Scientist & AI Lead",
+        "company": "Zomato",
+        "domain": "AI/ML",
+        "experience": "7.5+ Years Exp.",
+        "rating": 4.92,
+        "reviewsCount": 194,
+        "sessionsCount": 208,
+        "price": 1299,
+        "location": "Pune, India",
+        "duration": "01:18",
+        "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+        "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at Zomato",
+        "skills": [
+          "Computer Vision",
+          "LangChain",
+          "TensorFlow",
+          "RAG Systems",
+          "Vector Search",
+          "LLMs"
+        ],
+        "bio": "Senior Data Scientist & AI Lead at Zomato. I mentor engineers making the jump into AI/ML roles, with deep focus on Computer Vision and LangChain.",
+        "verifiedEmail": "deepak.p@zomato.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Computer Vision Developer",
+          "company3YearsAgo": "Mindtree",
+          "salary3YearsAgo": "\u20b96.1 LPA",
+          "keyJumpSkills": [
+            "Multi-Modal Model Serving",
+            "PyTorch Production Pipelines",
+            "Vector Search (Pinecone)"
+          ],
+          "jumpStory": "Went from Computer Vision Developer at Mindtree to Senior Data Scientist & AI Lead at Zomato by mastering Multi-Modal Model Serving and PyTorch Production Pipelines."
+        },
+        "availability": {
+          "days": [
+            "Mon",
+            "Thu",
+            "Sat"
+          ],
+          "timeSlots": [
+            "06:00 PM - 07:00 PM",
+            "07:30 PM - 08:30 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash-mahto",
+      "candidateName": "Prakash Mahto",
+      "candidateRole": "Senior Frontend Engineer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Transition Strategy to Lead Architect",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "2026-10-05",
+      "timeSlot": "07:00 PM - 08:00 PM",
+      "status": "completed",
+      "meetingLink": "https://meet.shine.com/room/peerpath-deepak-25053",
+      "badgeAwarded": "AI & Distributed Systems Peer-Verified",
+      "feedbackNotes": "Exceptional architectural clarity on distributed systems and micro-frontends.",
+      "rating": 5.0,
+      "paymentId": "pay_shine_1790832625053_4e5",
+      "amountPaid": 999,
+      "bookedAt": "2026-10-01T05:30:25.053744Z"
+    },
+    {
+      "id": "sess-1790832460242",
+      "expertId": "deepak",
+      "expert": {
+        "id": "deepak",
+        "name": "Deepak Patel",
+        "role": "Senior Data Scientist & AI Lead",
+        "company": "Zomato",
+        "domain": "AI/ML",
+        "experience": "7.5+ Years Exp.",
+        "rating": 4.92,
+        "reviewsCount": 194,
+        "sessionsCount": 208,
+        "price": 1299,
+        "location": "Pune, India",
+        "duration": "01:18",
+        "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+        "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at Zomato",
+        "skills": [
+          "Computer Vision",
+          "LangChain",
+          "TensorFlow",
+          "RAG Systems",
+          "Vector Search",
+          "LLMs"
+        ],
+        "bio": "Senior Data Scientist & AI Lead at Zomato. I mentor engineers making the jump into AI/ML roles, with deep focus on Computer Vision and LangChain.",
+        "verifiedEmail": "deepak.p@zomato.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Computer Vision Developer",
+          "company3YearsAgo": "Mindtree",
+          "salary3YearsAgo": "\u20b96.1 LPA",
+          "keyJumpSkills": [
+            "Multi-Modal Model Serving",
+            "PyTorch Production Pipelines",
+            "Vector Search (Pinecone)"
+          ],
+          "jumpStory": "Went from Computer Vision Developer at Mindtree to Senior Data Scientist & AI Lead at Zomato by mastering Multi-Modal Model Serving and PyTorch Production Pipelines."
+        },
+        "availability": {
+          "days": [
+            "Mon",
+            "Thu",
+            "Sat"
+          ],
+          "timeSlots": [
+            "06:00 PM - 07:00 PM",
+            "07:30 PM - 08:30 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash-mahto",
+      "candidateName": "Prakash Mahto",
+      "candidateRole": "Senior Frontend Engineer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Transition Strategy to Lead Architect",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "2026-10-05",
+      "timeSlot": "07:00 PM - 08:00 PM",
+      "status": "completed",
+      "meetingLink": "https://meet.shine.com/room/peerpath-deepak-60242",
+      "badgeAwarded": "AI & Distributed Systems Peer-Verified",
+      "feedbackNotes": "Exceptional architectural clarity on distributed systems and micro-frontends.",
+      "rating": 5.0,
+      "paymentId": "pay_shine_1790832460242_1c0d",
+      "amountPaid": 999,
+      "bookedAt": "2026-10-01T05:27:40.243010Z"
+    },
+    {
+      "id": "sess-1790832341458",
+      "expertId": "deepak",
+      "expert": {
+        "id": "deepak",
+        "name": "Deepak Patel",
+        "role": "Senior Data Scientist & AI Lead",
+        "company": "Zomato",
+        "domain": "AI/ML",
+        "experience": "7.5+ Years Exp.",
+        "rating": 4.92,
+        "reviewsCount": 194,
+        "sessionsCount": 208,
+        "price": 1299,
+        "location": "Pune, India",
+        "duration": "01:18",
+        "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+        "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at Zomato",
+        "skills": [
+          "Computer Vision",
+          "LangChain",
+          "TensorFlow",
+          "RAG Systems",
+          "Vector Search",
+          "LLMs"
+        ],
+        "bio": "Senior Data Scientist & AI Lead at Zomato. I mentor engineers making the jump into AI/ML roles, with deep focus on Computer Vision and LangChain.",
+        "verifiedEmail": "deepak.p@zomato.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Computer Vision Developer",
+          "company3YearsAgo": "Mindtree",
+          "salary3YearsAgo": "\u20b96.1 LPA",
+          "keyJumpSkills": [
+            "Multi-Modal Model Serving",
+            "PyTorch Production Pipelines",
+            "Vector Search (Pinecone)"
+          ],
+          "jumpStory": "Went from Computer Vision Developer at Mindtree to Senior Data Scientist & AI Lead at Zomato by mastering Multi-Modal Model Serving and PyTorch Production Pipelines."
+        },
+        "availability": {
+          "days": [
+            "Mon",
+            "Thu",
+            "Sat"
+          ],
+          "timeSlots": [
+            "06:00 PM - 07:00 PM",
+            "07:30 PM - 08:30 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash-mahto",
+      "candidateName": "Prakash Mahto",
+      "candidateRole": "Senior Frontend Engineer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Transition Strategy to Lead Architect",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "2026-10-05",
+      "timeSlot": "07:00 PM - 08:00 PM",
+      "status": "completed",
+      "meetingLink": "https://meet.shine.com/room/peerpath-deepak-41458",
+      "badgeAwarded": "AI & Distributed Systems Peer-Verified",
+      "feedbackNotes": "Exceptional architectural clarity on distributed systems and micro-frontends.",
+      "rating": 5.0,
+      "paymentId": "pay_shine_1790832341458_f65",
+      "amountPaid": 999,
+      "bookedAt": "2026-10-01T05:25:41.458657Z"
+    },
+    {
+      "id": "sess-1790832127493",
+      "expertId": "deepak",
+      "expert": {
+        "id": "deepak",
+        "name": "Deepak Patel",
+        "role": "Senior Data Scientist & AI Lead",
+        "company": "Zomato",
+        "domain": "AI/ML",
+        "experience": "7.5+ Years Exp.",
+        "rating": 4.92,
+        "reviewsCount": 194,
+        "sessionsCount": 208,
+        "price": 1299,
+        "location": "Pune, India",
+        "duration": "01:18",
+        "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+        "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at Zomato",
+        "skills": [
+          "Computer Vision",
+          "LangChain",
+          "TensorFlow",
+          "RAG Systems",
+          "Vector Search",
+          "LLMs"
+        ],
+        "bio": "Senior Data Scientist & AI Lead at Zomato. I mentor engineers making the jump into AI/ML roles, with deep focus on Computer Vision and LangChain.",
+        "verifiedEmail": "deepak.p@zomato.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Computer Vision Developer",
+          "company3YearsAgo": "Mindtree",
+          "salary3YearsAgo": "\u20b96.1 LPA",
+          "keyJumpSkills": [
+            "Multi-Modal Model Serving",
+            "PyTorch Production Pipelines",
+            "Vector Search (Pinecone)"
+          ],
+          "jumpStory": "Went from Computer Vision Developer at Mindtree to Senior Data Scientist & AI Lead at Zomato by mastering Multi-Modal Model Serving and PyTorch Production Pipelines."
+        },
+        "availability": {
+          "days": [
+            "Mon",
+            "Thu",
+            "Sat"
+          ],
+          "timeSlots": [
+            "06:00 PM - 07:00 PM",
+            "07:30 PM - 08:30 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash-mahto",
+      "candidateName": "Prakash Mahto",
+      "candidateRole": "Senior Frontend Engineer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Transition Strategy to Lead Architect",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "2026-10-05",
+      "timeSlot": "07:00 PM - 08:00 PM",
+      "status": "completed",
+      "meetingLink": "https://meet.shine.com/room/peerpath-deepak-27493",
+      "badgeAwarded": "AI & Distributed Systems Peer-Verified",
+      "feedbackNotes": "Exceptional architectural clarity on distributed systems and micro-frontends.",
+      "rating": 5.0,
+      "paymentId": "pay_shine_1790832127493_f4a",
+      "amountPaid": 999,
+      "bookedAt": "2026-10-01T05:22:07.493066Z"
+    },
+    {
+      "id": "sess-1790831733180",
+      "expertId": "deepak",
+      "expert": {
+        "id": "deepak",
+        "name": "Deepak Patel",
+        "role": "Senior Data Scientist & AI Lead",
+        "company": "Zomato",
+        "domain": "AI/ML",
+        "experience": "7.5+ Years Exp.",
+        "rating": 4.92,
+        "reviewsCount": 194,
+        "sessionsCount": 208,
+        "price": 1299,
+        "location": "Pune, India",
+        "duration": "01:18",
+        "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+        "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at Zomato",
+        "skills": [
+          "Computer Vision",
+          "LangChain",
+          "TensorFlow",
+          "RAG Systems",
+          "Vector Search",
+          "LLMs"
+        ],
+        "bio": "Senior Data Scientist & AI Lead at Zomato. I mentor engineers making the jump into AI/ML roles, with deep focus on Computer Vision and LangChain.",
+        "verifiedEmail": "deepak.p@zomato.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Computer Vision Developer",
+          "company3YearsAgo": "Mindtree",
+          "salary3YearsAgo": "\u20b96.1 LPA",
+          "keyJumpSkills": [
+            "Multi-Modal Model Serving",
+            "PyTorch Production Pipelines",
+            "Vector Search (Pinecone)"
+          ],
+          "jumpStory": "Went from Computer Vision Developer at Mindtree to Senior Data Scientist & AI Lead at Zomato by mastering Multi-Modal Model Serving and PyTorch Production Pipelines."
+        },
+        "availability": {
+          "days": [
+            "Mon",
+            "Thu",
+            "Sat"
+          ],
+          "timeSlots": [
+            "06:00 PM - 07:00 PM",
+            "07:30 PM - 08:30 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash-mahto",
+      "candidateName": "Prakash Mahto",
+      "candidateRole": "Senior Frontend Engineer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Transition Strategy to Lead Architect",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "2026-10-05",
+      "timeSlot": "07:00 PM - 08:00 PM",
+      "status": "completed",
+      "meetingLink": "https://meet.shine.com/room/peerpath-deepak-33180",
+      "badgeAwarded": "AI & Distributed Systems Peer-Verified",
+      "feedbackNotes": "Exceptional architectural clarity on distributed systems and micro-frontends.",
+      "rating": 5.0,
+      "paymentId": "pay_shine_1790831733180_7e4",
+      "amountPaid": 999,
+      "bookedAt": "2026-10-01T05:15:33.180077Z"
+    },
+    {
+      "id": "sess-1790831333583",
+      "expertId": "deepak",
+      "expert": {
+        "id": "deepak",
+        "name": "Deepak Patel",
+        "role": "Senior Data Scientist & AI Lead",
+        "company": "Zomato",
+        "domain": "AI/ML",
+        "experience": "7.5+ Years Exp.",
+        "rating": 4.92,
+        "reviewsCount": 194,
+        "sessionsCount": 208,
+        "price": 1299,
+        "location": "Pune, India",
+        "duration": "01:18",
+        "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+        "videoPoster": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1000&auto=format&fit=crop&q=80",
+        "teaserTitle": "Teaser: How I Became Senior Data Scientist & AI Lead at Zomato",
+        "skills": [
+          "Computer Vision",
+          "LangChain",
+          "TensorFlow",
+          "RAG Systems",
+          "Vector Search",
+          "LLMs"
+        ],
+        "bio": "Senior Data Scientist & AI Lead at Zomato. I mentor engineers making the jump into AI/ML roles, with deep focus on Computer Vision and LangChain.",
+        "verifiedEmail": "deepak.p@zomato.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Computer Vision Developer",
+          "company3YearsAgo": "Mindtree",
+          "salary3YearsAgo": "\u20b96.1 LPA",
+          "keyJumpSkills": [
+            "Multi-Modal Model Serving",
+            "PyTorch Production Pipelines",
+            "Vector Search (Pinecone)"
+          ],
+          "jumpStory": "Went from Computer Vision Developer at Mindtree to Senior Data Scientist & AI Lead at Zomato by mastering Multi-Modal Model Serving and PyTorch Production Pipelines."
+        },
+        "availability": {
+          "days": [
+            "Mon",
+            "Thu",
+            "Sat"
+          ],
+          "timeSlots": [
+            "06:00 PM - 07:00 PM",
+            "07:30 PM - 08:30 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash-mahto",
+      "candidateName": "Prakash Mahto",
+      "candidateRole": "Senior Frontend Engineer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Transition Strategy to Lead Architect",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "2026-10-05",
+      "timeSlot": "07:00 PM - 08:00 PM",
+      "status": "completed",
+      "meetingLink": "https://meet.shine.com/room/peerpath-deepak-33583",
+      "badgeAwarded": "AI & Distributed Systems Peer-Verified",
+      "feedbackNotes": "Exceptional architectural clarity on distributed systems and micro-frontends.",
+      "rating": 5.0,
+      "paymentId": "pay_shine_1790831333583_138e",
+      "amountPaid": 999,
+      "bookedAt": "2026-10-01T05:08:53.583881Z"
+    },
+    {
       "id": "sess-1",
       "expertId": "saheli",
       "expert": {
@@ -5336,11 +5805,16 @@
       "candidateEmail": "prakash.mahto@gmail.com",
       "date": "Saturday, 12 Sep 2026",
       "timeSlot": "06:30 PM - 07:30 PM",
-      "status": "upcoming",
+      "status": "completed",
       "meetingLink": "https://meet.shine.com/room/peerpath-saheli-prakash-7f9",
       "amountPaid": 999,
       "paymentId": "pay_live_shine_9821a",
-      "bookedAt": "2026-09-05T10:15:00Z"
+      "bookedAt": "2026-09-05T10:15:00Z",
+      "rating": 5.0,
+      "feedbackNotes": "Saheli Kanjilal completely transformed my approach to career transitions. The framework shared for handling interview loops and system design was invaluable!",
+      "badgeAwarded": "Full-Stack Production Ready",
+      "recordingUrl": "/api/sessions/1/recording",
+      "hasRecording": true
     },
     {
       "id": "sess-2",
@@ -5416,6 +5890,140 @@
   ],
   "badges": [
     {
+      "id": "badge-1790832625062",
+      "title": "AI & Distributed Systems Peer-Verified",
+      "subtitle": "Verified by Deepak Patel \u2022 Senior Data Scientist & AI Lead @ Zomato",
+      "verifierName": "Deepak Patel",
+      "verifierRole": "Senior Data Scientist & AI Lead @ Zomato",
+      "verifierAvatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+      "verifierCompany": "Zomato",
+      "date": "Oct 01, 2026",
+      "skills": [
+        "Micro-Frontends",
+        "Distributed Systems",
+        "LangChain"
+      ],
+      "status": "verified",
+      "verificationHash": "SHINE-PEER-1790832625062-ZOM"
+    },
+    {
+      "id": "badge-1790832460251",
+      "title": "AI & Distributed Systems Peer-Verified",
+      "subtitle": "Verified by Deepak Patel \u2022 Senior Data Scientist & AI Lead @ Zomato",
+      "verifierName": "Deepak Patel",
+      "verifierRole": "Senior Data Scientist & AI Lead @ Zomato",
+      "verifierAvatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+      "verifierCompany": "Zomato",
+      "date": "Oct 01, 2026",
+      "skills": [
+        "Micro-Frontends",
+        "Distributed Systems",
+        "LangChain"
+      ],
+      "status": "verified",
+      "verificationHash": "SHINE-PEER-1790832460251-ZOM"
+    },
+    {
+      "id": "badge-1790832341468",
+      "title": "AI & Distributed Systems Peer-Verified",
+      "subtitle": "Verified by Deepak Patel \u2022 Senior Data Scientist & AI Lead @ Zomato",
+      "verifierName": "Deepak Patel",
+      "verifierRole": "Senior Data Scientist & AI Lead @ Zomato",
+      "verifierAvatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+      "verifierCompany": "Zomato",
+      "date": "Oct 01, 2026",
+      "skills": [
+        "Micro-Frontends",
+        "Distributed Systems",
+        "LangChain"
+      ],
+      "status": "verified",
+      "verificationHash": "SHINE-PEER-1790832341468-ZOM"
+    },
+    {
+      "id": "badge-1790832192534",
+      "title": "Full-Stack Production Ready",
+      "subtitle": "Verified by Saheli Kanjilal \u2022 Staff Frontend Architect @ Razorpay (FinTech)",
+      "verifierName": "Saheli Kanjilal",
+      "verifierRole": "Staff Frontend Architect @ Razorpay (FinTech)",
+      "verifierAvatar": "/avatars/saheli.jpg",
+      "verifierCompany": "Razorpay (FinTech)",
+      "date": "Oct 01, 2026",
+      "skills": [
+        "System Architecture",
+        "Problem Solving"
+      ],
+      "status": "verified",
+      "verificationHash": "SHINE-PEER-1790832192534-RAZ"
+    },
+    {
+      "id": "badge-1790832190249",
+      "title": "Peer-Verified Skill Badge",
+      "subtitle": "Verified by Saheli Kanjilal \u2022 Staff Frontend Architect @ Razorpay (FinTech)",
+      "verifierName": "Saheli Kanjilal",
+      "verifierRole": "Staff Frontend Architect @ Razorpay (FinTech)",
+      "verifierAvatar": "/avatars/saheli.jpg",
+      "verifierCompany": "Razorpay (FinTech)",
+      "date": "Oct 01, 2026",
+      "skills": [
+        "System Architecture",
+        "Problem Solving"
+      ],
+      "status": "verified",
+      "verificationHash": "SHINE-PEER-1790832190249-RAZ"
+    },
+    {
+      "id": "badge-1790832127503",
+      "title": "AI & Distributed Systems Peer-Verified",
+      "subtitle": "Verified by Deepak Patel \u2022 Senior Data Scientist & AI Lead @ Zomato",
+      "verifierName": "Deepak Patel",
+      "verifierRole": "Senior Data Scientist & AI Lead @ Zomato",
+      "verifierAvatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+      "verifierCompany": "Zomato",
+      "date": "Oct 01, 2026",
+      "skills": [
+        "Micro-Frontends",
+        "Distributed Systems",
+        "LangChain"
+      ],
+      "status": "verified",
+      "verificationHash": "SHINE-PEER-1790832127503-ZOM"
+    },
+    {
+      "id": "badge-1790831733194",
+      "title": "AI & Distributed Systems Peer-Verified",
+      "subtitle": "Verified by Deepak Patel \u2022 Senior Data Scientist & AI Lead @ Zomato",
+      "verifierName": "Deepak Patel",
+      "verifierRole": "Senior Data Scientist & AI Lead @ Zomato",
+      "verifierAvatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+      "verifierCompany": "Zomato",
+      "date": "Oct 01, 2026",
+      "skills": [
+        "Micro-Frontends",
+        "Distributed Systems",
+        "LangChain"
+      ],
+      "status": "verified",
+      "verificationHash": "SHINE-PEER-1790831733194-ZOM"
+    },
+    {
+      "id": "badge-1790831333594",
+      "title": "AI & Distributed Systems Peer-Verified",
+      "subtitle": "Verified by Deepak Patel \u2022 Senior Data Scientist & AI Lead @ Zomato",
+      "verifierName": "Deepak Patel",
+      "verifierRole": "Senior Data Scientist & AI Lead @ Zomato",
+      "verifierAvatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+      "verifierCompany": "Zomato",
+      "date": "Oct 01, 2026",
+      "skills": [
+        "Micro-Frontends",
+        "Distributed Systems",
+        "LangChain"
+      ],
+      "status": "verified",
+      "verificationHash": "SHINE-PEER-1790831333594-ZOM"
+    },
+    {
       "id": "badge-pm-1",
       "title": "Tier-1 Frontend & UI Architecture",
       "subtitle": "Verified by Saheli Kanjilal \u2022 Staff Frontend Architect @ Razorpay",
@@ -5456,7 +6064,7 @@
       "id": "post-1789474758999-mntb",
       "mentorId": "akash",
       "mentorName": "Akash Jain",
-      "mentorRole": "Lead Product Manager @ Shine (HT Media) • Ex-Paytm, Flipkart",
+      "mentorRole": "Lead Product Manager @ Shine (HT Media) \u2022 Ex-Paytm, Flipkart",
       "mentorCompany": "Shine (HT Media)",
       "mentorAvatar": "/avatars/akash.jpg",
       "title": "New session will be soon",
@@ -5678,7 +6286,7 @@
       "mentorCompany": "Swiggy",
       "mentorAvatar": "/avatars/ishita.jpg",
       "title": "The SDE-2 to Frontend Staff Transition: Micro-Frontends, INP Optimization & Design Systems",
-      "content": "A common myth: \"Frontend interviews are just LeetCode trees and building a todo app in React.\"\n\nIn top product teams, candidate evaluation at Staff/Architect level focuses heavily on:\n• Module Federation orchestration and independent versioning without duplicate React runtimes.\n• INP (Interaction to Next Paint) debugging: Breaking long tasks using scheduler.yield() or React 19 useTransition.\n• Zero-runtime CSS vs CSS Modules trade-offs on mobile web viewports.\n• Cross-team Design System governance and headless accessibility (ARIA patterns).\n\nI'll be hosting a 1:1 roadmap teardown for candidates aiming for Tier-1 product jumps. Ask anything below regarding UI performance audits!",
+      "content": "A common myth: \"Frontend interviews are just LeetCode trees and building a todo app in React.\"\n\nIn top product teams, candidate evaluation at Staff/Architect level focuses heavily on:\n\u2022 Module Federation orchestration and independent versioning without duplicate React runtimes.\n\u2022 INP (Interaction to Next Paint) debugging: Breaking long tasks using scheduler.yield() or React 19 useTransition.\n\u2022 Zero-runtime CSS vs CSS Modules trade-offs on mobile web viewports.\n\u2022 Cross-team Design System governance and headless accessibility (ARIA patterns).\n\nI'll be hosting a 1:1 roadmap teardown for candidates aiming for Tier-1 product jumps. Ask anything below regarding UI performance audits!",
       "tags": [
         "Frontend Architecture",
         "React 19",
@@ -5792,7 +6400,7 @@
       "mentorRole": "Principal AI/ML Researcher & Platform Lead",
       "mentorCompany": "Qualcomm",
       "mentorAvatar": "/avatars/raghavan.jpg",
-      "title": "Production RAG vs Fine-Tuning in 2026: Why Enterprise Teams Don’t Fine-Tune First",
+      "title": "Production RAG vs Fine-Tuning in 2026: Why Enterprise Teams Don\u2019t Fine-Tune First",
       "content": "Almost every candidate I mentor asks: \"Should I fine-tune Llama 3 for my company's domain or build a RAG pipeline?\"\n\nHere is what actual production metrics show across Indian tech enterprises:\n1. Fine-tuning solves style and syntax, NOT fresh factual grounding. You still get hallucinations.\n2. Hybrid search (Dense Embeddings + BM25 keyword matching) with a Cross-Encoder reranker yields 88%+ precision at a fraction of training compute.\n3. Context chunking strategies (semantic chunking with parent-document retrievers) matter 5x more than embedding vector dimensions.\n\nEngineers moving into Applied AI & LLM Systems: What architectures are you building right now? Share below!",
       "tags": [
         "Generative AI",
@@ -6073,7 +6681,7 @@
       "mentorAvatar": "/avatars/raghavan.jpg",
       "postId": "post-3",
       "title": "New Technical Post",
-      "message": "Dr. Raghavan Nair posted: \"Production RAG vs Fine-Tuning in 2026: Why Enterprise Teams Don’t Fine-Tune First\"",
+      "message": "Dr. Raghavan Nair posted: \"Production RAG vs Fine-Tuning in 2026: Why Enterprise Teams Don\u2019t Fine-Tune First\"",
       "createdAt": "2026-09-13T12:08:25.839Z",
       "isRead": true,
       "actionUrl": "/community#post-3"
@@ -6081,9 +6689,9 @@
   ],
   "reactions": [],
   "analytics": {
-    "profileUpdatesThisMonth": 14821,
+    "profileUpdatesThisMonth": 14829,
     "newRegistrationsThisMonth": 6350,
-    "totalSessionsBooked": 2430,
+    "totalSessionsBooked": 2436,
     "totalActiveCreators": 93
   }
 }

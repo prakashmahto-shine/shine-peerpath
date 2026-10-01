@@ -6,15 +6,17 @@
   "scripts": {
     "dev": "vite",
     "dev:frontend": "vite",
-    "dev:backend": "tsx watch server/index.ts",
-    "dev:all": "tsx server/index.ts & vite",
-    "server": "tsx server/index.ts",
-    "server:dev": "tsx watch server/index.ts",
-    "start:all": "tsx server/index.ts & vite",
+    "dev:backend": "python3 run_backend.py",
+    "dev:backend:node": "tsx watch server/index.ts",
+    "dev:all": "python3 run_backend.py & vite",
+    "server": "python3 run_backend.py",
+    "server:dev": "python3 run_backend.py",
+    "start": "python3 run_backend.py",
+    "start:all": "python3 run_backend.py & vite",
+    "test:python": "python3 test_python_backend.py",
     "build": "tsc && vite build",
     "build:frontend": "tsc && vite build",
-    "preview": "vite preview",
-    "start": "source .venv/bin/activate && python3 run_backend.py"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@huggingface/transformers": "^4.2.0",

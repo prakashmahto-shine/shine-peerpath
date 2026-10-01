@@ -1,8 +1,7 @@
 import re
 import math
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
 import numpy as np
-from sentence_transformers import SentenceTransformer
 from backend.config import EMBEDDING_MODEL_NAME, EMBEDDING_DIM
 
 TOKEN_ALIASES = {
@@ -20,16 +19,19 @@ TOKEN_ALIASES = {
     'apis': 'restapi'
 }
 
-_model: Optional[SentenceTransformer] = None
+_model: Optional[Any] = None
+_model_failed: bool = False
 _embedding_cache: Dict[str, List[float]] = {}
 
-def get_embedding_model() -> SentenceTransformer:
-    global _model
-    if _model is None:
+def get_embedding_model():
+    global _model, _model_failed
+    if _model is None and not _model_failed:
         try:
+            from sentence_transformers import SentenceTransformer
             _model = SentenceTransformer(EMBEDDING_MODEL_NAME)
         except Exception as e:
-            print(f"[EmbeddingService] Warning loading {EMBEDDING_MODEL_NAME}: {e}")
+            _model_failed = True
+            print(f"[EmbeddingService] Note: Using deterministic fallback vectorizer ({e})")
     return _model
 
 def normalize_token(token: str) -> str:

@@ -406,32 +406,63 @@ export class WebRTCService {
 
   public closePeerConnection() {
     if (this.peerConnection) {
+      try {
+        this.peerConnection.getSenders().forEach(sender => {
+          if (sender.track) {
+            try {
+              sender.track.stop();
+              sender.track.enabled = false;
+            } catch (e) {}
+          }
+        });
+      } catch (e) {}
       this.peerConnection.close();
       this.peerConnection = null;
     }
     if (this.remoteStream) {
-      this.remoteStream.getTracks().forEach(t => t.stop());
+      this.remoteStream.getTracks().forEach(t => {
+        try {
+          t.stop();
+          t.enabled = false;
+        } catch (e) {}
+      });
       this.remoteStream = null;
     }
   }
 
   public leaveRoom() {
-    this.stopRecording().catch(() => {});
+    try {
+      if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
+        this.mediaRecorder.stop();
+      }
+    } catch (e) {}
+
+    if (this.localStream) {
+      this.localStream.getTracks().forEach(t => {
+        try {
+          t.stop();
+          t.enabled = false;
+        } catch (e) {}
+      });
+      this.localStream = null;
+    }
+
+    if (this.screenStream) {
+      this.screenStream.getTracks().forEach(t => {
+        try {
+          t.stop();
+          t.enabled = false;
+        } catch (e) {}
+      });
+      this.screenStream = null;
+    }
+
     this.closePeerConnection();
 
     if (this.socket) {
       this.socket.disconnect();
       this.socket = null;
     }
-
-    if (this.localStream) {
-      this.localStream.getTracks().forEach(t => t.stop());
-      this.localStream = null;
-    }
-
-    if (this.screenStream) {
-      this.screenStream.getTracks().forEach(t => t.stop());
-      this.screenStream = null;
-    }
   }
 }
+

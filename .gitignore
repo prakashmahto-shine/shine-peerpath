@@ -12,3 +12,9 @@ __pycache__/
 milvus_data/
 *.db
 *.db.sock
+*.log
+.pytest_cache/
+server/data/recordings/
+backend/data/recordings/
+*.webm
+*.mp4
