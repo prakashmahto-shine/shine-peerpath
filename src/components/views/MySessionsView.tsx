@@ -608,8 +608,8 @@ export const MySessionsView: React.FC = () => {
                   </div>
 
                   <div className="scc-outcome-pill">
-                    <Award size={14} className="text-amber-500 flex-shrink-0" />
-                    <span><strong>Badge:</strong> "{sess.badgeAwarded || 'System Architecture'}" Verified</span>
+                    <CheckCircle2 size={14} className="text-emerald-600 flex-shrink-0" />
+                    <span><strong>Evaluation:</strong> 1:1 Technical Mentorship Completed</span>
                   </div>
 
                   <div className="scc-action-cta" style={{ display: 'flex', gap: '8px' }}>
@@ -755,7 +755,7 @@ export const MySessionsView: React.FC = () => {
             <div style={{ padding: '16px 20px', background: '#1E293B', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
               <div>
                 <span style={{ fontSize: '12.5px', color: '#10B981', fontWeight: 700, display: 'block' }}>
-                  ✓ Verified Rubric: {selectedRecordingSession.badgeAwarded || 'Tier-1 Architecture Competency'}
+                  ✓ 1:1 Mentorship Session & Detailed Scorecard Sync
                 </span>
                 <span style={{ fontSize: '11.5px', color: '#94A3B8' }}>
                   Recorded on {selectedRecordingSession.date} • Session ID: {selectedRecordingSession.id}

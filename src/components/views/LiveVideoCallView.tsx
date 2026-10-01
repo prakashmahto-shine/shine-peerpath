@@ -399,29 +399,12 @@ export const LiveVideoCallView: React.FC = () => {
       setRecordingUploaded(true);
     }
 
-    // 4. Award badge if mentor approved rubric
-    if (rubricApproved) {
-      awardBadge({
-        id: `badge-${Date.now()}`,
-        title: `Peer-Verified ${expert.domain} Architecture`,
-        subtitle: `Verified 1:1 by ${expert.name} (${expert.company})`,
-        verifierName: expert.name,
-        verifierRole: expert.role,
-        verifierCompany: expert.company,
-        verifierAvatar: expert.avatar,
-        date: 'Today',
-        skills: expert.skills.slice(0, 3),
-        status: 'verified'
-      });
-    }
-
-    // 5. Complete session in state
+    // 4. Complete session in state with feedback notes
     if (activeSession?.id) {
       completeSession(
         activeSession.id,
         5,
-        `1:1 ${expert.domain} Guidance call with ${expert.name}. Candidate verified across core system design and domain rubrics.`,
-        rubricApproved ? `Verified ${expert.domain} Architecture` : undefined
+        `1:1 ${expert.domain} Guidance call with ${expert.name}. Candidate received comprehensive feedback, scorecard teardown, and personalized career roadmap.`
       );
     }
 
