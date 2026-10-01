@@ -5331,6 +5331,214 @@
   ],
   "sessions": [
     {
+      "id": "sess-1790848824161",
+      "expertId": "deepika-pm",
+      "expert": {
+        "id": "deepika-pm",
+        "name": "Deepika Sen",
+        "role": "Senior Technical Product Manager",
+        "company": "Google",
+        "domain": "Product Management",
+        "experience": "7+ Years Exp.",
+        "rating": 4.93,
+        "reviewsCount": 154,
+        "sessionsCount": 312,
+        "price": 1399,
+        "location": "Bengaluru, India",
+        "duration": "01:15",
+        "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80",
+        "videoPoster": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1000&auto=format&fit=crop&q=80",
+        "teaserTitle": "Teaser: Transitioning from Frontend Engineering to Google Technical Product Management",
+        "skills": [
+          "Technical Product Strategy",
+          "PRD & Discovery",
+          "API & Systems Design",
+          "Roadmapping",
+          "A/B Testing"
+        ],
+        "bio": "Senior Technical Product Manager at Google. I help frontend and full-stack developers transition into high-impact Product Management, master technical PRDs, and crack Google PM interviews.",
+        "verifiedEmail": "deepika.sen@google.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Senior Frontend Developer",
+          "company3YearsAgo": "TCS (Tata Consultancy Services)",
+          "salary3YearsAgo": "\u20b97.5 LPA",
+          "keyJumpSkills": [
+            "Technical PRDs",
+            "Product Strategy",
+            "System Architecture"
+          ],
+          "jumpStory": "Transitioned from 4 years as a Frontend Developer at TCS into high-scale developer platform Product Management at Google."
+        },
+        "availability": {
+          "days": [
+            "Tue",
+            "Thu",
+            "Sat"
+          ],
+          "timeSlots": [
+            "07:00 PM - 08:00 PM",
+            "08:30 PM - 09:30 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash",
+      "candidateName": "Prakash Kumar",
+      "candidateRole": "Senior frontend developer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Trajectory mentorship & target jump into Google",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "Tomorrow, 5 Sep",
+      "timeSlot": "10:00 AM - 11:00 AM",
+      "status": "upcoming",
+      "meetingLink": "https://meet.shine.com/room/peerpath-deepika-pm-24161",
+      "badgeAwarded": null,
+      "feedbackNotes": null,
+      "rating": null,
+      "paymentId": "pay_shine_1790848824161_1571",
+      "amountPaid": 1399,
+      "bookedAt": "2026-10-01T10:00:24.161715Z"
+    },
+    {
+      "id": "sess-1790847428836",
+      "expertId": "anirudh",
+      "expert": {
+        "id": "anirudh",
+        "name": "Anirudh Sharma",
+        "role": "Principal Search & Database Architect",
+        "company": "Shine (HT Media)",
+        "domain": "Search & Data Infra",
+        "experience": "8+ Years Exp.",
+        "rating": 4.9,
+        "reviewsCount": 165,
+        "sessionsCount": 390,
+        "price": 1199,
+        "location": "Noida, India",
+        "duration": "01:14",
+        "avatar": "/avatars/anirudh.jpg",
+        "videoPoster": "/avatars/anirudh.jpg",
+        "teaserTitle": "Teaser: Scaling Apache Solr & Distributed Search for 50M+ Candidate Queries",
+        "skills": [
+          "Apache Solr",
+          "Search Indexing",
+          "Database Tuning",
+          "Elasticsearch",
+          "Distributed DBs"
+        ],
+        "bio": "Principal Architect managing search clustering, real-time indexing pipelines, and high-performance Solr/NoSQL data infrastructure at Shine. 1:1 guidance on database scaling.",
+        "verifiedEmail": "anirudh.s@shine.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Senior Java/Search Engineer",
+          "company3YearsAgo": "Cognizant",
+          "salary3YearsAgo": "\u20b97.5 LPA",
+          "keyJumpSkills": [
+            "Solr Cluster Sharding",
+            "Sub-10ms Inverted Indexing",
+            "Distributed Caching"
+          ],
+          "jumpStory": "Shifted from maintaining enterprise search maintenance contracts to designing real-time indexing infrastructure for 40M+ active CV profiles."
+        },
+        "availability": {
+          "days": [
+            "Mon",
+            "Wed",
+            "Thu",
+            "Sat"
+          ],
+          "timeSlots": [
+            "02:00 PM - 03:00 PM",
+            "08:00 PM - 09:00 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash",
+      "candidateName": "Prakash Kumar",
+      "candidateRole": "Senior frontend developer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Trajectory mentorship & target jump into Shine (HT Media)",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "Tomorrow, 11 Sep",
+      "timeSlot": "07:00 PM - 08:00 PM",
+      "status": "upcoming",
+      "meetingLink": "https://meet.shine.com/room/peerpath-anirudh-28836",
+      "badgeAwarded": null,
+      "feedbackNotes": null,
+      "rating": null,
+      "paymentId": "pay_shine_1790847428836_1d84",
+      "amountPaid": 1199,
+      "bookedAt": "2026-10-01T09:37:08.836956Z"
+    },
+    {
+      "id": "sess-1790847374708",
+      "expertId": "deepika-pm",
+      "expert": {
+        "id": "deepika-pm",
+        "name": "Deepika Sen",
+        "role": "Senior Technical Product Manager",
+        "company": "Google",
+        "domain": "Product Management",
+        "experience": "7+ Years Exp.",
+        "rating": 4.93,
+        "reviewsCount": 154,
+        "sessionsCount": 312,
+        "price": 1399,
+        "location": "Bengaluru, India",
+        "duration": "01:15",
+        "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80",
+        "videoPoster": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1000&auto=format&fit=crop&q=80",
+        "teaserTitle": "Teaser: Transitioning from Frontend Engineering to Google Technical Product Management",
+        "skills": [
+          "Technical Product Strategy",
+          "PRD & Discovery",
+          "API & Systems Design",
+          "Roadmapping",
+          "A/B Testing"
+        ],
+        "bio": "Senior Technical Product Manager at Google. I help frontend and full-stack developers transition into high-impact Product Management, master technical PRDs, and crack Google PM interviews.",
+        "verifiedEmail": "deepika.sen@google.com",
+        "isVerifiedEmployer": true,
+        "trajectory": {
+          "role3YearsAgo": "Senior Frontend Developer",
+          "company3YearsAgo": "TCS (Tata Consultancy Services)",
+          "salary3YearsAgo": "\u20b97.5 LPA",
+          "keyJumpSkills": [
+            "Technical PRDs",
+            "Product Strategy",
+            "System Architecture"
+          ],
+          "jumpStory": "Transitioned from 4 years as a Frontend Developer at TCS into high-scale developer platform Product Management at Google."
+        },
+        "availability": {
+          "days": [
+            "Tue",
+            "Thu",
+            "Sat"
+          ],
+          "timeSlots": [
+            "07:00 PM - 08:00 PM",
+            "08:30 PM - 09:30 PM"
+          ]
+        }
+      },
+      "candidateId": "prakash",
+      "candidateName": "Prakash Kumar",
+      "candidateRole": "Senior frontend developer",
+      "candidateAvatar": "/avatars/prakash.jpg",
+      "candidateGoal": "Trajectory mentorship & target jump into Google",
+      "candidateEmail": "prakash.mahto@gmail.com",
+      "date": "Tomorrow, 11 Sep",
+      "timeSlot": "07:00 PM - 08:00 PM",
+      "status": "upcoming",
+      "meetingLink": "https://meet.shine.com/room/peerpath-deepika-pm-74708",
+      "badgeAwarded": null,
+      "feedbackNotes": null,
+      "rating": null,
+      "paymentId": "pay_shine_1790847374708_2267",
+      "amountPaid": 1399,
+      "bookedAt": "2026-10-01T09:36:14.708663Z"
+    },
+    {
       "id": "sess-1790846929185",
       "expertId": "deepika-pm",
       "expert": {
@@ -7115,7 +7323,7 @@
   "analytics": {
     "profileUpdatesThisMonth": 14837,
     "newRegistrationsThisMonth": 6350,
-    "totalSessionsBooked": 2441,
+    "totalSessionsBooked": 2444,
     "totalActiveCreators": 93
   }
 }

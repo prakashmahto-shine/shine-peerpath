@@ -4,36 +4,39 @@
 .bfm-modal-card {
   width: 94%;
   max-width: 580px;
+  max-height: min(94vh, 700px);
   background: #FFFFFF;
-  border-radius: 20px;
-  padding: 22px 24px;
+  border-radius: 18px;
+  padding: 16px 20px 12px 20px;
   box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(15, 23, 42, 0.05);
   display: flex;
   flex-direction: column;
-  gap: 16px;
   position: relative;
   box-sizing: border-box;
+  overflow: hidden;
   animation: modalPopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .bfm-header {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 12px;
+  padding-bottom: 8px;
   border-bottom: 1px solid #F1F5F9;
+  margin-bottom: 2px;
 }
 
 .bfm-mentor-identity {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .bfm-avatar-wrap {
   position: relative;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
 }
 
@@ -49,8 +52,8 @@
   position: absolute;
   bottom: 0px;
   right: 0px;
-  width: 11px;
-  height: 11px;
+  width: 10px;
+  height: 10px;
   background: #10B981;
   border: 2px solid #FFFFFF;
   border-radius: 50%;
@@ -59,17 +62,17 @@
 .bfm-mentor-meta {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 0px;
 }
 
 .bfm-name-row {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 0px;
 }
 
 .bfm-sub-label {
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 700;
   color: #64748B;
   text-transform: uppercase;
@@ -79,11 +82,11 @@
 .bfm-name-flex {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
 }
 
 .bfm-mentor-name {
-  font-size: 15.5px;
+  font-size: 14.5px;
   font-weight: 800;
   color: #0F172A;
   margin: 0;
@@ -96,15 +99,15 @@
 }
 
 .bfm-role-text {
-  font-size: 11.5px;
+  font-size: 11px;
   color: #475569;
   margin: 0;
   font-weight: 500;
 }
 
 .bfm-close-btn {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: #F8FAFC;
   border: 1px solid #E2E8F0;
@@ -122,15 +125,44 @@
   transform: scale(1.05);
 }
 
+/* Scrollable Middle Body (Fits perfectly on Windows 1366x768, 1080p, Mac) */
+.bfm-scroll-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 3px;
+}
+
+.bfm-scroll-content::-webkit-scrollbar {
+  width: 5px;
+}
+
+.bfm-scroll-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.bfm-scroll-content::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+
+.bfm-scroll-content::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
 /* Enhanced Interactive Session Goal Selector */
 .bfm-services-selector {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   background: #F8FAFC;
   border: 1px solid #E2E8F0;
-  border-radius: 14px;
-  padding: 10px 12px;
+  border-radius: 12px;
+  padding: 8px 10px;
 }
 
 .bfm-services-header-row {
@@ -434,19 +466,194 @@
   color: #38BDF8;
 }
 
-/* Footer */
+/* Step 3: Attached Resume for Mentor (Pre-Call Dossier) */
+.bfm-cv-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%);
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 10px 12px;
+  transition: all 0.2s ease;
+}
+
+.bfm-cv-section.synced {
+  background: linear-gradient(180deg, #F0FDF4 0%, #ECFDF5 100%);
+  border-color: #86EFAC;
+}
+
+.bfm-cv-badge-warn {
+  font-size: 9.5px;
+  font-weight: 750;
+  color: #B45309;
+  background: #FEF3C7;
+  border: 1px solid #FDE68A;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.bfm-cv-badge-ready {
+  font-size: 9.5px;
+  font-weight: 750;
+  color: #047857;
+  background: #D1FAE5;
+  border: 1px solid #A7F3D0;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.bfm-cv-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 9px;
+  padding: 8px 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.bfm-cv-section.synced .bfm-cv-card {
+  border-color: #86EFAC;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.08);
+}
+
+.bfm-cv-left {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  flex: 1;
+}
+
+.bfm-cv-icon-box {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: #FEF3C7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.bfm-cv-icon-box.ready {
+  background: #DCFCE7;
+}
+
+.bfm-cv-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5px;
+  min-width: 0;
+}
+
+.bfm-cv-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bfm-cv-name {
+  font-size: 12px;
+  font-weight: 750;
+  color: #0F172A;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 190px;
+}
+
+.bfm-cv-subtext {
+  font-size: 10px;
+  color: #64748B;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.bfm-cv-subtext.warn {
+  color: #B45309;
+  font-weight: 600;
+}
+
+.bfm-cv-subtext.ready {
+  color: #059669;
+  font-weight: 600;
+}
+
+.btn-bfm-cv-upload {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-flex;
+  background: #0F172A;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 750;
+  padding: 6px 11px;
+  border-radius: 7px;
+  border: 1px solid #1E293B;
+  cursor: pointer;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-bfm-cv-upload:hover:not(:disabled) {
+  background: #2563EB;
+  border-color: #1D4ED8;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(37, 99, 235, 0.25);
+}
+
+.btn-bfm-cv-upload.synced {
+  background: #F8FAFC;
+  color: #0F172A;
+  border: 1px solid #CBD5E1;
+}
+
+.btn-bfm-cv-upload.synced:hover {
+  background: #F1F5F9;
+  border-color: #94A3B8;
+}
+
+.btn-bfm-cv-upload.loading {
+  background: #64748B;
+  cursor: not-allowed;
+}
+
+/* Pinned Footer (Always 100% visible on Windows, Mac, iPad & Mobile) */
+.bfm-footer-pinned {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 8px;
+  margin-top: 4px;
+  border-top: 1px solid #F1F5F9;
+  background: #FFFFFF;
+}
+
 .bfm-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 12px;
-  border-top: 1px solid #F1F5F9;
 }
 
 .bfm-footer-price-block {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
 }
 
 .bfm-price-line {
@@ -456,19 +663,19 @@
 }
 
 .bfm-p-curr {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: #0F172A;
 }
 
 .bfm-p-amount {
-  font-size: 21px;
+  font-size: 19px;
   font-weight: 850;
   color: #0F172A;
 }
 
 .bfm-p-session {
-  font-size: 11px;
+  font-size: 10.5px;
   color: #64748B;
   font-weight: 600;
   margin-left: 2px;
@@ -477,11 +684,11 @@
 .bfm-trust-line {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
 }
 
 .bfm-trust-item {
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 600;
   color: #059669;
   display: flex;
@@ -493,11 +700,12 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 9px 22px;
-  font-size: 13.5px;
+  padding: 8px 20px;
+  font-size: 13px;
   font-weight: 750;
-  border-radius: 10px;
+  border-radius: 9px;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(234, 179, 8, 0.3);
 }
 
 .bfm-secure-bar {
@@ -505,15 +713,73 @@
   align-items: center;
   justify-content: center;
   gap: 5px;
-  font-size: 10px;
+  font-size: 9.5px;
   color: #64748B;
-  margin-top: -6px;
+  margin-top: 1px;
+}
+
+/* Height-Aware Adaptive Sizing for Windows Laptops & Smaller Displays */
+@media (max-height: 740px) {
+  .bfm-modal-card {
+    max-height: 96vh;
+    padding: 12px 16px 8px 16px;
+    border-radius: 14px;
+  }
+  .bfm-header {
+    padding-bottom: 6px;
+    margin-bottom: 0px;
+  }
+  .bfm-avatar-wrap {
+    width: 34px;
+    height: 34px;
+  }
+  .bfm-mentor-name {
+    font-size: 13.5px;
+  }
+  .bfm-role-text {
+    font-size: 10.5px;
+  }
+  .bfm-scroll-content {
+    gap: 6px;
+  }
+  .bfm-services-selector {
+    padding: 6px 8px;
+    gap: 4px;
+  }
+  .bfm-service-chip {
+    padding: 5px 8px;
+    gap: 7px;
+  }
+  .bfm-sc-icon-wrap {
+    width: 26px;
+    height: 26px;
+  }
+  .bfm-date-card {
+    height: 44px;
+  }
+  .bfm-d-num {
+    font-size: 13px;
+  }
+  .bfm-slot-card {
+    height: 34px;
+  }
+  .bfm-slot-time {
+    font-size: 9.5px;
+  }
+  .bfm-cv-section {
+    padding: 6px 8px;
+    gap: 4px;
+  }
+  .bfm-footer-pinned {
+    padding-top: 6px;
+    margin-top: 2px;
+  }
 }
 
 @media (max-width: 640px) {
   .bfm-modal-card {
     width: 95%;
-    padding: 16px;
+    padding: 14px 14px 10px 14px;
   }
   .bfm-services-chips {
     grid-template-columns: 1fr;
@@ -525,7 +791,7 @@
     padding-bottom: 4px;
   }
   .bfm-date-card, .bfm-slot-card {
-    min-width: 60px;
+    min-width: 58px;
     flex-shrink: 0;
   }
 }

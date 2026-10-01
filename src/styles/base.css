@@ -81,17 +81,37 @@ body {
   border-radius: 20px;
   box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(15, 23, 42, 0.05);
   position: relative;
-  max-height: 92vh;
-  overflow-y: auto;
+  max-height: min(94vh, 740px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
   animation: modalPopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.app-modal-card::-webkit-scrollbar {
+  width: 5px;
+}
+
+.app-modal-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.app-modal-card::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+
+.app-modal-card::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
 }
 
 .modal-close-btn {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 32px;
-  height: 32px;
+  top: 14px;
+  right: 14px;
+  width: 30px;
+  height: 30px;
   background: #F1F5F9;
   border: 1px solid #E2E8F0;
   border-radius: 50%;
@@ -100,7 +120,7 @@ body {
   justify-content: center;
   color: var(--shine-slate);
   cursor: pointer;
-  z-index: 10;
+  z-index: 20;
   transition: all 0.15s ease;
 }
 

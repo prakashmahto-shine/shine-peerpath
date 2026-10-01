@@ -5,7 +5,7 @@
 .modern-mentor-wizard-shell {
   max-width: 920px !important;
   width: 95% !important;
-  max-height: 88vh !important;
+  max-height: min(94vh, 760px) !important;
   display: flex !important;
   flex-direction: column !important;
   padding: 0 !important;
@@ -897,4 +897,22 @@
   background: #FEE2E2;
   border-color: #F87171;
   color: #B91C1C;
+}
+
+@media (max-height: 740px) {
+  .modern-mentor-wizard-shell {
+    max-height: 96vh !important;
+  }
+  .wizard-modal-top-bar {
+    padding: 10px 20px 8px 20px;
+  }
+  .wizard-stepper-modern-wrap {
+    padding: 4px 20px 8px 20px;
+  }
+  .wizard-step-body {
+    padding: 14px 20px;
+  }
+  .wizard-modal-sticky-footer {
+    padding: 10px 20px;
+  }
 }

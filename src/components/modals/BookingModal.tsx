@@ -2,7 +2,9 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { 
   X, Video, Clock, ArrowRight, Lock, 
   CheckCircle2, Calendar, RefreshCw, 
-  TrendingUp, FileText, Sparkles, Compass, Check
+  TrendingUp, FileText, Sparkles, Compass, Check,
+  QrCode, Smartphone, CreditCard, Building, ShieldCheck, Loader2, Shield,
+  Upload, Zap, AlertCircle, Briefcase
 } from 'lucide-react';
 import { Expert } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -26,7 +28,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   onClose,
   onSelectDate,
   onSelectTime,
-  onProceedToPay,
 }) => {
   const { 
     userProfile, 
@@ -34,8 +35,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     setBookingDraft, 
     selectedExpert,
     setIsBookingModalOpen,
-    setIsUpdateProfileModalOpen,
-    setPendingBookingCheckout,
+    bookSession,
+    navigate,
+    showToast,
+    updateCandidateResume
   } = useApp();
 
   // Dynamically calculate next 7 days starting strictly from Today
@@ -63,80 +66,65 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     return days;
   }, []);
 
-  const allSlots = useMemo(() => [
-    { time: '10:00 AM - 11:00 AM', label: '10:00 AM', period: 'Morning' },
-    { time: '11:30 AM - 12:30 PM', label: '11:30 AM', period: 'Morning' },
-    { time: '02:00 PM - 03:00 PM', label: '02:00 PM', period: 'Afternoon' },
-    { time: '04:30 PM - 05:30 PM', label: '04:30 PM', period: 'Afternoon' },
-    { time: '06:30 PM - 07:30 PM', label: '06:30 PM', period: 'Evening' },
-    { time: '08:00 PM - 09:00 PM', label: '08:00 PM', period: 'Evening' },
-    { time: '09:00 PM - 10:00 PM', label: '09:00 PM', period: 'Late Eve' }
-  ], []);
+  // Today is ALWAYS default if no date passed
+  const activeDateStr = selectedDate || next7Days[0]?.fullDateStr || '';
 
-  // Helper to parse slot start time safely
-  const parseSlotStartHour = (slotTimeStr: string): number => {
-    try {
-      if (!slotTimeStr || typeof slotTimeStr !== 'string') return 0;
-      const parts = slotTimeStr.split(' - ');
-      if (!parts[0]) return 0;
-      const timeAndMeridian = parts[0].trim().split(' ');
-      if (timeAndMeridian.length < 2) return 0;
-      const time = timeAndMeridian[0];
-      const meridian = timeAndMeridian[1];
-      const timeParts = time.split(':');
-      let hour = parseInt(timeParts[0] || '0', 10);
-      const min = parseInt(timeParts[1] || '0', 10);
-      if (isNaN(hour)) return 0;
-      if (meridian === 'PM' && hour !== 12) hour += 12;
-      if (meridian === 'AM' && hour === 12) hour = 0;
-      return hour + (isNaN(min) ? 0 : min) / 60;
-    } catch {
-      return 0;
-    }
-  };
+  // Determine current active date's today status
+  const activeDayObj = next7Days.find(d => d.fullDateStr === activeDateStr);
+  const isSelectedDateToday = activeDayObj ? activeDayObj.isToday : false;
 
-  const isSelectedInList = Boolean(selectedDate && next7Days.some(d => d.fullDateStr === selectedDate));
-  const activeDateStr = isSelectedInList 
-    ? (selectedDate as string)
-    : (next7Days[1]?.fullDateStr || next7Days[0]?.fullDateStr || 'Tomorrow, 5 Sep');
-
-  const isSelectedDayToday = Boolean(next7Days.find(d => d.fullDateStr === activeDateStr)?.isToday);
-
-  // Real-time slot filtering
+  // Real-time slot filter (filtering out past slots for today)
   const availableSlots = useMemo(() => {
-    if (!isSelectedDayToday) {
-      return allSlots;
-    }
-    const now = new Date();
-    const currentDecimalHour = now.getHours() + now.getMinutes() / 60;
-    const filtered = allSlots.filter(s => parseSlotStartHour(s.time) > currentDecimalHour + 0.25);
-    return filtered.length > 0 ? filtered : allSlots;
-  }, [isSelectedDayToday, allSlots]);
+    const rawSlots = [
+      { time: '10:00 AM - 11:00 AM', label: '10:00 AM', period: 'Morning', startHour: 10, startMin: 0 },
+      { time: '11:30 AM - 12:30 PM', label: '11:30 AM', period: 'Morning', startHour: 11, startMin: 30 },
+      { time: '02:00 PM - 03:00 PM', label: '02:00 PM', period: 'Afternoon', startHour: 14, startMin: 0 },
+      { time: '04:30 PM - 05:30 PM', label: '04:30 PM', period: 'Afternoon', startHour: 16, startMin: 30 },
+      { time: '06:30 PM - 07:30 PM', label: '06:30 PM', period: 'Evening', startHour: 18, startMin: 30 },
+      { time: '08:00 PM - 09:00 PM', label: '08:00 PM', period: 'Evening', startHour: 20, startMin: 0 },
+      { time: '09:00 PM - 10:00 PM', label: '09:00 PM', period: 'Late Eve', startHour: 21, startMin: 0 }
+    ];
 
+    if (!isSelectedDateToday) {
+      return rawSlots;
+    }
+
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMin = now.getMinutes();
+
+    return rawSlots.filter(s => {
+      if (s.startHour > currentHour) return true;
+      if (s.startHour === currentHour && s.startMin > currentMin) return true;
+      return false;
+    });
+  }, [isSelectedDateToday]);
+
+  // Fallback / default expert
   const expert: Expert = propExpert || bookingDraft?.expert || selectedExpert || {
-    id: 'naveen-ai',
-    name: 'Naveen Chandran',
-    role: 'Staff GenAI & UI Platform Architect',
+    id: 'deepika-pm',
+    name: 'Deepika Sen',
+    role: 'Senior Technical Product Manager',
     company: 'Google',
-    domain: 'Generative AI',
+    domain: 'Product Management',
     experience: '8+ Yrs',
-    rating: 4.96,
-    reviewsCount: 162,
-    sessionsCount: 340,
-    price: 1399,
     location: 'Bengaluru, India',
-    duration: '01:15',
-    avatar: '/avatars/akash.jpg',
-    videoPoster: '/avatars/akash.jpg',
-    teaserTitle: 'Transitioning into High-Impact Tech',
-    skills: ['Generative AI', 'LLMs', 'LangChain', 'React.js'],
-    bio: 'Staff GenAI & UI Platform Architect at Google.',
-    verifiedEmail: 'naveen.ai@google.com',
+    duration: '30 Mins',
+    avatar: '/avatars/deepika.jpg',
+    videoPoster: '/thumbnails/deepika-video.jpg',
+    teaserTitle: 'How I Transitioned from Engineering to Google PM',
+    rating: 4.93,
+    reviewsCount: 154,
+    sessionsCount: 310,
+    price: 1399,
+    bio: 'Helping tech professionals make seamless career transitions into Tier-1 product management and tech leadership roles.',
+    skills: ['Product Strategy', 'System Design', 'Interview Prep'],
+    verifiedEmail: 'deepika.sen@google.com',
     isVerifiedEmployer: true
   };
 
   const expertName = expert?.name || 'Mentor';
-  const expertAvatar = expert?.avatar || '/avatars/akash.jpg';
+  const expertAvatar = expert?.avatar || '/avatars/deepika.jpg';
   const expertRole = expert?.role || 'Tech Leader';
   const expertCompany = expert?.company || 'Top Tech Firm';
   const expertPrice = expert?.price || 1399;
@@ -148,7 +136,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       {
         id: 'career-guidance',
         title: 'Career Guidance & Strategy',
-        tagline: '90-Day Roadmap & Referrals',
         icon: Compass,
         duration: '30 Mins',
         price: base,
@@ -158,7 +145,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       {
         id: 'interview-prep',
         title: '1:1 Mock Interview & Scorecard',
-        tagline: 'Coding & Architecture Round',
         icon: Video,
         duration: '30 Mins',
         price: base,
@@ -168,7 +154,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       {
         id: 'resume-review',
         title: 'CV Audit & ATS Teardown',
-        tagline: 'Impact Rewrites & Keywords',
         icon: FileText,
         duration: '30 Mins',
         price: Math.max(499, Math.round((base * 0.7) / 50) * 50 - 1),
@@ -178,7 +163,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       {
         id: 'salary-negotiation',
         title: 'Salary & Offer Negotiation',
-        tagline: 'Tier-1 Benchmarks & Counter-Offers',
         icon: TrendingUp,
         duration: '30 Mins',
         price: Math.max(699, Math.round((base * 0.85) / 50) * 50 - 1),
@@ -211,23 +195,67 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const activeSession = sessionOfferings.find(s => s.id === selectedSessionId) || sessionOfferings[0];
   const payableAmount = activeSession.price;
 
-  const handleProceed = () => {
+  // Razorpay Gateway Modal simulation state
+  const [isRazorpayModalOpen, setIsRazorpayModalOpen] = useState<boolean>(false);
+  const [rzpMethod, setRzpMethod] = useState<'qr' | 'upi' | 'card' | 'netbanking'>('qr');
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [isUploadingCv, setIsUploadingCv] = useState<boolean>(false);
+
+  const currentCvName = userProfile?.resumeFileName || bookingDraft?.attachedCvName || 'Prakash_Mahto_Frontend_Resume.pdf';
+
+  // 1-Click CV sync / update from modal
+  const handleCvFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setIsUploadingCv(true);
+      setTimeout(() => {
+        setIsUploadingCv(false);
+        updateCandidateResume(file.name, ['React', 'TypeScript', 'System Design', 'Frontend Architecture']);
+        showToast('📄 Latest CV Attached!', `${file.name} attached for ${expertName}'s pre-call dossier.`, 'success');
+      }, 600);
+    }
+  };
+
+  // 1-Click direct opening of Razorpay Gateway (No intermediate friction screens)
+  const handleOpenRazorpay = () => {
     const slotTime = selectedTime || availableSlots[0]?.time || '10:00 AM - 11:00 AM';
     if (setBookingDraft) {
       setBookingDraft({
         expert,
         date: activeDateStr,
         timeSlot: slotTime,
-        attachedCvName: userProfile?.resumeFileName || '',
+        attachedCvName: currentCvName,
         sessionType: activeSession.title,
         amount: payableAmount,
         duration: activeSession.duration
       });
     }
-    // Launch candidate acquisition / profile update popup directly
-    setPendingBookingCheckout(true);
-    setIsBookingModalOpen(false);
-    setIsUpdateProfileModalOpen(true);
+    setIsRazorpayModalOpen(true);
+  };
+
+  const handleCompletePayment = () => {
+    const slotTime = selectedTime || availableSlots[0]?.time || '10:00 AM - 11:00 AM';
+    setIsProcessing(true);
+    setTimeout(() => {
+      setIsProcessing(false);
+      setIsRazorpayModalOpen(false);
+      onClose();
+      setIsBookingModalOpen(false);
+      if (setBookingDraft) {
+        setBookingDraft({
+          expert,
+          date: activeDateStr,
+          timeSlot: slotTime,
+          attachedCvName: currentCvName,
+          sessionType: activeSession.title,
+          amount: payableAmount,
+          duration: activeSession.duration
+        });
+      }
+      bookSession(expert, activeDateStr, slotTime, currentCvName);
+      showToast('🎉 Session Booked Successfully!', `1:1 Session confirmed with ${expertName} for ${activeDateStr}.`, 'success');
+      navigate('confirmed-view');
+    }, 1000);
   };
 
   if (!isOpen) return null;
@@ -262,50 +290,50 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           </button>
         </div>
 
-        {/* Enhanced Interactive Session Goal Selector */}
-        <div className="bfm-services-selector">
-          <div className="bfm-services-header-row">
-            <span className="bfm-services-label">
-              <Sparkles size={12} className="text-amber-500" />
-              <span>Select Session Goal</span>
-            </span>
-            <span className="bfm-services-meta-badge">
-              <Clock size={11} className="text-indigo-600" />
-              <span>30 Mins Live Mentorship</span>
-            </span>
-          </div>
-          <div className="bfm-services-chips">
-            {sessionOfferings.map((session) => {
-              const isSelected = selectedSessionId === session.id;
-              const IconComp = session.icon;
-              return (
-                <button
-                  type="button"
-                  key={session.id}
-                  className={`bfm-service-chip ${isSelected ? 'active' : ''}`}
-                  onClick={() => setSelectedSessionId(session.id)}
-                >
-                  <div className="bfm-sc-icon-wrap" style={{ background: session.iconBg, color: session.iconColor }}>
-                    <IconComp size={15} />
-                  </div>
-                  <div className="bfm-sc-info">
-                    <span className="bfm-sc-name">{session.title}</span>
-                    <span className="bfm-sc-price">₹{session.price}</span>
-                  </div>
-                  {isSelected && (
-                    <div className="bfm-sc-check-badge">
-                      <Check size={9} strokeWidth={3} />
-                    </div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Modal Body: 2 Clean Frictionless Steps */}
-        <div className="bfm-body">
+        {/* Scrollable Middle Container: Fits on all screen heights & Windows displays */}
+        <div className="bfm-scroll-content">
           
+          {/* Enhanced Interactive Session Goal Selector */}
+          <div className="bfm-services-selector">
+            <div className="bfm-services-header-row">
+              <span className="bfm-services-label">
+                <Sparkles size={12} className="text-amber-500" />
+                <span>Select Session Goal</span>
+              </span>
+              <span className="bfm-services-meta-badge">
+                <Clock size={11} className="text-indigo-600" />
+                <span>30 Mins Live Mentorship</span>
+              </span>
+            </div>
+            <div className="bfm-services-chips">
+              {sessionOfferings.map((session) => {
+                const isSelected = selectedSessionId === session.id;
+                const IconComp = session.icon;
+                return (
+                  <button
+                    type="button"
+                    key={session.id}
+                    className={`bfm-service-chip ${isSelected ? 'active' : ''}`}
+                    onClick={() => setSelectedSessionId(session.id)}
+                  >
+                    <div className="bfm-sc-icon-wrap" style={{ background: session.iconBg, color: session.iconColor }}>
+                      <IconComp size={15} />
+                    </div>
+                    <div className="bfm-sc-info">
+                      <span className="bfm-sc-name">{session.title}</span>
+                      <span className="bfm-sc-price">₹{session.price}</span>
+                    </div>
+                    {isSelected && (
+                      <div className="bfm-sc-check-badge">
+                        <Check size={9} strokeWidth={3} />
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Step 1: Select Date */}
           <div className="bfm-section">
             <div className="bfm-section-header">
@@ -373,39 +401,297 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             )}
           </div>
 
+          {/* Step 3: Attached Candidate CV / Mentor Dossier */}
+          {(() => {
+            const isSynced = (userProfile?.resumeLastUpdated || '').includes('Just now') || 
+              (userProfile?.resumeLastUpdated || '').includes('Synced') ||
+              (currentCvName !== 'resume (1).pdf' && currentCvName !== 'resume.pdf' && (userProfile?.profileScore || 0) > 85);
+            const mentorFirstName = expertName.split(' ')[0];
+
+            return (
+              <div className={`bfm-cv-section ${isSynced ? 'synced' : ''}`}>
+                <div className="bfm-section-header">
+                  <div className="bfm-sec-title">
+                    <FileText size={13} className={isSynced ? "text-emerald-600" : "text-amber-600"} />
+                    <span>3. Pre-Call Dossier for {mentorFirstName}</span>
+                  </div>
+                  {isSynced ? (
+                    <span className="bfm-cv-badge-ready">
+                      <CheckCircle2 size={11} /> 100% Ready for {mentorFirstName}
+                    </span>
+                  ) : (
+                    <span className="bfm-cv-badge-warn">
+                      <AlertCircle size={11} /> Outdated CV (~1 yr old)
+                    </span>
+                  )}
+                </div>
+
+                <div className="bfm-cv-card">
+                  <div className="bfm-cv-left">
+                    <div className={`bfm-cv-icon-box ${isSynced ? 'ready' : ''}`}>
+                      {isSynced ? (
+                        <CheckCircle2 size={16} className="text-emerald-600" />
+                      ) : (
+                        <FileText size={16} className="text-amber-600" />
+                      )}
+                    </div>
+                    <div className="bfm-cv-details">
+                      <div className="bfm-cv-name-row">
+                        <span className="bfm-cv-name">{currentCvName}</span>
+                      </div>
+                      {isSynced ? (
+                        <div className="bfm-cv-subtext ready">
+                          ✨ Synced • {mentorFirstName} will review your updated projects before the call
+                        </div>
+                      ) : (
+                        <div className="bfm-cv-subtext warn">
+                          ⚠️ Mentor reviews this before call • Upload latest CV for tailored interview prep & referrals
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <label className={`btn-bfm-cv-upload ${isSynced ? 'synced' : ''} ${isUploadingCv ? 'loading' : ''}`}>
+                    <input
+                      type="file"
+                      accept=".pdf,.docx,.doc"
+                      className="hidden"
+                      onChange={handleCvFileChange}
+                      disabled={isUploadingCv}
+                      style={{ display: 'none' }}
+                    />
+                    {isUploadingCv ? (
+                      <>
+                        <Loader2 size={12} className="animate-spin" />
+                        <span>Uploading...</span>
+                      </>
+                    ) : isSynced ? (
+                      <>
+                        <Upload size={12} />
+                        <span>Replace CV</span>
+                      </>
+                    ) : (
+                      <>
+                        <Zap size={12} className="fill-amber-400 text-amber-400" />
+                        <span>Upload Latest CV</span>
+                      </>
+                    )}
+                  </label>
+                </div>
+              </div>
+            );
+          })()}
+
         </div>
 
-        {/* Modal Footer: Summary & Checkout CTA */}
-        <div className="bfm-footer">
-          <div className="bfm-footer-price-block">
-            <div className="bfm-price-line">
-              <span className="bfm-p-curr">₹</span>
-              <span className="bfm-p-amount">{payableAmount}</span>
-              <span className="bfm-p-session">/ session</span>
+        {/* Modal Pinned Bottom Bar: Always 100% Visible on Windows, Mac & Mobile */}
+        <div className="bfm-footer-pinned">
+          <div className="bfm-footer">
+            <div className="bfm-footer-price-block">
+              <div className="bfm-price-line">
+                <span className="bfm-p-curr">₹</span>
+                <span className="bfm-p-amount">{payableAmount}</span>
+                <span className="bfm-p-session">/ session</span>
+              </div>
+              <div className="bfm-trust-line">
+                <span className="bfm-trust-item">
+                  <RefreshCw size={11} className="text-emerald-600" /> Free Reschedule Anytime
+                </span>
+              </div>
             </div>
-            <div className="bfm-trust-line">
-              <span className="bfm-trust-item">
-                <RefreshCw size={11} className="text-emerald-600" /> Free Reschedule Anytime
-              </span>
-            </div>
+
+            <button 
+              type="button" 
+              className="btn-shine-gold-lg bfm-pay-btn" 
+              onClick={handleOpenRazorpay}
+            >
+              <Lock size={15} />
+              <span>Pay ₹{payableAmount} & Confirm</span>
+              <ArrowRight size={15} />
+            </button>
           </div>
 
-          <button 
-            type="button" 
-            className="btn-shine-gold-lg bfm-pay-btn" 
-            onClick={handleProceed}
-          >
-            <span>Continue to Pay</span>
-            <ArrowRight size={15} />
-          </button>
-        </div>
-
-        <div className="bfm-secure-bar">
-          <Lock size={11} className="text-emerald-600" />
-          <span>100% Safe & Encrypted Payments via <strong>Shine Razorpay Gateway</strong></span>
+          <div className="bfm-secure-bar">
+            <ShieldCheck size={12} className="text-emerald-600" />
+            <span>Instant Confirmation • Powered by <strong>Razorpay Secure Gateway</strong></span>
+          </div>
         </div>
 
       </div>
+
+      {/* Realistic Interactive Razorpay Modal Popup */}
+      {isRazorpayModalOpen && (
+        <div className="rzp-modal-backdrop" onClick={() => !isProcessing && setIsRazorpayModalOpen(false)}>
+          <div className="rzp-modal-surface" onClick={e => e.stopPropagation()}>
+            
+            {/* Razorpay Top Header */}
+            <div className="rzp-m-header">
+              <div className="rzp-m-brand">
+                <div className="rzp-m-logo">
+                  <strong>Shine</strong><span>.com</span>
+                </div>
+                <div className="rzp-m-sub">PeerPath Mentorship</div>
+              </div>
+              <div className="rzp-m-price-box">
+                <span className="rzp-m-price-lbl">Payable Amount</span>
+                <span className="rzp-m-price-val">₹{payableAmount}</span>
+              </div>
+              <button 
+                type="button" 
+                className="rzp-m-close"
+                onClick={() => !isProcessing && setIsRazorpayModalOpen(false)}
+                disabled={isProcessing}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Razorpay Body Grid */}
+            <div className="rzp-m-body">
+              
+              {/* Left Method Tabs */}
+              <div className="rzp-m-tabs">
+                <button 
+                  type="button" 
+                  className={`rzp-tab-btn ${rzpMethod === 'qr' ? 'active' : ''}`}
+                  onClick={() => setRzpMethod('qr')}
+                >
+                  <QrCode size={16} />
+                  <span>QR Code</span>
+                  <span className="rzp-fast-tag">FAST</span>
+                </button>
+
+                <button 
+                  type="button" 
+                  className={`rzp-tab-btn ${rzpMethod === 'upi' ? 'active' : ''}`}
+                  onClick={() => setRzpMethod('upi')}
+                >
+                  <Smartphone size={16} />
+                  <span>UPI / QR</span>
+                </button>
+
+                <button 
+                  type="button" 
+                  className={`rzp-tab-btn ${rzpMethod === 'card' ? 'active' : ''}`}
+                  onClick={() => setRzpMethod('card')}
+                >
+                  <CreditCard size={16} />
+                  <span>Card</span>
+                </button>
+
+                <button 
+                  type="button" 
+                  className={`rzp-tab-btn ${rzpMethod === 'netbanking' ? 'active' : ''}`}
+                  onClick={() => setRzpMethod('netbanking')}
+                >
+                  <Building size={16} />
+                  <span>Netbanking</span>
+                </button>
+              </div>
+
+              {/* Right Method Panel */}
+              <div className="rzp-m-content">
+                {rzpMethod === 'qr' && (
+                  <div className="rzp-qr-pane">
+                    <div className="rzp-qr-box">
+                      <img 
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=upi://pay?pa=shine.peerpath@razorpay&pn=Shine+PeerPath&am=${payableAmount}&cu=INR`} 
+                        alt="Scan UPI QR Code" 
+                        className="rzp-qr-img"
+                      />
+                    </div>
+                    <div className="rzp-qr-text">
+                      <strong>Scan and pay with any UPI App</strong>
+                      <p>Google Pay • PhonePe • Paytm • CRED • BHIM</p>
+                    </div>
+                  </div>
+                )}
+
+                {rzpMethod === 'upi' && (
+                  <div className="rzp-upi-pane">
+                    <div className="rzp-upi-fast-apps">
+                      <div className="rzp-app-item">
+                        <span className="rzp-app-dot gpay"></span> Google Pay
+                      </div>
+                      <div className="rzp-app-item">
+                        <span className="rzp-app-dot phonepe"></span> PhonePe
+                      </div>
+                      <div className="rzp-app-item">
+                        <span className="rzp-app-dot paytm"></span> Paytm
+                      </div>
+                    </div>
+                    <div className="rzp-upi-custom-input">
+                      <input type="text" placeholder="Enter any UPI ID (e.g. yourname@upi)" />
+                    </div>
+                  </div>
+                )}
+
+                {rzpMethod === 'card' && (
+                  <div className="rzp-card-pane">
+                    <div className="rzp-card-input-group">
+                      <label>Card Number</label>
+                      <input type="text" placeholder="4111 2222 3333 4444" defaultValue="4532 8901 2345 6789" />
+                    </div>
+                    <div className="rzp-card-dual-grid">
+                      <div>
+                        <label>Expiry (MM/YY)</label>
+                        <input type="text" placeholder="12/28" defaultValue="10/28" />
+                      </div>
+                      <div>
+                        <label>CVV</label>
+                        <input type="password" placeholder="•••" defaultValue="890" maxLength={4} />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {rzpMethod === 'netbanking' && (
+                  <div className="rzp-nb-pane">
+                    <div className="rzp-nb-grid">
+                      <span className="rzp-nb-pill active">HDFC Bank</span>
+                      <span className="rzp-nb-pill">ICICI Bank</span>
+                      <span className="rzp-nb-pill">SBI</span>
+                      <span className="rzp-nb-pill">Axis Bank</span>
+                      <span className="rzp-nb-pill">Kotak</span>
+                      <span className="rzp-nb-pill">All Other Banks</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+            </div>
+
+            {/* Razorpay Modal Footer */}
+            <div className="rzp-m-footer">
+              <div className="rzp-m-sec-brand">
+                <ShieldCheck size={14} className="text-blue-600" />
+                <span>Secured by <strong>Razorpay</strong></span>
+              </div>
+              
+              <button 
+                type="button" 
+                className="btn-rzp-submit" 
+                onClick={handleCompletePayment}
+                disabled={isProcessing}
+              >
+                {isProcessing ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    <span>Verifying with Bank...</span>
+                  </>
+                ) : (
+                  <>
+                    <Lock size={15} />
+                    <span>Pay ₹{payableAmount}</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

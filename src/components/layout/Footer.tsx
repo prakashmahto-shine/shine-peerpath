@@ -96,29 +96,29 @@ export const Footer: React.FC = () => {
                 <div className="footer-nav-col">
                   <h4>Transition Roadmaps</h4>
                   <ul className="footer-links-list">
-                    <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('guidance-view'); }}>Services ➔ Tier-1 Product Switch</a></li>
-                    <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('guidance-view'); }}>Non-AI ➔ GenAI / ML Switch</a></li>
-                    <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('guidance-view'); }}>Mid-Level ➔ Staff / Principal Architect</a></li>
-                    <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('guidance-view'); }}>Salary Benchmark & Negotiation</a></li>
+                    <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('guidance-view'); }}>Services ➔ Product Switch</a></li>
+                    <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('guidance-view'); }}>Non-AI ➔ GenAI / ML Jump</a></li>
+                    <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('guidance-view'); }}>Mid-Level ➔ Staff Architect</a></li>
+                    <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('guidance-view'); }}>Salary & Comp Negotiation</a></li>
                   </ul>
                 </div>
 
                 <div className="footer-nav-col">
-                  <h4>For Mentors & Creators</h4>
+                  <h4>For Mentors</h4>
                   <ul className="footer-links-list">
                     <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('guidance-view'); }}>Become a Mentor (0% Fee)</a></li>
                     <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('mentor-dashboard-view'); }}>Mentor Studio Portal</a></li>
                     <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('sessions-view'); }}>Manage Availability & Calls</a></li>
-                    <li><a href="#!">Earnings & Payout Direct Bank Sync</a></li>
+                    <li><a href="#!">Earnings & Bank Payouts</a></li>
                   </ul>
                 </div>
 
                 <div className="footer-nav-col">
                   <h4>Shine Hiring Moat</h4>
                   <ul className="footer-links-list">
-                    <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('recruiter-view'); }}>Shine Verified Skill Scorecard</a></li>
-                    <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('recruiter-view'); }}>Direct Fast-Track to 300k+ Recruiters</a></li>
-                    <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('jobs-view'); }}>Switch to Shine Jobs Portal ↗</a></li>
+                    <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('recruiter-view'); }}>Verified Skill Scorecard</a></li>
+                    <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('recruiter-view'); }}>Fast-Track to 300k+ Recruiters</a></li>
+                    <li><a href="#!" onClick={(e) => { e.preventDefault(); navigate('jobs-view'); }}>Shine Jobs Portal ↗</a></li>
                   </ul>
                 </div>
 
@@ -257,9 +257,18 @@ export const Footer: React.FC = () => {
           {/* Download App & Ecosystem Promo Strip */}
           <div className="footer-promo-strip">
             <div className="download-app-banner">
-              <div className="download-app-text">
-                <h3>Download Shine App</h3>
-                <p>Get instant job alerts and recruiter updates on Android & iOS</p>
+              <div className="dab-left-brand">
+                <div className="dab-shine-badge">
+                  <img 
+                    src="https://staticcand.shine.com/c/s1/images/candidate/nova/home/shine-logo.svg" 
+                    alt="Shine App" 
+                    className="dab-shine-logo" 
+                  />
+                </div>
+                <div className="download-app-text">
+                  <h3>Download Shine App</h3>
+                  <p>Get instant job alerts and recruiter updates on Android & iOS</p>
+                </div>
               </div>
               <button className="btn-footer-get-app">
                 Get Shine App <ArrowUpRight size={14} />
@@ -268,9 +277,18 @@ export const Footer: React.FC = () => {
 
             {isPeerpathView ? (
               <div className="peerpath-footer-cta-box shine-bridge">
-                <div className="pfcb-text">
-                  <h4>Looking for Immediate Job Openings?</h4>
-                  <p>Browse 300,000+ active tech & executive jobs on Shine.com</p>
+                <div className="pfcb-left-brand">
+                  <div className="dab-shine-badge">
+                    <img 
+                      src="https://staticcand.shine.com/c/s1/images/candidate/nova/home/shine-logo.svg" 
+                      alt="Shine Jobs" 
+                      className="dab-shine-logo" 
+                    />
+                  </div>
+                  <div className="pfcb-text">
+                    <h4>Looking for Immediate Job Openings?</h4>
+                    <p>Browse 300,000+ active tech & executive jobs on Shine.com</p>
+                  </div>
                 </div>
                 <button 
                   type="button" 
@@ -307,15 +325,16 @@ export const Footer: React.FC = () => {
       {/* Bottom Bar Co-Branding */}
       <div className="footer-bottommost-bar">
         <div className="content-wrapper footer-bottom-flex">
-          
           <div className="fb-left">
-            <img 
-              src="https://staticcand.shine.com/c/s1/images/candidate/nova/home/shine-logo.svg" 
-              alt="Shine Logo" 
-              className="fb-logo"
-            />
+            <div className="fb-peerpath-brand-mini">
+              <div className="fb-peerpath-icon">
+                <Compass size={13} />
+              </div>
+              <span className="fb-brand-name">PEERPATH</span>
+              <span className="fb-brand-by">by <strong style={{ color: '#FCD34D' }}>shine.com</strong></span>
+            </div>
             <span className="fb-co-brand-text">
-              @ {new Date().getFullYear()} Shine.com & Peerpath • HT Media Group Companies • All Rights Reserved
+              • © {new Date().getFullYear()} HT Media Group Enterprise • All Rights Reserved
             </span>
           </div>
 

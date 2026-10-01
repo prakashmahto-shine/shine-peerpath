@@ -107,78 +107,80 @@ export const MentorAssessmentModal: React.FC = () => {
 
         <form onSubmit={handleIssueBadge} className="assessment-form-stack">
           
-          {/* Star Rating Selector */}
-          <div className="as-field-group">
-            <label className="as-field-label">
-              <Star size={14} className="text-amber-500" /> 1. Overall Candidate Proficiency Rating
-            </label>
-            <div className="as-star-rating-row">
-              {[1, 2, 3, 4, 5].map((starVal) => (
-                <button
-                  type="button"
-                  key={starVal}
-                  className={`as-star-btn ${rating >= starVal ? 'active-star' : ''}`}
-                  onClick={() => setRating(starVal)}
-                >
-                  <Star size={20} fill={rating >= starVal ? '#F59E0B' : 'none'} color={rating >= starVal ? '#F59E0B' : '#CBD5E1'} />
-                </button>
-              ))}
-              <span className="as-rating-text">
-                {rating === 5 ? '⭐⭐⭐⭐⭐ Exceptional (Top 5%)' : `${rating} out of 5 Stars`}
-              </span>
-            </div>
-          </div>
-
-          {/* Verified Skills Checklist */}
-          <div className="as-field-group">
-            <label className="as-field-label">
-              <CheckCircle2 size={14} className="text-blue-500" /> 2. Verified Technical Skills (Select all demonstrated)
-            </label>
-            <div className="as-skills-pill-grid">
-              {availableSkillTags.map((skill) => {
-                const isChecked = selectedSkills.includes(skill);
-                return (
+          <div className="as-modal-body">
+            {/* Star Rating Selector */}
+            <div className="as-field-group">
+              <label className="as-field-label">
+                <Star size={14} className="text-amber-500" /> 1. Overall Candidate Proficiency Rating
+              </label>
+              <div className="as-star-rating-row">
+                {[1, 2, 3, 4, 5].map((starVal) => (
                   <button
                     type="button"
-                    key={skill}
-                    className={`as-skill-chip ${isChecked ? 'selected' : ''}`}
-                    onClick={() => toggleSkill(skill)}
+                    key={starVal}
+                    className={`as-star-btn ${rating >= starVal ? 'active-star' : ''}`}
+                    onClick={() => setRating(starVal)}
                   >
-                    {isChecked && <CheckCircle2 size={12} />}
-                    <span>{skill}</span>
+                    <Star size={20} fill={rating >= starVal ? '#F59E0B' : 'none'} color={rating >= starVal ? '#F59E0B' : '#CBD5E1'} />
                   </button>
-                );
-              })}
+                ))}
+                <span className="as-rating-text">
+                  {rating === 5 ? '⭐⭐⭐⭐⭐ Exceptional (Top 5%)' : `${rating} out of 5 Stars`}
+                </span>
+              </div>
             </div>
-          </div>
 
-          {/* Badge Title Input */}
-          <div className="as-field-group">
-            <label className="as-field-label">
-              <Award size={14} className="text-purple-500" /> 3. Verified Skill Badge Title (Displayed on Candidate's Profile)
-            </label>
-            <input 
-              type="text" 
-              value={badgeTitle}
-              onChange={(e) => setBadgeTitle(e.target.value)}
-              className="as-text-input"
-              required
-            />
-          </div>
+            {/* Verified Skills Checklist */}
+            <div className="as-field-group">
+              <label className="as-field-label">
+                <CheckCircle2 size={14} className="text-blue-500" /> 2. Verified Technical Skills (Select all demonstrated)
+              </label>
+              <div className="as-skills-pill-grid">
+                {availableSkillTags.map((skill) => {
+                  const isChecked = selectedSkills.includes(skill);
+                  return (
+                    <button
+                      type="button"
+                      key={skill}
+                      className={`as-skill-chip ${isChecked ? 'selected' : ''}`}
+                      onClick={() => toggleSkill(skill)}
+                    >
+                      {isChecked && <CheckCircle2 size={12} />}
+                      <span>{skill}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
-          {/* Feedback & Recommendations Notes */}
-          <div className="as-field-group">
-            <label className="as-field-label">
-              <FileText size={14} className="text-emerald-500" /> 4. Mentor Feedback & Recruiter Recommendation Notes
-            </label>
-            <textarea 
-              rows={3}
-              value={feedbackNotes}
-              onChange={(e) => setFeedbackNotes(e.target.value)}
-              className="as-textarea-input"
-              placeholder="Write feedback for the candidate..."
-              required
-            />
+            {/* Badge Title Input */}
+            <div className="as-field-group">
+              <label className="as-field-label">
+                <Award size={14} className="text-purple-500" /> 3. Verified Skill Badge Title (Displayed on Candidate's Profile)
+              </label>
+              <input 
+                type="text" 
+                value={badgeTitle}
+                onChange={(e) => setBadgeTitle(e.target.value)}
+                className="as-text-input"
+                required
+              />
+            </div>
+
+            {/* Feedback & Recommendations Notes */}
+            <div className="as-field-group">
+              <label className="as-field-label">
+                <FileText size={14} className="text-emerald-500" /> 4. Mentor Feedback & Recruiter Recommendation Notes
+              </label>
+              <textarea 
+                rows={3}
+                value={feedbackNotes}
+                onChange={(e) => setFeedbackNotes(e.target.value)}
+                className="as-textarea-input"
+                placeholder="Write feedback for the candidate..."
+                required
+              />
+            </div>
           </div>
 
           {/* Submit CTA */}

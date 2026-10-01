@@ -107,8 +107,8 @@
 
 .footer-columns-row {
   display: grid;
-  grid-template-columns: 1.2fr 1fr 1.3fr 1fr 1fr;
-  gap: 32px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 24px;
 }
 
 .footer-nav-col h4 {
@@ -182,7 +182,35 @@
   justify-content: space-between;
   flex: 1;
   min-width: 280px;
-  max-width: 460px;
+  max-width: 520px;
+  gap: 14px;
+}
+
+.dab-left-brand, .pfcb-left-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dab-shine-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+}
+
+.dab-shine-logo {
+  max-width: 100%;
+  max-height: 24px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
 }
 
 .download-app-text h3 {
@@ -618,10 +646,37 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
-.fb-logo {
+.fb-peerpath-brand-mini {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fb-peerpath-icon {
+  width: 22px;
   height: 22px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+}
+
+.fb-brand-name {
+  font-size: 13px;
+  font-weight: 900;
+  color: #FFFFFF;
+  letter-spacing: 0.5px;
+}
+
+.fb-brand-by {
+  font-size: 10.5px;
+  color: #CBD5E1;
+  font-weight: 600;
 }
 
 .fb-center-links {

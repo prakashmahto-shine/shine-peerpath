@@ -4,7 +4,7 @@ import {
   Film, Play, Pause, Zap, Award, Briefcase, 
   Video, UserPlus, UserCheck, FileText, Sparkles, TrendingUp, X, 
   ShieldCheck, ArrowRight, ThumbsUp, GraduationCap, Compass, 
-  Check, Lock, RefreshCw
+  Check, Lock, RefreshCw, Brain, Layers, Target
 } from 'lucide-react';
 import { Expert, ViewType } from '../../types';
 import { useApp } from '../../context/AppContext';
@@ -108,7 +108,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
       icon: Compass,
       iconColor: '#7C3AED',
       iconBg: '#F3E8FF',
-      shortDesc: 'Personalized 1:1 strategy to map your 90-day transition roadmap, bridge skill gaps, and target senior product roles.',
+      shortDesc: 'Custom 90-day transition roadmap to bridge skill gaps and target Tier-1 roles.',
       outcomes: [
         { icon: '🗺️', title: '90-Day Roadmap', desc: 'Custom milestone plan & skill gap analysis' },
         { icon: '🎯', title: 'Referral Strategy', desc: 'Tier-1 company shortlist & internal hiring criteria' },
@@ -127,7 +127,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
       icon: Video,
       iconColor: '#059669',
       iconBg: '#ECFDF5',
-      shortDesc: 'Simulate actual Tier-1 technical or system design interview rounds with instant rubric evaluation.',
+      shortDesc: 'Simulate live Tier-1 interview rounds with instant rubric evaluation & feedback.',
       outcomes: [
         { icon: '🧪', title: 'Real Simulation', desc: 'Live Tier-1 coding / architecture problem round' },
         { icon: '📊', title: 'Instant Scorecard', desc: 'Problem-solving, system design & communication metrics' },
@@ -146,7 +146,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
       icon: FileText,
       iconColor: '#D97706',
       iconBg: '#FEF3C7',
-      shortDesc: 'Line-by-line ATS resume breakdown and rewrite to convert generic bullets into high-impact recruiter magnets.',
+      shortDesc: 'Line-by-line ATS resume audit and metric-driven bullet points rewrite.',
       outcomes: [
         { icon: '🔍', title: 'ATS Screener Audit', desc: 'Keyword alignment & format optimization for Tier-1 screeners' },
         { icon: '✍️', title: 'Impact Rewrites', desc: 'Metric-driven bullet points using the XYZ framework' },
@@ -165,7 +165,7 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
       icon: TrendingUp,
       iconColor: '#2563EB',
       iconBg: '#EFF6FF',
-      shortDesc: 'Accurate compensation benchmarking and counter-offer strategy to maximize fixed pay, ESOPs, and joining bonuses.',
+      shortDesc: 'Accurate compensation benchmarking and counter-offer strategy to maximize CTC.',
       outcomes: [
         { icon: '💰', title: 'Market Benchmark', desc: 'Real Tier-1 CTC and level benchmarking for your experience' },
         { icon: '📝', title: 'Negotiation Scripts', desc: 'Word-for-word counter-offer emails and recruiter talking points' },
@@ -299,26 +299,15 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
               </button>
             </div>
 
-            {/* Mentor Bio & Value Proposition */}
-            <div className="up-mentor-about-snippet">
-              <p className="up-snippet-text">
-                {expert.bio || `Senior engineering leader at ${expert.company} with 8+ years architecting distributed systems and GenAI platforms. Helping engineers master system design and transition into Tier-1 tech.`}
-              </p>
-            </div>
-
             {/* Fast Facts / Metadata */}
             <div className="up-mentor-facts-grid">
               <div className="up-fact-item">
-                <MapPin size={13} className="text-slate-500" />
+                <MapPin size={13} className="text-slate-500 flex-shrink-0" />
                 <span><strong>Location:</strong> {expert.location || 'Bengaluru, India'}</span>
               </div>
               <div className="up-fact-item">
-                <ShieldCheck size={13} className="text-emerald-600" />
-                <span><strong>Verification:</strong> {expert.company} Work Email</span>
-              </div>
-              <div className="up-fact-item">
-                <Video size={13} className="text-indigo-500" />
-                <span><strong>Format:</strong> 1:1 HD Video + Screen Share</span>
+                <ShieldCheck size={13} className="text-emerald-600 flex-shrink-0" />
+                <span><strong>Verification:</strong> {expert.company} Work Email (Active)</span>
               </div>
             </div>
 
@@ -402,14 +391,39 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                           </div>
                         </div>
 
-                        {/* Price & Book CTA */}
-                        <div className="up-scm-cta-box">
-                          <div className="up-scm-price">
+                        {/* Refined Price Tag */}
+                        <div className="up-scm-price-container">
+                          <div className="up-scm-price-val">
                             <span className="up-scm-curr">₹</span>
                             <span className="up-scm-amount">{service.price}</span>
-                            <span className="up-scm-unit">/ session</span>
                           </div>
+                          <span className="up-scm-price-sub">/ 30-min call</span>
+                        </div>
+                      </div>
 
+                      {/* Clean 1-Line Key Highlights */}
+                      <div className="up-scm-pills-wrap">
+                        {service.outcomes.map((item, idx) => (
+                          <span key={idx} className="up-scm-mini-pill">
+                            <Check size={11} strokeWidth={3} className="text-emerald-600" />
+                            <span>{item.title}</span>
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Footer Meta Row (Live Slot & Book CTA) */}
+                      <div className="up-scm-footer">
+                        <div className="up-scm-meta-left">
+                          <span className="up-scm-meta-tag">
+                            <Clock size={12} className="text-slate-500" />
+                            <span>{service.duration} 1:1 Video</span>
+                          </span>
+                          <span className="up-scm-meta-tag slot-available">
+                            <span className="pulse-green-dot"></span>
+                            <span>{service.slotInfo}</span>
+                          </span>
+                        </div>
+                        <div className="up-scm-meta-right">
                           {isSelf ? (
                             <button 
                               type="button" 
@@ -425,41 +439,8 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
                               onClick={() => handleBookSpecificSession(service)}
                             >
                               <span>Book Slot</span>
-                              <ArrowRight size={14} />
                             </button>
                           )}
-                        </div>
-                      </div>
-
-                      {/* Direct Key Highlights (3 Clean Visual Outcome Chips) */}
-                      <div className="up-scm-highlights-grid">
-                        {service.outcomes.map((item, idx) => (
-                          <div key={idx} className="up-scm-highlight-pill">
-                            <span className="up-scm-hl-icon">{item.icon}</span>
-                            <div className="up-scm-hl-text">
-                              <strong className="up-scm-hl-bold">{item.title}:</strong> {item.desc}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Footer Meta Row (Live Slot & Guarantees) */}
-                      <div className="up-scm-footer">
-                        <div className="up-scm-meta-left">
-                          <span className="up-scm-meta-tag">
-                            <Clock size={12} className="text-slate-500" />
-                            <span>{service.duration} 1:1 Video</span>
-                          </span>
-                          <span className="up-scm-meta-tag slot-available">
-                            <span className="pulse-green-dot"></span>
-                            <span>{service.slotInfo}</span>
-                          </span>
-                        </div>
-                        <div className="up-scm-meta-right">
-                          <span className="up-scm-instant-badge">
-                            <RefreshCw size={11} className="text-emerald-600" />
-                            <span>Free Reschedule Anytime</span>
-                          </span>
                         </div>
                       </div>
 
@@ -580,36 +561,73 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
 
               {/* 3. Core Technical Competencies */}
               <div className="up-white-card">
-                <h3 className="up-card-title">Core Technical Competencies</h3>
+                <div className="up-pane-header">
+                  <div>
+                    <h3 className="up-card-title">Core Technical Competencies</h3>
+                    <p className="up-card-body-muted">Specialized architecture stacks, distributed systems & transition coaching.</p>
+                  </div>
+                  <span className="up-skills-verified-pill">
+                    <CheckCircle2 size={12} className="text-emerald-500" />
+                    <span>Verified Skillset</span>
+                  </span>
+                </div>
+
                 <div className="up-comp-grid">
-                  <div className="up-comp-box">
-                    <span className="up-cb-head">AI / Machine Learning Stack</span>
-                    <div className="up-cb-chips">
-                      <span>PyTorch</span>
-                      <span>LLM Fine-Tuning</span>
-                      <span>RAG Architectures</span>
-                      <span>Vector Search</span>
-                      <span>FastAPI</span>
+                  {/* Domain 1: AI & ML */}
+                  <div className="up-comp-card">
+                    <div className="up-comp-header">
+                      <div className="up-comp-icon-ring ai">
+                        <Brain size={16} />
+                      </div>
+                      <div>
+                        <h4 className="up-comp-title">AI & ML Architecture</h4>
+                        <span className="up-comp-subtitle">5 Core Frameworks</span>
+                      </div>
+                    </div>
+                    <div className="up-comp-chips-wrap">
+                      <span className="up-comp-chip ai">PyTorch</span>
+                      <span className="up-comp-chip ai">LLM Fine-Tuning</span>
+                      <span className="up-comp-chip ai">RAG Architectures</span>
+                      <span className="up-comp-chip ai">Vector Search</span>
+                      <span className="up-comp-chip ai">FastAPI</span>
                     </div>
                   </div>
 
-                  <div className="up-comp-box">
-                    <span className="up-cb-head">Distributed Systems & Scale</span>
-                    <div className="up-cb-chips">
-                      <span>Microservices</span>
-                      <span>High-Throughput Caching</span>
-                      <span>Latency Optimization</span>
-                      <span>Real-Time Processing</span>
+                  {/* Domain 2: Systems & Scale */}
+                  <div className="up-comp-card">
+                    <div className="up-comp-header">
+                      <div className="up-comp-icon-ring systems">
+                        <Layers size={16} />
+                      </div>
+                      <div>
+                        <h4 className="up-comp-title">Distributed Systems</h4>
+                        <span className="up-comp-subtitle">High-Scale Backend</span>
+                      </div>
+                    </div>
+                    <div className="up-comp-chips-wrap">
+                      <span className="up-comp-chip sys">Microservices</span>
+                      <span className="up-comp-chip sys">High-Throughput Caching</span>
+                      <span className="up-comp-chip sys">Latency Optimization</span>
+                      <span className="up-comp-chip sys">Real-Time Processing</span>
                     </div>
                   </div>
 
-                  <div className="up-comp-box">
-                    <span className="up-cb-head">Mentoring & Career Coaching</span>
-                    <div className="up-cb-chips">
-                      <span>Services ➔ Product Transition</span>
-                      <span>SDE-2 to Senior/Lead Jump</span>
-                      <span>System Design Rounds</span>
-                      <span>Executive Pitching</span>
+                  {/* Domain 3: Coaching */}
+                  <div className="up-comp-card">
+                    <div className="up-comp-header">
+                      <div className="up-comp-icon-ring coaching">
+                        <Target size={16} />
+                      </div>
+                      <div>
+                        <h4 className="up-comp-title">Career Coaching</h4>
+                        <span className="up-comp-subtitle">Transition & Prep</span>
+                      </div>
+                    </div>
+                    <div className="up-comp-chips-wrap">
+                      <span className="up-comp-chip coach">Services ➔ Product Jump</span>
+                      <span className="up-comp-chip coach">SDE-2 to Lead Jump</span>
+                      <span className="up-comp-chip coach">System Design Mock</span>
+                      <span className="up-comp-chip coach">Executive Pitching</span>
                     </div>
                   </div>
                 </div>
@@ -617,18 +635,33 @@ export const ExpertProfileView: React.FC<ExpertProfileViewProps> = ({
 
               {/* 4. Verified Credentials */}
               <div className="up-creds-grid">
-                <div className="up-cred-item">
-                  <GraduationCap size={18} className="text-indigo-600" />
-                  <div>
-                    <strong>B.Tech / M.Tech in Computer Science</strong>
-                    <span>Core Foundations in Algorithms & Distributed Systems</span>
+                <div className="up-cred-card">
+                  <div className="up-cred-icon-wrap education">
+                    <GraduationCap size={20} />
+                  </div>
+                  <div className="up-cred-details">
+                    <div className="up-cred-title-row">
+                      <h4 className="up-cred-heading">B.Tech / M.Tech in Computer Science</h4>
+                      <span className="up-cred-status-pill">
+                        <CheckCircle2 size={11} /> Degree Verified
+                      </span>
+                    </div>
+                    <p className="up-cred-desc">Core Foundations in Algorithms, Distributed Systems & AI Systems.</p>
                   </div>
                 </div>
-                <div className="up-cred-item">
-                  <ShieldCheck size={18} className="text-emerald-600" />
-                  <div>
-                    <strong>Verified Shine PeerPath Practitioner</strong>
-                    <span>Current Practitioner at {expert.company} • Background Verified</span>
+
+                <div className="up-cred-card">
+                  <div className="up-cred-icon-wrap practitioner">
+                    <ShieldCheck size={20} />
+                  </div>
+                  <div className="up-cred-details">
+                    <div className="up-cred-title-row">
+                      <h4 className="up-cred-heading">Verified Shine PeerPath Practitioner</h4>
+                      <span className="up-cred-status-pill emerald">
+                        <CheckCircle2 size={11} /> Identity Active
+                      </span>
+                    </div>
+                    <p className="up-cred-desc">Current Practitioner at {expert.company} • Official Corporate Email & Work ID Verified</p>
                   </div>
                 </div>
               </div>

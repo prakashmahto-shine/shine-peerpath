@@ -23,13 +23,14 @@
   box-shadow: 0 25px 60px -12px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(15, 23, 42, 0.08);
   width: 100%;
   max-width: 580px;
+  max-height: min(94vh, 740px);
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
   animation: modalPopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   z-index: 1201;
-  max-height: 90vh;
 }
 
 .mentor-modal-section-title {
@@ -51,36 +52,39 @@
 }
 
 .modal-top-header {
-  padding: 20px 24px 16px 24px;
+  padding: 16px 22px 14px 22px;
   border-bottom: 1px solid #F1F5F9;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: #FFFFFF;
+  flex-shrink: 0;
 }
 
 .modal-top-header h3 {
-  font-size: 17px;
+  font-size: 16.5px;
   font-weight: 800;
   color: #0F172A;
   margin: 0;
 }
 
 .modal-body-pad {
-  padding: 20px 24px;
+  padding: 18px 22px;
   overflow-y: auto;
-  max-height: calc(90vh - 140px);
+  flex: 1;
+  min-height: 0;
   background: #FFFFFF;
 }
 
 .modal-footer-flex {
-  padding: 16px 24px;
+  padding: 14px 22px;
   background: #F8FAFC;
   border-top: 1px solid #F1F5F9;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
+  flex-shrink: 0;
 }
 
 .btn-icon-close {
@@ -1120,12 +1124,18 @@
 .assessment-modal-card {
   width: 100%;
   max-width: 640px;
-  padding: 28px 32px;
+  max-height: min(94vh, 740px);
+  padding: 18px 24px 14px 24px;
   border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .assessment-modal-header {
-  margin-bottom: 18px;
+  flex-shrink: 0;
+  margin-bottom: 10px;
 }
 
 .assessment-badge-pill {
@@ -1139,36 +1149,37 @@
   padding: 3px 10px;
   border-radius: 9999px;
   border: 1px solid #A7F3D0;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .assessment-modal-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 800;
   color: #0F172A;
-  margin: 0 0 4px 0;
+  margin: 0 0 3px 0;
 }
 
 .assessment-modal-subtitle {
-  font-size: 12.5px;
+  font-size: 12px;
   color: #64748B;
   margin: 0;
 }
 
 .as-candidate-summary-box {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   background: #F8FAFC;
   border: 1px solid #E2E8F0;
   border-radius: 12px;
-  padding: 12px 16px;
-  margin-bottom: 18px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
 }
 
 .as-candidate-avatar {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #2563EB;
@@ -1188,29 +1199,54 @@
 }
 
 .as-session-time-chip {
+  display: inline-flex;
   font-size: 10.5px;
   font-weight: 600;
   color: #2563EB;
+  background: #EFF6FF;
+  padding: 1.5px 7px;
+  border-radius: 4px;
 }
 
 .assessment-form-stack {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.as-modal-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 4px;
+}
+
+.as-modal-body::-webkit-scrollbar {
+  width: 5px;
+}
+
+.as-modal-body::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
 }
 
 .as-field-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .as-field-label {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 12.5px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 750;
   color: #334155;
 }
 
@@ -1225,6 +1261,11 @@
   border: none;
   cursor: pointer;
   padding: 2px;
+  transition: transform 0.15s;
+}
+
+.as-star-btn:hover {
+  transform: scale(1.15);
 }
 
 .as-rating-text {
@@ -1249,7 +1290,7 @@
   color: #475569;
   font-size: 11.5px;
   font-weight: 600;
-  padding: 6px 10px;
+  padding: 5px 9px;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.16s ease;
@@ -1264,31 +1305,35 @@
 
 .as-text-input {
   width: 100%;
-  padding: 9px 12px;
+  padding: 8px 12px;
   border: 1.5px solid #CBD5E1;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
+  box-sizing: border-box;
 }
 
 .as-textarea-input {
   width: 100%;
-  padding: 10px 12px;
+  padding: 8px 12px;
   border: 1.5px solid #CBD5E1;
   border-radius: 8px;
-  font-size: 12.5px;
+  font-size: 12px;
   line-height: 1.4;
   resize: vertical;
+  box-sizing: border-box;
 }
 
 .as-modal-footer {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 12px;
-  margin-top: 6px;
-  padding-top: 14px;
+  margin-top: 4px;
+  padding-top: 10px;
   border-top: 1px solid #E2E8F0;
+  background: #FFFFFF;
 }
 
 .btn-as-cancel {
@@ -1297,7 +1342,7 @@
   color: #475569;
   font-size: 12.5px;
   font-weight: 600;
-  padding: 9px 16px;
+  padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
 }
@@ -1310,13 +1355,12 @@
   color: #ffffff;
   font-size: 13px;
   font-weight: 800;
-  padding: 10px 20px;
+  padding: 9px 18px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
   box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
 }
-
 
 /* ==========================================================================
    TRAJECTORY CALIBRATION MODAL (REFINED CAMPAIGN UNLOCK POPUP)
@@ -1346,19 +1390,21 @@
   border-radius: 20px;
   width: 100%;
   max-width: 580px;
-  max-height: 92vh;
+  max-height: min(94vh, 700px);
   box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.45), 0 0 30px rgba(124, 58, 237, 0.18);
   border: 1px solid #E2E8F0;
   position: relative;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .tcm-header {
+  flex-shrink: 0;
   background: linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4338CA 100%);
   color: #FFFFFF;
-  padding: 18px 22px 16px 22px;
+  padding: 16px 20px 14px 20px;
   position: relative;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -1432,11 +1478,23 @@
 }
 
 .tcm-form {
-  padding: 16px 22px 18px 22px;
+  padding: 14px 20px 16px 20px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
   overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+  min-height: 0;
+}
+
+.tcm-form::-webkit-scrollbar {
+  width: 5px;
+}
+
+.tcm-form::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
 }
 
 /* Compact 1-Click CV Upload */
@@ -1690,4 +1748,22 @@
 .btn-tcm-subtle-skip:hover {
   color: #475569;
   text-decoration: underline;
+}
+
+@media (max-height: 740px) {
+  .modal-surface-card,
+  .assessment-modal-card,
+  .tcm-modal-card,
+  .cv-sync-modal-size {
+    max-height: 96vh !important;
+  }
+  .modal-top-header, .tcm-header {
+    padding: 10px 16px 8px 16px;
+  }
+  .modal-body-pad, .tcm-form, .as-modal-body {
+    padding: 10px 16px 12px 16px;
+  }
+  .modal-footer-flex, .as-modal-footer {
+    padding: 8px 16px;
+  }
 }
